@@ -1,0 +1,5 @@
+package resort.reservation.dto;
+
+public class ReservationDTO {
+
+}

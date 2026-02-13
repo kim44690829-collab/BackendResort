@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="resort.product.mapper.RoomMapper">
+	
+	<!--  객실 전체 검색 public List<RoomDTO> getRoomAll(); -->
+	<select id="getRoomAll" resultType="RoomDTO">
+		SELECT * FROM room
+	</select>
+	
+	<!-- // 객실 최소가 검색 public List<String> getMinPrice(); -->
+	<select id="getMinPrice" resultType="RoomDTO">
+		SELECT r.h.code, MIN(r.price) FROM room r
+		INNER JOIN hotel h
+		ON r.h_code = h.h_code
+		GROUP BY h.hotelName
+	</select>
+	
+</mapper>

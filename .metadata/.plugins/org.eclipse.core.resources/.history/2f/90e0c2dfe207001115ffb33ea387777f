@@ -1,0 +1,5 @@
+package resort.product.dto;
+
+public class HotelDTO {
+
+}

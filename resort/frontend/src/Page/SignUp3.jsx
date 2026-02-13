@@ -1,0 +1,254 @@
+import '../Page/SignUp3.css';
+import { useState, useEffect, useContext } from 'react';
+import { ResortDataContext } from '../Api/ResortData';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
+export default function SignUp3(){
+    const navigate = useNavigate();
+    // 핸드폰 데이터 3개 합친 변수
+    const {userNumFront, setUserNumFront, userNumBack, setUserNumBack, setHeaderChange, userNickName, /* nickname, setNickname */} = useContext(ResortDataContext);
+    // 회원가입 form에 들어가는 상태변수
+    // 이메일
+    const [userMail, setUserMail] = useState('');
+    // 비밀번호
+    const [userPw, setUserPw] = useState('');
+    // 비밀번호 확인
+    const [userPwConfirm, setUserPwConfirm] = useState('');
+    // 생일
+    const [BirthYear, setBirthYear] = useState('');
+    const [BirthMonth, setBirthMonth] = useState('');
+    const [BirthDate, setBirthDate] = useState('');
+    
+    // 성별
+    const [userGender, setUserGender ] = useState('');
+
+    const [nickname, setNickname] = useState('');
+
+    useEffect(() => {
+        console.log('11111111111111111111')
+        console.log(nickname)
+    },[nickname]);
+
+    // 마우스 변경
+    const [mouseCursor, setMouseCursor] = useState(false);
+
+    // 도메인 배열
+    const ALLOWED_DOMAINS = [
+        "naver.com",
+        "gmail.com",
+        "daum.net",
+        "kakao.com",
+        "hanmail.net",
+        "nate.com",
+    ];
+
+    // submit 함수 생성
+    const signup = async (e) => {
+        e.preventDefault();
+        // 생일을 하나로 합쳐서 DB에 보내기 위한 변수
+        // padStart => 앞쪽을 특정 문자로 채워서 원하는 길이로 맞추는 기능 
+        // padStart(총 길이, 채울 문자열) => 총길이는 2인데 부족하면 0으로 채워라 라는 의미
+        const userBirth = `${BirthYear}-${BirthMonth.padStart(2,'0')}-${BirthDate.padStart(2,'0')}`;
+        const userPhone = `010${userNumFront}${userNumBack}`;
+        try{
+            // const res = await axios.post('http://localhost/resort2025/backend/api/signup.php',
+             const res = await axios.post('/api/signup.php',
+                {
+                    step: 3,                 // 서버에서 단계 구분
+                    userEmail: userMail,
+                    userPw: userPw,
+                    userGender: userGender,
+                    userPhone: userPhone,    // signup2에서 받은 값
+                    userBirth: userBirth,
+                    nickname: nickname
+                }
+            )
+            if(res.data.status === "success"){
+                setSignupModalOpen(true);
+                setUserMail('');
+                setUserPw('');
+                setUserPwConfirm('');
+                setBirthYear('');
+                setBirthMonth('');
+                setBirthDate('');
+                setUserGender('');
+                setUserNumFront('');
+                setUserNumBack('');
+            }else{
+                console.log(res.data);
+                alert(res.data.message || '회원 가입 실패');
+            }
+        }catch(error){
+            console.log("에러", error);
+            alert("서버 연결 오류")
+        }
+    }
+
+    // 회원가입 폼에서 조건을 만족하지 못했을때 확인버튼 비활성화
+    const [isDisabledSignup, setIsDisabledSignup] = useState(true);
+    // 회원가입 폼의 모든 작성이 종료된 후 확인버튼 클릭시 모달
+    const [signupModalOpen, setSignupModalOpen] = useState(false);
+
+    // 회원가입 종료 후 모달 핸들러
+    const modalHandeler = () => {
+        setSignupModalOpen(!signupModalOpen);
+        navigate('/');
+        setHeaderChange(0);
+    }
+
+    // 이메일 형식
+    // / ~~~ / => 시작과 끝 (이 안에 정규식이 들어갈겁니다.)
+    // ^ => 문자열이 시작됩니다.
+    // [] : 문자 집합 / ^ (대괄호 안) : 부정(not) / \s : 공백 (스페이스, 탭 등) / @ : 골뱅이 / + : 1글자 이상
+    // [^\s@]+ => 공백과 골뱅이를 제외한 문자 집합 한글자 이상
+    // @ => 아이디 @ 도메인 구분자
+    // \. => .
+    // \를 사용하는 이유 => 정규식에서 .은 정말 아무문자나 상관없다는 뜻으로 a~z 1~9 @ 등의 특수기호 스페이스바까지 다 들어갈수있음
+    // \를 사용해서 특수한 의미의 .을 문자 그대로의 .으로 바꾸는 것
+    // {2,} => 2글자 이상
+
+    // 정규식 .test() => ()안에있는게 앞의 조건에 맞으면 true를 반환 아니면 false를 반환
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+    const isValidEmail = emailRegex.test(userMail);
+    // emailInput에서 받은 이메일 주소를 @기준으로 잘라서 배열로 만듦
+    // ex) aaaa@naver.com => ['aaaa', 'naver.com'] 의 [1] => 'naver.com' => 즉 도메인명을 가져오기 위한 로직(소문자로)
+    // 중간의 ?는 없으면 undefined를 반환
+    const domain = userMail.split("@")[1]?.toLowerCase();
+    // 기존에 위에서 배열에 저장한 도메인 명들 중에 사용자가 입력한 도메인명이 포함되는지 알아보기위한 로직
+    const isAllowedDomain = ALLOWED_DOMAINS.includes(domain);
+
+    // 생일
+    const m = Number(BirthMonth);
+    const d = Number(BirthDate);
+
+    // 회원가입 시 버튼 활성화 조건
+    useEffect(() => {
+        if(
+            isValidEmail &&
+            isAllowedDomain &&
+            userPw.length >= 8 && 
+            userPwConfirm === userPw && 
+            BirthYear.length >= 4 && 
+            (1 <= m && m <= 12) &&
+            (1 <= d && d <= 31) &&
+            userGender !== '' &&
+            nickname !== null
+        ){
+                setIsDisabledSignup(false)
+                setMouseCursor(true)
+            }else{
+                setIsDisabledSignup(true)
+                setMouseCursor(false)
+            }
+    }, [userMail, userPw, userPwConfirm, BirthYear, BirthMonth, BirthDate, userGender, nickname])
+
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = today.getMonth() + 1;
+    const date = today.getDate();
+
+    const validateMailAlert = () => {
+        if (!userMail) return;
+        if(!isValidEmail){
+            alert('aaaa@naver.com과 같은 형식으로 입력해주세요')
+            return;
+        }
+        if(!isAllowedDomain){
+            alert('naver.com, gmail.com과 같은 도메인 주소로 입력해주세요')
+        }
+    }
+    const validatePwAlert = () => {
+        if (!userPw) return;
+        if(userPw.length < 8){
+            alert('최소 8자리 이상의 숫자로 입력해주세요')
+        }
+    }
+    const validatePwConfAlert = () => {
+        if (!userPwConfirm) return;
+        if(userPwConfirm !== userPw){
+            alert('위의 비밀번호와 동일한 번호로 입력해주세요')
+        }
+    }
+    const validateNickNameAlert = () => {
+        if (!nickname) return;
+        else if( 20 < nickname.length || nickname.length < 2){
+            alert('닉네임은 2글자 이상, 20글자 이하로 입력해주세요')
+        }
+    }
+
+    return(
+        <div className='signup3_container'>
+            <h1 className='signup3_title'>필수 정보 입력</h1>
+            <h2 className='signup3_info'>가입을 위해 필수 정보를 입력해주세요</h2>
+            {/* 회원가입 form */}
+            <form className='signupForm' onSubmit={signup}>
+                {/* 이메일 */}
+                <div className='signup1'>
+                    <label htmlFor="userEmail">이메일<span style={{color:'red'}}>*</span></label>
+                    <input type="email" id='userEmail' name='userEmail' placeholder='abc@naver.com' value={userMail} onChange={(e) => setUserMail(e.target.value)} onBlur={validateMailAlert}/>
+                </div>
+                {/* 비밀번호 */}
+                <div className='signup1'>
+                    <label htmlFor="userpw">비밀번호<span style={{color:'red'}}>*</span></label>
+                    <input type="password" id='userpw' name='userpw' placeholder='최소 8자 이상' value={userPw} onChange={(e) => setUserPw(e.target.value)} onBlur={validatePwAlert} />
+                </div>
+                {/* 비밀번호 확인 */}
+                <div className='signup1'>
+                    <label htmlFor="pwConfirm">비밀번호 확인<span style={{color:'red'}}>*</span></label>
+                    <input type="password" id='pwConfirm' name='pwConfirm' placeholder='위 비밀번호와 동일하게 입력해주세요' value={userPwConfirm} onChange={(e) => setUserPwConfirm(e.target.value)} onBlur={validatePwConfAlert} />
+                </div>
+                {/* 생년월일 */}
+                <div className='signup2'>
+                    <label>생년월일<span style={{color:'red'}}>*</span></label><br/>
+                    <div className='signup2_sub'>
+                        <input type="text" id='birth_year' name='birth' placeholder='YYYY' value={BirthYear} onChange={(e) => setBirthYear(e.target.value)} maxLength="4" /> <span>/</span>
+                        <input type="text" id='birth_month' name='birth' placeholder='MM' value={BirthMonth} onChange={(e) => setBirthMonth(e.target.value)} maxLength="2" /> <span>/</span>
+                        <input type="text" id='birth_date' name='birth' placeholder='DD' value={BirthDate} onChange={(e) => setBirthDate(e.target.value)} maxLength="2" />
+                    </div>
+                </div>
+                {/* 성별 */}
+                <div className='signup3'>
+                    <p className='signup3_gender'>성별<span style={{color:'red'}}>*</span></p>
+                    <input type="radio" id='man' name='gender' value="0" checked={userGender === '0'} onChange={(e) => setUserGender(e.target.value)}  />
+                    <label htmlFor='man'>남자</label>
+                    <input type="radio" id='woman' name='gender' value="1" checked={userGender === '1'} onChange={(e) => setUserGender(e.target.value)} />
+                    <label htmlFor='woman'>여자</label>
+                </div>
+                {/* 닉네임 */}
+                <div className='signup4'>
+                    <label htmlFor="nickname">닉네임<span style={{color:'red'}}>*</span></label>
+                    <input type="text" id='nickname' name='nickname' value={nickname} onChange={(e) => setNickname(e.target.value)} placeholder='2글자 이상 적어주세요' onBlur={validateNickNameAlert} />
+                </div>
+                {/* 버튼 */}
+                <button type='submit' 
+                className='signupBtn' 
+                disabled={isDisabledSignup} 
+                style={{
+                    cursor: mouseCursor ? 'pointer' : 'not-allowed',
+                    backgroundColor: mouseCursor ? '#42799b' : '#e7e7e7ff',
+                    color: mouseCursor ? '#fff' : '#a5a5a5ff',
+                    border:'none'
+                    }}  >확인</button>
+            </form>
+            {/* 회원가입 종료 후 모달 */}
+            {signupModalOpen && 
+            <>
+                <div className='overlay'></div>
+                <div className='signupModal'>
+                    {/* <img src='/mainlogo.png' alt='mainlogo' className='logomodal' /> */}
+                    <h1>회원가입이 완료되었습니다!</h1>
+                    <p className='p1'>{nickname}님 EcoStay로 오신걸 환영합니다!</p>
+                    <img src='/coupon.png' alt='couponImg' className='coupon' />
+                    <p className='couponDate'>오늘({year}.{month}.{date})부터 <span style={{color:'red', fontSize:'20px', fontWeight:'600'}}>‘한달’동안</span> 사용하실 수 있습니다!</p>
+                    <button type='button' 
+                    onClick={modalHandeler} 
+                    style={{color:'#fff', backgroundColor:'#42799b', border:'none', cursor:'pointer'}}
+                    className='signupModalBtn'>홈으로</button>
+                </div> 
+            </>
+            }
+        </div>
+    )
+}

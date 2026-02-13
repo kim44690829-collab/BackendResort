@@ -1,0 +1,526 @@
+/* 상품 영역 전체 */
+.Room_section{
+    width: 1200px;
+    margin: 100px auto 0;
+    box-sizing: border-box;
+    /* border-top: 2px solid #c7c7c7; */
+}
+.Room_section .serch_box{
+    position: relative;
+    padding-top: 3px;
+    vertical-align: bottom;
+    margin-left: 10px;
+    width: 650px;
+}
+.Room_section .serch_box .serch_btn{
+    height: 40px;
+    margin-left: 5px;
+    border-radius: 10px;
+    padding: 0 10px;
+    background-color: #fff;
+    border: 2px solid #7ED6E4;
+    color: #7ED6E4;
+    font-weight: 600;
+}
+.Room_section .serch_box .serch_btn:hover{
+    background-color: #fff;
+    border: 2px solid #42799b;
+    color: #42799b;
+    font-weight: 600;
+}
+.Room_section .serch_box .city_name::placeholder{
+    font-size: 12px;
+}
+.Room_section .serch_box .city_name{
+    width: 260px;
+    height: 40px;
+    padding: 0 0 0 20px;
+    border-radius: 10px;
+    background-color: #fff;
+    border: 2px solid #42799b55;
+    box-sizing: border-box;
+    line-height: 60px;
+    position: absolute;
+    top: 3px;
+    left: 0;
+    font-size: 15px;
+}
+.Room_section .serch_box .city_name:focus{
+    background-color: #fff;
+    border: 2px solid #7ED6E4;
+    box-sizing: border-box;
+}
+.Room_section .serch_box .calenertBtn{
+    width: 290px;
+    height: 40px;
+    margin-left: 265px;
+    border: 2px solid #42799b55;
+    background-color: #fff;
+    line-height: 0px;
+}
+.Room_section .serch_box .calendar_box{
+    position: absolute;
+    top: 50px;
+    left: 0;
+}
+/* 상품 필터 영역 시작----------------------------------------------------*/
+.Room_section .filter_menu{
+    width: 100%;
+    height: 360px;
+    display: flex;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+.Room_section .filter_menu .left_filter{
+    padding: 0 10px 10px 10px;
+    box-sizing: border-box;
+    width: 1000px;
+    overflow: hidden;
+}
+
+.Room_section .filter_menu .left_filter .filter01{
+    border-bottom: 1px solid #aaa;
+    box-sizing: border-box;
+    padding-bottom: 5px;
+}
+.Room_section .filter_menu .left_filter .filter01:last-child{
+    border: none;
+    box-sizing: border-box;
+    padding-bottom: 5px;
+}
+.Room_section .filter_menu .left_filter .filter01 .filter_tag{
+    padding: 10px 5px 5px 5px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+.Room_section .filter_menu .left_filter .filter01 .fil_btn{
+    padding: 7px 10px;
+    margin: 0 6px 8px 0;
+    border-radius: 20px;
+    border: 1px solid #aaa;
+    font-size: 12px;
+    cursor: pointer;
+    background-color: #fff;
+    display: inline-block;
+    height: 29px;
+    box-sizing: border-box;
+}
+.Room_section .filter_menu .left_filter .filter01 .fil_btn > .fa-regular,
+.Room_section .filter_menu .left_filter .filter01 .fil_btn > .fa-solid{
+    display: inline;
+    color: #777;
+    font-size: 12px;
+}
+.Room_section .filter_menu .left_filter .filter01 .fil_btn > .fa-regular >span,
+.Room_section .filter_menu .left_filter .filter01 .fil_btn > .fa-solid >span{
+    font-size: 12px;
+    color: #333;
+}
+.Room_section .filter_menu .left_filter .under_filter{
+    margin-top: 10px;
+    box-sizing: border-box;
+}
+.Room_section .filter_menu .left_filter .under_filter .fil_btn{
+    padding: 5px 10px;
+    margin: 0 6px 8px 0;
+    border-radius: 20px;
+    border: 1px solid #fff;
+    font-size: 12px;
+    background-color:#7ED6E4 ;
+    color: #333;
+    cursor: pointer;
+    font-weight: 600;
+}
+.Room_section .filter_menu .left_filter .under_filter .fil_btn:hover{
+    background-color:rgb(96, 142, 192) ;
+    color: #fff;
+}
+
+/* 우측 상단 필터 */
+.Room_section .filter_menu .right_filter{
+    width: 660px;
+    position: relative;
+    margin-left: 20px;
+    margin-top: -40px;
+}
+.Room_section .filter_menu .right_filter .top_filter{
+    margin-bottom: 20px;
+}
+.Room_section .filter_menu .right_filter .price_filter{
+    display: flex;
+    flex-wrap: wrap;
+}
+.Room_section .filter_menu .right_filter .price_slide{
+    position: relative;
+    height: 4px;
+    width: 520px;
+    border-radius: 10px;
+    background-color: #dddddd;
+    margin: 20px 0;
+    
+}
+.Room_section .filter_menu .right_filter .price_slide .slide_input{
+    position: absolute;
+    top: -8px;
+    left: 0;
+    width: 100%;
+    -webkit-appearance: none;
+    background: none;
+    pointer-events: none;
+}
+.Room_section .filter_menu .right_filter .price_slide .slide_input::-webkit-slider-thumb{
+    height: 20px;
+    width: 20px;
+    border-radius: 50%; 
+    background-color: #7ED6E4;
+    -webkit-appearance: none;
+    pointer-events: auto;
+    cursor: pointer;
+}
+.Room_section .filter_menu .right_filter .price_slide .slide_input::-webkit-slider-thumb:hover{
+    background-color: #42799b;
+    border: 2px solid #fff;
+}
+.Room_section .filter_menu .right_filter .price_slide .price_inner{
+    position: absolute;
+    left: 30%;
+    right: 20%;
+    height: 4px;
+    border-radius: 10px;
+    background-color: #7ED6E4;
+}
+.Room_section .filter_menu .right_filter .minprice{
+    margin-right: 20px;
+}
+.Room_section .filter_menu .right_filter .minprice,
+.Room_section .filter_menu .right_filter .maxprice{
+    border-radius: 10px;
+    text-align: right;
+    width: 250px;
+    overflow: hidden;
+    background-color: #dddddd;
+    padding-right: 10px;
+}
+.Room_section .filter_menu .right_filter .price_txt{
+    color: #aaa;
+    font-size: 14px;
+    padding: 5px;
+    text-align: left;
+}
+.Room_section .filter_menu .right_filter .price_input{
+    border: none;
+    padding: 5px;
+    font-weight: 600;
+    background-color: #dddddd;
+    width: 70px;
+    text-align: right;
+}
+.Room_section .filter_menu .right_filter .reset{
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+}
+.Room_section .filter_menu .right_filter .reset .reset_btn{
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    color: #aaa;
+}
+.Room_section .filter_menu .right_filter .reset .reset_btn:hover{
+    color: #42799b;
+    font-weight: 600;
+}
+.Room_section .filter_menu .right_filter .reset .reset_btn:hover .resettxt{
+    color: #333;
+    font-weight: 600;
+    text-decoration: underline;
+}
+/* 필터 중앙 부분 */
+/* 
+.Room_section .filter_menu .center_filter{
+    padding: 10px;
+    box-sizing: border-box;
+    width: 330px;
+    border-right: 2px solid #c7c7c7;
+    position: relative;
+    text-align: center;
+}
+.Room_section .filter_menu .center_filter .reset{
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+}
+.Room_section .filter_menu .center_filter .reset .reset_btn{
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    color: #aaa;
+}
+.Room_section .filter_menu .center_filter .reset .reset_btn:hover{
+    color: #42799b;
+    font-weight: 600;
+}
+.Room_section .filter_menu .center_filter .reset .reset_btn:hover .resettxt{
+    color: #333;
+    font-weight: 600;
+    text-decoration: underline;
+}
+.Room_section .filter_menu .center_filter .price_slide{
+    position: relative;
+    height: 4px;
+    width: 250px;
+    border-radius: 10px;
+    background-color: #dddddd;
+    margin: 20px 0;
+}
+.Room_section .filter_menu .center_filter .price_slide .slide_input{
+    position: absolute;
+    top: -8px;
+    left: 0;
+    width: 100%;
+    -webkit-appearance: none;
+    background: none;
+    pointer-events: none;
+}
+.Room_section .filter_menu .center_filter .price_slide .slide_input::-webkit-slider-thumb{
+    height: 20px;
+    width: 20px;
+    border-radius: 50%; 
+    background-color: #7ED6E4;
+    -webkit-appearance: none;
+    pointer-events: auto;
+    cursor: pointer;
+}
+.Room_section .filter_menu .center_filter .price_slide .slide_input::-webkit-slider-thumb:hover{
+    background-color: #42799b;
+    border: 2px solid #fff;
+}
+.Room_section .filter_menu .center_filter .price_slide .price_inner{
+    position: absolute;
+    left: 30%;
+    right: 20%;
+    height: 4px;
+    border-radius: 10px;
+    background-color: #7ED6E4;
+}
+.Room_section .filter_menu .center_filter .minprice,
+.Room_section .filter_menu .center_filter .maxprice{
+    border-radius: 10px;
+    text-align: right;
+    width: 250px;
+    overflow: hidden;
+    margin: 20px 0 0;
+    background-color: #dddddd;
+    padding-right: 10px;
+}
+.Room_section .filter_menu .center_filter .price_txt{
+    color: #aaa;
+    font-size: 14px;
+    padding: 5px;
+    text-align: left;
+}
+.Room_section .filter_menu .center_filter .price_input{
+    border: none;
+    padding: 5px;
+    font-weight: 600;
+    background-color: #dddddd;
+    width: 70px;
+    text-align: right;
+} */
+
+/* 필터 오른쪽 부분 *//* 
+.Room_section .filter_menu .right_filter{
+    width: 400px;
+    box-sizing: border-box;
+    padding: 10px;
+}
+.Room_section .filter_menu .right_filter .map{
+    width: 100%;
+    height: 200px;
+    background-color: #7ED6E4;
+    border-radius: 10px;
+} */
+
+/* 상품 필터 영역 끝 */
+
+/* 상품 정렬 영역 시작--------------------------------------------------- */
+.Room_section .arr_menu{
+    height: 40px;
+    /* border-top: 2px solid #c7c7c7;
+    border-bottom: 2px solid #c7c7c7; */
+    background-color: #42799b;
+    display: flex;
+    justify-content: space-between;
+    padding-right: 20px;
+}
+.Room_section .arr_menu .arr_total{
+    padding-top: 10px;
+    margin-left: 20px;
+    font-weight: 600;
+    color: #fff;
+}
+.Room_section .arr_menu .arr_group{
+    display: flex;
+    width: 1000px;
+    justify-content: right;
+}
+.Room_section .arr_menu .arr_group .arr_list{
+    margin-left: 10px;
+    padding-top: 10px;
+    color: #aaa;
+}
+.Room_section .arr_menu .arr_group .arr_list:hover{
+    color: black;
+    cursor: pointer;
+    font-weight: 600;
+}
+/* 상품 정렬 영역 끝 */
+
+/* 상품 정보 영역 시작--------------------------------------------------- */
+.Room_section .room_menu{
+    
+}
+.Room_section .room_menu .room_product{
+    
+}
+.Room_section .room_menu .room_product .room_list{
+    display: flex;
+    justify-content: space-between;
+    height: 280px;
+    padding: 15px;
+    border-bottom: 1px solid #ccc;
+    gap: 10px;
+    position: relative;
+    background-color: #fff;
+}
+.Room_section .room_menu .room_product .room_list .img_box{
+    width: 350px;
+    height: 250px;
+    background-color: #fff;
+    border-radius: 10px;
+    text-align: center;
+    margin-right: 20px;
+    /* border: 1px solid #999; */
+    overflow: hidden;
+}
+.Room_section .room_menu .room_product .room_list .img_box .hotelimg{
+    width: 100%;
+    height: 100%;
+}
+.Room_section .room_menu .room_product .room_list .room_info{
+    background-color: #fff;
+    width: 800px;
+    height: 248px;
+    border-radius: 10px;
+    position: relative;
+    padding: 15px;
+}
+.Room_section .room_menu .room_product .room_list .room_info .menu_title{
+    font-weight: 600;
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+.Room_section .room_menu .room_product .room_list .room_info .menu_city{
+    color: #666;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+.Room_section .room_menu .room_product .room_list .room_info .menu_score{
+    background-color: #42799b;
+    width: 70px;
+    text-align: center;
+    padding: 10px 8px;
+    border-radius: 10px;
+    font-weight: 500;
+    font-size: 14px;
+    color: #fff;
+}
+.Room_section .room_menu .room_product .room_list .room_info .service_list{
+    margin-top: 25px;
+    background-color: #f5f7fc;
+    padding: 15px;
+    border-radius: 10px;
+    width: 560px;
+    box-sizing: border-box;
+    position: absolute;
+    bottom: -5px;
+}
+
+.Room_section .room_menu .room_product .room_list .room_info .service_list .service_item{
+    margin-bottom: 20px;
+    color: #333;
+    margin-right: 5px;
+    font-size: 14px;
+    line-height: 16px;
+}
+
+.Room_section .room_menu .room_product .room_list .room_info .menu_discount{
+    text-align: right;
+    font-size: 18px;
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+.Room_section .room_menu .room_product .room_list .room_info .menu_discount .disC{
+    position: absolute;
+    bottom: 50px;
+    right: 20px;
+}
+.Room_section .room_menu .room_product .room_list .room_info .menu_discount .disC .s_box{
+    color: #f22f2f;
+    text-decoration: none;
+    background-color: #fcd8d8;
+    border-radius: 5px;
+    padding: 0 3px;
+    margin-right: 5px;
+    font-weight: 600;
+    font-size: 12px;
+}
+.Room_section .room_menu .room_product .room_list .room_info .menu_discount .disC .p_box{
+    color: #999;
+    text-decoration: line-through;
+}
+.Room_section .room_menu .room_product .room_list .room_info .menu_discount .coupon{
+    text-decoration: none;
+    font-size: 12px;
+    background-color: #fcd8d8;
+    color: #f22f2f;
+    padding: 0 3px;
+    font-weight: 600;
+    border-radius: 5px;
+    position: absolute;
+    bottom: 50px;
+    right: 20px;
+}
+.Room_section .room_menu .room_product .room_list .room_info .menu_price{
+    text-align: right;
+    font-size: 32px;
+    font-weight: 600;
+    position: absolute;
+    bottom: 0px;
+    right: 20px;
+}
+.Room_section .room_menu .room_product .room_list .menu_wishbtn{
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    background-color: #f0f0f0;
+    font-size: 20px;
+    line-height: 41px;
+    cursor: pointer;
+}
+.Room_section .room_menu .room_product .room_list .menu_wishbtn i{
+    font-size: 21px;
+    color: #6b6b6b;
+    text-align: center;
+}
+.Room_section .room_menu .room_product .room_list .menu_wishbtn:hover{
+    
+    cursor: pointer;
+    color: red;
+    background-color: #ccc;
+}
+/* 상품 정보 영역 끝 */

@@ -1,0 +1,39 @@
+/* #root{
+    overflow: hidden;
+    height: 100vh;
+} */
+
+
+.modalOverlay{
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #000000cf;
+    z-index: 99999999999;
+}
+.modalOverlay .modalWrap{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    padding: 50px;
+    background-color: #fff;
+    border-radius: 12px;
+}
+.modalOverlay .modalWrap .closeBtn{
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    border: 0;
+    width: 40px;
+    height: 40px;
+    background-color: #fff;
+}
+.modalOverlay .modalWrap .closeBtn i{
+    font-size: 21px;
+    color: #6b6b6b;
+    text-align: center;
+    line-height: 41px;
+}

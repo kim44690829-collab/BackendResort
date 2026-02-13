@@ -1,0 +1,11 @@
+package resort.board.mapper;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+
+@Mapper
+public interface ReviewboardMapper {
+	//리뷰 전체 검색
+	public List<ReviewboardDTO> getReviewAll();
+}

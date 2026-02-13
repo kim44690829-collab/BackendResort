@@ -1,0 +1,179 @@
+.helpCenter_container{
+    width: 1200px;
+    margin: 200px auto;
+    display: flex;
+}
+/* 고객센터 메뉴 선택 */
+.helpCenter_container .helpCenter_list{
+    width: 280px;
+    height: 300px;
+    margin-right: 70px;
+}
+.helpCenter_container .helpCenter_list .list_title{
+    border-bottom: 3px solid black;
+    font-size: 26px;
+    padding-bottom: 40px;
+    font-weight: bold;
+}
+.helpCenter_container .helpCenter_list .list_menu{
+    border-bottom: 1px solid gray;
+    padding: 30px 0 30px 0;
+}
+.helpCenter_container .helpCenter_list .list_menu .list_menuBtn{
+    border: none;
+    outline: none;
+    background-color: transparent;
+    font-size: 16px;
+}
+.helpCenter_container .helpCenter_list .list_menu .list_menuBtn:hover{
+    color: #42799b;
+    cursor: pointer;
+}
+/* 고객센터 내용 */
+.helpCenter_text{
+    width: 600px;
+} 
+.helpCenter_text .text_title{
+    margin-bottom: 36px;
+    font-size: 30px;
+    font-weight: 600;
+}
+.helpCenter_text .helpCenter_texts{
+    display: flex;
+    justify-content: space-between;
+    padding: 25px 0 25px 0;
+    border-bottom: 1px solid gray;
+    align-items: center;
+}
+.helpCenter_text .helpCenter_texts .textDownBtn{
+    border: none;
+    background-color: transparent;
+}
+.BtnChange{
+    transform: rotate(180deg);
+}
+.helpCenter_text .text_contents{
+    padding: 25px 0 25px 0;
+    line-height: 30px;
+}
+.helpCenter_text .text_contents .contents5{
+    background-color: #ddd;
+    padding: 10px;
+    border-radius: 10px;
+    line-height: 20px;
+}
+.helpCenter_text .text_contents .contents6{
+    background-color: #ddd;
+    padding: 10px;
+    border-radius: 10px;
+    line-height: 20px;
+}
+/* 공지사항 */
+.notice{
+    cursor: pointer;
+}
+.notice-date{
+    font-size: 12px;
+}
+.notice-contents{
+    margin-top: 30px;
+    line-height: 20px;
+}
+.noticeContentsBtn{
+    display: block;
+    margin: 30px auto;
+    width: 300px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-size: 13px;
+    color: #333;
+    background-color: transparent;
+}
+/* 1대1 문의 */
+.support-1on1{
+    height: 500px;
+    border-top: 2px solid black;
+    border-bottom: 1px solid black;
+    line-height: 500px;
+    text-align: center;
+}
+.sportBtn{
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    color: #333;
+    background-color: transparent;
+}
+/* 고객센터 전화번호 */
+.helpCenter_tel{
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    margin-left: 50px;
+    height: 752px;
+    background-color: #ddd;
+}
+.helpCenter_tel .helpCenter_tel1{
+    width: 250px;
+    padding: 30px 30px 15px 30px;
+    background-color: #fff;
+    border-radius: 10px 10px 0 0;
+}
+.helpCenter_tel .helpCenter_tel1 .tel1_title{
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    padding-bottom: 30px;
+    border-bottom: 1px solid #ddd;
+}
+.helpCenter_tel .helpCenter_tel1 .tel_list{
+    padding: 20px 0 20px 0;
+    font-size: 18px;
+    border-bottom: 1px solid #ddd;
+}
+.helpCenter_tel .helpCenter_tel1 .chatLi{
+    height: 91px;
+}
+.chatBtn{
+    display: block;
+    width: 190px;
+    height: 51px;
+    margin: 0 auto;
+    border-radius: 10px;
+    border: #42799b;
+    background-color: #42799b;
+    color: #fff;
+}
+
+.helpCenter_tel .helpCenter_tel1 .tel_list .fa-phone{
+    margin-right: 10px;
+}
+.helpCenter_tel .helpCenter_tel1 .tel_list .info_tel{
+    font-size: 21px;
+    text-align: center;
+    margin-top: 10px;
+    font-weight: bold;
+    color: #42799b;
+}
+.helpCenter_tel .helpCenter_tel2{
+    /* background-color: #ddd; */
+    border-radius: 0 0 10px 10px;
+    width: 250px;
+    padding: 30px 10px 30px 10px;
+}
+.helpCenter_tel .helpCenter_tel2 .tel2_title{
+    margin-bottom: 20px;
+}
+.helpCenter_tel .helpCenter_tel2 .tel2_title .fa-circle-info{
+    margin-right: 10px;
+}
+.helpCenter_tel .helpCenter_tel2 .tel2_info{
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+.helpCenter_tel .helpCenter_tel2 .tel2_info2{
+    font-size: 11px;
+    margin-left: 12px;
+}

@@ -1,0 +1,5 @@
+package resort.board.dto;
+
+public class ReviewboardDTO {
+
+}

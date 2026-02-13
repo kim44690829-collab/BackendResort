@@ -1,0 +1,115 @@
+.HotelSection_container {
+    display: flex;
+    width: 1200px;
+    margin: 100px auto;
+}
+.HotelSection_container .HotelSection_menu{
+    width: 200px;
+    margin-right: 30px;
+}
+.HotelSection_container .HotelSection_menu .HotelSection_Hotel{
+    padding: 30px;
+    text-align: center;
+}
+.HotelAll{
+    border-bottom: 3px solid gray;
+    font-size: 30px;
+}
+.DomesticHotels,
+.overseasHotels{
+    border-bottom: 1px solid gray;
+    font-size: 20px;
+    cursor: pointer;
+}
+.HotelSection_title{
+    font-size: 30px;
+    margin: 30px 0 30px 0;
+}
+.HotelSection_container .HotelSection_wrap{
+    width: 900px;
+}
+.HotelSection_container .HotelSection_wrap .HotelUl{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    /* padding-bottom: 10px; */
+    border-bottom: 1px solid gray;
+}
+.HotelSection_container .HotelSection_wrap .HotelUl .HotelLi{
+    width: 280px;
+    height: 343px;
+    position: relative;
+}
+.HotelSection_container .HotelSection_wrap .HotelUl .HotelLi .hotelSectionImg{
+    width: 280px;
+    height: 169px;
+    border-radius: 10px;
+}
+.HotelSection_container .HotelSection_wrap .HotelUl .HotelLi .hotelSection_type{
+    font-size: 14px;
+    margin: 10px 0 5px 0;
+    color: gray;
+}
+.HotelSection_container .HotelSection_wrap .HotelUl .HotelLi .hotelSection_name{
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+.HotelSection_container .HotelSection_wrap .HotelUl .HotelLi .hotelSection_review{
+    margin-bottom: 10px;
+    vertical-align: middle;
+}
+.HotelSection_container .HotelSection_wrap .HotelUl .HotelLi .hotelSection_review .hotelSection_score{
+    background-color: rgb(255 200 59);
+    border-radius: 6px;
+    padding: 0 5px 2px 3px;
+}
+.HotelSection_container .HotelSection_wrap .HotelUl .HotelLi .hotelSection_review .hotelSection_score .fa-star{
+    font-size: 12px;
+}
+.HotelSection_container .HotelSection_wrap .HotelUl .HotelLi .hotelSection_review .hotelSection_score .starScore{
+    display: inline-block;
+    margin-left: 10px;
+    font-size: 12px;
+    font-weight: 700;
+}
+.HotelSection_container .HotelSection_wrap .HotelUl .HotelLi .hotelSection_review .hotelSection_count{
+    margin-left: 10px;
+    color: rgb(68, 68, 68);
+}
+/* 할인 or 회원가입시 쿠폰 전체 css */
+.discount{
+    text-align: left;
+    padding-top: 5px;
+}
+.discount .red{
+    background-color: #ffedea;
+    color: #f94239;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 2px 5px;
+    text-decoration: none !important;
+}
+.discount .origin-price{
+    font-size: 13px;
+    color: #707070;    
+    text-decoration: line-through;
+    margin-left: 10px;
+}
+.final-price{
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 40px;
+    text-align: left;
+}
+.final-price span{
+    font-size: 15px;
+    color: #707070;
+}
+.moreSeeBtn{
+    width: 900px;
+    height: 50px;
+    border-radius: 5px;
+    border: 1px solid rgb(177, 177, 177);
+    background-color: transparent;
+    margin-top: 30px;
+}

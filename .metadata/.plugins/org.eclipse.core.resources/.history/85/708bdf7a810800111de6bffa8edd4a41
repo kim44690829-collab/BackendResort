@@ -1,0 +1,23 @@
+package resort.board.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import resort.board.dto.ReviewboardDTO;
+import resort.board.mapper.ReviewboardMapper;
+
+@Service
+public class ReviewboardServiceImpl implements ReviewboardService{
+	@Autowired
+	ReviewboardMapper reviewboardmapper;
+
+	@Override
+	public List<ReviewboardDTO> getReviewAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
+}

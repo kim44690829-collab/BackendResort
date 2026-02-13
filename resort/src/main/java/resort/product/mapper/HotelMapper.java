@@ -1,0 +1,15 @@
+package resort.product.mapper;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import resort.product.dto.HotelDTO;
+
+@Mapper
+public interface HotelMapper {
+
+	// 호텔 전체 검색
+	public List<HotelDTO> getHotelAll();
+
+}

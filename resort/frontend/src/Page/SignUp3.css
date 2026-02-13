@@ -1,0 +1,146 @@
+.signup3_container{
+    width: 500px;
+    margin: 130px auto 130px;
+    /* margin-bottom: 200px;
+    margin-top: 130px; */
+}
+.signup3_container > .signup3_title{
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+.signup3_container > .signup3_info{
+    font-size: 20px;
+    margin-bottom: 50px;
+}
+/* 회원가입 form */
+.signup3_container .signupForm{
+    display: flex;
+    flex-direction: column;
+}
+/* 이메일 */
+.signup3_container .signupForm .signup1{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+.signup3_container .signupForm .signup1 > label{
+    margin-bottom: 10px;
+}
+.signup3_container .signupForm .signup2 > label{
+    margin-bottom: 10px;
+    display: inline-block;
+}
+.signup3_container .signupForm .signup1 > input[type='email'],
+.signup3_container .signupForm .signup1 > input[type='password'],
+.signup3_container .signupForm .signup1 > input[type='text']{
+    /* margin-bottom: 10px; */
+    width: 500px;
+    padding: 15px 10px 15px 20px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    background-color: #f0f0f0;
+}
+/* 생년월일 */
+.signup3_container .signupForm .signup2_sub{
+    width: 500px;
+    border: none;
+    outline: none;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+.signup3_container .signupForm .signup2 > .signup2_sub > input[type='text']{
+    width: 158px;
+    padding: 15px 10px 15px 60px;
+    border: none;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+}
+/* 성별 */
+.signup3_container .signupForm .signup3 > .signup3_gender{
+    margin-bottom: 10px;
+}
+.signup3_container .signupForm .signup3 > input[type='radio']{
+    margin-left: 130px;
+    margin-bottom: 20px;
+} 
+.signup3_container .signupForm .signup3 > label{
+    margin-left: 10px;
+}
+/* 닉네임 */
+.signup3_container .signupForm .signup4{
+    display: flex;
+    flex-direction: column;
+}
+.signup3_container .signupForm .signup4 > label{
+    margin-bottom: 10px;
+}
+.signup3_container .signupForm .signup4 > input[type='text']{
+    padding: 15px 10px 15px 20px;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    background-color: #f0f0f0;
+}
+.wrongInput{
+    margin-bottom: 10px;
+}
+/* 버튼 */
+.signup3_container .signupForm .signupBtn{
+    width: 500px;
+    padding: 15px 10px 15px 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 20px;
+    border: none;
+}
+/* 회원가입 완료 모달 */
+.signup3_container .overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.5);
+}
+.signup3_container .signupModal{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    height: 500px;
+    z-index: 100;
+    background-color: #fff;
+    border-radius: 10px;
+}
+.coupon{
+    margin-left: 100px;
+
+}
+.signup3_container .signupModal > .p2{
+    text-align: center;
+    margin: 60px 0 30px 0;
+}
+.signup3_container .signupModal > .p1{
+    text-align: center;
+    margin: 30px 0 30px 0;
+}
+.signup3_container .signupModal > h1{
+    text-align: center;
+    font-size: 25px;
+    margin-top: 60px;
+}
+.couponDate{
+    text-align: center;
+    margin-top: 10px;
+    font-size: 18px;
+}
+.signup3_container .signupModalBtn{
+    display: block;
+    margin: 30px auto;
+    width: 200px;
+    padding: 15px;
+    border-radius: 10px;
+}

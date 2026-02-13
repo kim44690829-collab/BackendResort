@@ -1,0 +1,56 @@
+/* 휴대폰 번호 화면 전체 css */
+.signup2_container{
+    width: 1200px;
+    margin: 10px auto;
+    margin-bottom: 200px;
+    margin-top: 200px;
+}
+.signup2_container .signup2_title{
+    text-align: center;
+    font-size: 30px;
+    margin: 50px 0 50px 0;
+}
+/* 휴대폰 번호 form */
+.signup2_container .tel_form{
+    width: 360px;
+    margin: 10px auto;
+    display: flex;
+    flex-direction: column;
+}
+/* 휴대폰 번호 작성 css */
+.signup2_container .tel_form > label{
+    margin-bottom: 10px;
+}
+.signup2_container .tel_form .userPhone{
+    width: 360px;
+    border: none;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    background-color: #f0f0f0;
+}
+.signup2_container .tel_form .userPhone > input[type='text']{
+    width: 113px;
+    padding: 15px 10px 15px 35px;
+    border: none;
+    border-radius: 10px;
+    outline: none;
+    background-color: #f0f0f0;
+}
+/* 인증번호 작성 css */
+.signup2_container .tel_form #smsCode{
+    width: 360px;
+    padding: 15px 10px 15px 35px;
+    margin-bottom: 30px;
+    padding: 15px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    background-color: #f0f0f0;
+}
+/* 버튼 css */
+.signup2_container .tel_form .telBtn{
+    margin-bottom: 30px;
+    padding: 15px;
+    border-radius: 10px;
+    width: 360px;
+}

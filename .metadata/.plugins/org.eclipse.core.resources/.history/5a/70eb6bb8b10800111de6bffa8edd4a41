@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="resort.board.mapper.ReviewboardMapper">
+
+	
+	<select id="getReviewAll" resultType="ReviewboardDTO">
+		SELECT * FROM reviewboard
+	</select>
+	
+	<!-- // 객실별 별점 검색 public List<RatingDTO> getRatingAll(); -->
+	<select id="getRatingAll" resultType="RatingDTO" >
+		SELECT h.h_code, r.r_code, rb.rb_score FROM reviewboard rb 
+		INNER JOIN room r 
+		ON rb.r_code = r.r_code
+		INNER JOIN hotel h ON h.h_code = r.h_code
+	</select>
+	
+	<!-- // 객실별 별점 평균 public List<RatingDTO> getRatingAvgAll(); -->
+	<select id="getRatingAvgAll" resultType="RatingDTO" >
+		SELECT h.h_code, r.r_code, AVG(rb.rb_score) FROM reviewboard rb 
+		INNER JOIN room r 
+		ON rb.r_code = r.r_code
+		INNER JOIN hotel h ON h.h_code = r.h_code
+		GROUP BY r.r_code
+	</select>
+</mapper>

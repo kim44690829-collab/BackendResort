@@ -1,0 +1,66 @@
+.Login_container{
+    width: 1200px;
+    margin: 10px auto;
+    margin-bottom: 200px;
+    margin-top: 200px;
+}
+.Login_container .Login_title{
+    text-align: center;
+    margin: 100px 0 30px 0;
+    font-size: 30px;
+}
+.Login_container .login_form{
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+    margin: 0 auto;
+}
+.Login_container .login_form label,
+.Login_container .login_form input{
+    margin-bottom: 10px;
+}
+.Login_container .login_form #userEmail,
+.Login_container .login_form #userPw{
+    padding: 15px 10px 15px 10px;
+    margin-bottom: 30px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    background-color: #f0f0f0;
+}
+.Login_container .login_form .remember{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.Login_container .login_form .remember .remember_left > label{
+    margin-left: 5px;
+}
+.Login_container .login_form .remember .remember_right{
+    border: none;
+    background-color: transparent;
+}
+.Login_container .login_form .remember .remember_right:hover{
+    text-decoration: underline;
+}
+.Login_container .login_form .LoginBtn{
+    padding: 15px 10px 15px 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 20px;
+    border: none;
+}
+.Login_container .SignUpGo{
+    text-align: center;
+    margin-top: 30px;
+}
+.Login_container .SignUpGo .EmailSignUp{
+    margin-top: 10px;
+    border: none;
+    background-color: transparent;
+    font-size: 18px;
+}
+.Login_container .SignUpGo .EmailSignUp:hover{
+    cursor: pointer;
+    text-decoration: underline;
+}

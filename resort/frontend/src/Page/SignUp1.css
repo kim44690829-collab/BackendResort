@@ -1,0 +1,155 @@
+.signup_container{
+    width: 1200px;
+    margin: 10px auto;
+    margin-bottom: 200px;
+    margin-top: 200px;
+}
+.signup_container .signup_title{
+    text-align: center;
+    font-size: 20px;
+    margin: 50px 0 50px 0;
+    line-height: 30px;
+}
+.signup_container .agreeForm{
+    width: 700px;
+    margin: 10px auto;
+}
+.signup_container .agreeForm > input[type='checkbox'],
+.signup_container .agreeForm > .agree1 > .agree2 > input[type='checkbox']{
+    margin-right: 10px;
+}
+.signup_container .agreeForm .agree1{
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+.signup_container .agreeForm .agreeBtn{
+    width: 700px;
+    padding: 15px 10px 15px 10px;
+    border-radius: 10px;
+    margin-top: 20px;
+    border: none;
+}
+
+.signup_container .agreeForm .agree1 .agreeSeeBtn{
+    border: none;
+    background-color: transparent;
+}
+.btnChange{
+    transform: rotate(180deg);
+}
+.signup_container .agreeForm .agreeContentBox .contentTitle{
+    display: inline-block;
+    margin-bottom: 10px;
+}
+/* 1번 항목 - 이용약관 */
+.signup_container .agreeForm .agreeContentBox .agreeContent1{
+    width: 700px;
+    line-height: 1.5em;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+.signup_container .agreeForm .agreeContentBox .agreeContent1 .agreeContent1Ol{
+    list-style-type: decimal;
+    padding-left: 40px;
+}
+.signup_container .agreeForm .agreeContentBox .agreeContent1 .agreeContent1Ol .agreeContent1Li{
+    margin-bottom: 6px;
+    list-style-type: decimal;
+}
+.signup_container .agreeForm .agreeContentBox .agreeContent1 .agreeContent1Ol .agreeContent1Li .agreeContent1UlLi{
+    margin-bottom: 6px;
+    margin-top: 6px;
+    margin-left: 30px;
+    list-style-type: disc;
+}
+/* 2번 항목 - 14세 이상 */
+.signup_container .agreeForm .agreeContentBox  .agreeContent2{
+    width: 700px;
+    line-height: 1.5em;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+/* 3번 항목 - 개인정보 수집 및 이용 동의 (필수) */
+.signup_container .agreeForm .agreeContentBox  .agreeContent3{
+    width: 700px;
+    line-height: 1.5em;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+.signup_container .agreeForm .agreeContentBox .agreeContent3 .agreeContent3Ul{
+    list-style-type: disc;
+    padding-left: 40px;
+}
+.signup_container .agreeForm .agreeContentBox .agreeContent3 .agreeContent3Ul .agreeContent3Li{
+    margin-bottom: 6px;
+    list-style-type: disc;
+}
+/* 4번 항목 - 개인정보 수집 및 이용 동의 (선택) */
+.signup_container .agreeForm .agreeContentBox .agreeContent4{
+    width: 700px;
+    line-height: 1.5em;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+.signup_container .agreeForm .agreeContentBox .agreeContent4 .agreeContent4Ul{
+    list-style-type: disc;
+    padding-left: 40px;
+}
+.signup_container .agreeForm .agreeContentBox .agreeContent4 .agreeContent4Ul .agreeContent4Li{
+    margin-bottom: 6px;
+    list-style-type: disc;
+}
+/* 5번 항목 - 마케팅 알림 수신 */
+.signup_container .agreeForm .agreeContentBox .agreeContent5{
+    width: 700px;
+    line-height: 1.5em;
+    padding: 10px;
+    /* border: 1px solid black; */
+    border-radius: 10px;
+    margin-top: 10px;
+}
+.signup_container .agreeForm .agreeContentBox .agreeContent5-1{
+    line-height: 1.5em;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+.signup_container .agreeForm .agreeContentBox .agreeContent5-2{
+    line-height: 1.5em;
+    padding: 10px;
+    border: 1px solid black;
+    border-top: none;
+    border-radius: 10px;
+}
+/* 6번 항목 - 위치기반 서비스 이용약관 */
+.signup_container .agreeForm .agreeContentBox .agreeContent6{
+    width: 700px;
+    line-height: 1.5em;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+.signup_container .agreeForm .agreeContentBox .agreeContent6 .agreeContent6Ol{
+    list-style-type: decimal;
+    padding-left: 40px;
+}
+.signup_container .agreeForm .agreeContentBox .agreeContent6 .agreeContent6Ol .agreeContent6Li{
+    margin-bottom: 6px;
+    list-style-type: decimal;
+}
+.signup_container .agreeForm .agreeContentBox .agreeContent6 .agreeContent6Ol .agreeContent6Li .agreeContent6UlLi{
+    margin-bottom: 6px;
+    margin-top: 6px;
+    margin-left: 30px;
+    list-style-type: disc;
+}

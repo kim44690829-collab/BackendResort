@@ -1,0 +1,77 @@
+.detail-wrap .detail-content .detail-left .room-select .room-empty{
+    height: 292px;
+    overflow: hidden;
+    border-radius: 10px;
+    background: #f5f7fa;
+    padding: 25px;
+    text-align: center;
+    margin-top: 18px;
+    line-height: 238px;
+}
+.detail-wrap .detail-content .detail-left .room-select .room-title.wish{
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 31px;
+    padding-bottom: 0;
+}
+.detail-wrap .detail-content .detail-left .room-select .room-title.wish .thirty{
+    font-size: 14px;
+}
+.detail-wrap .detail-content .detail-left .room-select .room-title.wish .del{
+    text-align: right;
+    float: right;
+    font-size: 14px;
+    line-height: 17px;
+    cursor: pointer;
+    display: inline-block;
+    padding: 6px 15px;
+    border: 1px solid #e7e7e7;
+    border-radius: 6px;
+}
+.detail-wrap .detail-content .detail-left .room-select ul li .room-right h2 a{
+    font-size: 20px;
+    font-weight: 600;
+}
+.detail-wrap .detail-content .detail-right.wish{
+    padding-bottom: 0px;
+}
+.detail-wrap .detail-content .detail-right.wish .calendar{
+    top: 40px;
+}
+.detail-wrap .detail-content .detail-right.wish.fixed{
+    top: 50px;
+}
+.room-select ul li .room-right .room-info p i{
+    margin: 0;
+}
+.room-select ul li .room-right .room-info .room-pay a.pay{
+    background-color: #42799b;
+    color: #fff;
+    border: 1px solid #42799b;
+    font-weight: 500;
+    font-size: 17px;
+    letter-spacing: 0.5px;
+    padding: 0 20px;
+    margin-left: 8px;
+    height: 49px;
+    display: inline-block;
+    vertical-align: top;
+    line-height: 46px;
+    border-radius: 8px;
+}
+.room-select ul li .room-right .room-intro .intro-right a{
+    background-color: transparent;
+    border: 0;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    color: #42799b;
+}
+.room-select ul li .room-right .room-intro .intro-left .scoreCount{
+    font-size: 14px;
+    font-weight: 600;
+    vertical-align: top;
+    margin-left: 10px;
+    color: #6d6d6d;
+    line-height: 1.2;
+}

@@ -1,0 +1,5 @@
+package resort.product.service;
+
+public class HotelServiceImpl {
+
+}

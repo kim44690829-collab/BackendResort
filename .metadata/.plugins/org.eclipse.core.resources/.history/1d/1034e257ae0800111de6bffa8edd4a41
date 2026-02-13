@@ -1,0 +1,12 @@
+package resort.board.service;
+
+import java.util.List;
+
+import resort.board.dto.ReviewboardDTO;
+
+public interface ReviewboardService {
+	//리뷰 전체 검색
+		public List<ReviewboardDTO> getReviewAll();
+		
+		
+}

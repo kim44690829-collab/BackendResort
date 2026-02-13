@@ -1,0 +1,93 @@
+/* Header 전체 css */
+.Header_container{
+    /* width: 1920px; */
+    width: 100%;
+    height: 65px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 30px;
+    padding-left: 30px;
+    position: fixed;
+    z-index: 700;
+    top: 0;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.7);
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    box-shadow: none;
+    /* transition: box-shadow .25s ease, border-color .25s ease; */
+}
+/* .Header_container.scrolled{
+    border-bottom-color: transparent;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+} */
+/* Header 우측 버튼 css */
+.Header_right{
+    display: flex;
+}
+.Header_container .Header_right  .mainLogo{
+    margin-right: 5px;
+    padding: 10px;
+    cursor: pointer;
+}
+.Header_container .Header_right .HeaderBtn,
+.Header_container .Header_right2 .HeaderBtn{
+    margin-right: 5px;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    background-color: transparent;
+    font-weight: 600;
+}
+.Header_right2{
+    display: flex;
+}
+.login_nickName{
+    display: inline-block;
+    margin-top: 10px;
+    font-weight: bold;
+    color: #42799b;
+}
+.logoutBtn:hover{
+    text-decoration: underline;
+    color: #42799b;
+}   
+/* 메뉴 클릭 시 모달 */
+.Header_container .menus{
+    position: absolute;
+    top: 65px;
+    right: 40px;
+    width: 200px;
+    height: 224px;
+    z-index: 900;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+.Header_container .menus .menus_sub{
+    margin: 0 auto;
+    padding: 0px 0 0px 0;
+}
+.Header_container .menus  .menus_sub .domestic-hotels,
+.Header_container .menus  .menus_sub .wishList_menu,
+.Header_container .menus  .menus_sub .international-hotels,
+.Header_container .menus  .menus_sub .support-center{
+    width: 200px;
+    padding: 10px;
+    border: none;
+}
+/* 국내 숙소 */
+.domestic-hotels,
+.wishList_menu,
+.international-hotels,
+.support-center{
+    background-color: rgba(255, 255, 255, 0);
+    height: 56px;
+}
+.domestic-hotels:hover,
+.wishList_menu:hover,
+.international-hotels:hover,
+.support-center:hover{
+    background-color: #f5f7fc;
+    font-weight: bold;
+}

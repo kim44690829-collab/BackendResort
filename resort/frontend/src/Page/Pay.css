@@ -1,0 +1,410 @@
+.paysection{
+    margin: 0 auto;
+    width: 1200px;
+    margin-top: 100px;
+}
+.paysection .pay_title{
+    font-weight: 600;
+    font-size: 26px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+.paysection .pay_info{
+    display: flex;
+}
+.paysection .pay_info .user_info{}
+.paysection .pay_info .user_info .pay_left_title{
+    font-size: 18px;
+    font-weight: 500;
+    padding: 18px 0;
+}
+.paysection .pay_info .user_info .guest_info{}
+.paysection .pay_info .user_info .guest_info .guest_list{}
+.paysection .pay_info .user_info .guest_info .guest_list .guest_sub_title{
+    font-size: 13px;
+    margin-bottom: 4px;
+}
+.paysection .pay_info .user_info .guest_info .guest_list .guest_name{
+    width: 340px;
+    height: 48px;
+    background-color: #f5f7fa;
+    border: none;
+    border-radius: 10px;
+    padding: 0 18px;
+    margin-bottom: 20px;
+}
+.paysection .pay_info .user_info .guest_info .guest_list .guest_birth01{
+    width: 150px;
+    height: 48px;
+    background-color: #f5f7fa;
+    border: none;
+    border-radius: 10px;
+    padding: 0 18px;
+    margin-bottom: 20px;
+}
+.paysection .pay_info .user_info .guest_info .guest_list .guest_birth02{
+    width: 45px;
+    height: 48px;
+    background-color: #f5f7fa;
+    border: none;
+    border-radius: 10px;
+    padding: 0 18px;
+    margin-bottom: 20px;
+}
+.paysection .pay_info .user_info .guest_info .guest_list .guest_phone{
+    width: 200px;
+    height: 48px;
+    background-color: #f5f7fa;
+    border: none;
+    border-radius: 10px;
+    padding: 0 18px;
+    margin-bottom: 5px;
+}
+.paysection .pay_info .user_info .guest_info .guest_list .phone_btn{
+    width: 130px;
+    height: 48px;
+    background-color: #fff;
+    border: 1px solid #f5f7fa;
+    border-radius: 10px;
+    padding: 0 10px;
+    margin-bottom: 5px;
+    margin-left: 10px;
+    font-weight: 500;
+}
+.paysection .pay_info .user_info .guest_info .guest_list .phone_txt{
+    display: flex;
+    width: 340px;
+    height: 48px;
+    background-color: #f5f7fa;
+    border: none;
+    border-radius: 10px;
+    padding: 0 18px;
+    margin-bottom: 20px;
+}
+.paysection .pay_info .user_info .guest_info .guest_list .phone_txt .fa-circle-exclamation{
+    padding-top: 15px;
+    margin-right: 10px;
+    color: #aaa;
+}
+.paysection .pay_info .user_info .guest_info .guest_list .phone_txt .fa-angle-right{
+    padding-top: 15px;
+    margin-left: 10px;
+    color: #aaa;
+}
+.paysection .pay_info .user_info .guest_info .guest_list .phone_txt .phone_under{
+    border: none;
+    background-color: #f5f7fa;
+    color: #aaa;
+}
+.payline{
+    width: 890px;
+    height: 1px;
+    background-color: #e4e4e4;
+}
+.paysection .pay_info .user_info .pay_type{
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    width: 900px;
+    text-align: center;
+}
+
+.paysection .pay_info .user_info .pay_type .type_list .type_btn{
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 10px;
+    line-height: 48px;
+    background-color: #f5f7fa;
+}
+
+.paysection .pay_info .user_info .pay_type .type_list{
+    width: 280px;
+    height: 48px;
+    border: 1px solid #e4e4e4;
+    border-radius: 10px;
+    line-height: 48px;
+}
+.paysection .pay_info .user_info .paychk{
+    padding: 18px 0;
+}
+.paysection .pay_info .user_info .paychk #pay_chk{
+    display: none;
+}
+.paysection .pay_info .user_info .paychk .pay_chking{
+    padding-left: 30px;
+    position: relative;
+}
+.paysection .pay_info .user_info .paychk .pay_chking::before{
+    content: '';
+    border: 1px solid #aaa;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    border-radius: 5px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.paysection .pay_info .user_info .paychk #pay_chk:checked + .pay_chking::before{
+    background-color: #42799b;
+    content: '✔';
+    color: #fff;
+    text-align: center;
+}
+.paysection .room_info{
+    margin-top: 20px;
+}
+.paysection .room_info .room_box{
+    width: 340px;
+    height: 370px;
+    border: 1px solid #aaa;
+    border-radius: 10px;
+    padding: 15px 24px;
+    background-color: #f5f7fa;
+}
+.paysection .room_info .room_box .room_name{
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+.paysection .room_info .room_box .room_img{
+    width: 290px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+.paysection .room_info .room_box .room_table{
+    width: 290px;
+    margin-top: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+}
+.paysection .room_info .room_box .room_table .ta_list{
+    font-size: 14px;
+    height: 40px;
+    line-height: 20px;
+    vertical-align: top;
+    padding: 10px;
+}
+.paysection .room_info .room_box .room_table .ta_list.ta_sub{
+    color: #bcc4cc;
+    font-weight: 600;
+    width: 80px;
+    
+}
+.paysection .paybox{
+    width: 340px;
+    height: 370px;
+    border: 1px solid #aaa;
+    border-radius: 10px;
+    padding: 15px 24px;
+    background-color: #f5f7fa;
+    margin-top: 20px;
+}
+.paysection .paybox .paybox_title{
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+.paysection .paybox .paybox_table{
+    background-color: #fff;
+    border-radius: 10px;
+    width: 290px;
+    margin-top: 20px;
+}
+.paysection .paybox .paybox_table .paybox_list{
+    padding: 10px;
+    font-size: 14px;
+}
+.paysection .paybox .labelAll_item{
+    background-color: #fff;
+    border: 1px solid #42799b55;
+    padding: 15px 10px;
+    margin-top: 10px;
+    border-radius:10px;
+}
+.paysection .paybox .labelAll_item .labelAll_txt{
+    font-size: 16px;
+    font-weight: 500;
+    position: relative;
+    padding-left: 30px;
+}
+.paysection .paybox .labelAll_item .labelAll_txt::before{
+    content: '';
+    border: 1px solid #aaa;
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+    border-radius: 5px;
+    position: absolute;
+    top: 3px;
+    left: 5px;
+}
+.paysection .paybox .labelAll_item #terms:checked + .labelAll_txt::before{
+    background-color: #42799b;
+    content: '✔';
+    color: #fff;
+    text-align: center;
+}
+.paysection .paybox .label_list{
+    width: 290px;
+    padding: 5px;
+}
+.paysection .paybox .label_list .label_item{
+    margin-bottom: 10px;
+}
+.paysection .paybox .label_list .paybox_item::before{
+    content: '';
+    border: 1px solid #aaa;
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+    border-radius: 5px;
+    position: absolute;
+    top: 0;
+    left: 10px;
+}
+
+.paysection .paybox .label_list #agreement01:checked + .paybox_item::before,
+.paysection .paybox .label_list #agreement02:checked + .paybox_item::before,
+.paysection .paybox .label_list #agreement03:checked + .paybox_item::before,
+.paysection .paybox .label_list #agreement04:checked + .paybox_item::before{
+    background-color: #42799b;
+    content: '✔';
+    color: #fff;
+    text-align: center;
+    line-height: 16px;
+}
+.paysection .paybox .label_list .paybox_item{
+    font-size: 12px;
+    position: relative;
+    padding-left: 35px;
+}
+.paysection .paybox .paybox_btn{
+    color: #fff;
+    background-color: #42799b;
+    width: 290px;
+    padding: 15px;
+    font-size: 20px;
+    font-weight: 600;
+    border-radius: 10px;
+    border: none;
+}
+.paysection .pay_modal{
+    
+}
+.paysection .pay_modal{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+.paysection .pay_modal .modal_content{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background-color: #fff;
+    width: 330px;
+    border: 15px solid #f5f7fa;
+    border-radius: 10px;
+    padding: 20px;
+}
+.paysection .pay_modal .modal_content .pay_modal_title{
+    font-weight: 600;
+    font-size: 24px;
+    padding: 10px 0 20px;
+    border-bottom: 1px solid #e4e4e4;
+}
+.paysection .pay_modal .modal_content .modal_info{
+    padding: 10px 0 20px;
+    border-bottom: 1px solid #e4e4e4;
+}
+.paysection .pay_modal .modal_content .modal_info .modal_hotel{
+    font-weight: 500;
+    line-height: 30px;
+    display: inline-block;
+    width: 256px;
+    overflow: hidden;
+}
+.paysection .pay_modal .modal_content .modal_table{
+    margin-top: 10px;
+    padding-bottom: 10px;
+    width: 256px;
+    margin-bottom: 10px;
+}
+.paysection .pay_modal .modal_content .modal_table tr .modal_list{
+    padding: 10px 15px 10px 0;
+    
+}
+.paysection .pay_modal .modal_content .modal_txt{
+    padding-top: 20px;
+    border-top: 1px solid #e4e4e4;
+    padding-left: 20px;
+}
+.paysection .pay_modal .modal_content .modal_txt .modal_txt_list{
+    list-style:disc;
+    color: #aaa;
+    margin-bottom: 10px;
+}
+.paysection .pay_modal .modal_content .pay_modal_btn{
+    display: flex;
+    width: 256px;
+    gap: 6px;
+    margin-top: 20px;
+}
+.paysection .pay_modal .modal_content .pay_modal_btn .btns{
+    width: 125px;
+    border: none;
+    padding: 15px;
+    border-radius: 10px;
+}
+.paysection .pay2_info{
+    text-align: center;
+    margin-top: 200px;
+}
+.paysection .pay2_info .pay2_title{
+    font-weight: 700;
+    font-size: 40px;
+    margin-bottom: 70px;
+}
+.paysection .pay2_info .pay2_coment{
+    margin: 20px 0;
+    font-size: 20px;
+    margin-bottom: 30px;
+}
+.paysection .pay2_info .pay2_table{
+    margin: 0 auto;
+    width: 600px;
+    border-bottom: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+    padding: 20px 0;
+}
+.paysection .pay2_info .pay2_table .pay2_list{
+    text-align: left;
+    padding: 25px 25px 15px;
+    font-size: 20px;
+    font-weight: 500;
+}
+.paysection .pay2_info .pay2_btns .pay2_btn{
+    width: 290px;
+    height: 60px;
+    border-radius: 10px;
+    margin-top: 80px;
+    font-weight: 600;
+} 
+.paysection .pay2_info .pay2_btns .pay_chk{
+    color: #42799b;
+    border: 2px solid #42799b;
+    background-color: #fff;
+}
+.paysection .pay2_info .pay2_btns .move_main{
+    margin-left: 20px;
+    background-color: #42799b;
+    color: #fff;
+    border: none;
+}
