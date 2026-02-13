@@ -36,4 +36,5 @@ public class ReviewboardApiController {
 		return reviewboardservice.getRatingAvgAll();
 	}
 	
+	// 서버올리기
 }
