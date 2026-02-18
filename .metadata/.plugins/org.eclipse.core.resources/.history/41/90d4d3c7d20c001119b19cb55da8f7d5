@@ -1,0 +1,6 @@
+package resort.product.dto;
+
+public class HotelRatingDTO {
+	private int r_h_code;
+	private double h_rating;
+}

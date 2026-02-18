@@ -8,7 +8,7 @@ import LeafletMap from '../Api/LeafletMap';
 
 export default function Room(){
     // 가져오는 호텔, 개실 데이터
-    const {HotelData,RoomData, hotelInput, setHotelInput, DayData, setDayData,countryEn,cityEn,town,townfilter,setTown,serchHandler,dateFilter,setDateFilter,hotelSort,setHotelSort,myhotel,setmyhotel,wish,wishStar,wishArray,wishHandler,} = useContext(ResortDataContext);
+    const {HotelData,RoomData, hotelInput,HotelRatingDate, setHotelInput, DayData,RatingAvgData,RatingData,ReviewData,HotelPriceDate, setDayData,countryEn,cityEn,town,townfilter,setTown,serchHandler,dateFilter,setDateFilter,hotelSort,setHotelSort,myhotel,setmyhotel,wish,wishStar,wishArray,wishHandler,} = useContext(ResortDataContext);
     //const {selectDate,setSelectDate,setSelectday} = useContext(calendarAuth)
     console.log("사용하는쪽 HotelData", HotelData);
     console.log("사용하는쪽 HotelData", RoomData);
@@ -101,40 +101,47 @@ export default function Room(){
             return f1&&f2&&f3
         })
         // const pricefilter = filterHotel.filter((f)=>f.price > minPrice && f.price<=maxPrice) //위의 필터에서 가격이 포함하는 것만 필터링
+        
 
+        if(hotelSort===2){
 
-
-        //console.log(pricefilter,'가격필터까지')
-        //const dateFilter = pricefilter.filter((f)=>f.startDate>DayData[0] && f.endDate<DayData[1])
-        /* if(hotelSort===1){
-            dateFilter.sort((a,b) => a.id - b.id)
-        }else if(hotelSort===2){
-            dateFilter.sort((a,b) => b.score - a.score)
         }else if(hotelSort===3){
-            dateFilter.sort((a,b) => a.score - b.score)
+            
         }else if(hotelSort===4){
-            dateFilter.sort((a,b) => b.price - a.price)
+            HotelPriceDate.sort((a,b) => b.p_h_price - a.p_h_price)
+        }else if(hotelSort===5){
+            HotelPriceDate.sort((a,b) => a.p_h_price - b.p_h_price)
+        }
+
+
+
+        //가격 필터로 출력될 호텔 번호 필터
+        const priceFilterHotel = HotelPriceDate.filter((f)=>f.p_h_price>=minPrice && f.p_h_price<=maxPrice)
+        // 
+
+       
+
+
+
+        // 가격필터 적용
+        const pricefilter = filterHotel.filter((hotel)=>priceFilterHotel.find((f)=>f.p_h_code === hotel.h_code))
+
+        if(hotelSort===1){
+            pricefilter.sort((a,b) => a.h_code - b.h_code)
+        }
+
+
+        /* if(hotelSort===1){
+            pricefilter.sort((a,b) => a.h_code - b.h_code)
+        }else if(hotelSort===2){
+            HotelRatingDate.sort((a,b) => b.h_rating - a.h_rating)
+        }else if(hotelSort===3){
+            HotelRatingDate.sort((a,b) => a.h_rating - b.h_rating)
+        }else if(hotelSort===4){
+            HotelPriceDate.sort((a,b) => b.p_h_price - a.p_h_price)
         }else{
-            dateFilter.sort((a,b) => a.price - b.price)
+            HotelPriceDate.sort((a,b) => a.p_h_price - b.p_h_price)
         } */
-        // 정렬 방식 선택시 번호에 따라 목록의 정렬 변경
-
-
-
-
-
-
-        // if(hotelSort===1){
-        //     pricefilter.sort((a,b) => a.id - b.id)
-        // }else if(hotelSort===2){
-        //     pricefilter.sort((a,b) => b.score - a.score)
-        // }else if(hotelSort===3){
-        //     pricefilter.sort((a,b) => a.score - b.score)
-        // }else if(hotelSort===4){
-        //     pricefilter.sort((a,b) => b.price - a.price)
-        // }else{
-        //     pricefilter.sort((a,b) => a.price - b.price)
-        // }
 
         // 가격 최솟값 최대값 조정 함수
       /*    const rangeHandler01 =(e)=>{
@@ -168,7 +175,7 @@ export default function Room(){
         
          */
     if(DayData.length===2 , openC === false){
-        setmyhotel02(filterHotel)
+        setmyhotel02(pricefilter)
         //setmyhotel(dateFilter)
         console.log(myhotel)
     }
@@ -380,34 +387,6 @@ export default function Room(){
                             </div>
                         </div>
                     </div>
-                    {/* <div className="center_filter">
-                            <div className="price_filter">
-                                <div className="price_slide">
-                                    <div className="price_inner" style={{left:`${minPrice/300000*100}%`,right:`${100-(maxPrice/300000)*100}%`}}></div>
-                                    <input type="range" min='0' max='300000' value={minPrice} onChange={(e)=>rangeHandler01(e)} className="slide_input" step={10000}/>
-                                    <input type="range" min='0' max='300000' value={maxPrice} onChange={(e)=>rangeHandler02(e)} className="slide_input" step={10000}/>
-                                </div>
-                                
-                                <div className="minprice">
-                                    <p className="price_txt">최소금액</p>
-                                    <input className="price_input" type="text" value={`${minPrice.toLocaleString()}`} placeholder="최소금액" onChange={(e)=>setMinPrice(e.target.value)}/>
-                                    <span>원</span>
-                                </div>
-                                <div className="maxprice">
-                                    <p className="price_txt">최대금액</p>
-                                    <input className="price_input" type="text" value={`${maxPrice.toLocaleString()}`} placeholder="최대금액" onChange={(e)=>setMaxPrice(e.target.value)}/>
-                                    <span>원</span>
-                                </div>
-                            </div>
-                            <div className="reset">
-                                <button type="button" onClick={()=>{setMyfilter([]),setMaxPrice(300000),setMinPrice(0)}} className="reset_btn"><i className="fa-solid fa-arrow-rotate-right"></i><span className="resettxt"> 필터 초기화</span></button>
-                            </div>
-                    </div>
-                    <div className="right_filter">
-                        <div className="map">
-                            <LeafletMap city={'seoul'} hotelName={'가가가'} style={{width:'100%',height:'300px',border: '1px solid #e7e7e7',borderRadius:'10px'}}/>    
-                        </div>
-                    </div> */}
                 </div>
                 {/* 중단 정렬 영역 */}
                 <div className="arr_menu">
@@ -424,8 +403,6 @@ export default function Room(){
                 <div className="room_menu">
                     <ul className="room_product">
                         {myhotel02.length !== 0?myhotel02.map((item)=>{
-                            console.log("myhotel02",myhotel02)
-                            console.log("item",item)
                             const otherService01 = JSON.parse(item.otherservice);
                             const publicService01 = JSON.parse(item.publicservice);
                             const roomservice01 = JSON.parse(item.roomservice);
@@ -442,7 +419,7 @@ export default function Room(){
                                             <p className="menu_city">
                                                 {item.city === 'Sokcho'?'대한민국, 강원도 속초시':item.city === 'Gyeongju'?'대한민국, 경상북도 경주시':item.city === 'Busan'?'대한민국, 부산시':item.city === 'Gangneung'?'대한민국, 강원도 강릉시':item.city === 'Yeosu'?'대한민국, 전라남도 여수시':item.city === 'Daejeon'?'대한민국, 대전시':item.city === 'Gwangju'?'대한민국, 광주시':item.city === 'Jeju'?'대한민국, 제주도':item.city === 'Pohang'?'대한민국, 경상북도 포항시':item.city === 'Seoul'?'대한민국, 서울시':item.city === 'Tokyo'?'일본, 도쿄':item.city === 'Sapporo'?'일본, 훗카이도 삿포로':item.city === 'LosAngeles'?'미국, 캘리포니아 로스앤젤레스':item.city === 'New York'?'미국, 뉴욕':item.city === 'Guam'?'미국, 괌':item.city === 'Zhangjiajie'?'중국, 후난성 장가계':item.city === 'Shanghai'?'중국, 상하이':item.city === 'Rome'?'이탈리아, 로마':item.city === 'Venice'?'이탈리아, 베네치아':item.city === 'Paris'?'프랑스, 파리':null}
                                             </p>
-                                            {/* <p className="menu_score"><i className="fa-solid fa-star" style={{lineHeight:'12px'}}></i> {item.score}점</p> */}
+                                            <p className="menu_score"><i className="fa-solid fa-star" style={{lineHeight:'12px'}}></i> {(HotelRatingDate[item.h_code-1].h_rating).toFixed(1)}점</p>
                                             <div className="service_list">
                                                 <p style={{marginBottom:'10px'}}>
                                                     기타시설: 
@@ -469,40 +446,19 @@ export default function Room(){
                                                     ))}
                                                 </p>
                                             </div>
-                                            {/* <ul className="service_list">
-                                                <li>
-                                                    {item.otherService.map((item,index)=>(
-                                                        <span key={index} className="service_item" style={{color:myFilter.findIndex((f)=>f.name===item)>=0?'#42799b':'#333'}}>
-                                                            {item === '스프링클러' ? <i className="fa-solid fa-fire-extinguisher"> <span>스프링클러</span></i> : item === '반려견동반' ? <i className="fa-solid fa-dog"> <span>반려견동반</span></i> : item === '카드결제' ? <i className="fa-regular fa-credit-card"> <span>카드결제</span></i> : item === '짐보관가능' ? <i className="fa-solid fa-cart-flatbed-suitcase"> <span>짐보관가능</span></i> : item === '개인사물함' ? <i className="fa-solid fa-lock"> <span>개인사물함</span></i> : item === '픽업서비스' ? <i className="fa-solid fa-taxi"> <span>픽업서비스</span></i> : item === '캠프파이어' ?  <i className="fa-solid fa-campground"> <span>캠프파이어</span></i> : item === '무료주차' ? <i className="fa-solid fa-square-parking"> <span>무료주차</span></i> : item === '조식제공' ? <i className="fa-solid fa-bowl-food"> <span>조식제공</span></i> : null}
-                                                        </span>
-                                                    ))}
-                                                </li>
-                                                <li>
-                                                    {item.publicService.map((item,index)=>(
-                                                        <span key={index} className="service_item" style={{color:myFilter.findIndex((f)=>f.name===item)>=0?'#42799b':'#333'}}>
-                                                            {item === '피트니스' ? <i className="fa-solid fa-dumbbell"> <span>피트니스</span></i>  : item === '레스토랑' ? <i className="fa-solid fa-utensils"> <span>레스토랑</span></i> : item === '사우나' ? <i className="fa-solid fa-hot-tub-person"> <span>사우나</span></i> : item === '실내수영장' ? <i className="fa-solid fa-water-ladder"> <span>실내수영장</span></i> : item === '야외수영장' ? <i className="fa-solid fa-person-swimming"> <span>야외수영장</span></i> : item === '편의점' ? <i className="fa-solid fa-store"> <span>편의점</span></i> : item === '바' ?  <i className="fa-solid fa-wine-glass"> <span>바</span></i> : item === '라운지' ? <i className="fa-solid fa-couch"> <span>라운지</span></i> : item === '엘리베이터' ? <i className="fa-solid fa-elevator"> <span>엘리베이터</span></i> : item === '비즈니스센터' ? <i className="fa-solid fa-briefcase"> <span>비즈니스센터</span></i> : item === '건조기' ? <i className="fa-solid fa-sun"> <span>건조기</span></i> : item === '탈수기' ? <i className="fa-solid fa-droplet"> <span>탈수기</span></i>  : item === '바베큐' ? <i className="fa-solid fa-drumstick-bite"> <span>바베큐</span></i> : null}
-                                                        </span>
-                                                    ))}
-                                                </li>
-                                                <li>
-                                                    {item.roomservice.map((item,index)=>(
-                                                        <span key={index} className="service_item" style={{color:myFilter.findIndex((f)=>f.name===item)>=0?'#42799b':'#333'}}>
-                                                            {item === '무선인터넷' ? <i className="fa-solid fa-wifi"> <span>무선인터넷</span></i> : item === '욕실용품' ? <i className="fa-solid fa-soap"> <span>욕실용품</span></i> : item === '샤워실' ? <i className="fa-solid fa-shower"> <span>샤워실</span></i> : item === 'TV' ? <i className="fa-solid fa-tv"> <span>텔레비전</span></i> : item === '실내수영장' ? <i className="fa-solid fa-water-ladder"> <span>실내수영장</span></i> : item === '욕조' ? <i className="fa-solid fa-bath"> <span>욕조</span></i> : item === '객실내취사' ? <i className="fa-solid fa-kitchen-set"> <span>객실내취사</span></i> : item === '금연' ? <i className="fa-solid fa-ban-smoking"> <span>금연</span></i> : item === '에어컨' ? <i className="fa-solid fa-fan"> <span>에어컨</span></i> : item === '드라이기' ? <i className="fa-solid fa-wind"> <span>드라이기</span></i> : item === '냉장고' ? <i className="fa-solid fa-snowflake"> <span>냉장고</span></i> : item === '개인콘센트' ? <i className="fa-solid fa-plug"> <span>개인콘센트</span></i> : item === '전기주전자' ? <i className="fa-solid fa-blender"> <span>전기주전자</span></i>:null}
-                                                        </span>
-                                                    ))}
-                                                </li>
-                                            </ul> */}
+                                            
                                             <p className="menu_discount">
                                                 {item.discount===1?
                                                 <span className="disC">
                                                     <span className="s_box">10%할인</span>
-                                                    {/* <span className="p_box">{item.price.toLocaleString()}원</span> */}
+                                                    <span className="p_box">{HotelPriceDate[item.h_code-1].p_h_price.toLocaleString()}원</span>
                                                 </span>
                                                 :
                                                 <span className="coupon">회원가입시 10,000원 할인쿠폰</span>
                                                 }
                                             </p>
-                                            {/* <p className="menu_price">{item.discount===1?(item.price*0.9).toLocaleString():item.price.toLocaleString()}원</p> */}
+                                            <p className="menu_price">{item.discount===1?(HotelPriceDate[item.h_code-1].p_h_price*0.9).toLocaleString():HotelPriceDate[item.h_code-1].p_h_price.toLocaleString()}원</p>
+                                            
                                             
                                         </div>
                                         </Link>
