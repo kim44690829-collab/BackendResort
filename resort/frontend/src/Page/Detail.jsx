@@ -167,8 +167,8 @@ export default function Detail(){
         //객실당 평점평균
         const scoreAvg = [];
         const roomStar = [];
-
-        useEffect(()=>{},[])
+/* 
+        useEffect(()=>{},[]) */
 
         for(let i=0; i<Room.length; i++){
             // scoreAvg[i] = 0;
