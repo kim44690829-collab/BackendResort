@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import resort.product.dto.HotelDTO;
+import resort.product.dto.HotelMergeDTO;
 import resort.product.dto.HotelPriceDTO;
 import resort.product.dto.HotelRatingDTO;
 import resort.product.mapper.HotelMapper;
@@ -23,6 +24,11 @@ public class HotelServiceImpl implements HotelService {
 	}
 
 	@Override
+	public List<HotelDTO> getRecommHotel(String hotelcity,int hotelcode) {
+		System.out.println("HotelServiceImpl : getRecommHotel() 메서드 확인");
+		return hotelMapper.getRecommHotel(hotelcity,hotelcode);
+	}
+
 	public List<HotelPriceDTO> getHotelPrice() {
 		System.out.println("HotelServiceImpl : getHotelPrice(^^) 메서드 확인");
 		return hotelMapper.getHotelPrice();
@@ -32,6 +38,12 @@ public class HotelServiceImpl implements HotelService {
 	public List<HotelRatingDTO> getHotelRating() {
 		System.out.println("HotelServiceImpl : getHotelRating(^^) 메서드 확인");
 		return hotelMapper.getHotelRating();
+	}
+
+	@Override
+	public List<HotelMergeDTO> getHotelMerge() {
+		System.out.println("HotelServiceImpl : getHotelMerge(^^) 메서드 확인");
+		return hotelMapper.getHotelMerge();
 	}
 
 }

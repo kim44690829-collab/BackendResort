@@ -13,12 +13,13 @@ export default function ResortData({children}){
     const [ReviewData , setReviewData] = useState([]);
     const [RatingData , setRatingData] = useState([]);
     const [RatingAvgData , setRatingAvgData] = useState([]);
-    const [HotelPriceDate , setHotelPriceDate] = useState([]);
+    // const [HotelPriceDate , setHotelPriceDate] = useState([]);
     const [HotelRatingDate , setHotelRatingDate] = useState([]);
 
 
     const [hotelRatingAvgData, setHotelRatingAvgData] = useState([]);
     const [hotelMinPrice, setHotelMinPrice] = useState([]);
+     const [hotelMerge,setHotelMerge] = useState([])
 
     // axios 사용 - 호텔, 객실
     useEffect(() => {
@@ -72,15 +73,15 @@ export default function ResortData({children}){
             console.error("error", error)
         })
 
-        // hotelPrice
-        axios.get('/api/hotel/hotelPrice')
-        .then((res) => {
-            console.log("호텔가격 데이터 : ", res.data);
-            setHotelPriceDate(res.data);})
-        // hotelRatingAvgData
-        .catch((error) => {
-            console.error("error", error)
-        })
+        // // hotelPrice
+        // axios.get('/api/hotel/hotelPrice')
+        // .then((res) => {
+        //     console.log("호텔가격 데이터 : ", res.data);
+        //     setHotelPriceDate(res.data);})
+        // // hotelRatingAvgData
+        // .catch((error) => {
+        //     console.error("error", error)
+        // })
         axios.get('/api/board/hotelRatingAvg')
         .then((res) => {
             console.log("호텔(평점) 평균 데이터 : ", res.data);
@@ -105,6 +106,16 @@ export default function ResortData({children}){
         .then((res) => {
             console.log("호텔 가격(최저가) 데이터 : ", res.data);
             setHotelMinPrice(res.data);
+        })
+        .catch((error) => {
+            console.error("error", error)
+        })
+
+        // HotelMergeData
+        axios.get('/api/hotel/hotelMarge')
+        .then((res) => {
+            console.log("호텔총합 데이터 : ", res.data);
+            setHotelMerge(res.data);
         })
         .catch((error) => {
             console.error("error", error)
@@ -168,14 +179,14 @@ export default function ResortData({children}){
         let wishList = JSON.parse(cookie.get('wishList') || '[]');          
         let now = Date.now();
         wishList = wishList.filter(item=>item.expires > now);
-        cookie.set('wishList', JSON.stringify(wishList), {expires: 30, path:'/'});
+        cookie.set('wishList', JSON.stringify(wishList), {expires: 7, path:'/'});
         setWish(wishList);
         //console.log(wishList.length);
     },[]);
     //console.log(wish);
 
     //찜목록 쿠키 저장 및 삭제
-    const wishHandler = (hotel) =>{
+    const wishHandler = (h_code) =>{
         let wishList = JSON.parse(cookie.get('wishList') || '[]');          
         let now = Date.now();
 
@@ -183,9 +194,9 @@ export default function ResortData({children}){
 
         //이미 추가된 아이디가 있으면 삭제
         for(let i=0; i<wishList.length; i++){
-            if(wishList[i].id === Number(hotel)){
-                wishList = wishList.filter((item)=>item.id !== Number(hotel));
-                cookie.set('wishList', JSON.stringify(wishList), {expires: 30, path:'/'});
+            if(wishList[i].h_code === Number(h_code)){
+                wishList = wishList.filter((item)=>item.h_code !== Number(h_code));
+                cookie.set('wishList', JSON.stringify(wishList), {expires: 7, path:'/'});
                 setWish(wishList);
                 return;
             }
@@ -218,37 +229,71 @@ export default function ResortData({children}){
             toggle();
             return;
         }
-        //30일간 보관(추가한 리스트 개별로)
-        wishList.push({id: Number(hotel), expires: now + 30*24*60*60*1000});
+        
+        //7일간 보관(추가한 리스트 개별로)
+        const EXPIRE_DAYS = 7;
+        wishList.push({h_code: Number(h_code), expires: now + EXPIRE_DAYS*24*60*60*1000});
 
-        cookie.set('wishList', JSON.stringify(wishList), {expires: 30, path:'/'});   
+        cookie.set('wishList', JSON.stringify(wishList), {expires: EXPIRE_DAYS, path:'/'});   
         setWish(wishList);
     }
 
-    //찜목록 id불러온후 해당 호텔정보 배열로 저장
+    //찜목록 h_code불러온후 해당 호텔정보 배열로 저장
     const [wishArray, setWishArray] = useState([]);
     //찜한호텔 별점 이미지
     const[wishStar, setWishStar] = useState([]);
+    //추천호텔 데이터 평점평균 저장
+    const[WishAvg, setWishAvg] = useState([]);
     
     useEffect(()=>{
-        if(wish.length === 0){
+        if(wish.length === 0 || HotelData.length === 0){
             setWishArray([]);
             return;
         }     
         let wishIdArray = [];
-        wishIdArray = wish.map(item=>item.id);
+        wishIdArray = wish.map(item=>item.h_code);
 
-        let wishArray2= [];
-        wishArray2 = HotelData.filter(item=>wishIdArray.includes(item.id));
+        let wishArray2 = wishIdArray.map(id => HotelData.find(item => item.h_code === id))
+        .filter(Boolean);
         
         setWishArray(wishArray2);
+        console.log(wish);
+        console.log(wishIdArray);
+        console.log(wishArray2);
+
+        Promise.all(
+            wishIdArray.map(code =>
+                axios.get("/api/board/recomm", {
+                    params: { hotelcode: code }
+                })
+            )
+        )
+        .then(responses => { 
+            const avgList = responses.map(res =>({
+                scoreAvg: res.data[0]?.scoreAvg ?? 0,
+                reviewCount: res.data[0]?.reviewCount ?? 0,
+                minPrice : res.data[0]?.minPrice ?? 0
+            }));
+
+            setWishAvg(avgList);
+            console.log(avgList)
+        })
+        .catch(error => {
+            console.error("error", error);
+        });
+        
+    },[wish,HotelData]);        
+        
+        
+    useEffect(()=>{
+        if (WishAvg.length === 0) return;
 
         //찜한호텔 별점
         const wishStar2 = [];
         const wishStarImg = [];
 
-        for(let i=0; i<wishArray2.length; i++){
-            wishStar2.push(wishArray2[i].score);
+        for(let i=0; i<WishAvg.length; i++){
+            wishStar2.push(WishAvg[i].scoreAvg);
 
             wishStarImg[i] = [];
                         
@@ -262,17 +307,23 @@ export default function ResortData({children}){
             for(let k=0; k<starInt2; k++){
                 wishStarImg[i].push('/img/star-one.png');                  
             }
-            if(starFloat2>0){
+            if(starFloat2>=0.5){
                 wishStarImg[i].push('/img/star-half.png');                    
+            }else if(starFloat2>0 && starFloat2<0.5){
+                wishStarImg[i].push('/img/star-zero.png');
             }
             for(let j=0; j<starZero2; j++){
                 wishStarImg[i].push('/img/star-zero.png');                    
             }
         }
         setWishStar(wishStarImg);
+        console.log(WishAvg);
         console.log(wishStarImg);
         
-    },[wish]);        
+    },[WishAvg]); 
+    
+    
+    
         //console.log(wishArray);
         // 로그인 한 후 닉네임 저장
         const [userNickName, setUserNickName] = useState(null);
@@ -313,10 +364,10 @@ export default function ResortData({children}){
 
     const countryEn = town === '대한민국' || town ===  '한국' || town ===  '한' || town ===  'gksrnr'? 'Korea' : town === '일본' || town ===  '일'? 'Japan' : town === '미국'? 'USA' : town === '중국'? 'China': town === '이탈리아' || town ===  '이테리'? 'Italy' : town === '프랑스'? 'France':null
     const cityEn = town === '속초'? 'Sokcho':town === '경주'? 'Gyeongju':town === '부산'? 'Busan':town === '강릉'? 'Gangneung':town === '여수'? 'Yeosu':town === '대전'? 'Daejeon':town === '광주'? 'Gwangju':town === '제주' || town ===  '제주도'? 'Jeju':town === '포항'? 'Pohang':town === '서울'? 'Seoul':town === '도쿄'? 'Tokyo':town === '삿포로'? 'Sapporo':town === '로스앤젤레스'? 'LosAngeles':town === '뉴욕'? 'New York':town === '괌'? 'Guam':town === '장가계'? 'Zhangjiajie':town === '상하이'? 'Shanghai':town === '로마'? 'Rome':town === '베네치아'? 'Venice':town === '파리'? 'Paris':null
-    const townfilter = HotelData.filter((f)=>f.city===cityEn || f.country===countryEn)
+    const townfilter = hotelMerge.filter((f)=>f.city===cityEn || f.country===countryEn)
     //검색 핸들러
     const serchHandler =()=>{
-        const dateFilter = HotelData.filter((f)=>f.startDate>DayData[0] && f.endDate<DayData[1])
+        const dateFilter = hotelMerge.filter((f)=>f.startDate>DayData[0] && f.endDate<DayData[1])
     
         let overFilter = []
         if(cityEn !== null){
@@ -353,9 +404,9 @@ export default function ResortData({children}){
 
     
 
-    if(HotelData.length > 0 && RoomData.length > 0 && ReviewData.length >0 && RatingData.length > 0 && RatingAvgData.length > 0 && hotelRatingAvgData.length > 0 && hotelMinPrice.length > 0) {
+    if(HotelData.length > 0 && RoomData.length > 0 && ReviewData.length >0 && RatingData.length > 0 && RatingAvgData.length > 0 && hotelMinPrice.length > 0 && hotelMerge.length>0) {
         return(
-            <ResortDataContext.Provider value={{HotelPriceDate,HotelRatingDate,RoomData, HotelData,ReviewData, RatingData, RatingAvgData, hotelRatingAvgData, hotelMinPrice, setReviewData,DayData,setDayData,selectDate,setSelectDate,selectday,setSelectday,selectMonth,setSelectMonth,wish,wishStar,wishArray,wishHandler,setWish, 
+            <ResortDataContext.Provider value={{WishAvg,hotelMerge,setHotelMerge, hotelMinPrice,HotelRatingDate,RoomData, HotelData,ReviewData, RatingData, RatingAvgData, hotelRatingAvgData, setReviewData,DayData,setDayData,selectDate,setSelectDate,selectday,setSelectday,selectMonth,setSelectMonth,wish,wishStar,wishArray,wishHandler,setWish, 
             payHead,setPayHead,payRoom,setPayRoom, userNumFront, setUserNumFront, userNumBack, setUserNumBack, userNickName, loginSave, logout,town,setTown,serchHandler,hotelSort,setHotelSort,myhotel,setmyhotel,cityEn,countryEn, Domestic, setDomestic, headerChange, setHeaderChange,dateFilter,setDateFilter,townfilter,customer,setCustomer}}>
                 {children}
             </ResortDataContext.Provider>

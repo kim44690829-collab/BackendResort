@@ -9,12 +9,12 @@
 		SELECT * FROM hotel
 	</select>
 	
-	<!-- 호텔의 가격을 출력하는  -->
-	<select id="getHotelPrice" resultType="HotelPriceDTO">
-		SELECT h.h_code as p_h_code, MIN(r.price) as p_h_price FROM room r 
-		INNER JOIN hotel h 
-		ON r.h_code = h.h_code
-		GROUP BY h.h_code;
+	<!-- (상세페이지 호텔과) 같은지역의 추천호텔 -->
+	<select id="getRecommHotel" resultType="HotelDTO" >
+		SELECT h.h_code,h.hotelName,h.country,h.city,h.type,h.h_address,h.discount,MIN(r.price) as 'minPrice' FROM hotel h
+		INNER JOIN room r ON h.h_code = r.h_code
+		WHERE h.city = #{hotelcity} and h.h_code != #{hotelcode}
+		GROUP BY h.h_code
 	</select>
 
 	<!-- 호텔의 별점을 출력하는  -->
@@ -33,4 +33,15 @@
 		ON h.h_code = r.h_code 
 		GROUP BY h.h_code 
 	</select>
+	
+	<!-- 호텔 정보 총합(가격+ 별점) public List<HotelMergeDTO> getHotelMerge(); -->
+	<select id="getHotelMerge" resultType="HotelMergeDTO">
+		SELECT h.*,MIN(r.price) as hotelPrice,avg(rb.rb_score) as hotelAvgScore FROM hotel h
+		INNER JOIN room r
+		on h.h_code = r.h_code
+		INNER JOIN reviewboard rb
+		on rb.r_code = r.r_code
+		group by h.h_code
+	</select>
+	
 </mapper>

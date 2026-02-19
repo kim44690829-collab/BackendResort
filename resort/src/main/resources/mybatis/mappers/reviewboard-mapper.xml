@@ -23,8 +23,18 @@
 		INNER JOIN room r 
 		ON rb.r_code = r.r_code
 		INNER JOIN hotel h ON h.h_code = r.h_code
-		GROUP BY r.r_code
+		GROUP BY h.h_code,r.r_code
 	</select>
+
+	<!-- (상세페이지 호텔과) 같은지역의 추천호텔의 별점평균 -->
+	<select id="getRecommReviewAvg" parameterType="int" resultType="ReviewboardDTO">
+		SELECT COUNT(rb.rb_score) as 'reviewCount', AVG(rb.rb_score) as 'scoreAvg', MIN(r.price) as 'minPrice' FROM reviewboard rb
+		INNER JOIN room r ON rb.r_code = r.r_code
+		INNER JOIN hotel h ON h.h_code = r.h_code
+		WHERE h.h_code = #{hotelcode}
+		GROUP BY h.h_code
+	</select>
+
 	
 	<!--  // 호텔별 별점 평균 public List<RatingDTO> getHotelRatingAvgAll();  -->
 	<select id="getHotelRatingAvgAll" resultType="HotelAvgDTO"> 

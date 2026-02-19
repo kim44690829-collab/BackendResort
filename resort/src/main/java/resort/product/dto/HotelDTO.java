@@ -19,6 +19,7 @@ public class HotelDTO {
     private String roomservice; // 객내시설
     private String publicservice; // 공용시설
     private String otherservice; // 기타시설
+    private int minPrice;  //객실최저가격
     
 	public int getH_code() {
 		return h_code;
@@ -122,6 +123,12 @@ public class HotelDTO {
 	}
 	public void setOtherservice(String otherservice) {
 		this.otherservice = otherservice;
+	}
+	public int getMinPrice() {
+		return minPrice;
+	}
+	public void setMinPrice(int minPrice) {
+		this.minPrice = minPrice;
 	}
     
     

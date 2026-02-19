@@ -468,7 +468,7 @@ export default function Main(){
                         </div>
                         {/* 검색 */} 
                         <Link to='/room'>
-                            <button type='button' className='Search_Btn' onClick={serchHandler}>검색</button>
+                            <button type='button' className='Search_Btn' onClick={()=>serchHandler()}>검색</button>
                         </Link>
                     </form>
                 </div>
