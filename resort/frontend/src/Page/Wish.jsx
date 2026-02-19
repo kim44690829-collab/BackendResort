@@ -9,20 +9,28 @@ import { Link } from 'react-router-dom';
 export default function Wish(){
     const navigate = useNavigate();
 
-    const {RoomData, HotelData,DayData,wish,wishList,wishStar,wishArray,wishHandler,setWish,setPayHead,setPayRoom,selectday,setSelectday} = useContext(ResortDataContext);
+    const {RoomData, HotelData,DayData,wish,wishList,wishStar,WishAvg,wishArray,wishHandler,setWish,setPayHead,setPayRoom,selectday,setSelectday} = useContext(ResortDataContext);
 
     //호텔의 객실별 투숙객 인원 불러오기
     //위시리스트의 객실 리스트 필터링
-    const wishRoom = RoomData.filter((item)=> wishArray.some(w => w.hotelName === item.hotelName));
+    //const wishHotel = HotelData.filter((item)=> wishArray.some(w => w.h_code === item.h_code));
+
+    const wishHotel = wishArray.map(arr => HotelData.find(item => item.h_code === arr.h_code)).filter(Boolean);
+    const wishRoom = wishArray.flatMap(wish =>  RoomData.filter(room => room.h_code === wish.h_code));
+
+    //console.log(wishHotel);
     //console.log(wishRoom);    
 
     const wishOccupancy = [];
     //새 배열에 호텔명과 객실별 투숙객 수 담기
-    for(let i=0;i<wishRoom.length;i++){
-        wishOccupancy.push({hotelName: wishRoom[i].hotelName,maxOccupancy: wishRoom[i].maxOccupancy});
+    for(let j=0;j<wishHotel.length;j++){
+        for(let i=0;i<wishRoom.length;i++){
+            if(wishHotel[j].h_code === wishRoom[i].h_code){
+                wishOccupancy.push({hotelName: wishHotel[j].hotelName,maxOccupancy: wishRoom[i].maxOccupancy});
+            }
+        }
     }
     console.log(wishOccupancy);
-    // console.log(wishOccupancy.map(item=>item.hotelName === item.hotelName ?  ));
 
     const wishMinMax = Object.values(
         wishOccupancy.reduce((acc, { hotelName, maxOccupancy }) => {
@@ -32,9 +40,11 @@ export default function Wish(){
             return acc;
         }, {})
     );
-
-console.log(wishMinMax);
-
+console.log(wishArray);
+console.log(wishStar);
+console.log(WishAvg);
+//console.log(wishMinMax);
+//console.log(wishRoom);
 
 
 
@@ -96,13 +106,31 @@ console.log(wishMinMax);
     const [dateFilter, setDateFilter] = useState(false);
     //인원수 필터링
     const [headFilter, setHeadFilter] = useState([]);
+    //필터링후 인덱스
+    const [filterIndex, setFilterIndex] = useState([]);
+
+
+    //wishArray에서 필터된 hotel의 인덱스 저장
+    useEffect(() => {
+        if (wishArray === 0) return;
+
+        const filterIndex1 = [];
+        for(let i=0;i<wishArray.length;i++){
+            filterIndex1.push(i);
+        }
+        setFilterIndex(filterIndex1);
+    },[wishArray]);
+
+    console.log(filterIndex);
 
     //객실검색
     const searchClick = () =>{        
         //날짜검색 범위 안에 드는 배열
-        const dateArray = wishArray.filter(item=>(DayData[1] >= item.startDate && item.startDate >= DayData[0]) || (DayData[0] <= item.endDate && item.endDate <= DayData[1]) ? item :null);
+        // const dateArray = wishArray.filter(item=>(DayData[1] >= item.endDate && item.startDate >= DayData[0]) || (DayData[0] <= item.endDate && item.endDate <= DayData[1]) ? item :null);
 
-        //console.log(dateArray);
+        const dateArray = wishArray.filter((item)=>item.startDate >= DayData[0] && item.endDate <= DayData[1] ? item :null);
+
+        console.log(dateArray);
         if(dateArray === null || dateArray.length === 0){
             setDateFilter(false);
             setHeadFilter([]);
@@ -120,16 +148,16 @@ console.log(wishMinMax);
             return;
         }else{
             setHeadFilter(headArray);
-        }
-       
-        setSearch(true);
-    }
+        }       
 
-    //예약하기 버튼클릭시 예약정보 보내기
-    const payClick = (headCount,roomId) =>{
-        setPayHead(headCount);
-        setPayRoom(roomId);
-        navigate('/pay');
+        //wishArray에서 필터된 hotel의 인덱스 저장
+        const filterIndex2 = wishArray.map((arr, index) =>
+            headArray.some(item => item.h_code === arr.h_code) ? index : null
+        ).filter(index => index !== null);
+
+        setFilterIndex(filterIndex2);
+
+        setSearch(true);
     }
 
     console.log(wishArray);
@@ -143,7 +171,7 @@ console.log(wishMinMax);
                 <div className="detail-content">
                     <div className="detail-left" ref={triggerRef}>                       
                         <div className="room-select" style={{borderTop:'0px'}}>
-                            <p className='room-title wish'>찜한 목록 <span className='thirty'>※ 찜한 후 30일이 지난 호텔은 목록에서 자동삭제됩니다.</span>
+                            <p className='room-title wish'>찜한 목록 <span className='thirty'>※ 찜한 후 7일이 지난 호텔은 목록에서 자동삭제됩니다.</span>
                                 <span className='del' onClick={()=>{
                                     setWish([]);
                                     Cookie.remove('wishList');
@@ -171,36 +199,41 @@ console.log(wishMinMax);
                                 </div>
                             ) : null}
 
-                            {wishArray.length > 0 ? ( 
+                            {(wishArray.length > 0 && WishAvg.length === wishArray.length) ? ( 
                                 <ul>
                                     {(search && headFilter.length >= 1 ? headFilter : wishArray).map((item,index)=>(
                                         <li key={index}>
                                             <div className="room-left">
-                                                <Link to={`/detail/${item.id}`} onClick={() => window.scrollTo(0,0)} >
-                                                    <img src={`/img/${item.id}-1.jpg`} alt={item.hotelName} />
+                                                <Link to={`/detail/${item.h_code}`} onClick={() => window.scrollTo(0,0)} >
+                                                    <img src={`/img/${item.h_code}-1.jpg`} alt={item.hotelName} />
                                                 </Link>
                                             </div>
                                             <div className="room-right">
-                                                <h2><Link to={`/detail/${item.id}`} onClick={() => window.scrollTo(0,0)}>{item.hotelName}</Link></h2>
+                                                <h2><Link to={`/detail/${item.h_code}`} onClick={() => window.scrollTo(0,0)}>{item.hotelName}</Link></h2>
                                                 <div className="room-intro">
                                                     <div className="intro-left">
-                                                        {wishStar[index] && wishStar[index].map((star, ind) => (
+                                                        {wishStar[filterIndex[index]] && wishStar[filterIndex[index]]?.map((star, ind) => (
                                                             <img src={star} alt="roomScore" key={ind} />
                                                         ))}
                                                         <span className='starScore' style={{color:'#000'}}>
-                                                            {(item.score - Math.floor(item.score) === 0) ? item.score+'.0' : item.score}
+                                                            {/* {(WishAvg[filterIndex[index]]?.scoreAvg - Math.floor(WishAvg[filterIndex[index]]?.scoreAvg) === 0) ? WishAvg[filterIndex[index]]?.scoreAvg+'.0' : Math.trunc(WishAvg[filterIndex[index]]?.scoreAvg * 10) / 10} */}
+                                                            {WishAvg[filterIndex[index]]?.scoreAvg != null && (
+                                                                (WishAvg[filterIndex[index]].scoreAvg % 1 === 0)
+                                                                    ? WishAvg[filterIndex[index]].scoreAvg + '.0'
+                                                                    : Math.trunc(WishAvg[filterIndex[index]].scoreAvg * 10) / 10
+                                                            )}
+
                                                         </span>
-                                                        <span className='scoreCount'>{(item.scoreCount).toLocaleString()}명 평가</span>
+                                                        <span className='scoreCount'>{(WishAvg[filterIndex[index]]?.reviewCount)?.toLocaleString()}명 평가</span>
                                                     </div>
                                                     <div className="intro-right">
-                                                        <button type='button' className='pay' onClick={()=>wishHandler(item.id)}>
+                                                        <button type='button' className='pay' onClick={()=>wishHandler(item.h_code)}>
                                                             찜 삭제하기<i className="fa-solid fa-angle-right"></i>
                                                         </button>
-                                                        {/* <a href={`/detail/${item.id}`} className='pay'>찜 삭제 <i className="fa-solid fa-angle-right"></i></a> */}
                                                     </div>
                                                 </div>
                                                 <div className="room-info">
-                                                    <p><i class="fa-regular fa-calendar"></i> 예약가능일 : <span className='bold'>{item.startDate}~{item.endDate}</span></p>
+                                                    <p><i className="fa-regular fa-calendar"></i> 예약가능일 : <span className='bold'>{new Date(item.startDate)?.toISOString().slice(0, 10)}~{new Date(item.endDate)?.toISOString().slice(0, 10)}</span></p>
                                                     <p><i className="fa-regular fa-clock"></i> 체크인 <span className='bold'>15:00</span> ~ 체크아웃 <span className='bold'>11:00</span></p>
                                                     <p><i className="fa-solid fa-user-group"></i> 최대 투숙객 수 : <span className='bold'>{wishMinMax.map(w=>w.hotelName===item.hotelName ? w.min:null)}~{wishMinMax.map(w=>w.hotelName===item.hotelName ? w.max:null)}명</span></p>
                                                     <p><i className="fa-solid fa-tag"></i> <span className='bold'>할인혜택 :</span>
@@ -215,17 +248,17 @@ console.log(wishMinMax);
                                                     <div className="room-pay">
                                                         {item.discount === 1 ? 
                                                             <>
-                                                                <span className='origin-price'>{(item.price).toLocaleString()}원</span>
-                                                                <span className='final-price'>{((item.price) - ((item.price)*0.1)).toLocaleString()}원<span>/1박</span></span>
+                                                                <span className='origin-price'>{WishAvg[filterIndex[index]]?.minPrice.toLocaleString()}원</span>
+                                                                <span className='final-price'>{(WishAvg[filterIndex[index]]?.minPrice - (WishAvg[filterIndex[index]]?.minPrice*0.1)).toLocaleString()}원<span>/1박</span></span>
                                                             </>                                                    
                                                         :                                                    
                                                             <>
-                                                                <span className='final-price'>{(item.price).toLocaleString()}원<span>/1박</span></span>
+                                                                <span className='final-price'>{WishAvg[filterIndex[index]]?.minPrice.toLocaleString()}원<span>/1박</span></span>
                                                             </>
                                                         }
-                                                        <button type='button' className='cart' onClick={()=>wishHandler(item.id)}>
+                                                        <button type='button' className='cart' onClick={()=>wishHandler(item.h_code)}>
                                                             <i className="fa-solid fa-heart" style={
-                                                            wish.find((item) => item.id === Number(item.id)) ?
+                                                            wish.find((item) => item.h_code === Number(item.h_code)) ?
                                                                 {color:'#f94239'}
                                                             :
                                                                 {color:'#6b6b6b'}
@@ -233,7 +266,7 @@ console.log(wishMinMax);
                                                             }></i>
                                                         </button>
                                                         {/* <button type='button' className='cart'><i className="fa-solid fa-basket-shopping"></i></button> */}
-                                                        <Link to={`/detail/${item.id}`} className='pay' onClick={() => window.scrollTo(0,0)}>상세보기</Link>
+                                                        <Link to={`/detail/${item.h_code}`} className='pay' onClick={() => window.scrollTo(0,0)}>상세보기</Link>
                                                     </div>
                                                 </div>
                                             </div>

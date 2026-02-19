@@ -17,4 +17,7 @@ public interface ReviewboardMapper {
 	
 	// 객실별 별점 평균
 	public List<RatingDTO> getRatingAvgAll();
+	
+	//(상세페이지 호텔과) 같은지역의 추천호텔의 별점평균
+	public List<ReviewboardDTO> getRecommReviewAvg(int hotelcode);
 }

@@ -9,6 +9,10 @@ public class ReviewboardDTO{
 	private Date rb_date; //작성일자
 	private int m_code; //회원코드
 	private int r_code; //객실코드
+	private int reviewCount; //리뷰수
+	private double scoreAvg;
+	private int minPrice;
+	
 	
 	public int getRb_code() {
 		return rb_code;
@@ -40,6 +44,24 @@ public class ReviewboardDTO{
 	public void setR_code(int r_code) {
 		this.r_code = r_code;
 	}
+	public int getReviewCount() {
+		return reviewCount;
+	}
+	public void setReviewCount(int reviewCount) {
+		this.reviewCount = reviewCount;
+	}
+	public double getScoreAvg() {
+		return scoreAvg;
+	}
+	public void setScoreAvg(double scoreAvg) {
+		this.scoreAvg = scoreAvg;
+	}
+	public int getMinPrice() {
+		return minPrice;
+	}
+	public void setMinPrice(int minPrice) {
+		this.minPrice = minPrice;
+	}	
 	
 	
 }

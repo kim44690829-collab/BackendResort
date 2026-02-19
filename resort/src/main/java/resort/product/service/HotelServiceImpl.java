@@ -20,4 +20,10 @@ public class HotelServiceImpl implements HotelService {
 		return hotelMapper.getHotelAll();
 	}
 
+	@Override
+	public List<HotelDTO> getRecommHotel(String hotelcity,int hotelcode) {
+		System.out.println("HotelServiceImpl : getRecommHotel() 메서드 확인");
+		return hotelMapper.getRecommHotel(hotelcity,hotelcode);
+	}
+
 }

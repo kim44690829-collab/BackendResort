@@ -8,4 +8,12 @@
 	<select id="getHotelAll" resultType="HotelDTO">
 		SELECT * FROM hotel
 	</select>
+	
+	<!-- (상세페이지 호텔과) 같은지역의 추천호텔 -->
+	<select id="getRecommHotel" resultType="HotelDTO" >
+		SELECT h.h_code,h.hotelName,h.country,h.city,h.type,h.h_address,h.discount,MIN(r.price) as 'minPrice' FROM hotel h
+		INNER JOIN room r ON h.h_code = r.h_code
+		WHERE h.city = #{hotelcity} and h.h_code != #{hotelcode}
+		GROUP BY h.h_code
+	</select>
 </mapper>
