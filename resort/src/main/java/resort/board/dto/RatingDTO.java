@@ -31,7 +31,7 @@ public class RatingDTO {
 	public void setRb_score(int rb_score) {
 		this.rb_score = rb_score;
 	}
-	
+
 	
 	
 }

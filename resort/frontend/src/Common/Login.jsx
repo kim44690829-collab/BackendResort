@@ -7,7 +7,7 @@ import axios from 'axios';
 import cookie from 'js-cookie';
 
 export default function Login(){
-    // 공유 데이터
+    // 공유 데이터 //
     const {loginSave} = useContext(ResortDataContext)
     const navigate = useNavigate();
 
