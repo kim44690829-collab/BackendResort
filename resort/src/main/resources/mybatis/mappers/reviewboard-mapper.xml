@@ -25,7 +25,6 @@
 		INNER JOIN hotel h ON h.h_code = r.h_code
 		GROUP BY h.h_code,r.r_code
 	</select>
-<<<<<<< HEAD
 
 	<!-- (상세페이지 호텔과) 같은지역의 추천호텔의 별점평균 -->
 	<select id="getRecommReviewAvg" parameterType="int" resultType="ReviewboardDTO">
@@ -35,8 +34,7 @@
 		WHERE h.h_code = #{hotelcode}
 		GROUP BY h.h_code
 	</select>
-	
-=======
+
 	
 	<!--  // 호텔별 별점 평균 public List<RatingDTO> getHotelRatingAvgAll();  -->
 	<select id="getHotelRatingAvgAll" resultType="HotelAvgDTO"> 
@@ -47,5 +45,4 @@
 		ON h.h_code = r.h_code 
 		GROUP BY h.h_code 
 	</select>
->>>>>>> main
 </mapper>

@@ -14,9 +14,9 @@ export default function Pay(){
     //예약내역 확인창 변수
     const [open,setOpen] = useState(false)
     //방정보
-    const myRoom = RoomData.filter((f)=>f.id===payRoom)
+    const myRoom = RoomData.filter((f)=>f.r_code===payRoom)
     //방에 해당하는 호텔 정보
-    const roomprice = HotelData.filter((f)=>f.hotelName === myRoom[0].hotelName)
+    const roomprice = HotelData.filter((f)=>f.h_code === myRoom[0].h_code)
     // 고객 전화번호
     const [phone,setPhone] = useState('')
     //전체 선택 함수
@@ -175,8 +175,8 @@ export default function Pay(){
                     </div>
                     <div className="room_info">
                         <div className="room_box">
-                            <h2 className="room_name">{myRoom[0].hotelName}</h2>
-                            <img src={roomprice[0].img[(myRoom[0].id)%3===0?3:(myRoom[0].id)%3]} alt="roomImg" className="room_img"/>
+                            {/* <h2 className="room_name">{myRoom[0].hotelName}</h2>
+                            <img src={roomprice[0].img[(myRoom[0].id)%3===0?3:(myRoom[0].id)%3]} alt="roomImg" className="room_img"/> */}
                             <table className="room_table">
                                 <tbody>
                                     <tr>
@@ -204,7 +204,7 @@ export default function Pay(){
                                     <tr style={{borderBottom:'1px solid #e4e4e4'}}>
                                         <td className="paybox_list">객실 가격(1박)</td>
                                         <td className="paybox_list" style={{textAlign:'right'}}>
-                                            {roomprice[0].price.toLocaleString()}
+                                            {/* {roomprice[0].price.toLocaleString()} */}
                                         </td>
                                     </tr>
                                     <tr>

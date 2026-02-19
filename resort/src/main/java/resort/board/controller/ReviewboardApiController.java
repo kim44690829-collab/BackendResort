@@ -38,7 +38,6 @@ public class ReviewboardApiController {
 		return reviewboardservice.getRatingAvgAll();
 	}
 	
-<<<<<<< HEAD
 	//(상세페이지 호텔과) 같은지역의 추천호텔의 별점평균
 	@GetMapping("/board/recomm")
 	public List<ReviewboardDTO> getRecommReviewAvg(
@@ -48,12 +47,9 @@ public class ReviewboardApiController {
 		return reviewboardservice.getRecommReviewAvg(hotelcode);
 	}
 	
-}
-=======
 	@GetMapping("/board/hotelRatingAvg")
 	public List<HotelAvgDTO> getHotelRatingAvgAll(){
 		System.out.println("ReviewboardApiController : getRatingAvgAll() 메서드 확인");
 		return reviewboardservice.getHotelRatingAvgAll();
 	}
 }
->>>>>>> main
