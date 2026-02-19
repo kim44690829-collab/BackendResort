@@ -4,17 +4,22 @@ import { useContext } from "react";
 import { ResortDataContext } from "../Api/ResortData";
 import { Link } from "react-router-dom";
 import { ModalContext } from './Modal';
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function Pay(){
 
-    const {payHead,setPayHead,payRoom,setPayRoom,HotelData,RoomData,DayData,customer,setCustomer} = useContext(ResortDataContext)
+    const {payHead,setPayHead,hotelNum, HotelData,RoomData,DayData,customer,setCustomer} = useContext(ResortDataContext)
+    const navigate = useNavigate();
+    
     const {toggle,setModalContent,AddressCopy, AddressCopyClick} = useContext(ModalContext);
     //전체 동의 변수
     const [chking,setchking] = useState([{id:1,state:false},{id:2,state:false},{id:3,state:false},{id:4,state:false},{id:5,state:false}])
     //예약내역 확인창 변수
     const [open,setOpen] = useState(false)
     //방정보
-    const myRoom = RoomData.filter((f)=>f.r_code===payRoom)
+    // const myRoom = RoomData.filter((f)=>f.r_code===payRoom)
+    const myRoom = RoomData.filter((f)=>f.r_code===hotelNum)
     //방에 해당하는 호텔 정보
     const roomprice = HotelData.filter((f)=>f.h_code === myRoom[0].h_code)
     // 고객 전화번호
@@ -101,7 +106,10 @@ export default function Pay(){
         }
         console.log(roomprice)
     }
-    const totalPrice = roomprice[0].price*(new Date(DayData[1]).getTime()-new Date(DayData[0]).getTime())/(1000*24*60*60)
+    // 호텔의 할인 여부 필터
+    const hotelDiscount = HotelData.filter((item) => item.h_code === RoomData[hotelNum].h_code);
+    console.log('hotelDiscount : ', hotelDiscount )
+    const totalPrice = myRoom[0].price*(new Date(DayData[1]).getTime()-new Date(DayData[0]).getTime())/(1000*24*60*60)
 
     //생년월이
     const [birth,setBirth] = useState('')
@@ -124,7 +132,24 @@ export default function Pay(){
         console.log(btnNum)
         console.log(phone.length)
     }
-    console.log(payRoom)
+    // console.log(payRoom)
+
+    const submitReservation = () => {
+        // 세션스토리지에서 가져온 user정보 user : user, 를 axios에 담아서 감
+        // 컨트롤러에서 user의 값이 null이나 아니냐를 if문으로 판별
+        // null이면 비회원 insert 및 예약 insert
+        // null이 아니면 회원fk를 포함한 예약정보 insert
+        axios.post('/api/reservations', { g_name : customer, g_birth : birth, g_phone : phone, r_code:hotelNum})
+        .then((res) => {
+            if(res.data === 1){
+                navigate("/pay2");
+            }else{
+                alert('예약에 실패하였습니다.')
+                navigate("/pay");
+            }
+        })
+    }
+
     return(
         <>
             <div className="paysection">
@@ -135,18 +160,20 @@ export default function Pay(){
                         <ul className="guest_info">
                             <li className="guest_list">
                                 <p className="guest_sub_title">예약자 이름</p>
-                                <input type="text" placeholder="홍길동" className="guest_name" value={customer} onChange={(e)=>{setCustomer(e.target.value)}}/>
+                                <input type="text" placeholder="홍길동" className="guest_name" name="g_name" value={customer} onChange={(e)=>{setCustomer(e.target.value)}}/>
                             </li>
                             <li className="guest_list">
                                 <p className="guest_sub_title">예약자 생년월일</p>
-                                <input type="text" className="guest_birth01" placeholder="ex) 19800101" maxLength={8} onChange={(e)=>setBirth(e.target.value)} value={birth}/>
+                                {/* value자리에 삼항연산자 사용해서 user(세션 스토리지에 저장한 유저 정보) === null ? birth : user.m_birth */}
+                                <input type="text" className="guest_birth01" placeholder="ex) 19800101" name="g_birth" maxLength={8} onChange={(e)=>setBirth(e.target.value)} value={birth}/>
                                 <span> - </span>
                                 <input type="text" className="guest_birth02" maxLength={1}/>
                                 <span> ● ● ● ● ● ●</span>
                             </li>
                             <li className="guest_list">
                                 <p className="guest_sub_title">휴대폰 번호</p>
-                                <input type="text" placeholder="'-' 를 빼고 작성해 주세요" className="guest_phone" maxLength={11} onChange={(e)=>setPhone(e.target.value)} value={phone}/>
+                                {/* value자리에 삼항연산자 사용해서 user(세션 스토리지에 저장한 유저 정보) === null ? phone : user.m_phone */}
+                                <input type="text" placeholder="'-' 를 빼고 작성해 주세요" className="guest_phone" name="g_phone" maxLength={11} onChange={(e)=>setPhone(e.target.value)} value={phone}/>
                                 <button type="button" className="phone_btn">인증번호 발송 </button>
                                 <div className="phone_txt">
                                     <i className="fa-solid fa-circle-exclamation"></i>
@@ -175,8 +202,8 @@ export default function Pay(){
                     </div>
                     <div className="room_info">
                         <div className="room_box">
-                            {/* <h2 className="room_name">{myRoom[0].hotelName}</h2>
-                            <img src={roomprice[0].img[(myRoom[0].id)%3===0?3:(myRoom[0].id)%3]} alt="roomImg" className="room_img"/> */}
+                            {<h2 className="room_name">{HotelData[myRoom[0].h_code-1].hotelName}</h2>}
+                            <img src={`/img/${roomprice[0].h_Img}`} alt="roomImg" className="room_img"/>
                             <table className="room_table">
                                 <tbody>
                                     <tr>
@@ -204,7 +231,15 @@ export default function Pay(){
                                     <tr style={{borderBottom:'1px solid #e4e4e4'}}>
                                         <td className="paybox_list">객실 가격(1박)</td>
                                         <td className="paybox_list" style={{textAlign:'right'}}>
-                                            {/* {roomprice[0].price.toLocaleString()} */}
+                                            {hotelDiscount[0].discount === 1 ? (
+                                                <>
+                                                    {((myRoom[0].price) - ((myRoom[0].price)*0.1)).toLocaleString()}
+                                                </>
+                                            ):(
+                                                <>
+                                                    {myRoom[0].price.toLocaleString()}
+                                                </>
+                                            )}
                                         </td>
                                     </tr>
                                     <tr>
@@ -266,7 +301,7 @@ export default function Pay(){
                         <div className="pay_modal_btn">
                             <button type="button" className="btns" style={{width:'125px'}} onClick={()=>setOpen(!open)}>취소</button>
                             <Link to='/pay2' onClick={()=>{setOpen(!open),alert('결제가 완료되었습니다.'),window.scrollTo(0,0)}}>
-                                <button type="button" className="btns"style={{color:'#fff',backgroundColor:'#42799b'}}>동의 후 결제</button>
+                                <button type="button" className="btns"style={{color:'#fff',backgroundColor:'#42799b'}} onClick={submitReservation}>동의 후 결제</button>
                             </Link>
                             
                         </div>

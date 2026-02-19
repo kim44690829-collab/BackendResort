@@ -1,3 +1,2 @@
-2026/02/19-12:22:08.584 3ea0 Reusing MANIFEST C:\resort2026\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Local Storage\leveldb/MANIFEST-000001
-2026/02/19-12:22:08.591 3ea0 Recovering log #3
-2026/02/19-12:22:08.596 3ea0 Reusing old log C:\resort2026\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Local Storage\leveldb/000003.log 
+2026/02/19-15:23:26.540 2cf4 Creating DB C:\resort2026\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Local Storage\leveldb since it was missing.
+2026/02/19-15:23:26.605 2cf4 Reusing MANIFEST C:\resort2026\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Local Storage\leveldb/MANIFEST-000001
