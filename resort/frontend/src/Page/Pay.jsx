@@ -109,7 +109,17 @@ export default function Pay(){
     // 호텔의 할인 여부 필터
     const hotelDiscount = HotelData.filter((item) => item.h_code === RoomData[hotelNum].h_code);
     console.log('hotelDiscount : ', hotelDiscount )
-    const totalPrice = myRoom[0].price*(new Date(DayData[1]).getTime()-new Date(DayData[0]).getTime())/(1000*24*60*60)
+    const nights = (new Date(DayData[1]).getTime()-new Date(DayData[0]).getTime())/(1000*24*60*60);
+    const myRoomPrice = myRoom[0].price * nights // 일반 호텔 총 금액
+    const discountPrice = ((myRoom[0].price) - ((myRoom[0].price)*0.1)) * nights // 할인 호텔 총금액
+    const isDiscount = (roomprice[0].discount === 1 ? 10 : 0); // 할인 여부
+    const totalPrice = 
+    (roomprice[0].discount === 1 ? 
+        discountPrice
+        : 
+        myRoomPrice
+    )
+    
 
     //생년월이
     const [birth,setBirth] = useState('')
@@ -134,12 +144,28 @@ export default function Pay(){
     }
     // console.log(payRoom)
 
+    // localStorage의 데이터를 json형식으로 변환
+    const DayDataResult = JSON.parse(localStorage.getItem("DayData"));
+
+    console.log('DayDataResult', DayDataResult);
+
     const submitReservation = () => {
         // 세션스토리지에서 가져온 user정보 user : user, 를 axios에 담아서 감
         // 컨트롤러에서 user의 값이 null이나 아니냐를 if문으로 판별
         // null이면 비회원 insert 및 예약 insert
         // null이 아니면 회원fk를 포함한 예약정보 insert
-        axios.post('/api/reservations', { g_name : customer, g_birth : birth, g_phone : phone, r_code:hotelNum})
+        axios.post('/api/reservations', { 
+            g_name : customer,
+            booker_name : customer,
+            g_birth : birth, 
+            g_phone : phone, 
+            r_code : hotelNum, 
+            check_in_date : DayDataResult[0], 
+            check_out_date : DayDataResult[1],
+            original_price : myRoomPrice,
+            discount_rate : isDiscount,
+            final_price : totalPrice
+        })
         .then((res) => {
             if(res.data === 1){
                 navigate("/pay2");
