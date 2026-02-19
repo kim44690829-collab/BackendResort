@@ -1,6 +1,0 @@
-package resort.product.dto;
-
-public class HotelPriceDTO {
-	private int h_code; // 호텔코드(PK)
-	private int h_price; // 호텔가격
-}
