@@ -26,30 +26,26 @@ export default function Login(){
     const [mouseCursor, setMouseCursor] = useState(false);
 
     // php
-    const login = async (e) => {
+    const login = (e) => {
         e.preventDefault();
-        try{
-           // const res = await axios.post('http://localhost/resort2025/backend/api/login.php',
-             const res = await axios.post('/api/login.php',
-                {
-                    userEmail: emailInput,
-                    userPw: pwInput
+        axios.post('/api/member/login',{m_email:emailInput,m_pw:pwInput})
+         .then((res) => {
+            if(res.data && res.data.m_nickName){
+                loginSave(res.data.m_nickName,res.data.m_email);
+                if(res.data.m_email !== 'admin@resort.com'){
+                    alert(`${res.data.m_nickName}님 환영합니다.`);
                 }
-            );
-            console.log('로그인', res.data)
-            if(res.data.status === 'success'){
-                loginSave(res.data.nickname);
-                alert(`${res.data.nickname}님 환영합니다.`)
                 navigate('/');
                 setEmailInput('');
-                setPwInput('');
+                setPwInput('');                
             }else{
-                alert('로그인 실패')
+                //로그인 실패
+                alert("이메일 혹은 비밀번호를 다시 확인해주세요.");
             }
-        }catch(error){
-            console.log('에러', error);
-            alert('서버 연결 오류');
-        }
+        })
+        .catch((error) => {
+            console.error("error", error)
+        })
 
         if(emailChk){
             const oneMinute = new Date(Date.now() + 1*60*1000);

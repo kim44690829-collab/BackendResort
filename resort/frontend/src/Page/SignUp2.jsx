@@ -41,7 +41,7 @@ export default function SignUp2(){
         const value = e.target.value;
         setVerificationCode(value)
         
-        if(value === '1111' || value === '2222' || value === '3333' || value === '5555' || value === '6666'){
+        if(value === '1111' || value === '2222' || value === '3333' || value === '5555' || value === '6666' || value === '1234'){
             setIsDisabled(false)
             setMouseCursor1(true)
         }else{

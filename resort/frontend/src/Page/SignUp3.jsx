@@ -42,17 +42,12 @@ export default function SignUp3(){
         "kakao.com",
         "hanmail.net",
         "nate.com",
+        "resort.com"
     ];
 
     //회원가입 버튼 클릭시 실행되는 핸들러 함수 
     const signup = (e) => {
         e.preventDefault();
-
-        // console.log(userNumFront);
-        // console.log(userNumBack);
-        // console.log(BirthYear);
-        // console.log(BirthMonth);
-        // console.log(BirthDate);
         //가입정보 전송
         axios.post('/api/member/insert',{m_email:userMail,m_pw:userPw,m_gender:userGender,m_nickName:nickname,
             m_phone:'010'+userNumFront+userNumBack,
@@ -61,15 +56,18 @@ export default function SignUp3(){
         .then((res) => {
             if(res.data === 1){
                 setSignupModalOpen(!signupModalOpen);
-                //navigate('/');
                 setHeaderChange(0);
-                //alert('회원가입 성공');
+                setUserNumFront('');
+                setUserNumBack('');
             }else if(res.data === 0){
                 alert('회원가입 실패');
             }else if(res.data === -1){
-                alert('이미 가입한 이메일이 있습니다.');
-            }else{
                 alert('이미 가입된 번호가 있습니다.');
+                navigate('/SignUp2');
+            }else if(res.data === -2){
+                alert('이미 가입한 이메일이 있습니다.');               
+            }else{
+                alert('이미 가입한 닉네임이 있습니다.');               
             }
         })
         .catch((error) => {
@@ -120,7 +118,7 @@ export default function SignUp3(){
             (1 <= m && m <= 12) &&
             (1 <= d && d <= 31) &&
             userGender !== '' &&
-            nickname !== null
+            nickname !== ''
         ){
                 setIsDisabledSignup(false)
                 setMouseCursor(true)
@@ -227,7 +225,8 @@ export default function SignUp3(){
                     <h1>회원가입이 완료되었습니다!</h1>
                     <p className='p1'>{nickname}님 EcoStay로 오신걸 환영합니다!</p>
                     <img src='/coupon.png' alt='couponImg' className='coupon' />
-                    <p className='couponDate'>오늘({year}.{month}.{date})부터 <span style={{color:'red', fontSize:'20px', fontWeight:'600'}}>‘한달’동안</span> 사용하실 수 있습니다!</p>
+                    <p className='couponDate'><span style={{fontWeight:'700'}}>유효기간 :</span> ~{year}.{month+1}.{date}까지</p>
+                    {/* <p className='couponDate'>오늘({year}.{month}.{date})부터 <span style={{color:'red', fontSize:'20px', fontWeight:'600'}}>‘한달’동안</span> 사용하실 수 있습니다!</p> */}
                     <button type='button' 
                     onClick={modalHandeler} 
                     style={{color:'#fff', backgroundColor:'#42799b', border:'none', cursor:'pointer'}}

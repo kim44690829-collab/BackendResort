@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.servlet.http.HttpSession;
 import resort.member.dto.MemberDTO;
 import resort.member.service.MemberService;
 
@@ -55,9 +56,30 @@ public class MemberApiController {
 		return memberservice.deleteMember(m_email);
 		
 	}
-
-
 	
+	//로그인 메소드
+	@PostMapping("/member/login")
+	public MemberDTO login(@RequestBody MemberDTO mdto,HttpSession session) {
+		System.out.println("MemberApiController : login 요청됨");
+		
+		MemberDTO loginUser = memberservice.loginConfirm(mdto);
+		
+		if(loginUser != null) {
+			//세션에 로그인 정보담기
+			session.setAttribute("loginUser", loginUser.getM_email());
+		}
+		
+		//React로 JSON 변환
+		return loginUser;
+	}
+	
+	//로그아웃
+	@GetMapping("/member/logout")
+	public int logout(HttpSession session) {
+		System.out.println("MemberApiController : logout 요청됨");
+		session.invalidate();//세션삭제
+		return 1;//성공
+	}	
 	
 	
 }

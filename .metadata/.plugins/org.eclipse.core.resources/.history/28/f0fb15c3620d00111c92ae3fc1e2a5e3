@@ -1,0 +1,79 @@
+package resort.member.controller;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import jakarta.servlet.http.HttpSession;
+import resort.member.dto.MemberDTO;
+import resort.member.service.MemberService;
+
+@RestController
+@RequestMapping("/api")
+public class MemberApiController {
+	@Autowired
+	MemberService memberservice;
+
+	
+	//회원 가입 추가
+	@PostMapping("/member/insert")
+	public int insertMember(@RequestBody MemberDTO mdto){
+		System.out.println("MemberApiController : insertMember() 메서드 확인");
+		return memberservice.insertMember(mdto);
+	}	
+	//회원 전체 목록 검색
+	@GetMapping("/member/allmember")
+	public List<MemberDTO> allSelectMember(){
+		System.out.println("MemberApiController : allSelectMember() 메서드 확인");
+		return memberservice.allSelectMember();
+	}	
+	
+	//개인 한 사람의 정보를 검색
+	@GetMapping("/member/onemember")
+	public MemberDTO oneSelectMember(@RequestParam("m_email") String m_email){
+		System.out.println("MemberApiController : oneSelectMember() 메서드 확인");
+		return memberservice.oneSelectMember(m_email);
+	}	
+
+	//개인 한사람의 정보를 수정
+	@PostMapping("/member/updatemember")
+	public boolean updateMember(@RequestBody MemberDTO mdto){			
+		System.out.println("MemberApiController : updateMember() 메서드 확인");
+		return memberservice.updateMember(mdto);
+	}
+	
+	// 한사람 개인의 정보를 삭제하는 메소드 작성
+	@GetMapping("/member/deletemember")
+	public boolean deleteMember(@RequestParam("m_email") String m_email){
+		System.out.println("MemberApiController : deleteMember() 메서드 확인");
+		return memberservice.deleteMember(m_email);
+		
+	}
+	
+	//로그인 메소드
+	@PostMapping("/member/login")
+	public MemberDTO login(@RequestBody MemberDTO mdto,HttpSession session) {
+		System.out.println("MemberApiController : login 요청됨");
+		//loginUser = {no : ~ , id: ~, pw: ~, mail ~~~~}
+		MemberDTO loginUser = memberservice.loginConfirm(mdto);
+		
+		if(loginUser != null) {
+			//세션에 로그인 정보담기
+			session.setAttribute("loginUser", loginUser.getId());
+		}
+		//React로 JSON 변환
+		return loginUser;
+	}
+
+
+	
+	
+	
+}
