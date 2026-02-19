@@ -1,7 +1,5 @@
 package resort.product.dto;
 
-import java.util.Date;
-
 public class HotelDTO {
 
 	private int h_code; // 호텔코드(PK)
@@ -16,8 +14,8 @@ public class HotelDTO {
     private String h_s_Img2; // 서브이미지2
     private String h_s_Img3; // 서브이미지3
     private String h_s_Img4; // 서브이미지4
-    private Date startDate; // 예약시작일
-    private Date endDate; // 예약종료일
+    private String startDate; // 예약시작일
+    private String endDate; // 예약종료일
     private String roomservice; // 객내시설
     private String publicservice; // 공용시설
     private String otherservice; // 기타시설
@@ -95,16 +93,17 @@ public class HotelDTO {
 	public void setH_s_Img4(String h_s_Img4) {
 		this.h_s_Img4 = h_s_Img4;
 	}
-	public Date getStartDate() {
+	
+	public String getStartDate() {
 		return startDate;
 	}
-	public void setStartDate(Date startDate) {
+	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
-	public Date getEndDate() {
+	public String getEndDate() {
 		return endDate;
 	}
-	public void setEndDate(Date endDate) {
+	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
 	public String getRoomservice() {

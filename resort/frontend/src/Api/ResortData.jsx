@@ -13,7 +13,12 @@ export default function ResortData({children}){
     const [ReviewData , setReviewData] = useState([]);
     const [RatingData , setRatingData] = useState([]);
     const [RatingAvgData , setRatingAvgData] = useState([]);
+    const [HotelPriceDate , setHotelPriceDate] = useState([]);
+    const [HotelRatingDate , setHotelRatingDate] = useState([]);
 
+
+    const [hotelRatingAvgData, setHotelRatingAvgData] = useState([]);
+    const [hotelMinPrice, setHotelMinPrice] = useState([]);
 
     // axios 사용 - 호텔, 객실
     useEffect(() => {
@@ -66,6 +71,45 @@ export default function ResortData({children}){
         .catch((error) => {
             console.error("error", error)
         })
+
+        // hotelPrice
+        axios.get('/api/hotel/hotelPrice')
+        .then((res) => {
+            console.log("호텔가격 데이터 : ", res.data);
+            setHotelPriceDate(res.data);})
+        // hotelRatingAvgData
+        .catch((error) => {
+            console.error("error", error)
+        })
+        axios.get('/api/board/hotelRatingAvg')
+        .then((res) => {
+            console.log("호텔(평점) 평균 데이터 : ", res.data);
+            setHotelRatingAvgData(res.data);
+        })
+        .catch((error) => {
+            console.error("error", error)
+        })
+
+        // hotelRating
+        axios.get("/api/hotel/hotelRating")
+        .then((res) => {
+            console.log("호텔평점 데이터 : ", res.data);
+            setHotelRatingDate(res.data);
+        })
+        .catch((error) => {
+            console.error("error", error)
+        })
+        
+            // hotelMinPrice
+        axios.get('/api/hotel/price')
+        .then((res) => {
+            console.log("호텔 가격(최저가) 데이터 : ", res.data);
+            setHotelMinPrice(res.data);
+        })
+        .catch((error) => {
+            console.error("error", error)
+        })
+
     },[])
 
 
@@ -349,9 +393,9 @@ export default function ResortData({children}){
 
     
 
-    if(HotelData.length > 0 && RoomData.length > 0 && ReviewData.length >0 && RatingData.length > 0 && RatingAvgData.length > 0) {
+    if(HotelData.length > 0 && RoomData.length > 0 && ReviewData.length >0 && RatingData.length > 0 && RatingAvgData.length > 0 && hotelRatingAvgData.length > 0 && hotelMinPrice.length > 0) {
         return(
-            <ResortDataContext.Provider value={{RoomData, HotelData,ReviewData, RatingData, RatingAvgData, setReviewData, WishAvg, DayData,setDayData,selectDate,setSelectDate,selectday,setSelectday,selectMonth,setSelectMonth,wish,wishStar,wishArray,wishHandler,setWish, 
+            <ResortDataContext.Provider value={{WishAvg,HotelPriceDate,HotelRatingDate,RoomData, HotelData,ReviewData, RatingData, RatingAvgData, hotelRatingAvgData, hotelMinPrice, setReviewData,DayData,setDayData,selectDate,setSelectDate,selectday,setSelectday,selectMonth,setSelectMonth,wish,wishStar,wishArray,wishHandler,setWish, 
             payHead,setPayHead,payRoom,setPayRoom, userNumFront, setUserNumFront, userNumBack, setUserNumBack, userNickName, loginSave, logout,town,setTown,serchHandler,hotelSort,setHotelSort,myhotel,setmyhotel,cityEn,countryEn, Domestic, setDomestic, headerChange, setHeaderChange,dateFilter,setDateFilter,townfilter,customer,setCustomer}}>
                 {children}
             </ResortDataContext.Provider>

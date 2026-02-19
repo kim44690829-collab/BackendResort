@@ -1,3 +1,9 @@
+<<<<<<< HEAD
 2026/02/19-09:40:50.457 1d30 Reusing MANIFEST C:\resort2026\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Local Storage\leveldb/MANIFEST-000001
 2026/02/19-09:40:50.463 1d30 Recovering log #3
 2026/02/19-09:40:50.465 1d30 Reusing old log C:\resort2026\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Local Storage\leveldb/000003.log 
+=======
+2026/02/19-09:30:49.595 71c Reusing MANIFEST C:\resort2026\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Local Storage\leveldb/MANIFEST-000001
+2026/02/19-09:30:49.610 71c Recovering log #3
+2026/02/19-09:30:49.612 71c Reusing old log C:\resort2026\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Local Storage\leveldb/000003.log 
+>>>>>>> main
