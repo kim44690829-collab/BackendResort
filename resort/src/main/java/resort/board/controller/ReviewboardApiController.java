@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import resort.board.dto.HotelAvgDTO;
@@ -37,9 +38,22 @@ public class ReviewboardApiController {
 		return reviewboardservice.getRatingAvgAll();
 	}
 	
+<<<<<<< HEAD
+	//(상세페이지 호텔과) 같은지역의 추천호텔의 별점평균
+	@GetMapping("/board/recomm")
+	public List<ReviewboardDTO> getRecommReviewAvg(
+			@RequestParam("hotelcode") int hotelcode
+			){
+		System.out.println("HotelApiController : getRecommReviewAvg() 메서드 확인");
+		return reviewboardservice.getRecommReviewAvg(hotelcode);
+	}
+	
+}
+=======
 	@GetMapping("/board/hotelRatingAvg")
 	public List<HotelAvgDTO> getHotelRatingAvgAll(){
 		System.out.println("ReviewboardApiController : getRatingAvgAll() 메서드 확인");
 		return reviewboardservice.getHotelRatingAvgAll();
 	}
 }
+>>>>>>> main

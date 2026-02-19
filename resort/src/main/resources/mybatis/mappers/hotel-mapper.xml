@@ -9,6 +9,14 @@
 		SELECT * FROM hotel
 	</select>
 	
+<<<<<<< HEAD
+	<!-- (상세페이지 호텔과) 같은지역의 추천호텔 -->
+	<select id="getRecommHotel" resultType="HotelDTO" >
+		SELECT h.h_code,h.hotelName,h.country,h.city,h.type,h.h_address,h.discount,MIN(r.price) as 'minPrice' FROM hotel h
+		INNER JOIN room r ON h.h_code = r.h_code
+		WHERE h.city = #{hotelcity} and h.h_code != #{hotelcode}
+		GROUP BY h.h_code
+=======
 	<!-- 호텔의 가격을 출력하는  -->
 	<select id="getHotelPrice" resultType="HotelPriceDTO">
 		SELECT h.h_code as p_h_code, MIN(r.price) as p_h_price FROM room r 
@@ -32,5 +40,6 @@
 		INNER JOIN room r 
 		ON h.h_code = r.h_code 
 		GROUP BY h.h_code 
+>>>>>>> main
 	</select>
 </mapper>

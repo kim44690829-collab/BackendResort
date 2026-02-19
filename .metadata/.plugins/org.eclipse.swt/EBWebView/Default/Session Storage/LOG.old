@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+2026/02/13-17:51:16.296 110 Creating DB C:\resort2026\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Session Storage since it was missing.
+2026/02/13-17:51:16.315 110 Reusing MANIFEST C:\resort2026\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Session Storage/MANIFEST-000001
+=======
 2026/02/13-17:55:18.674 3518 Reusing MANIFEST C:\resort2026\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Session Storage/MANIFEST-000001
 2026/02/13-17:55:18.681 3518 Recovering log #3
 2026/02/13-17:55:18.683 3518 Reusing old log C:\resort2026\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Session Storage/000003.log 
+>>>>>>> main

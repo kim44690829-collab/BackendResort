@@ -1,5 +1,5 @@
 import '../Page/SignUp3.css';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, use } from 'react';
 import { ResortDataContext } from '../Api/ResortData';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -26,13 +26,13 @@ export default function SignUp3(){
 
     const [nickname, setNickname] = useState('');
 
-    useEffect(() => {
-        console.log('11111111111111111111')
-        console.log(nickname)
-    },[nickname]);
-
     // 마우스 변경
     const [mouseCursor, setMouseCursor] = useState(false);
+
+    // 회원가입 폼에서 조건을 만족하지 못했을때 확인버튼 비활성화
+    const [isDisabledSignup, setIsDisabledSignup] = useState(true);
+    // 회원가입 폼의 모든 작성이 종료된 후 확인버튼 클릭시 모달
+    const [signupModalOpen, setSignupModalOpen] = useState(false);
 
     // 도메인 배열
     const ALLOWED_DOMAINS = [
@@ -44,52 +44,38 @@ export default function SignUp3(){
         "nate.com",
     ];
 
-    // submit 함수 생성
-    const signup = async (e) => {
+    //회원가입 버튼 클릭시 실행되는 핸들러 함수 
+    const signup = (e) => {
         e.preventDefault();
-        // 생일을 하나로 합쳐서 DB에 보내기 위한 변수
-        // padStart => 앞쪽을 특정 문자로 채워서 원하는 길이로 맞추는 기능 
-        // padStart(총 길이, 채울 문자열) => 총길이는 2인데 부족하면 0으로 채워라 라는 의미
-        const userBirth = `${BirthYear}-${BirthMonth.padStart(2,'0')}-${BirthDate.padStart(2,'0')}`;
-        const userPhone = `010${userNumFront}${userNumBack}`;
-        try{
-            // const res = await axios.post('http://localhost/resort2025/backend/api/signup.php',
-             const res = await axios.post('/api/signup.php',
-                {
-                    step: 3,                 // 서버에서 단계 구분
-                    userEmail: userMail,
-                    userPw: userPw,
-                    userGender: userGender,
-                    userPhone: userPhone,    // signup2에서 받은 값
-                    userBirth: userBirth,
-                    nickname: nickname
-                }
-            )
-            if(res.data.status === "success"){
-                setSignupModalOpen(true);
-                setUserMail('');
-                setUserPw('');
-                setUserPwConfirm('');
-                setBirthYear('');
-                setBirthMonth('');
-                setBirthDate('');
-                setUserGender('');
-                setUserNumFront('');
-                setUserNumBack('');
-            }else{
-                console.log(res.data);
-                alert(res.data.message || '회원 가입 실패');
-            }
-        }catch(error){
-            console.log("에러", error);
-            alert("서버 연결 오류")
-        }
-    }
 
-    // 회원가입 폼에서 조건을 만족하지 못했을때 확인버튼 비활성화
-    const [isDisabledSignup, setIsDisabledSignup] = useState(true);
-    // 회원가입 폼의 모든 작성이 종료된 후 확인버튼 클릭시 모달
-    const [signupModalOpen, setSignupModalOpen] = useState(false);
+        // console.log(userNumFront);
+        // console.log(userNumBack);
+        // console.log(BirthYear);
+        // console.log(BirthMonth);
+        // console.log(BirthDate);
+        //가입정보 전송
+        axios.post('/api/member/insert',{m_email:userMail,m_pw:userPw,m_gender:userGender,m_nickName:nickname,
+            m_phone:'010'+userNumFront+userNumBack,
+            m_birth: `${BirthYear}-${BirthMonth.padStart(2,'0')}-${BirthDate.padStart(2,'0')}`
+        })
+        .then((res) => {
+            if(res.data === 1){
+                setSignupModalOpen(!signupModalOpen);
+                //navigate('/');
+                setHeaderChange(0);
+                //alert('회원가입 성공');
+            }else if(res.data === 0){
+                alert('회원가입 실패');
+            }else if(res.data === -1){
+                alert('이미 가입한 이메일이 있습니다.');
+            }else{
+                alert('이미 가입된 번호가 있습니다.');
+            }
+        })
+        .catch((error) => {
+            console.error("error", error)
+        })
+    }
 
     // 회원가입 종료 후 모달 핸들러
     const modalHandeler = () => {
