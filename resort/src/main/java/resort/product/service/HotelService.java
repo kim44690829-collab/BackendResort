@@ -21,11 +21,7 @@ public interface HotelService {
 	
 	// 호텔 별점 출력
 	public List<HotelRatingDTO> getHotelRating();
-<<<<<<< HEAD
-	
-=======
 	// 호텔 총합 정보(가격+별점)
 	public List<HotelMergeDTO> getHotelMerge();
 
->>>>>>> main
 }
