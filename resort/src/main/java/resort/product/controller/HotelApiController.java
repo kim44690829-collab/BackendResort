@@ -38,5 +38,10 @@ public class HotelApiController {
 		return hotelService.getHotelRating();
 	}
 	
+	@GetMapping("/hotel/price")
+	public List<HotelPriceDTO> getHotelPrice() {
+		System.out.println("HotelApiController : getHotelPrice() 메서드 확인");
+		return hotelService.getHotelPrice();
+	}
 	
 }

@@ -6,8 +6,11 @@
 		<typeAlias alias="HotelDTO" type="resort.product.dto.HotelDTO" />
 		<typeAlias alias="HotelPriceDTO" type="resort.product.dto.HotelPriceDTO" />
 		<typeAlias alias="HotelRatingDTO" type="resort.product.dto.HotelRatingDTO" />
+		<typeAlias alias="HotelPriceDTO" type="resort.product.dto.HotelPriceDTO"/>
 		<typeAlias alias="RoomDTO" type="resort.product.dto.RoomDTO" />
 		<typeAlias alias="ReviewboardDTO" type="resort.board.dto.ReviewboardDTO" />
 		<typeAlias alias="RatingDTO" type="resort.board.dto.RatingDTO" />
+		<typeAlias alias="HotelAvgDTO" type="resort.board.dto.HotelAvgDTO"/>
+		<typeAlias alias="HotelMergeDTO" type="resort.product.dto.HotelMergeDTO"/>
 	</typeAliases>
 </configuration>

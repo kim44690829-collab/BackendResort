@@ -20,4 +20,6 @@ public interface HotelMapper {
 	// 호텔 별점 출력
 	public List<HotelRatingDTO> getHotelRating();
 
+	// 호텔 가격
+	public List<HotelPriceDTO> getHotelPrice();
 }

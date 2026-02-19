@@ -26,4 +26,11 @@
 		group by h.h_code
 	</select>
 	
+	<!--  // 호텔 가격 public List<HotelPriceDTO> getHotelPrice();  -->
+	<select id="getHotelPrice" resultType="HotelPriceDTO"> 
+		SELECT h.h_code, MIN(r.price) as hotelPrice FROM hotel h 
+		INNER JOIN room r 
+		ON h.h_code = r.h_code 
+		GROUP BY h.h_code 
+	</select>
 </mapper>
