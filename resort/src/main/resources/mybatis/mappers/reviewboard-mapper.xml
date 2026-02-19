@@ -25,4 +25,14 @@
 		INNER JOIN hotel h ON h.h_code = r.h_code
 		GROUP BY r.r_code
 	</select>
+	
+	<!--  // 호텔별 별점 평균 public List<RatingDTO> getHotelRatingAvgAll();  -->
+	<select id="getHotelRatingAvgAll" resultType="HotelAvgDTO"> 
+		SELECT h.h_code, AVG(rb.rb_score) as hotelAvg, COUNT(*) as scoreCount FROM reviewboard rb 
+		INNER JOIN room r 
+		ON r.r_code = rb.r_code 
+		INNER JOIN hotel h 
+		ON h.h_code = r.h_code 
+		GROUP BY h.h_code 
+	</select>
 </mapper>

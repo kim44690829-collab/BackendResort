@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import resort.product.dto.HotelDTO;
+import resort.product.dto.HotelPriceDTO;
 import resort.product.service.HotelService;
 
 @RestController
@@ -24,6 +25,10 @@ public class HotelApiController {
 		return hotelService.getHotelAll();
 	}
 	
-	
+	@GetMapping("/hotel/price")
+	public List<HotelPriceDTO> getHotelPrice() {
+		System.out.println("HotelApiController : getHotelPrice() 메서드 확인");
+		return hotelService.getHotelPrice();
+	}
 	
 }

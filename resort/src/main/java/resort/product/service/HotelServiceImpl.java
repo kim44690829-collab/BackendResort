@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import resort.product.dto.HotelDTO;
+import resort.product.dto.HotelPriceDTO;
 import resort.product.mapper.HotelMapper;
 
 @Service
@@ -18,6 +19,12 @@ public class HotelServiceImpl implements HotelService {
 	public List<HotelDTO> getHotelAll() {
 		System.out.println("HotelServiceImpl : getHotelAll() 메서드 확인");
 		return hotelMapper.getHotelAll();
+	}
+
+	@Override
+	public List<HotelPriceDTO> getHotelPrice() {
+		System.out.println("HotelServiceImpl : getHotelPrice() 메서드 확인");
+		return hotelMapper.getHotelPrice();
 	}
 
 }

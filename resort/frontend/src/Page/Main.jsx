@@ -1,5 +1,5 @@
 import '../Page/Main.css';
-import { useContext, useState, useEffect, use } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import cookie from 'js-cookie';
 import { Link, useNavigate } from 'react-router-dom';
 import { ResortDataContext } from '../Api/ResortData';
@@ -9,7 +9,7 @@ import Calendar from './Calendar';
 export default function Main(){    
     // 2025-12-26 병합2
     // 호텔, 객실데이터 useContext로 가져오는 훅
-    const {selectMonth,setSelectMonth, RoomData, HotelData, DayData, setDayData,town,setTown,serchHandler, wish, wishHandler, menuModal, setMenuModal,cityEn,countryEn,dateFilter,setDateFilter,townfilter} = useContext(ResortDataContext);
+    const {selectMonth,setSelectMonth, RoomData, HotelData, hotelRatingAvgData, DayData, setDayData,town,setTown,serchHandler, wish, wishHandler, menuModal, setMenuModal,cityEn,countryEn,dateFilter,setDateFilter,townfilter} = useContext(ResortDataContext);
     // 호텔 input에 들어가는 지역, 호텔명 상태변수
     //const [hotelInput, setHotelInput] = useState('');
     // 호텔 input 아래 모달 상태변수
@@ -528,14 +528,14 @@ export default function Main(){
                                                                 <p className='Modal_hTypeText2'>{item.hotelName}</p>
                                                                 {item.discount === 1 ? (
                                                                     <>
-                                                                        <p className='discount1'><span className='red1'>10% 할인</span> <span className='origin-price1'>{(minPrice[item.h_code].price).toLocaleString()}원</span></p>
-                                                                        <p className='final-price1'>{((minPrice[item.h_code].price) - ((minPrice[item.h_code].price)*0.1)).toLocaleString()}원<span>/1박</span></p>
+                                                                        <p className='discount1'><span className='red1'>10% 할인</span> <span className='origin-price1'>{(minPrice[item.h_code-1].price).toLocaleString()}원</span></p>
+                                                                        <p className='final-price1'>{((minPrice[item.h_code-1].price) - ((minPrice[item.h_code-1].price)*0.1)).toLocaleString()}원<span>/1박</span></p>
                                                                     </>
                                                                 ):(
                                                                     <>
                                                                         <p className='discount1'><span className='red1'>회원가입시 10,000원 할인쿠폰</span></p>
 
-                                                                        <p className='final-price1'>{(minPrice[item.h_code].price).toLocaleString()}원<span>/1박</span></p>
+                                                                        <p className='final-price1'>{(minPrice[item.h_code-1].price).toLocaleString()}원<span>/1박</span></p>
                                                                     </>
                                                                 )}
                                                             </div>
@@ -587,21 +587,20 @@ export default function Main(){
                                             <p className='popularAccom_name'>{item.hotelName}</p>
                                             <div className='popularAccom_review'>
                                                 <span className='popularAccom_score'>
-                                                    {/* <img src='/img/star-one.png' alt='star' style={{width:'15px', height:'15px'}}/> */}
                                                     <i className="fa-solid fa-star"></i>
-                                                    {/* <span className='starScore'>{item.score}</span> */}
+                                                    <span className='starScore'>{(hotelRatingAvgData[item.h_code - 1].hotelAvg).toFixed(1)}</span>
                                                 </span>
-                                                {/* <span className='popularAccom_count'>{item.scoreCount.toLocaleString()}명 참여</span> */}
+                                                <span className='popularAccom_count'>{(hotelRatingAvgData[item.h_code - 1].scoreCount).toLocaleString()}명 참여</span>
                                             </div>
                                             {item.discount === 1 ? (
                                                 <>
-                                                    <p className='discount'><span className='red'>10% 할인</span> <span className='origin-price'>{(minPrice[item.h_code].price).toLocaleString()}원</span></p>
-                                                    <p className='final-price'>{((minPrice[item.h_code].price) - ((minPrice[item.h_code].price)*0.1)).toLocaleString()}원<span>/1박</span></p>
+                                                    <p className='discount'><span className='red'>10% 할인</span> <span className='origin-price'>{(minPrice[item.h_code-1].price).toLocaleString()}원</span></p>
+                                                    <p className='final-price'>{((minPrice[item.h_code-1].price) - ((minPrice[item.h_code-1].price)*0.1)).toLocaleString()}원<span>/1박</span></p>
                                                 </>
                                             ):(
                                                 <>
                                                     <p className='discount'><span className='red'>회원가입시 10,000원 할인쿠폰</span></p>
-                                                    <p className='final-price'>{(minPrice[item.h_code].price).toLocaleString()}원<span>/1박</span></p>
+                                                    <p className='final-price'>{(minPrice[item.h_code-1].price).toLocaleString()}원<span>/1박</span></p>
                                                 </>
                                             )}
                                         </Link>
@@ -627,19 +626,19 @@ export default function Main(){
                                         <div className='popularAccom_review'>
                                             <span className='popularAccom_score'>
                                                 <i className="fa-solid fa-star"></i>
-                                                <span className='starScore'>{item.score}</span>
+                                                <span className='starScore'>{(hotelRatingAvgData[item.h_code - 1].hotelAvg).toFixed(1)}</span>
                                             </span>
-                                            {/* <span className='popularAccom_count'>{item.scoreCount.toLocaleString()}명 참여</span> */}
+                                            <span className='popularAccom_count'>{(hotelRatingAvgData[item.h_code - 1].scoreCount).toLocaleString()}명 참여</span>
                                         </div>
                                         {item.discount === 1 ? (
                                             <>
-                                                <p className='discount'><span className='red'>10% 할인</span> <span className='origin-price'>{(minPrice[item.h_code].price).toLocaleString()}원</span></p>
-                                                <p className='final-price'>{((minPrice[item.h_code].price) - ((minPrice[item.h_code].price)*0.1)).toLocaleString()}원<span>/1박</span></p>
+                                                <p className='discount'><span className='red'>10% 할인</span> <span className='origin-price'>{(minPrice[item.h_code-1].price).toLocaleString()}원</span></p>
+                                                <p className='final-price'>{((minPrice[item.h_code-1].price) - ((minPrice[item.h_code-1].price)*0.1)).toLocaleString()}원<span>/1박</span></p>
                                             </>
                                         ):(
                                             <>
                                                 <p className='discount'><span className='red'>회원가입시 10,000원 할인쿠폰</span></p>
-                                                <p className='final-price'>{(minPrice[item.h_code].price).toLocaleString()}원<span>/1박</span></p>
+                                                <p className='final-price'>{(minPrice[item.h_code-1].price).toLocaleString()}원<span>/1박</span></p>
                                             </>
                                         )}
                                     </Link>
@@ -665,19 +664,19 @@ export default function Main(){
                                         <div className='popularAccom_review'>
                                             <span className='popularAccom_score'>
                                                 <i className="fa-solid fa-star"></i>
-                                                {/* <span className='starScore'>{item.score}</span> */}
+                                                <span className='starScore'>{(hotelRatingAvgData[item.h_code - 1].hotelAvg).toFixed(1)}</span>
                                             </span>
-                                            {/* <span className='popularAccom_count'>{item.scoreCount.toLocaleString()}명 참여</span> */}
+                                            <span className='popularAccom_count'>{(hotelRatingAvgData[item.h_code - 1].scoreCount).toLocaleString()}명 참여</span>
                                         </div>
                                         {item.discount === 1 ? (
                                             <>
-                                                <p className='discount'><span className='red'>10% 할인</span> <span className='origin-price'>{(minPrice[item.h_code].price).toLocaleString()}원</span></p>
-                                                <p className='final-price'>{((minPrice[item.h_code].price) - ((minPrice[item.h_code].price)*0.1)).toLocaleString()}원<span>/1박</span></p>
+                                                <p className='discount'><span className='red'>10% 할인</span> <span className='origin-price'>{(minPrice[item.h_code-1].price).toLocaleString()}원</span></p>
+                                                <p className='final-price'>{((minPrice[item.h_code-1].price) - ((minPrice[item.h_code-1].price)*0.1)).toLocaleString()}원<span>/1박</span></p>
                                             </>
                                         ):(
                                             <>
                                                 <p className='discount'><span className='red'>회원가입시 10,000원 할인쿠폰</span></p>
-                                                <p className='final-price'>{(minPrice[item.h_code].price).toLocaleString()}원<span>/1박</span></p>
+                                                <p className='final-price'>{(minPrice[item.h_code-1].price).toLocaleString()}원<span>/1박</span></p>
                                             </>
                                         )}
                                     </Link>
@@ -751,12 +750,12 @@ export default function Main(){
                                         <div className="room-pay_main">
                                             {item.discount === 1 ? 
                                                 <>
-                                                    <span className='origin-price_main'>{(minPrice[item.h_code].price).toLocaleString()}원</span>
-                                                    <span className='final-price_main'>{((minPrice[item.h_code].price) - ((minPrice[item.h_code].price)*0.1)).toLocaleString()}원<span>/1박</span></span>
+                                                    <span className='origin-price_main'>{(minPrice[item.h_code-1].price).toLocaleString()}원</span>
+                                                    <span className='final-price_main'>{((minPrice[item.h_code-1].price) - ((minPrice[item.h_code-1].price)*0.1)).toLocaleString()}원<span>/1박</span></span>
                                                 </>                                                    
                                             :                                                    
                                                 <>
-                                                    <span className='final-price_main'>{(minPrice[item.h_code].price).toLocaleString()}원<span>/1박</span></span>
+                                                    <span className='final-price_main'>{(minPrice[item.h_code-1].price).toLocaleString()}원<span>/1박</span></span>
                                                 </>
                                             }
                                         </div>
@@ -821,13 +820,13 @@ export default function Main(){
                                                                 <p className='Modal_hotelText2'>{item.hotelName}</p>
                                                                 {item.discount === 1 ? (
                                                                     <>
-                                                                        <p className='discount2'><span className='red2'>10% 할인</span> <span className='origin-price2'>{(minPrice[item.h_code].price).toLocaleString()}원</span></p>
-                                                                        <p className='final-price2'>{((minPrice[item.h_code].price) - ((minPrice[item.h_code].price)*0.1)).toLocaleString()}원<span>/1박</span></p>
+                                                                        <p className='discount2'><span className='red2'>10% 할인</span> <span className='origin-price2'>{(minPrice[item.h_code - 1].price).toLocaleString()}원</span></p>
+                                                                        <p className='final-price2'>{((minPrice[item.h_code - 1].price) - ((minPrice[item.h_code - 1].price)*0.1)).toLocaleString()}원<span>/1박</span></p>
                                                                     </>
                                                                 ):(
                                                                     <>
                                                                         <p className='discount2'><span className='red2'>회원가입시 10,000원 할인쿠폰</span></p>
-                                                                        <p className='final-price2'>{(minPrice[item.h_code].price).toLocaleString()}원<span>/1박</span></p>
+                                                                        <p className='final-price2'>{(minPrice[item.h_code-1].price).toLocaleString()}원<span>/1박</span></p>
                                                                     </>
                                                                 )}
                                                             </div>
@@ -891,8 +890,8 @@ export default function Main(){
                                         <p className='bennerText'>- 10% 할인</p>
                                         {minPrice[item.h_code] && (
                                             <>
-                                                <span className='bennerPrice1'>{((minPrice[item.h_code].price) - ((minPrice[item.h_code].price)*0.1)).toLocaleString()}</span> <span className='bennerPrice1-1'>원 ~</span>
-                                                <span className='bennerPrice2'>{(minPrice[item.h_code].price).toLocaleString()}원</span><span className='bennerPrice2-1'>~</span>
+                                                <span className='bennerPrice1'>{((minPrice[item.h_code-1].price) - ((minPrice[item.h_code-1].price)*0.1)).toLocaleString()}</span> <span className='bennerPrice1-1'>원 ~</span>
+                                                <span className='bennerPrice2'>{(minPrice[item.h_code-1].price).toLocaleString()}원</span><span className='bennerPrice2-1'>~</span>
                                             </>
                                         )}
                                         

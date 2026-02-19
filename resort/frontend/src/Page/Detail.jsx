@@ -168,8 +168,6 @@ export default function Detail(){
         const scoreAvg = [];
         const roomStar = [];
 
-        useEffect(()=>{},[])
-
         for(let i=0; i<Room.length; i++){
             // scoreAvg[i] = 0;
             // scoreAvg[i] = Math.round(scoreSum[i] / Room[i].score.length);

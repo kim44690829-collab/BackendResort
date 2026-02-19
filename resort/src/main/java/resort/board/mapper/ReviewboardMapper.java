@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import resort.board.dto.HotelAvgDTO;
 import resort.board.dto.RatingDTO;
 import resort.board.dto.ReviewboardDTO;
 
@@ -17,4 +18,7 @@ public interface ReviewboardMapper {
 	
 	// 객실별 별점 평균
 	public List<RatingDTO> getRatingAvgAll();
+	
+	// 호텔별 별점 평균
+	public List<HotelAvgDTO> getHotelRatingAvgAll();
 }
