@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import resort.product.dto.HotelDTO;
+import resort.product.dto.HotelPriceDTO;
 
 @Mapper
 public interface HotelMapper {
@@ -12,4 +13,6 @@ public interface HotelMapper {
 	// 호텔 전체 검색
 	public List<HotelDTO> getHotelAll();
 
+	// 호텔 가격
+	public List<HotelPriceDTO> getHotelPrice();
 }

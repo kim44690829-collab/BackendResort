@@ -2,6 +2,7 @@ package resort.board.service;
 
 import java.util.List;
 
+import resort.board.dto.HotelAvgDTO;
 import resort.board.dto.RatingDTO;
 import resort.board.dto.ReviewboardDTO;
 
@@ -14,4 +15,7 @@ public interface ReviewboardService {
 	
 	// 객실별 별점 평균
 	public List<RatingDTO> getRatingAvgAll();
+	
+	// 호텔별 별점 평균
+	public List<HotelAvgDTO> getHotelRatingAvgAll();
 }

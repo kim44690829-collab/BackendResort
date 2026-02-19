@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 export default function HotelSection2(){
     const navigation = useNavigate();
     // 받아온 데이터
-    const {HotelData, wish, wishHandler} = useContext(ResortDataContext)
+    const {HotelData, wish, hotelRatingAvgData, hotelMinPrice, wishHandler} = useContext(ResortDataContext)
     const [moreSee2, setMoreSee2] = useState(9);
     const [seeBtn2, setSeeBtn2] = useState(0);
 
@@ -22,8 +22,8 @@ export default function HotelSection2(){
 
     // 해외 filter
     const overseasHotel = HotelData.filter(item => item.country !== 'Korea');
-    const overseasHotelSort = [...overseasHotel].sort((a,b) => b.score - a.score);
-    console.log('해외', overseasHotelSort)
+    // const overseasHotelSort = [...overseasHotel].sort((a,b) => b.score - a.score);
+    // console.log('해외', overseasHotelSort)
 
     const clickHandeler = () => {
         navigation('/hotelSection');
@@ -46,36 +46,35 @@ export default function HotelSection2(){
                 <p className='HotelSection_title'>해외 숙소</p>
                 <div className='HotelSection_wrap'>
                     <ul className='HotelUl' >
-                        {overseasHotelSort.slice(0,moreSee2).map((item) => (
-                            <li key={item.id} style={{cursor:'pointer'}} className='HotelLi'>
-                                <Link to = {`/detail/${item.id}`} onClick={() => window.scrollTo(0,0)}>
+                        {overseasHotel.slice(0,moreSee2).map((item) => (
+                            <li key={item.h_code} style={{cursor:'pointer'}} className='HotelLi'>
+                                <Link to = {`/detail/${item.h_code}`} onClick={() => window.scrollTo(0,0)}>
                                     {/* <img src={item.img[0]} alt={item.hotelName} className='popularAccomMainImg' /> */}
                                     <img src={`/img/${item.h_Img}`} alt={item.hotelName} className='hotelSectionImg' style={{width:'280px', height:'169px'}}  />
                                     <p className='hotelSection_type'>{item.type}</p>
                                     <p className='hotelSection_name'>{item.hotelName}</p>
                                     <div className='hotelSection_review'>
                                         <span className='hotelSection_score'>
-                                            {/* <img src='/img/star-one.png' alt='star' style={{width:'15px', height:'15px'}}/> */}
                                             <i className="fa-solid fa-star"></i>
-                                            {/* <span className='starScore'>{item.score}</span> */}
+                                            <span className='starScore'>{(hotelRatingAvgData[item.h_code - 1].hotelAvg).toFixed(1)}{item.score}</span>
                                         </span>
-                                        {/* <span className='hotelSection_count'>{item.scoreCount.toLocaleString()}명 참여</span> */}
+                                        <span className='hotelSection_count'>{(hotelRatingAvgData[item.h_code - 1].scoreCount).toLocaleString()}명 참여</span>
                                     </div>
-                                    {/* {item.discount === 1 ? (
+                                    {item.discount === 1 ? (
                                         <>
-                                            <p className='discount'><span className='red'>10% 할인</span> <span className='origin-price'>{item.price.toLocaleString()}원</span></p>
-                                            <p className='final-price'>{(item.price - (item.price*0.1)).toLocaleString()}원<span>/1박</span></p>
+                                            <p className='discount'><span className='red'>10% 할인</span> <span className='origin-price'>{hotelMinPrice[item.h_code - 1].hotelPrice.toLocaleString()}원</span></p>
+                                            <p className='final-price'>{(hotelMinPrice[item.h_code - 1].hotelPrice - ((hotelMinPrice[item.h_code - 1].hotelPrice)*0.1)).toLocaleString()}원<span>/1박</span></p>
                                         </>
                                     ):(
                                         <>
                                             <p className='discount'><span className='red'>회원가입시 10,000원 할인쿠폰</span></p>
-                                            <p className='final-price'>{(item.price).toLocaleString()}원<span>/1박</span></p>
+                                            <p className='final-price'>{(hotelMinPrice[item.h_code - 1].hotelPrice).toLocaleString()}원<span>/1박</span></p>
                                         </>
-                                    )} */}
+                                    )}
                                 </Link>
-                                <button type='button' className='wishBtn2' onClick={()=>wishHandler(item.id)}>
+                                <button type='button' className='wishBtn2' onClick={()=>wishHandler(item.h_code)}>
                                 <i className="fa-solid fa-heart" style={
-                                wish.find((hotel) => hotel.id === Number(item.id)) ?
+                                wish.find((hotel) => hotel.h_code === Number(item.h_code)) ?
                                     {color:'#f94239'}
                                 :
                                     {color:'#6b6b6b'}
