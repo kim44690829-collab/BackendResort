@@ -8,7 +8,7 @@ import LeafletMap from '../Api/LeafletMap';
 
 export default function Room(){
     // 가져오는 호텔, 개실 데이터
-    const {HotelData,RoomData, hotelInput,HotelRatingDate, setHotelInput, DayData,RatingAvgData,RatingData,ReviewData,HotelPriceDate, setDayData,countryEn,cityEn,town,townfilter,setTown,serchHandler,dateFilter,setDateFilter,hotelSort,setHotelSort,myhotel,setmyhotel,wish,wishStar,wishArray,wishHandler,} = useContext(ResortDataContext);
+    const {HotelData,RoomData, hotelInput,HotelRatingDate, setHotelInput, DayData,RatingAvgData,RatingData,ReviewData, hotelMinPrice,HotelPriceDate, setDayData,countryEn,cityEn,town,townfilter,setTown,serchHandler,dateFilter,setDateFilter,hotelSort,setHotelSort,myhotel,setmyhotel,wish,wishStar,wishArray,wishHandler,} = useContext(ResortDataContext);
     //const {selectDate,setSelectDate,setSelectday} = useContext(calendarAuth)
     console.log("사용하는쪽 HotelData", HotelData);
     console.log("사용하는쪽 HotelData", RoomData);
@@ -108,23 +108,24 @@ export default function Room(){
         }else if(hotelSort===3){
             
         }else if(hotelSort===4){
-            HotelPriceDate.sort((a,b) => b.p_h_price - a.p_h_price)
+            hotelMinPrice.sort((a,b) => b.p_h_price - a.p_h_price)
         }else if(hotelSort===5){
-            HotelPriceDate.sort((a,b) => a.p_h_price - b.p_h_price)
+            hotelMinPrice.sort((a,b) => a.p_h_price - b.p_h_price)
         }
 
 
 
         //가격 필터로 출력될 호텔 번호 필터
-        const priceFilterHotel = HotelPriceDate.filter((f)=>f.p_h_price>=minPrice && f.p_h_price<=maxPrice)
+        const priceFilterHotel = hotelMinPrice.filter((f)=>f.hotelPrice>=minPrice && f.hotelPrice<=maxPrice)
         // 
 
-       
+       console.log(hotelMinPrice)
+       console.log(priceFilterHotel)
 
 
 
         // 가격필터 적용
-        const pricefilter = filterHotel.filter((hotel)=>priceFilterHotel.find((f)=>f.p_h_code === hotel.h_code))
+        const pricefilter = filterHotel.filter((hotel)=>priceFilterHotel.find((f)=>f.h_code === hotel.h_code))
 
         if(hotelSort===1){
             pricefilter.sort((a,b) => a.h_code - b.h_code)
@@ -451,13 +452,13 @@ export default function Room(){
                                                 {item.discount===1?
                                                 <span className="disC">
                                                     <span className="s_box">10%할인</span>
-                                                    <span className="p_box">{HotelPriceDate[item.h_code-1].p_h_price.toLocaleString()}원</span>
+                                                    <span className="p_box">{hotelMinPrice[item.h_code-1].hotelPrice.toLocaleString()}원</span>
                                                 </span>
                                                 :
                                                 <span className="coupon">회원가입시 10,000원 할인쿠폰</span>
                                                 }
                                             </p>
-                                            <p className="menu_price">{item.discount===1?(HotelPriceDate[item.h_code-1].p_h_price*0.9).toLocaleString():HotelPriceDate[item.h_code-1].p_h_price.toLocaleString()}원</p>
+                                            <p className="menu_price">{item.discount===1?(hotelMinPrice[item.h_code-1].hotelPrice*0.9).toLocaleString():hotelMinPrice[item.h_code-1].hotelPrice.toLocaleString()}원</p>
                                             
                                             
                                         </div>

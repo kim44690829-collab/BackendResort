@@ -23,11 +23,11 @@ public class HotelServiceImpl implements HotelService {
 	}
 
 	@Override
-<<<<<<< HEAD
 	public List<HotelDTO> getRecommHotel(String hotelcity,int hotelcode) {
 		System.out.println("HotelServiceImpl : getRecommHotel() 메서드 확인");
 		return hotelMapper.getRecommHotel(hotelcity,hotelcode);
-=======
+	}
+
 	public List<HotelPriceDTO> getHotelPrice() {
 		System.out.println("HotelServiceImpl : getHotelPrice(^^) 메서드 확인");
 		return hotelMapper.getHotelPrice();
@@ -37,7 +37,6 @@ public class HotelServiceImpl implements HotelService {
 	public List<HotelRatingDTO> getHotelRating() {
 		System.out.println("HotelServiceImpl : getHotelRating(^^) 메서드 확인");
 		return hotelMapper.getHotelRating();
->>>>>>> main
 	}
 
 }

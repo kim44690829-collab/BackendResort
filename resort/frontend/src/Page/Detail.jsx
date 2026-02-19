@@ -411,7 +411,7 @@ export default function Detail(){
         console.log(Hotel);
         console.log(DayData[1]);
 
-        if((Hotel.startDate >= DayData[0] && Hotel.startDate <= DayData[1]  ) || (Hotel.endDate >= DayData[0] && Hotel.endDate <= DayData[1])){
+        if((Hotel.startDate >= DayData[0] && Hotel.startDate <= DayData[1]  ) || (Hotel.endDate >= DayData[0] && Hotel.endDate <= DayData[1]) || (DayData[0]>=Hotel.startDate && DayData[1]<=Hotel.endDate)){
             console.log("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
             setDateFilter(true);
             const headFilter2 = Room.filter((item)=>item.maxOccupancy >= head);
@@ -426,7 +426,7 @@ export default function Detail(){
 
             //Room에서 필터된 인덱스 저장
             const filterRcode2 = Room.map((arr) =>
-                headFilter2.some(item => item.r_code === arr.r_code) ? item.r_code : null
+                headFilter2.some(item => item.r_code === arr.r_code) ? arr.r_code : null
             ).filter(arr => arr !== null);
 
             setFilterRcode(filterRcode2);
