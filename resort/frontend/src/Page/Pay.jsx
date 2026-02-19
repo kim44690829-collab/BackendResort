@@ -27,6 +27,10 @@ export default function Pay(){
             setchking([{id:1,state:false},{id:2,state:false},{id:3,state:false},{id:4,state:false},{id:5,state:false}])
         }
     }
+    useEffect(()=>{
+        console.log("myRoom",myRoom)
+        console.log("roomprice",roomprice)
+    },[])
     //결제 수단 선택
     const [btnNum,setBtnNum] = useState(0)
     //개별 선택 함수
@@ -101,9 +105,9 @@ export default function Pay(){
         }
         console.log(roomprice)
     }
-    const totalPrice = roomprice[0].price*(new Date(DayData[1]).getTime()-new Date(DayData[0]).getTime())/(1000*24*60*60)
+    const totalPrice = myRoom[0].price*(new Date(DayData[1]).getTime()-new Date(DayData[0]).getTime())/(1000*24*60*60)
 
-    //생년월이
+    //생년월일
     const [birth,setBirth] = useState('')
     const payHandler =()=>{
         if(chking[0].state===true && btnNum !== 0 && phone.length === 11 && customer.length !==0){
@@ -128,7 +132,7 @@ export default function Pay(){
     return(
         <>
             <div className="paysection">
-                <h2 className="pay_title">{/* <i className="fa-solid fa-arrow-left"></i> */}예약 확인 및 결제</h2>
+                <h2 className="pay_title">예약 확인 및 결제</h2>
                 <div className="pay_info">
                     <div className="user_info">
                         <h4 className="pay_left_title">예약자 정보</h4>
@@ -175,8 +179,8 @@ export default function Pay(){
                     </div>
                     <div className="room_info">
                         <div className="room_box">
-                            {/* <h2 className="room_name">{myRoom[0].hotelName}</h2>
-                            <img src={roomprice[0].img[(myRoom[0].id)%3===0?3:(myRoom[0].id)%3]} alt="roomImg" className="room_img"/> */}
+                            {<h2 className="room_name">{HotelData[myRoom[0].h_code].hotelName}</h2>}
+                            <img src={`/img/${roomprice[0].h_Img}`} alt="roomImg" className="room_img"/>
                             <table className="room_table">
                                 <tbody>
                                     <tr>
@@ -204,7 +208,7 @@ export default function Pay(){
                                     <tr style={{borderBottom:'1px solid #e4e4e4'}}>
                                         <td className="paybox_list">객실 가격(1박)</td>
                                         <td className="paybox_list" style={{textAlign:'right'}}>
-                                            {/* {roomprice[0].price.toLocaleString()} */}
+                                            {myRoom[0].price.toLocaleString()}
                                         </td>
                                     </tr>
                                     <tr>

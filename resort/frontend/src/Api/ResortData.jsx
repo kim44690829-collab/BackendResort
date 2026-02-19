@@ -19,6 +19,7 @@ export default function ResortData({children}){
 
     const [hotelRatingAvgData, setHotelRatingAvgData] = useState([]);
     const [hotelMinPrice, setHotelMinPrice] = useState([]);
+     const [hotelMerge,setHotelMerge] = useState([])
 
     // axios 사용 - 호텔, 객실
     useEffect(() => {
@@ -105,6 +106,16 @@ export default function ResortData({children}){
         .then((res) => {
             console.log("호텔 가격(최저가) 데이터 : ", res.data);
             setHotelMinPrice(res.data);
+        })
+        .catch((error) => {
+            console.error("error", error)
+        })
+
+        // HotelMergeData
+        axios.get('/api/hotel/hotelMarge')
+        .then((res) => {
+            console.log("호텔총합 데이터 : ", res.data);
+            setHotelMerge(res.data);
         })
         .catch((error) => {
             console.error("error", error)
@@ -353,10 +364,10 @@ export default function ResortData({children}){
 
     const countryEn = town === '대한민국' || town ===  '한국' || town ===  '한' || town ===  'gksrnr'? 'Korea' : town === '일본' || town ===  '일'? 'Japan' : town === '미국'? 'USA' : town === '중국'? 'China': town === '이탈리아' || town ===  '이테리'? 'Italy' : town === '프랑스'? 'France':null
     const cityEn = town === '속초'? 'Sokcho':town === '경주'? 'Gyeongju':town === '부산'? 'Busan':town === '강릉'? 'Gangneung':town === '여수'? 'Yeosu':town === '대전'? 'Daejeon':town === '광주'? 'Gwangju':town === '제주' || town ===  '제주도'? 'Jeju':town === '포항'? 'Pohang':town === '서울'? 'Seoul':town === '도쿄'? 'Tokyo':town === '삿포로'? 'Sapporo':town === '로스앤젤레스'? 'LosAngeles':town === '뉴욕'? 'New York':town === '괌'? 'Guam':town === '장가계'? 'Zhangjiajie':town === '상하이'? 'Shanghai':town === '로마'? 'Rome':town === '베네치아'? 'Venice':town === '파리'? 'Paris':null
-    const townfilter = HotelData.filter((f)=>f.city===cityEn || f.country===countryEn)
+    const townfilter = hotelMerge.filter((f)=>f.city===cityEn || f.country===countryEn)
     //검색 핸들러
     const serchHandler =()=>{
-        const dateFilter = HotelData.filter((f)=>f.startDate>DayData[0] && f.endDate<DayData[1])
+        const dateFilter = hotelMerge.filter((f)=>f.startDate>DayData[0] && f.endDate<DayData[1])
     
         let overFilter = []
         if(cityEn !== null){
@@ -393,9 +404,9 @@ export default function ResortData({children}){
 
     
 
-    if(HotelData.length > 0 && RoomData.length > 0 && ReviewData.length >0 && RatingData.length > 0 && RatingAvgData.length > 0 && hotelMinPrice.length > 0 ) {
+    if(HotelData.length > 0 && RoomData.length > 0 && ReviewData.length >0 && RatingData.length > 0 && RatingAvgData.length > 0 && hotelMinPrice.length > 0 && hotelMerge.length>0) {
         return(
-            <ResortDataContext.Provider value={{WishAvg, hotelMinPrice,HotelRatingDate,RoomData, HotelData,ReviewData, RatingData, RatingAvgData, hotelRatingAvgData, setReviewData,DayData,setDayData,selectDate,setSelectDate,selectday,setSelectday,selectMonth,setSelectMonth,wish,wishStar,wishArray,wishHandler,setWish, 
+            <ResortDataContext.Provider value={{WishAvg,hotelMerge,setHotelMerge, hotelMinPrice,HotelRatingDate,RoomData, HotelData,ReviewData, RatingData, RatingAvgData, hotelRatingAvgData, setReviewData,DayData,setDayData,selectDate,setSelectDate,selectday,setSelectday,selectMonth,setSelectMonth,wish,wishStar,wishArray,wishHandler,setWish, 
             payHead,setPayHead,payRoom,setPayRoom, userNumFront, setUserNumFront, userNumBack, setUserNumBack, userNickName, loginSave, logout,town,setTown,serchHandler,hotelSort,setHotelSort,myhotel,setmyhotel,cityEn,countryEn, Domestic, setDomestic, headerChange, setHeaderChange,dateFilter,setDateFilter,townfilter,customer,setCustomer}}>
                 {children}
             </ResortDataContext.Provider>
