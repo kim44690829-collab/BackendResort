@@ -338,24 +338,32 @@ export default function ResortData({children}){
         //console.log(wishArray);
         // 로그인 한 후 닉네임 저장
         const [userNickName, setUserNickName] = useState(null);
+        // 로그인 한 후 이메일 저장
+        const [userEmail, setUserEmail] = useState(null);
 
         useEffect(() => {
-            const saveNickName = localStorage.getItem('userNickName');
-            if(saveNickName){
-                setUserNickName(JSON.parse(saveNickName))
+            const saveNickName = sessionStorage.getItem('userNickName');
+            const saveEmail = sessionStorage.getItem('userEmail');
+            if(saveNickName && saveEmail){
+                setUserNickName(JSON.parse(saveNickName));
+                setUserEmail(JSON.parse(saveEmail));
             }
         },[]);
 
         // 로그인
-        const loginSave = (userData) => {
-            setUserNickName(userData);
-            localStorage.setItem('userNickName', JSON.stringify(userData));
+        const loginSave = (nickName,email) => {
+            sessionStorage.setItem('userNickName', JSON.stringify(nickName));
+            sessionStorage.setItem('userEmail', JSON.stringify(email));
+            setUserNickName(nickName);
+            setUserEmail(email);
         }
 
         // 로그아웃
         const logout = () => {
+            sessionStorage.removeItem('userNickName');
+            sessionStorage.removeItem('userEmail');
             setUserNickName(null);
-            localStorage.removeItem('userNickName');
+            setUserEmail(null);
         }
     
     //상세페이지- 예약하기 정보
@@ -423,7 +431,7 @@ export default function ResortData({children}){
 
     if(HotelData.length > 0 && RoomData.length > 0 && ReviewData.length >0 && RatingData.length > 0 && RatingAvgData.length > 0 && hotelMinPrice.length > 0 && hotelMerge.length>0 && MemberAllData.length>0) {
         return(
-            <ResortDataContext.Provider value={{MemberAllData,setHotelMerge,hotelMerge,hotelNum, setHotelNum, WishAvg, hotelMinPrice,HotelRatingDate,RoomData, HotelData,ReviewData, RatingData, RatingAvgData, hotelRatingAvgData, setReviewData,DayData,setDayData,selectDate,setSelectDate,selectday,setSelectday,selectMonth,setSelectMonth,wish,wishStar,wishArray,wishHandler,setWish, 
+            <ResortDataContext.Provider value={{userEmail,MemberAllData,setHotelMerge,hotelMerge,hotelNum, setHotelNum, WishAvg, hotelMinPrice,HotelRatingDate,RoomData, HotelData,ReviewData, RatingData, RatingAvgData, hotelRatingAvgData, setReviewData,DayData,setDayData,selectDate,setSelectDate,selectday,setSelectday,selectMonth,setSelectMonth,wish,wishStar,wishArray,wishHandler,setWish, 
             payHead,setPayHead,
             // payRoom,setPayRoom, 
             userNumFront, setUserNumFront, userNumBack, setUserNumBack, userNickName, loginSave, logout,town,setTown,serchHandler,hotelSort,setHotelSort,myhotel,setmyhotel,cityEn,countryEn, Domestic, setDomestic, headerChange, setHeaderChange,dateFilter,setDateFilter,townfilter,customer,setCustomer}}>

@@ -15,6 +15,8 @@ public interface MemberMapper {
 	public boolean isMemberPhone(String m_phone);
 	//회원가입 중복체크(이미 가입된 이메일로 회원가입하면 실패출력)
 	public boolean isMemberEmail(String m_email);
+	//회원가입 중복체크(이미 가입된 닉네임으로 회원가입하면 실패출력)
+	public boolean isMemberNickname(String m_nickName);
 	//회원 전체 목록 검색 쿼리
 	public List<MemberDTO> allSelectMember();
 	//개인 한 사람의 정보를 검색하는 메소드

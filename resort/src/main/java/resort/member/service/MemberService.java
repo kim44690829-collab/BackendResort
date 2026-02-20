@@ -17,6 +17,8 @@ public interface MemberService {
 	public boolean updateMember(MemberDTO mdto);
 	// 한사람 개인의 정보를 삭제하는 메소드 작성
 	public boolean deleteMember(String m_email);
+	//로그인 메소드
+	public MemberDTO loginConfirm(MemberDTO mdto);
 	
 	//=========2026-02-20 수정============
 	

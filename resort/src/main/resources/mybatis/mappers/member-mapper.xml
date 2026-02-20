@@ -18,6 +18,10 @@
 <select id="isMemberEmail" resultType="boolean">
 	SELECT COUNT(*) FROM member WHERE m_email=#{m_email}
 </select>
+<!-- 회원가입 중복체크(이미 가입된 닉네임으로 회원가입하면 실패출력) -->
+<select id="isMemberNickname" resultType="boolean">
+	SELECT COUNT(*) FROM member WHERE m_nickName=#{m_nickName}
+</select>
 
 <!-- 회원 전체 목록 검색 쿼리 -->
 <select id="allSelectMember" resultType="MemberDTO" >

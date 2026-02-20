@@ -8,7 +8,7 @@ import { useClickAway } from 'react-use';
 
 export default function Header(){
     const navigate = useNavigate();
-    const {userNickName, logout, headerChange, setHeaderChange} = useContext(ResortDataContext);
+    const {userNickName,userEmail, logout, headerChange, setHeaderChange} = useContext(ResortDataContext);
     // const [headerChange, setHeaderChange] = useState(0);
     // 헤더 메뉴바 모달
     // useRef, useClickAway 를 사용하기 전 npm install react-use 를 해야 함.
@@ -138,10 +138,11 @@ export default function Header(){
                 </li>
             </ul>
             :
-            // 로그인 후 헤더
+            userEmail === 'admin@resort.com' ? (
+            // 관리자 로그인 후 헤더
             <ul className="Header_right2">
                 <li className="menu_list2" style={{marginRight:'15px'}}>
-                    <span className="login_nickName">{userNickName}</span>님</li>
+                    <span className="login_nickName">관리자</span>님</li>
                 <li className="menu_list2">
                     <button type='button' onClick={logoutHandeler} className="HeaderBtn logoutBtn">로그아웃</button>
                 </li>
@@ -155,7 +156,25 @@ export default function Header(){
                     </button>
                 </li>
             </ul>
-            }
+            ):(
+                //일반 회원 로그인 후 헤더
+                <ul className="Header_right2">
+                    <li className="menu_list2" style={{marginRight:'15px'}}>
+                        <span className="login_nickName">{userNickName}</span>님</li>
+                    <li className="menu_list2">
+                        <button type='button' onClick={logoutHandeler} className="HeaderBtn logoutBtn">로그아웃</button>
+                    </li>
+                    <li className="menu_list2 menu_btn">
+                        {/* 메뉴 */}
+                        <button type="button" className="HeaderBtn"
+                        onMouseDown={(e) => e.stopPropagation()}
+                        onClick={() => setMenuModal((prev) => !prev)}
+                        >
+                            <i className="fa-solid fa-bars"></i>
+                        </button>
+                    </li>
+                </ul>
+            )}
             {menuModal && 
                 <>
                     <ul className="menus" ref={menuRef}>

@@ -14,8 +14,10 @@ public class MemberServiceImpl implements MemberService {
 	
 	//id중복체크, 성공, 실패 상수변수 정의
 	//회원가입의 중복을 확인하는 상수
-	public final static int user_email_already_exit = -1;//이메일이 이미 존재하는지 유무
-	public final static int user_phone_already_exit = -2;//폰번호가 이미 존재하는지 유무
+	public final static int user_phone_already_exit = -1;//폰번호가 이미 존재하는지 유무
+	public final static int user_email_already_exit = -2;//이메일이 이미 존재하는지 유무
+	public final static int user_nickname_already_exit = -3;//닉네임이 이미 존재하는지 유무
+	
 	//회원가입의 성공여부를 확인하는 상수
 	public final static int user_join_success = 1;
 	//회원가입의 실패를 확인하는 상수
@@ -36,10 +38,11 @@ public class MemberServiceImpl implements MemberService {
 		//회원가입 중복체크 (true면 중복, false면 중복X)
 		boolean isMemberPhone = membermapper.isMemberPhone(mdto.getM_phone());
 		boolean isMemberEmail = membermapper.isMemberEmail(mdto.getM_email());
+		boolean isMemberNickname = membermapper.isMemberNickname(mdto.getM_nickName());
 		
 		
 		//회원가입 중복체크 통과했다면
-		if(isMemberEmail == false && isMemberPhone == false) {
+		if(isMemberPhone == false && isMemberEmail == false && isMemberNickname == false) {
 			//문자인pw를 암호화된 비밀번호로 변화해주는 코드
 			String encodepw = passwordEncoder.encode(mdto.getM_pw());
 			//암호화된 encodepw로 수정
@@ -53,12 +56,15 @@ public class MemberServiceImpl implements MemberService {
 			}else {
 				return user_join_fail; //가입실패시 result =0;
 			}
+		}else if(isMemberPhone == true){
+			//중복된 번호가 존재할때
+			return user_phone_already_exit; //중복된 번호가 있으면 result = -1;
 		}else if(isMemberEmail == true){
 			//중복된 이메일이 존재할때
-			return user_email_already_exit; //중복된 이메일이 있으면 result = -1;
+			return user_email_already_exit; //중복된 이메일이 있으면 result = -2;
 		}else {
-			//중복된 번호가 존재할때
-			return user_phone_already_exit; //중복된 번호가 있으면 result = -2;
+			//중복된 닉네임이 존재할때
+			return user_nickname_already_exit; //중복된 닉네임이 있으면 result = -3;
 		}
 	}
 
@@ -99,6 +105,35 @@ public class MemberServiceImpl implements MemberService {
 	public boolean deleteMember(String m_email) {
 		System.out.println("MemberServiceImpl : deleteMember() 메서드 확인");
 		return membermapper.deleteMember(m_email) == 1;
+	}
+	
+	//로그인 메소드
+	public MemberDTO loginConfirm(MemberDTO mdto) {
+		System.out.println("MemberServiceImpl : loginConfirm() 메서드 확인");
+
+		//DB에서 해당 id(이메일)의 회원정보 가져오기
+		MemberDTO dbMember = membermapper.oneSelectMember(mdto.getM_email());
+		
+		//DB에서 꺼내온 회원정보의 비밀번호와 입력한 값이 일치하는지 확인
+		if(dbMember != null && dbMember.getM_pw() != null) {
+			//사용자 입력 비밀번호를 자동으로 복호화시켜 비교시킴
+			if(passwordEncoder.matches(mdto.getM_pw(),dbMember.getM_pw())) {
+				//로그인 성공한 경우
+				return dbMember;
+			}
+		}
+		return null; // 로그인 실패			
+	}
+	@Override
+	public int getAllcount() {
+		System.out.println("MemberServiceImpl : getAllcount(@-@) 메서드 확인");
+		return membermapper.getAllcount();
+	}
+
+	@Override
+	public List<MemberDTO> getPagelist(int startRow, int pageSize) {
+		System.out.println("MemberServiceImpl : getPagelist(@-@) 메서드 확인");
+		return membermapper.getPagelist(startRow, pageSize);
 	}
 
 	@Override

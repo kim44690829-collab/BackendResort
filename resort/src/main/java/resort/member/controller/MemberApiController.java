@@ -13,6 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+<<<<<<< HEAD
+import jakarta.servlet.http.HttpSession;
+=======
+>>>>>>> main
 import resort.board.controller.PageHandler;
 import resort.member.dto.MemberDTO;
 import resort.member.service.MemberService;
@@ -82,6 +86,52 @@ public class MemberApiController {
 	}
 	
 	
+	// ============= 2026-02-20 수정 부분 ==============
+	@GetMapping("member/list")
+	public Map<String, Object> memberList(
+			@RequestParam(value="page",defaultValue="1") int page, // 초기 페이지
+			@RequestParam(value="pageSize",defaultValue="10") int pageSize // 한 페이지당 보여줄 목록의 수
+			){
+		System.out.println("MemberApiController : memberList(@-@) 메서드 확인");
+		
+		int totalCnt = memberservice.getAllcount();
+		
+		// 페이지 핸들러 인스터스화
+		PageHandler ph = new PageHandler(totalCnt, page, pageSize);
+		
+		List<MemberDTO>list = memberservice.getPagelist(ph.getStartPage(), pageSize);
+		Map<String, Object> result = new HashMap<>();
+		
+		result.put("list", list);
+		result.put("ph", ph);
+		
+		return result;
+	}
+	
+	
+	//로그인 메소드
+	@PostMapping("/member/login")
+	public MemberDTO login(@RequestBody MemberDTO mdto,HttpSession session) {
+		System.out.println("MemberApiController : login 요청됨");
+		
+		MemberDTO loginUser = memberservice.loginConfirm(mdto);
+		
+		if(loginUser != null) {
+			//세션에 로그인 정보담기
+			session.setAttribute("loginUser", loginUser.getM_email());
+		}
+		
+		//React로 JSON 변환
+		return loginUser;
+	}
+	
+	//로그아웃
+	@GetMapping("/member/logout")
+	public int logout(HttpSession session) {
+		System.out.println("MemberApiController : logout 요청됨");
+		session.invalidate();//세션삭제
+		return 1;//성공
+	}	
 	
 	
 }
