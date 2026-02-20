@@ -16,7 +16,9 @@ export default function Detail(){
     const navigate = useNavigate();
 
     //호텔,객실,찜,예약날짜,예약인원,예약객실 데이터  
-    const {RoomData, HotelData,ReviewData, RatingData, RatingAvgData, setReviewData, WishAvg, DayData,wish,wishStar,wishArray,wishHandler,setPayHead,setPayRoom} = useContext(ResortDataContext);
+    const {RoomData, HotelData,ReviewData, setHotelNum, RatingData, RatingAvgData, setReviewData, WishAvg, DayData,wish,wishStar,wishArray,wishHandler,setPayHead,
+        // setPayRoom
+    } = useContext(ResortDataContext);
     //모달 프로바이더
     const {toggle,setModalContent,AddressCopy, AddressCopyClick} = useContext(ModalContext);
   
@@ -292,7 +294,7 @@ export default function Detail(){
         navigator.clipboard.writeText(`${window.location.origin}/detail/${h_code}`);
         setModalContent(<p style={{fontSize:'18px',fontWeight:'700'}}>링크가 복사되었습니다.</p>);
         toggle();
-    }   
+    }
     //주소복사 버튼
     const addressCopy = () =>{
         navigator.clipboard.writeText(`${Hotel.city === 'Sokcho'?'대한민국, 강원도 속초시':Hotel.city === 'Gyeongju'?'대한민국, 경상북도 경주시':Hotel.city === 'Busan'?'대한민국, 부산시':Hotel.city === 'Gangneung'?'대한민국, 강원도 강릉시':Hotel.city === 'Yeosu'?'대한민국, 전라남도 여수시':Hotel.city === 'Daejeon'?'대한민국, 대전시':Hotel.city === 'Gwangju'?'대한민국, 광주시':Hotel.city === 'Jeju'?'대한민국, 제주도':Hotel.city === 'Pohang'?'대한민국, 경상북도 포항시':Hotel.city === 'Seoul'?'대한민국, 서울시':Hotel.city === 'Tokyo'?'일본, 도쿄':Hotel.city === 'Sapporo'?'일본, 훗카이도 삿포로':Hotel.city === 'LosAngeles'?'미국, 캘리포니아 로스앤젤레스':Hotel.city === 'NewYork'?'미국, 뉴욕':Hotel.city === 'Guam'?'미국, 괌':Hotel.city === 'Zhangjiajie'?'중국, 후난성 장가계':Hotel.city === 'Shanghai'?'중국, 상하이':Hotel.city === 'Rome'?'이탈리아, 로마':Hotel.city === 'Venice'?'이탈리아, 베네치아':Hotel.city === 'Paris'?'프랑스, 파리':null} ${Hotel.hotelName}`);
@@ -507,7 +509,7 @@ export default function Detail(){
             return;
         } else {
             setPayHead(headCount);
-            setPayRoom(roomId);
+            setHotelNum(roomId);
             navigate('/pay');
             return;
         }        
