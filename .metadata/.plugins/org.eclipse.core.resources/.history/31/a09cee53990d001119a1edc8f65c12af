@@ -1,9 +1,0 @@
-package resort.reservation.service;
-
-import resort.reservation.dto.ReservationDTO;
-
-public interface ReservationService {
-
-	int insertReservation(ReservationDTO reDTO);
-
-}

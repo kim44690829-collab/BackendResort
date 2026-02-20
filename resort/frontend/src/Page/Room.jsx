@@ -5,13 +5,13 @@ import { ResortDataContext } from '../Api/ResortData';
 import Calendar from "./Calendar";
 import { Link } from "react-router-dom";
 import LeafletMap from '../Api/LeafletMap';
+import axios from "axios";
 
 export default function Room(){
     // 가져오는 호텔, 개실 데이터
-    const {HotelData,RoomData, hotelInput,HotelRatingDate, setHotelInput, DayData,RatingAvgData,RatingData,ReviewData, hotelMinPrice,HotelPriceDate, setDayData,countryEn,cityEn,town,townfilter,setTown,serchHandler,dateFilter,setDateFilter,hotelSort,setHotelSort,myhotel,setmyhotel,wish,wishStar,wishArray,wishHandler,} = useContext(ResortDataContext);
+    const {HotelData,RoomData, hotelInput,hotelMerge,HotelRatingDate, setHotelInput, DayData,RatingAvgData,RatingData,ReviewData, hotelMinPrice,HotelPriceDate, setDayData,countryEn,cityEn,town,townfilter,setTown,
+        serchHandler,dateFilter,setDateFilter,hotelSort,setHotelSort,myhotel,setmyhotel,wish,wishStar,wishArray,wishHandler,} = useContext(ResortDataContext);
     //const {selectDate,setSelectDate,setSelectday} = useContext(calendarAuth)
-    console.log("사용하는쪽 HotelData", HotelData);
-    console.log("사용하는쪽 HotelData", RoomData);
 
 
     /* console.log(selectDate) */
@@ -37,7 +37,9 @@ export default function Room(){
 
     const [test,setTest] = useState('ㅋㅋ')
     //검색어 한국어 , 영문으로 변환
-    
+   
+
+  
 
     //const [dateFilter,setDateFilter] = useState([])
     //날짜에 따른 목록 필터
@@ -47,9 +49,9 @@ export default function Room(){
         console.log("cityEn00",cityEn)
         console.log("countryEn00",countryEn)
         if(cityEn===null && countryEn ===null){
-            dateFilterCopy = HotelData.filter((f)=>(f.startDate>=DayData[0] && f.startDate<=DayData[1]) || (f.endDate<=DayData[1] && f.endDate>=DayData[0]))
+            dateFilterCopy = hotelMerge.filter((f)=>(f.startDate>=DayData[0] && f.startDate<=DayData[1]) || (f.endDate<=DayData[1] && f.endDate>=DayData[0]) || (DayData[0]<=f.startDate && DayData[1]<=f.endDate))
         }else{
-            dateFilterCopy = townfilter.filter((f)=>(f.startDate>=DayData[0] && f.startDate<=DayData[1]) || (f.endDate<=DayData[1] && f.endDate>=DayData[0]))
+            dateFilterCopy = townfilter.filter((f)=>(f.startDate>=DayData[0] && f.startDate<=DayData[1]) || (f.endDate<=DayData[1] && f.endDate>=DayData[0]) || (DayData[0]<=f.startDate && DayData[1]<=f.endDate))
         }
         
         setDateFilter(dateFilterCopy)
@@ -93,96 +95,36 @@ export default function Room(){
         const selectfilter01 = myFilterCopy.filter((f)=>f.id>0 && f.id <14) // publicService 항목 구분
         const selectfilter02 = myFilterCopy.filter((f)=>f.id>13 && f.id <27) // roomservice 항목 구분
         const selectfilter03 = myFilterCopy.filter((f)=>f.id>26 && f.id <=35) // otherService 항목 구분
-
+        
         const filterHotel = dateFilter.filter((data)=>{ // 각 항목별로 만족하는것 필터링
             const f1 = selectfilter02.every((filter)=>data.roomservice.includes(filter.name)); 
             const f2 = selectfilter01.every((filter)=>data.publicservice.includes(filter.name)); 
             const f3 = selectfilter03.every((filter)=>data.otherservice.includes(filter.name));
             return f1&&f2&&f3
         })
-        // const pricefilter = filterHotel.filter((f)=>f.price > minPrice && f.price<=maxPrice) //위의 필터에서 가격이 포함하는 것만 필터링
+        console.log("filterHotel",filterHotel)
+        const pricefilter = filterHotel.filter((f)=>f.hotelPrice > minPrice && f.hotelPrice<=maxPrice) //위의 필터에서 가격이 포함하는 것만 필터링
         
 
-        if(hotelSort===2){
-
-        }else if(hotelSort===3){
-            
-        }else if(hotelSort===4){
-            hotelMinPrice.sort((a,b) => b.p_h_price - a.p_h_price)
-        }else if(hotelSort===5){
-            hotelMinPrice.sort((a,b) => a.p_h_price - b.p_h_price)
-        }
-
-
-
-        //가격 필터로 출력될 호텔 번호 필터
-        const priceFilterHotel = hotelMinPrice.filter((f)=>f.hotelPrice>=minPrice && f.hotelPrice<=maxPrice)
-        // 
-
-       console.log(hotelMinPrice)
-       console.log(priceFilterHotel)
-
-
-
-        // 가격필터 적용
-        const pricefilter = filterHotel.filter((hotel)=>priceFilterHotel.find((f)=>f.h_code === hotel.h_code))
-
+        console.log("pricefilter",pricefilter)
         if(hotelSort===1){
             pricefilter.sort((a,b) => a.h_code - b.h_code)
-        }
-
-
-        /* if(hotelSort===1){
-            pricefilter.sort((a,b) => a.h_code - b.h_code)
         }else if(hotelSort===2){
-            HotelRatingDate.sort((a,b) => b.h_rating - a.h_rating)
+            pricefilter.sort((a,b) => b.hotelAvgScore - a.hotelAvgScore)
         }else if(hotelSort===3){
-            HotelRatingDate.sort((a,b) => a.h_rating - b.h_rating)
+            pricefilter.sort((a,b) => a.hotelAvgScore - b.hotelAvgScore)
         }else if(hotelSort===4){
-            HotelPriceDate.sort((a,b) => b.p_h_price - a.p_h_price)
+            pricefilter.sort((a,b) => b.hotelPrice - a.hotelPrice)
         }else{
-            HotelPriceDate.sort((a,b) => a.p_h_price - b.p_h_price)
-        } */
-
-        // 가격 최솟값 최대값 조정 함수
-      /*    const rangeHandler01 =(e)=>{
-            
-            if(maxPrice-minPrice<10000){
-                setMinPrice(maxPrice-10000)
-                setMaxPrice(minPrice+10000)
-                console.log(maxPrice,'최대가격1')
-                console.log(minPrice,'최소가격1')
-            }else{
-                setMinPrice(Number(e.target.value))
-                console.log(maxPrice,'최대가격2')
-                console.log(minPrice,'최소가격2')
-            }
-        } 
-        
-        rangeHandler01(e);
-        const rangeHandler02 =(e)=>{
-            
-            if(maxPrice-minPrice<10000){
-                setMinPrice(maxPrice-10000)
-                setMaxPrice(minPrice+10000)
-                console.log(maxPrice,'최대가격3')
-                console.log(minPrice,'최소가격3')
-            }else{
-                setMaxPrice(Number(e.target.value))
-                console.log(maxPrice,'최대가격4')
-                console.log(minPrice,'최소가격4')
-            }
+            pricefilter.sort((a,b) => a.hotelPrice - b.hotelPrice)
         }
-        
-         */
-    if(DayData.length===2 , openC === false){
+        console.log("pricefilter",pricefilter)
+    if(DayData.length===2 && openC === false){
         setmyhotel02(pricefilter)
-        //setmyhotel(dateFilter)
-        console.log(myhotel)
     }
         
 
-    },[myFilter,minPrice,maxPrice,hotelSort,DayData,myhotel])
+    },[myFilter,minPrice,maxPrice,hotelSort,dateFilter,DayData,myhotel])
 
     // range 에서 최소값이 - 로 넘어가는것돠 최댓값이 최댓값을 초과하는것을 막는 로직
     useEffect(()=>{
@@ -463,9 +405,9 @@ export default function Room(){
                                             
                                         </div>
                                         </Link>
-                                        <button type='button' onClick={()=>wishHandler(item.id)} className="menu_wishbtn">
+                                        <button type='button' onClick={()=>wishHandler(item.h_code)} className="menu_wishbtn">
                                             <i className="fa-solid fa-heart" style={
-                                            wish.find((items) => items.id === Number(item.id)) ?
+                                            wish.find((items) => items.h_code === Number(item.h_code)) ?
                                                 {color:'#f94239'}
                                             :
                                                 {color:'#6b6b6b'}

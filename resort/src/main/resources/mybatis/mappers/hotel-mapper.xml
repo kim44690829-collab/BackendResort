@@ -33,4 +33,15 @@
 		ON h.h_code = r.h_code 
 		GROUP BY h.h_code 
 	</select>
+	
+	<!-- 호텔 정보 총합(가격+ 별점) public List<HotelMergeDTO> getHotelMerge(); -->
+	<select id="getHotelMerge" resultType="HotelMergeDTO">
+		SELECT h.*,MIN(r.price) as hotelPrice,avg(rb.rb_score) as hotelAvgScore FROM hotel h
+		INNER JOIN room r
+		on h.h_code = r.h_code
+		INNER JOIN reviewboard rb
+		on rb.r_code = r.r_code
+		group by h.h_code
+	</select>
+	
 </mapper>

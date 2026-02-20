@@ -1,0 +1,49 @@
+.admin_wrap{
+    margin-top: 100px;
+    text-align: center;
+}
+.admin_wrap .admin_title{
+    font-size: 30px;
+    font-weight: 700;
+    margin-bottom: 30px;
+}
+.admin_wrap .admin_header{
+    background-color: rgb(213, 197, 176);
+    display: flex;
+    justify-content: center;
+    position: relative;
+    height: 30px;
+    padding-top: 7px;
+}
+.admin_wrap .admin_header .admin_submenu{
+    position: absolute;
+    top: 30px;
+    left: auto;
+}
+.admin_wrap .admin_body{
+    background-color: antiquewhite;
+    padding: 100px 0;
+}
+.admin_wrap .admin_body .admin_text{
+
+}
+.admin_wrap .admin_body .admin_list{
+
+}
+
+/* 테이블 */
+.admin_wrap .admin_body .admin_list .list_table{
+    margin: 30px auto;
+    width: 1200px;
+}
+.admin_wrap .admin_body .admin_list .list_table th{
+    background-color: #ccc;
+}
+.admin_wrap .admin_body .admin_list .list_table td{
+    background-color: #fff;
+}
+.admin_wrap .admin_body .admin_list .list_table th,
+.admin_wrap .admin_body .admin_list .list_table td{
+    text-align: center;
+    padding: 10px 0;
+}

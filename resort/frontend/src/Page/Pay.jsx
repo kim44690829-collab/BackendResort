@@ -33,6 +33,10 @@ export default function Pay(){
             setchking([{id:1,state:false},{id:2,state:false},{id:3,state:false},{id:4,state:false},{id:5,state:false}])
         }
     }
+    useEffect(()=>{
+        console.log("myRoom",myRoom)
+        console.log("roomprice",roomprice)
+    },[])
     //결제 수단 선택
     const [btnNum,setBtnNum] = useState(0)
     //개별 선택 함수
@@ -122,7 +126,7 @@ export default function Pay(){
     )
     
 
-    //생년월이
+    //생년월일
     const [birth,setBirth] = useState('')
     
     const birthYear = birth.substring(0, 4);
@@ -146,9 +150,6 @@ export default function Pay(){
             setModalContent(<p style={{fontSize:'18px',fontWeight:'700'}}>예약자 정보를 입력해주세요.</p>)
             toggle();
         }
-        // console.log(chking[0].state)
-        // console.log(btnNum)
-        // console.log(phone.length)
     }
     // console.log(payRoom)
 
@@ -190,94 +191,10 @@ export default function Pay(){
 
     
 
-    
-
-    // 방법2
-    // const submitReservation = () => {
-    //     // 세션스토리지에서 가져온 user정보 user : user, 를 axios에 담아서 감
-    //     // 컨트롤러에서 user의 값이 null이나 아니냐를 if문으로 판별
-    //     // null이면 비회원 insert 및 예약 insert
-    //     // null이 아니면 회원fk를 포함한 예약정보 insert
-    //     axios.post('/api/guest',{
-    //         g_name : customer,
-    //         g_birth : `${birthYear}-${birthMonth}-${birthDate}`, 
-    //         g_phone : phone
-    //     })
-    //     .then((res) => {
-    //         if(res.data !== 1){
-    //             alert('비회원 정보 입력에 실패하였습니다.')
-    //             navigate("/pay");
-    //         }
-    //     })
-
-        
-    // }
-
-    // const maxSelect = () => {
-    //     axios.get('/api/maxGuest')
-    //     .then((res) => {
-    //         console.log('max값', res.data)
-    //         setMaxGuest(res.data)
-    //     })
-    // }
-
-    // useEffect(() => {
-
-    //     submitReservation();
-    //     maxSelect();
-    //     axios.post('/api/reservations', {
-    //         g_code : maxGuest,
-    //         r_code : hotelNum,
-    //         booker_name : customer,
-    //         check_in_date : DayDataResult[0], 
-    //         check_out_date : DayDataResult[1],
-    //         original_price : myRoomPrice,
-    //         discount_rate : isDiscount,
-    //         final_price : totalPrice
-    //     })
-    //     .then((res) => {
-    //         if(res.data === 1){
-    //             navigate("/pay2");
-    //         }else{
-    //             alert('예약에 실패하였습니다.')
-    //             navigate("/pay");
-    //         }
-    //     })
-
-    // },[])
-
-    // 방법3
-    // const submitReservation = () => {
-    //     // 세션스토리지에서 가져온 user정보 user : user, 를 axios에 담아서 감
-    //     // 컨트롤러에서 user의 값이 null이나 아니냐를 if문으로 판별
-    //     // null이면 비회원 insert 및 예약 insert
-    //     // null이 아니면 회원fk를 포함한 예약정보 insert
-    //     axios.post('/api/reservations', { 
-    //         g_name : customer,
-    //         booker_name : customer,
-    //         g_birth : birth, 
-    //         g_phone : phone, 
-    //         r_code : hotelNum, 
-    //         check_in_date : DayDataResult[0], 
-    //         check_out_date : DayDataResult[1],
-    //         original_price : myRoomPrice,
-    //         discount_rate : isDiscount,
-    //         final_price : totalPrice
-    //     })
-    //     .then((res) => {
-    //         if(res.data === 1){
-    //             navigate("/pay2");
-    //         }else{
-    //             alert('예약에 실패하였습니다.')
-    //             navigate("/pay");
-    //         }
-    //     })
-    // }
-
     return(
         <>
             <div className="paysection">
-                <h2 className="pay_title">{/* <i className="fa-solid fa-arrow-left"></i> */}예약 확인 및 결제</h2>
+                <h2 className="pay_title">예약 확인 및 결제</h2>
                 <div className="pay_info">
                     <div className="user_info">
                         <h4 className="pay_left_title">예약자 정보</h4>

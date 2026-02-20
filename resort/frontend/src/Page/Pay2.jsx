@@ -7,12 +7,12 @@ import { Link } from "react-router-dom";
 export default function Pay2(){
 
     const {payHead,setPayHead,payRoom,setPayRoom,HotelData,RoomData,DayData,customer,setCustomer} = useContext(ResortDataContext)
-    // console.log(payHead) // 1
-    // console.log(payRoom) // null
-    // console.log(HotelData) // 140개
-    // console.log(RoomData) //420개
-    // console.log(DayData) // 선택한 날짜
-    const payDay = `${new Date().getFullYear()} - ${new Date().getMonth()} - ${new Date().getDate()}`
+   // console.log(payHead) // 1
+   // console.log(payRoom) // null
+   // console.log(HotelData) // 140개
+   // console.log(RoomData) //420개
+   // console.log(DayData) // 선택한 날짜
+    const payDay = `${new Date().getFullYear()} - ${new Date().getMonth()+1} - ${new Date().getDate()}`
     const [open,setOpen] = useState(false)
     const myRoom = RoomData.filter((f)=>f.id===payRoom)
 

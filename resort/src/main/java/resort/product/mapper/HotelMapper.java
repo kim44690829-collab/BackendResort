@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import resort.product.dto.HotelDTO;
+import resort.product.dto.HotelMergeDTO;
 import resort.product.dto.HotelPriceDTO;
 import resort.product.dto.HotelRatingDTO;
 
@@ -26,5 +27,8 @@ public interface HotelMapper {
 	
 	// 호텔 별점 출력
 	public List<HotelRatingDTO> getHotelRating();
+	
+	// 호텔 정보 총합 출력
+	public List<HotelMergeDTO> getHotelMerge();
 
 }
