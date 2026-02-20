@@ -44,5 +44,17 @@
 	DELETE FROM member WHERE m_email=#{m_email} 
 </delete>
 
+<!-- ================2026-02-20 수정 부분 ============================== -->
+
+<!-- 회원정보 개수  -->
+<select id="getAllcount" resultType="int">
+	SELECT COUNT(*) FROM member
+</select>
+
+<!-- 회원정보 보이는 개수 -->
+<select id="getPagelist" resultType="MemberDTO">
+	SELECT *FROM member ORDER BY num DESC
+	LIMIT #{startRow}, #{pageSize}
+</select>
 
 </mapper>

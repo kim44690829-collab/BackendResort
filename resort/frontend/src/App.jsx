@@ -21,7 +21,7 @@ import HelpCenter from './Page/HelpCenter'
 import Wish from './Page/Wish'
 import HotelSection from './Page/HotelSection'
 import HotelSection2 from './Page/HotelSection2'
-import AdminPage from './Page/AdminPage'
+import AdminPage from './Page/admin/AdminPage'
 
 function App() {
 

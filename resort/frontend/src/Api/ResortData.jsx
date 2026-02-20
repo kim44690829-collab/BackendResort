@@ -19,7 +19,8 @@ export default function ResortData({children}){
 
     const [hotelRatingAvgData, setHotelRatingAvgData] = useState([]);
     const [hotelMinPrice, setHotelMinPrice] = useState([]);
-     const [hotelMerge,setHotelMerge] = useState([])
+    const [hotelMerge,setHotelMerge] = useState([])
+    const [MemberAllData,setMemberAllData] = useState([])
 
     // axios 사용 - 호텔, 객실
     useEffect(() => {
@@ -116,6 +117,16 @@ export default function ResortData({children}){
         .then((res) => {
             console.log("호텔총합 데이터 : ", res.data);
             setHotelMerge(res.data);
+        })
+        .catch((error) => {
+            console.error("error", error)
+        })
+
+        // MemberAllData
+        axios.get('/api/member/allmember')
+        .then((res) => {
+            console.log("회원전체 데이터 : ", res.data);
+            setMemberAllData(res.data);
         })
         .catch((error) => {
             console.error("error", error)
@@ -404,9 +415,9 @@ export default function ResortData({children}){
 
     
 
-    if(HotelData.length > 0 && RoomData.length > 0 && ReviewData.length >0 && RatingData.length > 0 && RatingAvgData.length > 0 && hotelMinPrice.length > 0 && hotelMerge.length>0) {
+    if(HotelData.length > 0 && RoomData.length > 0 && ReviewData.length >0 && RatingData.length > 0 && RatingAvgData.length > 0 && hotelMinPrice.length > 0 && hotelMerge.length>0 && MemberAllData.length>0) {
         return(
-            <ResortDataContext.Provider value={{WishAvg,hotelMerge,setHotelMerge, hotelMinPrice,HotelRatingDate,RoomData, HotelData,ReviewData, RatingData, RatingAvgData, hotelRatingAvgData, setReviewData,DayData,setDayData,selectDate,setSelectDate,selectday,setSelectday,selectMonth,setSelectMonth,wish,wishStar,wishArray,wishHandler,setWish, 
+            <ResortDataContext.Provider value={{MemberAllData,WishAvg,hotelMerge,setHotelMerge, hotelMinPrice,HotelRatingDate,RoomData, HotelData,ReviewData, RatingData, RatingAvgData, hotelRatingAvgData, setReviewData,DayData,setDayData,selectDate,setSelectDate,selectday,setSelectday,selectMonth,setSelectMonth,wish,wishStar,wishArray,wishHandler,setWish, 
             payHead,setPayHead,payRoom,setPayRoom, userNumFront, setUserNumFront, userNumBack, setUserNumBack, userNickName, loginSave, logout,town,setTown,serchHandler,hotelSort,setHotelSort,myhotel,setmyhotel,cityEn,countryEn, Domestic, setDomestic, headerChange, setHeaderChange,dateFilter,setDateFilter,townfilter,customer,setCustomer}}>
                 {children}
             </ResortDataContext.Provider>
