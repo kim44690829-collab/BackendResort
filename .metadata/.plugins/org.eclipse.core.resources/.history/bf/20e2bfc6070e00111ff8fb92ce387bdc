@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="resort.member.mapper.GuestMapper">
+	
+	<!-- // 비회원 insert public void insertGuest(GuestDTO gdto); -->
+	<insert id="insertGuest" parameterType="GuestDTO">
+		INSERT INTO guest(g_name, g_phone, g_birth)
+		VALUES(#{g_name}, #{g_phone}, #{g_birth})
+	</insert>
+	
+	<!-- // 비회원 코드 select public GuestDTO selectOneGuest(); -->
+	<select id="selectOneGuest" resultType="GuestDTO">
+		SELECT * FROM guest WHERE g_code = #{g_code}
+	</select>
+	
+	<!-- // 비회원 코드 MAX select public GuestDTO selectMaxGuest(); -->
+	<select id="selectMaxGuest" resultType="GuestDTO">
+		SELECT MAX(g_code) FROM guest 
+	</select>
+</mapper>

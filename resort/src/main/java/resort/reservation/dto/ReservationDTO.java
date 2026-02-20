@@ -4,14 +4,14 @@ import java.util.Date;
 
 public class ReservationDTO{
 	// 공지보드 DTO
-	private int re_code; //예약코드
+	private int re_code; //예약코드 
 	private int m_code; //회원코드
 	private int g_code; //비회원코드
 	private int r_code; //객실코드
 	private String booker_name; //예약자명
 	private Date reserved_at; //예약신청일
-	private Date check_in_date; //예약시작일
-	private Date check_out_date; //예약종료일
+	private String check_in_date; //예약시작일
+	private String check_out_date; //예약종료일
 	private int original_price; //원가격
 	private int discount_rate; //할인율
 	private int final_price; //할인 후 가격
@@ -52,16 +52,17 @@ public class ReservationDTO{
 	public void setReserved_at(Date reserved_at) {
 		this.reserved_at = reserved_at;
 	}
-	public Date getCheck_in_date() {
+	
+	public String getCheck_in_date() {
 		return check_in_date;
 	}
-	public void setCheck_in_date(Date check_in_date) {
+	public void setCheck_in_date(String check_in_date) {
 		this.check_in_date = check_in_date;
 	}
-	public Date getCheck_out_date() {
+	public String getCheck_out_date() {
 		return check_out_date;
 	}
-	public void setCheck_out_date(Date check_out_date) {
+	public void setCheck_out_date(String check_out_date) {
 		this.check_out_date = check_out_date;
 	}
 	public int getOriginal_price() {

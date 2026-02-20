@@ -1,5 +1,9 @@
 package resort.reservation.service;
 
+import resort.reservation.dto.ReservationDTO;
+
 public interface ReservationService {
+	
+	public int insertReservation(ReservationDTO redto);
 
 }

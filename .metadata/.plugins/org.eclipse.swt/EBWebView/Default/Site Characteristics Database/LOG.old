@@ -1,3 +1,7 @@
-2026/02/19-12:20:54.322 8b0 Reusing MANIFEST C:\resort2026\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Site Characteristics Database/MANIFEST-000001
-2026/02/19-12:20:54.323 8b0 Recovering log #3
-2026/02/19-12:20:54.323 8b0 Reusing old log C:\resort2026\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Site Characteristics Database/000003.log 
+2026/02/20-09:49:49.370 3948 Log #13: 0 ops saved to Table #14 OK
+2026/02/20-09:49:49.374 3948 Archiving C:\resort2026\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Site Characteristics Database/000013.log: OK
+2026/02/20-09:49:49.374 3948 Table #4: 5 entries OK
+2026/02/20-09:49:49.374 3948 Table #7: 5 entries OK
+2026/02/20-09:49:49.374 3948 Table #8: 1 entries OK
+2026/02/20-09:49:49.376 3948 Archiving C:\resort2026\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Site Characteristics Database/MANIFEST-000001: OK
+2026/02/20-09:49:49.381 3948 **** Repaired leveldb C:\resort2026\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Site Characteristics Database; recovered 3 files; 630 bytes. Some data may have been lost. ****

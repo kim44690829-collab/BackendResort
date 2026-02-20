@@ -1,5 +1,25 @@
 package resort.member.service;
 
-public class GuestServiceImpl {
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import resort.member.dto.GuestDTO;
+import resort.member.mapper.GuestMapper;
+
+@Service
+public class GuestServiceImpl implements GuestService{
+
+	@Autowired
+	GuestMapper guestmapper;
+	
+	@Override
+	public int insertGuest(GuestDTO gdto) {
+		System.out.println("GuestServiceImpl : insertGuest() 메서드 확인");
+		guestmapper.insertGuest(gdto);
+		return gdto.getG_code();
+	}
+
+	
 
 }
