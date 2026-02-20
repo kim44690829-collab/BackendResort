@@ -1,0 +1,13 @@
+package resort.member.service;
+
+import resort.member.dto.GuestDTO;
+
+public interface GuestService {
+
+	// 비회원 insert
+	public int insertGuest(GuestDTO gdto);
+	
+	// 비회원 코드 MAX select
+	public GuestDTO selectMaxGuest();
+	
+}

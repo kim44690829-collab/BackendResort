@@ -18,15 +18,22 @@ public class ReservationApiController {
 	@Autowired
 	ReservationService reservationservice;
 	
-	@Autowired
-	GuestService guestservice;
+//	@Autowired
+//	GuestService guestservice;
+	
+	// 예약 추가
+//	@PostMapping("/reservations")
+//	public int insertReservation(@RequestBody GuestDTO gdto, @RequestBody ReservationDTO redto){
+//		System.out.println("ReservationApiController : insertReservation() 메서드 확인");
+//		// 비회원 insert
+//		guestservice.insertGuest(gdto);
+//		return reservationservice.insertReservation(redto);
+//	}
 	
 	// 예약 추가
 	@PostMapping("/reservations")
-	public int insertReservation(@RequestBody GuestDTO gdto, @RequestBody ReservationDTO redto){
+	public int insertReservation(@RequestBody ReservationDTO redto){
 		System.out.println("ReservationApiController : insertReservation() 메서드 확인");
-		// 비회원 insert
-		guestservice.insertGuest(gdto);
 		return reservationservice.insertReservation(redto);
 	}
 }

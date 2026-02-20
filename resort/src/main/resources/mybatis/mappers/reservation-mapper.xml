@@ -6,7 +6,8 @@
 	
 	<!-- 예약 내역 insert / public int insertReservation(ReservationDTO redto); -->
 	<insert id="insertReservation" parameterType="ReservationDTO">
-		INSERT INTO reservation VALUES(#{g_code}, #{r_code}, #{booker_name}, #{check_in_date}, #{check_out_date}, #{original_price}, #{discount_rate}, #{final_price})
+		INSERT INTO reservation (g_code, r_code, booker_name, check_in_date, check_out_date, original_price, discount_rate, final_price) 
+		VALUES(#{g_code}, #{r_code}, #{booker_name}, #{check_in_date}, #{check_out_date}, #{original_price}, #{discount_rate}, #{final_price})
 	</insert>
 
 </mapper>

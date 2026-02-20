@@ -1,0 +1,46 @@
+package resort.member.dto;
+
+import java.util.Date;
+
+public class GuestDTO {
+	// 테이블
+	private int g_code;  //비회원코드(PK)
+	private String g_name ;  //이름
+	private String g_phone;  //전화번호
+	private Date g_birth;  //생년월일
+	private int g_check; // 숙박완료여부		
+
+	
+	public int getG_check() {
+		return g_check;
+	}
+	public void setG_check(int g_check) {
+		this.g_check = g_check;
+	}
+	public int getG_code() {
+		return g_code;
+	}
+	public void setG_code(int g_code) {
+		this.g_code = g_code;
+	}
+	public String getG_name() {
+		return g_name;
+	}
+	public void setG_name(String g_name) {
+		this.g_name = g_name;
+	}
+	public String getG_phone() {
+		return g_phone;
+	}
+	public void setG_phone(String g_phone) {
+		this.g_phone = g_phone;
+	}
+	public Date getG_birth() {
+		return g_birth;
+	}
+	public void setG_birth(Date g_birth) {
+		this.g_birth = g_birth;
+	}
+	
+	
+}

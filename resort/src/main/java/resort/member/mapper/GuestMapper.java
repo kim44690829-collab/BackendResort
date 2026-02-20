@@ -9,4 +9,9 @@ public interface GuestMapper {
 
 	// 비회원 insert
 	public void insertGuest(GuestDTO gdto);
+	
+	// 비회원 코드 select
+	public GuestDTO selectOneGuest();
+	
+	
 }

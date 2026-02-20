@@ -8,7 +8,7 @@ public class GuestDTO {
 	private String g_name ;  //이름
 	private String g_phone;  //전화번호
 	private Date g_birth;  //생년월일
-	private int g_check; // 숙박완료여부		
+	private int g_check; // 숙박완료여부
 
 	
 	public int getG_check() {

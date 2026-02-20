@@ -1,0 +1,35 @@
+package resort.member.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import resort.member.dto.GuestDTO;
+import resort.member.mapper.GuestMapper;
+
+@Service
+public class GuestServiceImpl implements GuestService{
+
+	@Autowired
+	GuestMapper guestmapper;
+	
+	@Override
+	public int insertGuest(GuestDTO gdto) {
+		System.out.println("GuestServiceImpl : insertGuest() 메서드 확인");
+		return guestmapper.insertGuest(gdto);
+	}
+
+//	@Override
+//	public GuestDTO selectMaxGuest() {
+//		System.out.println("GuestServiceImpl : selectMaxGuest() 메서드 확인");
+//		return guestmapper.selectMaxGuest();
+//	}
+
+//	@Override
+//	public GuestDTO insertPro(GuestDTO gdto) {
+//		System.out.println("GuestServiceImpl : insertPro() 메서드 확인");
+//		guestmapper.insertGuest(gdto);
+//		return guestmapper.selectMaxGuest();
+//	}
+
+}
