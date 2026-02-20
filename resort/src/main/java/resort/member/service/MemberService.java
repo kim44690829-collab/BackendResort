@@ -19,4 +19,11 @@ public interface MemberService {
 	public boolean deleteMember(String m_email);
 	//로그인 메소드
 	public MemberDTO loginConfirm(MemberDTO mdto);
+	
+	//=========2026-02-20 수정============
+	
+	// 전체 회원정보의 개수를 구하는 매소드
+	public int getAllcount();
+	// 전체 회원정보의 시작(startRow), 몇개의 행 (pageSize)만큼 보는 메소드
+	public List<MemberDTO> getPagelist(@Param("startRow")int startRow,@Param("pageSize")int pageSize);
 }

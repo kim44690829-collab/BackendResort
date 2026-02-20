@@ -1,6 +1,8 @@
 package resort.member.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.servlet.http.HttpSession;
+import resort.board.controller.PageHandler;
 import resort.member.dto.MemberDTO;
 import resort.member.service.MemberService;
 
@@ -56,6 +59,29 @@ public class MemberApiController {
 		return memberservice.deleteMember(m_email);
 		
 	}
+	
+	// ============= 2026-02-20 수정 부분 ==============
+	@GetMapping("member/list")
+	public Map<String, Object> memberList(
+			@RequestParam(value="page",defaultValue="1") int page, // 초기 페이지
+			@RequestParam(value="pageSize",defaultValue="10") int pageSize // 한 페이지당 보여줄 목록의 수
+			){
+		System.out.println("MemberApiController : memberList(@-@) 메서드 확인");
+		
+		int totalCnt = memberservice.getAllcount();
+		
+		// 페이지 핸들러 인스터스화
+		PageHandler ph = new PageHandler(totalCnt, page, pageSize);
+		
+		List<MemberDTO>list = memberservice.getPagelist(ph.getStartPage(), pageSize);
+		Map<String, Object> result = new HashMap<>();
+		
+		result.put("list", list);
+		result.put("ph", ph);
+		
+		return result;
+	}
+	
 	
 	//로그인 메소드
 	@PostMapping("/member/login")
