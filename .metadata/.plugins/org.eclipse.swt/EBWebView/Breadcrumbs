@@ -1,200 +1,31 @@
-3:04:46 Microsoft.UnloadController.TabStripEmpty
-3:04:46 Microsoft.UnloadController.IsUnclosableApp_IsNotWebApp
-3:04:46 Microsoft.UnloadController.HasCompletedUnloadProcessing_True
-3:04:46 Microsoft.Shutdown.OnWindowClosing
-3:04:46 Microsoft.UnloadController.IsUnclosableApp_IsNotWebApp
-3:04:46 Microsoft.UnloadController.HasCompletedUnloadProcessing_True
-3:04:46 Microsoft.Shutdown.OnWindowClosing_MaybeClearBrowsingDataOnExit
-3:04:46 Microsoft.Shutdown.OnWindowClosing_ClearBrowsingDataOnExitNotInProgress
-3:04:46 Microsoft.Shutdown.OnWindowClosingPostClearBrowsingData_NoBrowsingDataCleared
-3:04:46 Widget Closed: BrowserWidget
-3:04:46 Microsoft.UnloadController.HasCompletedUnloadProcessing_True
-3:04:46 Microsoft.Shutdown.OnWindowClosing
-3:04:46 Microsoft.Shutdown.OnWindowClosing_DeleteScheduled
-3:04:46 Microsoft.Browser_Removed
-3:04:53 Tab49 StartNav549 #typed
-3:04:53 Tab49 FinishNav549
-3:04:53 Tab49 PageLoad
-3:04:54 Tab49 StartNav550 #typed
-3:04:54 Tab49 FinishNav550
-3:04:54 Tab49 PageLoad
-3:12:57 Tab49 StartNav551 #typed
-3:12:57 Tab49 FinishNav551
-3:12:57 Tab49 PageLoad
-3:12:57 Tab49 StartNav552 #typed
-3:12:57 Tab49 FinishNav552
-3:12:57 Tab49 PageLoad
-3:12:58 Tab49 StartNav553 #typed
-3:12:58 Tab49 FinishNav553
-3:12:58 Tab49 PageLoad
-3:12:58 Tab49 StartNav554 #typed
-3:12:58 Tab49 FinishNav554
-3:12:58 Tab49 PageLoad
-3:12:58 Tab49 StartNav555 #typed
-3:12:58 Tab49 FinishNav555
-3:12:58 Tab49 PageLoad
-3:13:02 Tab47 StartNav556 #typed
-3:13:02 Tab47 FinishNav556
-3:13:02 Tab47 PageLoad
-3:13:02 Tab47 StartNav557 #typed
-3:13:02 Tab47 FinishNav557
-3:13:02 Tab47 PageLoad
-3:13:03 Tab47 StartNav558 #typed
-3:13:03 Tab47 FinishNav558
-3:13:03 Tab47 PageLoad
-3:13:03 Tab47 StartNav559 #typed
-3:13:03 Tab47 FinishNav559
-3:13:03 Tab47 PageLoad
-3:13:04 Tab47 StartNav560 #typed
-3:13:04 Tab47 FinishNav560
-3:13:04 Tab47 PageLoad
-3:13:04 Tab47 StartNav561 #typed
-3:13:04 Tab47 FinishNav561
-3:13:04 Tab47 PageLoad
-3:13:04 Tab47 StartNav562 #typed
-3:13:04 Tab47 FinishNav562
-3:13:04 Tab47 PageLoad
-3:13:06 Tab47 StartNav563 #typed
-3:13:06 Tab47 FinishNav563
-3:13:06 Tab47 PageLoad
-3:13:10 Tab47 StartNav564 #typed
-3:13:10 Tab47 FinishNav564
-3:13:10 Tab47 PageLoad
-3:13:10 Tab47 StartNav565 #typed
-3:13:10 Tab47 FinishNav565
-3:13:10 Tab47 PageLoad
-3:14:18 Tab47 StartNav566 #typed
-3:14:18 Tab47 FinishNav566
-3:14:18 Tab47 PageLoad
-3:17:19 Tab48 StartNav567 #typed
-3:17:19 Tab48 FinishNav567
-3:17:19 Tab48 PageLoad
-3:17:20 Tab48 StartNav568 #typed
-3:17:20 Tab48 FinishNav568
-3:17:20 Tab48 PageLoad
-3:17:20 Tab48 StartNav569 #typed
-3:17:20 Tab48 FinishNav569
-3:17:20 Tab48 PageLoad
-3:17:20 Tab48 StartNav570 #typed
-3:17:20 Tab48 FinishNav570
-3:17:20 Tab48 PageLoad
-3:17:21 Tab48 StartNav571 #typed
-3:17:21 Tab48 FinishNav571
-3:17:21 Tab48 PageLoad
-3:17:23 Tab48 StartNav572 #typed
-3:17:23 Tab48 FinishNav572
-3:17:23 Tab48 PageLoad
-3:20:08 Tab47 StartNav573 #typed
-3:20:08 Tab47 FinishNav573
-3:20:08 Tab47 PageLoad
-3:20:10 Tab47 StartNav574 #typed
-3:20:10 Tab47 FinishNav574
-3:20:10 Tab47 PageLoad
-3:20:11 Tab47 StartNav575 #typed
-3:20:11 Tab47 FinishNav575
-3:20:11 Tab47 PageLoad
-3:20:11 Tab47 StartNav576 #typed
-3:20:11 Tab47 FinishNav576
-3:20:11 Tab47 PageLoad
-3:20:13 Tab47 StartNav577 #typed
-3:20:13 Tab47 FinishNav577
-3:20:13 Tab47 PageLoad
-3:20:16 Tab47 StartNav578 #typed
-3:20:16 Tab47 FinishNav578
-3:20:16 Tab47 PageLoad
-3:20:16 Tab47 StartNav579 #typed
-3:20:16 Tab47 FinishNav579
-3:20:16 Tab47 PageLoad
-3:20:18 Tab37 StartNav580 #typed
-3:20:18 Tab37 FinishNav580
-3:20:18 Tab37 PageLoad
-3:20:20 Tab37 StartNav581 #typed
-3:20:20 Tab37 FinishNav581
-3:20:20 Tab37 PageLoad
-3:20:22 Tab49 StartNav582 #typed
-3:20:22 Tab49 FinishNav582
-3:20:22 Tab49 PageLoad
-3:20:22 Tab49 StartNav583 #typed
-3:20:22 Tab49 FinishNav583
-3:20:22 Tab49 PageLoad
-3:20:23 Tab49 StartNav584 #typed
-3:20:23 Tab49 FinishNav584
-3:20:23 Tab49 PageLoad
-3:20:23 Tab49 StartNav585 #typed
-3:20:23 Tab49 FinishNav585
-3:20:23 Tab49 PageLoad
-3:20:24 Tab49 StartNav586 #typed
-3:20:24 Tab49 FinishNav586
-3:20:24 Tab49 PageLoad
-3:20:25 Tab49 StartNav587 #typed
-3:20:25 Tab49 FinishNav587
-3:20:25 Tab49 PageLoad
-3:20:25 Tab49 StartNav588 #typed
-3:20:25 Tab49 FinishNav588
-3:20:25 Tab49 PageLoad
-3:20:26 Tab49 StartNav589 #typed
-3:20:26 Tab49 FinishNav589
-3:20:26 Tab49 PageLoad
-3:20:26 Tab49 StartNav590 #typed
-3:20:26 Tab49 FinishNav590
-3:20:26 Tab49 PageLoad
-3:20:26 Tab49 StartNav591 #typed
-3:20:26 Tab49 FinishNav591
-3:20:26 Tab49 PageLoad
-3:20:26 Tab49 StartNav592 #typed
-3:20:27 Tab49 FinishNav592
-3:20:27 Tab49 PageLoad
-3:20:29 Tab47 StartNav593 #typed
-3:20:29 Tab47 FinishNav593
-3:20:29 Tab47 PageLoad
-3:20:29 Tab47 StartNav594 #typed
-3:20:29 Tab47 FinishNav594
-3:20:29 Tab47 PageLoad
-3:20:31 Tab47 StartNav595 #typed
-3:20:31 Tab47 FinishNav595
-3:20:31 Tab47 PageLoad
-3:20:32 Tab47 StartNav596 #typed
-3:20:32 Tab47 FinishNav596
-3:20:32 Tab47 PageLoad
-3:20:33 Tab47 StartNav597 #typed
-3:20:33 Tab47 FinishNav597
-3:20:33 Tab47 PageLoad
-3:20:33 Tab47 StartNav598 #typed
-3:20:33 Tab47 FinishNav598
-3:20:33 Tab47 PageLoad
-3:20:34 Tab47 StartNav599 #typed
-3:20:34 Tab47 FinishNav599
-3:20:34 Tab47 PageLoad
-3:20:35 Tab47 StartNav600 #typed
-3:20:35 Tab47 FinishNav600
-3:20:35 Tab47 PageLoad
-3:20:35 Tab47 StartNav601 #typed
-3:20:35 Tab47 FinishNav601
-3:20:35 Tab47 PageLoad
-3:20:39 Tab47 StartNav602 #typed
-3:20:39 Tab47 FinishNav602
-3:20:39 Tab47 PageLoad
-3:20:39 Tab47 StartNav603 #typed
-3:20:39 Tab47 FinishNav603
-3:20:39 Tab47 PageLoad
-3:20:41 Tab47 StartNav604 #typed
-3:20:41 Tab47 FinishNav604
-3:20:41 Tab47 PageLoad
-3:20:43 Tab47 StartNav605 #typed
-3:20:43 Tab47 FinishNav605
-3:20:43 Tab47 PageLoad
-3:20:43 Tab47 StartNav606 #typed
-3:20:43 Tab47 FinishNav606
-3:20:43 Tab47 PageLoad
-3:20:44 Tab47 StartNav607 #typed
-3:20:44 Tab47 FinishNav607
-3:20:44 Tab47 PageLoad
-3:20:45 Tab47 StartNav608 #typed
-3:20:45 Tab47 FinishNav608
-3:20:45 Tab47 PageLoad
-3:21:37 Tab47 StartNav609 #typed
-3:21:37 Tab47 FinishNav609
-3:21:37 Tab47 PageLoad
-3:21:38 Tab47 StartNav610 #typed
-3:21:38 Tab47 FinishNav610
-3:21:38 Tab47 PageLoad
+4:29:30 Microsoft.Shutdown.TabStripModel.CloseTabs
+4:29:30 Microsoft.Shutdown.TabStripModel.CloseTabs_EdgeBeforeClosingAllTabs
+4:29:30 Microsoft.Shutdown.TabStripModel.InternalCloseTabsImpl
+4:29:30 Microsoft.Shutdown.TabStripModel.InternalCloseTabsImpl_TabClosable
+4:29:30 Microsoft.Shutdown.TabStripModel.InternalCloseTabsImpl_ClosingAll
+4:29:30 Microsoft.Shutdown.TabStripModel.CloseWebContentses
+4:29:30 Microsoft.Shutdown.TabStripModel.CloseWebContentses_FastShutdown
+4:29:30 Microsoft.Shutdown.TabStripModel.ShouldRunUnloadListenerBeforeClosing_false
+4:29:30 Tab47 RenderProcessGone
+4:29:30 Microsoft.UnloadController.ClearUnloadState
+4:29:30 Microsoft.Shutdown.TabStripModel.RunUnloadListenerBeforeClosing_false
+4:29:30 Microsoft.Shutdown.TabStripModel.InternalCloseTabsImpl_ClosedAll
+4:29:30 Microsoft.Shutdown.TabStripModel.SendDetachWebContentsNotifications
+4:29:30 Microsoft.UnloadController.ClearUnloadState
+4:29:30 Browser47 Close Tab47 at 0
+4:29:30 Tab47 WebContentsDestroyed
+4:29:30 Microsoft.UnloadController.TabStripEmpty
+4:29:30 Microsoft.UnloadController.IsUnclosableApp_IsNotWebApp
+4:29:30 Microsoft.UnloadController.HasCompletedUnloadProcessing_True
+4:29:30 Microsoft.Shutdown.OnWindowClosing
+4:29:30 Microsoft.UnloadController.IsUnclosableApp_IsNotWebApp
+4:29:30 Microsoft.UnloadController.HasCompletedUnloadProcessing_True
+4:29:30 Microsoft.Shutdown.OnWindowClosing_MaybeClearBrowsingDataOnExit
+4:29:30 Microsoft.Shutdown.OnWindowClosing_ClearBrowsingDataOnExitNotInProgress
+4:29:30 Microsoft.Shutdown.OnWindowClosingPostClearBrowsingData_NoBrowsingDataCleared
+4:29:30 Widget Closed: BrowserWidget
+4:29:30 Microsoft.UnloadController.HasCompletedUnloadProcessing_True
+4:29:30 Microsoft.Shutdown.OnWindowClosing
+4:29:30 Microsoft.Shutdown.OnWindowClosing_DeleteScheduled
+4:29:30 Microsoft.Browser_Removed
+4:29:32 Microsoft.UnloadController.IsUnclosableApp_IsNotWebApp

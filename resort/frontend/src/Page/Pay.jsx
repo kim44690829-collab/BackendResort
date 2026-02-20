@@ -8,7 +8,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 export default function Pay(){
-
+    // 2026-02-20
     const {payHead,setPayHead,hotelNum, HotelData,RoomData,DayData,customer,setCustomer} = useContext(ResortDataContext)
     const navigate = useNavigate();
     
