@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function SignUp3(){
     const navigate = useNavigate();
+    //
     // 핸드폰 데이터 3개 합친 변수
     const {userNumFront, setUserNumFront, userNumBack, setUserNumBack, setHeaderChange, userNickName, /* nickname, setNickname */} = useContext(ResortDataContext);
     // 회원가입 form에 들어가는 상태변수
