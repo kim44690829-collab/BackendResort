@@ -1,5 +1,12 @@
 package resort.member.service;
 
+import resort.member.dto.GuestDTO;
+
 public interface GuestService {
 
+	// 비회원 insert
+	public int insertGuest(GuestDTO gdto);
+	
+	
+	
 }

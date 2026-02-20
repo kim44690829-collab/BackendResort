@@ -136,5 +136,17 @@ public class MemberServiceImpl implements MemberService {
 		return membermapper.getPagelist(startRow, pageSize);
 	}
 
+	@Override
+	public int getAllcount() {
+		System.out.println("MemberServiceImpl : getAllcount(@-@) 메서드 확인");
+		return membermapper.getAllcount();
+	}
+
+	@Override
+	public List<MemberDTO> getPagelist(int startRow, int pageSize) {
+		System.out.println("MemberServiceImpl : getPagelist(@-@) 메서드 확인");
+		return membermapper.getPagelist(startRow, pageSize);
+	}
+
 
 }
