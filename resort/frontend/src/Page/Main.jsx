@@ -540,9 +540,9 @@ export default function Main(){
                                                                 )}
                                                             </div>
                                                         </Link>
-                                                        <button type='button' className='wishBtn1' onClick={()=>wishHandler(item.id)}>
+                                                        <button type='button' className='wishBtn1' onClick={()=>wishHandler(item.h_code)}>
                                                         <i className="fa-solid fa-heart" style={
-                                                        wish.find((hotel) => hotel.id === Number(item.id)) ?
+                                                        wish.find((hotel) => hotel.h_code === Number(item.h_code)) ?
                                                             {color:'#f94239'}
                                                         :
                                                             {color:'#6b6b6b'}
@@ -604,9 +604,9 @@ export default function Main(){
                                                 </>
                                             )}
                                         </Link>
-                                        <button type='button' className='wishBtn2' onClick={()=>wishHandler(item.id)}>
+                                        <button type='button' className='wishBtn2' onClick={()=>wishHandler(item.h_code)}>
                                         <i className="fa-solid fa-heart" style={
-                                        wish.find((hotel) => hotel.id === Number(item.id)) ?
+                                        wish.find((hotel) => hotel.h_code === Number(item.h_code)) ?
                                             {color:'#f94239'}
                                         :
                                             {color:'#6b6b6b'}
@@ -617,7 +617,7 @@ export default function Main(){
                             ))}
                             {overseasHotel.slice(20,24).map((item) => (
                                 <li key={item.h_code} style={{cursor:'pointer'}} className='popularAccomSub3'>
-                                    <Link to = {`/detail/${item.id}`} onClick={() => window.scrollTo(0,0)}>
+                                    <Link to = {`/detail/${item.h_code}`} onClick={() => window.scrollTo(0,0)}>
                                         <div className="popularImgBox">
                                             <img src={`/img/${item.h_Img}`} alt={item.hotelName} className='popularAccomMainImg' />
                                         </div>
@@ -642,9 +642,9 @@ export default function Main(){
                                             </>
                                         )}
                                     </Link>
-                                    <button type='button' className='wishBtn2' onClick={()=>wishHandler(item.id)}>
+                                    <button type='button' className='wishBtn2' onClick={()=>wishHandler(hotel.h_code)}>
                                     <i className="fa-solid fa-heart" style={
-                                    wish.find((hotel) => hotel.id === Number(item.id)) ?
+                                    wish.find((hotel) => hotel.h_code === Number(item.h_code)) ?
                                         {color:'#f94239'}
                                     :
                                         {color:'#6b6b6b'}
@@ -680,9 +680,9 @@ export default function Main(){
                                             </>
                                         )}
                                     </Link>
-                                    <button type='button' className='wishBtn2' onClick={()=>wishHandler(item.id)}>
+                                    <button type='button' className='wishBtn2' onClick={()=>wishHandler(item.h_code)}>
                                     <i className="fa-solid fa-heart" style={
-                                    wish.find((hotel) => hotel.id === Number(item.id)) ?
+                                    wish.find((hotel) => hotel.h_code === Number(item.h_code)) ?
                                         {color:'#f94239'}
                                     :
                                         {color:'#6b6b6b'}
@@ -831,9 +831,9 @@ export default function Main(){
                                                                 )}
                                                             </div>
                                                             </Link>
-                                                            <button type='button' className='wishBtn3' onClick={()=>wishHandler(item.id)}>
+                                                            <button type='button' className='wishBtn3' onClick={()=>wishHandler(item.h_code)}>
                                                             <i className="fa-solid fa-heart wishBtn3-1" style={
-                                                            wish.find((hotel) => hotel.id === Number(item.id)) ?
+                                                            wish.find((hotel) => hotel.h_code === Number(item.h_code)) ?
                                                                 {color:'#f94239'}
                                                             :
                                                                 {color:'#6b6b6b'}

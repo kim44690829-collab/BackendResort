@@ -351,7 +351,7 @@ export default function ResortData({children}){
     //인원수
     const [payHead, setPayHead] = useState(1);
     //객실아이디
-    const [payRoom, setPayRoom] = useState(null);
+    // const [payRoom, setPayRoom] = useState(null);
     // 도시, 나라이름 검색입력
     const [town,setTown] = useState('')
     // 정렬 번호
@@ -402,12 +402,20 @@ export default function ResortData({children}){
     // 예약자명
     const [customer,setCustomer] = useState('')
 
-    
+    const [hotelNum, setHotelNum] = useState(() => {
+        const saved = sessionStorage.getItem('hotelNum');
+        return saved ? JSON.parse(saved) : 0
+    })
+    useEffect(() => {
+        sessionStorage.setItem('hotelNum', JSON.stringify(hotelNum))
+    },[hotelNum])
 
     if(HotelData.length > 0 && RoomData.length > 0 && ReviewData.length >0 && RatingData.length > 0 && RatingAvgData.length > 0 && hotelMinPrice.length > 0 && hotelMerge.length>0) {
         return(
-            <ResortDataContext.Provider value={{WishAvg,hotelMerge,setHotelMerge, hotelMinPrice,HotelRatingDate,RoomData, HotelData,ReviewData, RatingData, RatingAvgData, hotelRatingAvgData, setReviewData,DayData,setDayData,selectDate,setSelectDate,selectday,setSelectday,selectMonth,setSelectMonth,wish,wishStar,wishArray,wishHandler,setWish, 
-            payHead,setPayHead,payRoom,setPayRoom, userNumFront, setUserNumFront, userNumBack, setUserNumBack, userNickName, loginSave, logout,town,setTown,serchHandler,hotelSort,setHotelSort,myhotel,setmyhotel,cityEn,countryEn, Domestic, setDomestic, headerChange, setHeaderChange,dateFilter,setDateFilter,townfilter,customer,setCustomer}}>
+            <ResortDataContext.Provider value={{hotelMerge,hotelNum, setHotelNum, WishAvg, hotelMinPrice,HotelRatingDate,RoomData, HotelData,ReviewData, RatingData, RatingAvgData, hotelRatingAvgData, setReviewData,DayData,setDayData,selectDate,setSelectDate,selectday,setSelectday,selectMonth,setSelectMonth,wish,wishStar,wishArray,wishHandler,setWish, 
+            payHead,setPayHead,
+            // payRoom,setPayRoom, 
+            userNumFront, setUserNumFront, userNumBack, setUserNumBack, userNickName, loginSave, logout,town,setTown,serchHandler,hotelSort,setHotelSort,myhotel,setmyhotel,cityEn,countryEn, Domestic, setDomestic, headerChange, setHeaderChange,dateFilter,setDateFilter,townfilter,customer,setCustomer}}>
                 {children}
             </ResortDataContext.Provider>
         );
