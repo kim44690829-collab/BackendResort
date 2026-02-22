@@ -88,16 +88,26 @@ public class MemberServiceImpl implements MemberService {
 	public boolean updateMember(MemberDTO mdto) {
 		System.out.println("MemberServiceImpl : updateMember() 메서드 확인");
 		
-		//패스워드 조회
+		//DB패스워드 조회
 		String dbPass = membermapper.getPass(mdto.getM_email());
+		//입력한 패스워드
+		String inputPass = mdto.getPw_before();
 		
-		if(dbPass != null && dbPass.equals(mdto.getM_pw())) {
-			//내가 입력한 DB의 패스워드가 존재할때
-			return membermapper.updateMember(mdto) == 1;
-		}else {
-			//내가 입력한 DB의 패스워드가 존재하지않을때
-			return false;
-		}		
+		// 암호화하여 비교
+	    if(passwordEncoder.matches(inputPass, dbPass)) {
+	    	//내가 입력한 이전 패스워드가 기존 DB에 있던 패스워드랑 같을때
+	    	
+	    	//문자인pw를 암호화된 비밀번호로 변화해주는 코드
+			String encodepw = passwordEncoder.encode(mdto.getM_pw());
+			//암호화된 encodepw로 수정
+			mdto.setM_pw(encodepw);	    	
+	    	
+	        return membermapper.updateMember(mdto) == 1;
+	    } else {
+	    	//내가 입력한 이전 패스워드가 기존 DB에 있던 패스워드랑 다를때
+	        return false;
+	    }
+	
 	}
 	
 	// 한사람 개인의 정보를 삭제하는 메소드 작성
@@ -135,18 +145,5 @@ public class MemberServiceImpl implements MemberService {
 		System.out.println("MemberServiceImpl : getPagelist(@-@) 메서드 확인");
 		return membermapper.getPagelist(startRow, pageSize);
 	}
-
-	@Override
-	public int getAllcount() {
-		System.out.println("MemberServiceImpl : getAllcount(@-@) 메서드 확인");
-		return membermapper.getAllcount();
-	}
-
-	@Override
-	public List<MemberDTO> getPagelist(int startRow, int pageSize) {
-		System.out.println("MemberServiceImpl : getPagelist(@-@) 메서드 확인");
-		return membermapper.getPagelist(startRow, pageSize);
-	}
-
 
 }
