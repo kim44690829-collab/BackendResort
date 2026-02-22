@@ -57,7 +57,7 @@
 
 <!-- 회원정보 보이는 개수 -->
 <select id="getPagelist" resultType="MemberDTO">
-	SELECT *FROM member ORDER BY num DESC
+	SELECT *FROM member ORDER BY m_code DESC
 	LIMIT #{startRow}, #{pageSize}
 </select>
 

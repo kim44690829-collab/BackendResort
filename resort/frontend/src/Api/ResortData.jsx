@@ -27,7 +27,7 @@ export default function ResortData({children}){
         // HotelData
         axios.get('/api/hotel/context')
         .then((res) => {
-            console.log("호텔 데이터 : ", res.data);
+            //console.log("호텔 데이터 : ", res.data);
             setHotelData(res.data);
         })
         .catch((error) => {
@@ -37,7 +37,7 @@ export default function ResortData({children}){
         // RoomData
         axios.get('/api/room/context')
         .then((res) => {
-            console.log("객실 데이터 : ", res.data);
+            //console.log("객실 데이터 : ", res.data);
             setRoomData(res.data);
         })
         .catch((error) => {
@@ -47,7 +47,7 @@ export default function ResortData({children}){
         // ReviewData
         axios.get('/api/board/review')
         .then((res) => {
-            console.log("리뷰(평점) 데이터 : ", res.data);
+            //console.log("리뷰(평점) 데이터 : ", res.data);
             setReviewData(res.data);
         })
         .catch((error) => {
@@ -57,7 +57,7 @@ export default function ResortData({children}){
         // ReviewRating
         axios.get('/api/board/rating')
         .then((res) => {
-            console.log("객실(평점) 데이터 : ", res.data);
+            //console.log("객실(평점) 데이터 : ", res.data);
             setRatingData(res.data);
         })
         .catch((error) => {
@@ -67,7 +67,7 @@ export default function ResortData({children}){
         // ReviewRatingAvg
         axios.get('/api/board/ratingAvg')
         .then((res) => {
-            console.log("객실(평점) 평균 데이터 : ", res.data);
+            //console.log("객실(평점) 평균 데이터 : ", res.data);
             setRatingAvgData(res.data);
         })
         .catch((error) => {
@@ -85,7 +85,7 @@ export default function ResortData({children}){
         // })
         axios.get('/api/board/hotelRatingAvg')
         .then((res) => {
-            console.log("호텔(평점) 평균 데이터 : ", res.data);
+            //console.log("호텔(평점) 평균 데이터 : ", res.data);
             setHotelRatingAvgData(res.data);
         })
         .catch((error) => {
@@ -95,7 +95,7 @@ export default function ResortData({children}){
         // hotelRating
         axios.get("/api/hotel/hotelRating")
         .then((res) => {
-            console.log("호텔평점 데이터 : ", res.data);
+            //console.log("호텔평점 데이터 : ", res.data);
             setHotelRatingDate(res.data);
         })
         .catch((error) => {
@@ -105,7 +105,7 @@ export default function ResortData({children}){
             // hotelMinPrice
         axios.get('/api/hotel/price')
         .then((res) => {
-            console.log("호텔 가격(최저가) 데이터 : ", res.data);
+            //console.log("호텔 가격(최저가) 데이터 : ", res.data);
             setHotelMinPrice(res.data);
         })
         .catch((error) => {
@@ -115,7 +115,7 @@ export default function ResortData({children}){
         // HotelMergeData
         axios.get('/api/hotel/hotelMarge')
         .then((res) => {
-            console.log("호텔총합 데이터 : ", res.data);
+            //console.log("호텔총합 데이터 : ", res.data);
             setHotelMerge(res.data);
         })
         .catch((error) => {
@@ -125,7 +125,7 @@ export default function ResortData({children}){
         // MemberAllData
         axios.get('/api/member/allmember')
         .then((res) => {
-            console.log("회원전체 데이터 : ", res.data);
+            //console.log("회원전체 데이터 : ", res.data);
             setMemberAllData(res.data);
         })
         .catch((error) => {
@@ -429,7 +429,7 @@ export default function ResortData({children}){
         sessionStorage.setItem('hotelNum', JSON.stringify(hotelNum))
     },[hotelNum])
 
-    if(HotelData.length > 0 && RoomData.length > 0 && ReviewData.length >0 && RatingData.length > 0 && RatingAvgData.length > 0 && hotelMinPrice.length > 0 && hotelMerge.length>0 && MemberAllData.length>0) {
+    if(HotelData.length > 0 && RoomData.length > 0 && ReviewData.length >0 && RatingData.length > 0 && RatingAvgData.length > 0 && hotelMinPrice.length > 0 && hotelMerge.length>0 /* && MemberAllData.length>0 */) {
         return(
             <ResortDataContext.Provider value={{userEmail,MemberAllData,setHotelMerge,hotelMerge,hotelNum, setHotelNum, WishAvg, hotelMinPrice,HotelRatingDate,RoomData, HotelData,ReviewData, RatingData, RatingAvgData, hotelRatingAvgData, setReviewData,DayData,setDayData,selectDate,setSelectDate,selectday,setSelectday,selectMonth,setSelectMonth,wish,wishStar,wishArray,wishHandler,setWish, 
             payHead,setPayHead,

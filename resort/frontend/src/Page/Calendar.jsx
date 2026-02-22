@@ -12,16 +12,13 @@ export default function Calendar(){
     const [calArr,setCalArr] = useState(
         Array.from(Array(6),() => new Array(7).fill(''))
     ) //달력에 들어가는 배열
-//git 
-   console.log('2025-12-19',selectMonth.getFullYear());
+
+
     const nextMonth= new Date(selectMonth.getFullYear(),selectMonth.getMonth() + 1,1) //선택한 다음달 달력
     const [calArr02,setCalArr02] = useState(
         Array.from(Array(6),() => new Array(7).fill(''))
     ) //달력에 들어가는 배열
 
-    //선택한 날짜
-    //const [selectDate,setSelectDate] = useState([]) // 달력에서 선택한 날짜
-    //const [selectday,setSelectday] = useState([])
     
     useEffect(()=>{
         setDayData(selectday)
@@ -133,21 +130,6 @@ export default function Calendar(){
         }else if(selectMonth.getFullYear()>thisyears+1 || selectMonth.getMonth()>=3){
             setSelectMonth(new Date(selectMonth.getFullYear(),selectMonth.getMonth() - 1,1))
         }
-
-        /* if(selectMonth.getMonth()>=thismonth){ //선택되었는는 월이 오늘의 월보다 클때
-            setSelectMonth(new Date())
-            console.log(thismonth)
-            console.log(selectMonth.getMonth())
-        }else if(selectMonth.getMonth()+1 === (thismonth+2)%12 && selectMonth.getFullYear()<=thisyears+1){
-            setSelectMonth(new Date(selectMonth.getFullYear(),selectMonth.getMonth() - 1,thisdate))
-        }else{
-            setSelectMonth(new Date(selectMonth.getFullYear(),selectMonth.getMonth() - 1,1))
-        } */
-        /* if(selectMonth.getMonth()===thismonth){ //선택된 월과 이번달이 같으면
-            setSelectMonth(new Date(selectMonth.getFullYear(),selectMonth.getMonth() - 1,1))
-        }else{
-            setSelectMonth(new Date())
-        } */
         
     }
 
@@ -155,16 +137,13 @@ export default function Calendar(){
     const leftcal =(items,item,years)=>{
         const selectDateCopy = [...selectDate]
         const selectdayCopy = [...selectday]
-        //console.log(selectDateCopy.findIndex((f)=>f===`${selectMonth.getFullYear()}-${selectMonth.getMonth()+1}-${items}`))
         if(selectDateCopy.length<2 && selectDateCopy.findIndex((f)=>f===`${selectMonth.getFullYear()}-${selectMonth.getMonth()+1}-${items}`) !== 0){
             selectDateCopy.push(`${selectMonth.getFullYear()}-${selectMonth.getMonth()+1}-${items}`)
         }else{
             console.log(selectDateCopy)
             selectDateCopy.splice(0,2)
-            //selectDateRemoveAll()
-            //selectDateCopy.push(`${selectMonth.getFullYear()}-${selectMonth.getMonth()+1}-${items}`)
         }
-       // console.log(selectDateCopy)
+       // console.log(selectDateCopy)npm
         selectDateCopy.sort((a,b)=> a-b)
        // console.log(selectDateCopy.sort())
        
@@ -270,10 +249,12 @@ export default function Calendar(){
                             {calArr.map((item,index) => (
                                     <tr key={index}>
                                         {item.map((items,index) => (
-                                            <td key={index} onClick={()=>items!=='' && selectMonth.getDate()<=items?leftcal(items,selectMonth.getMonth()+1,selectMonth.getFullYear()):''} 
+                                                                                        /* 선택한 일자가 오늘일자보다 클때 클릭 활성화 - 비활성화 처리 */
+                                            <td key={index} onClick={()=>items!=='' && /* selectMonth.getDate()<=items? */leftcal(items,selectMonth.getMonth()+1,selectMonth.getFullYear())/* :'' */} 
                                             className={
-                                                `${selectMonth.getDate()>items?''
-                                                :
+                                                /* 현재 일자 이전 일자 클래스 없음 예외처리 - 비활성화*/
+                                                `${/* selectMonth.getDate()>items?''
+                                                : */
                                                 `${selectMonth.getFullYear()}-${selectMonth.getMonth()+1<10?`0${selectMonth.getMonth()+1}`:selectMonth.getMonth()+1}-${items<10?'0'+items:items}`===selectday[0] || `${selectMonth.getFullYear()}-${selectMonth.getMonth()+1<10?`0${selectMonth.getMonth()+1}`:selectMonth.getMonth()+1}-${items<10?'0'+items:items}`===selectday[1]?'choose'
                                                 :
                                                 `${selectMonth.getFullYear()}-${selectMonth.getMonth()+1<10?`0${selectMonth.getMonth()+1}`:selectMonth.getMonth()+1}-${items<10?'0'+items:items}`>selectday[0] && `${selectMonth.getFullYear()}-${selectMonth.getMonth()+1<10?`0${selectMonth.getMonth()+1}`:selectMonth.getMonth()+1}-${items<10?'0'+items:items}`<selectday[1]?'area'
@@ -285,7 +266,8 @@ export default function Calendar(){
                                                     ''
                                                 } table_num`}
                                             style={{
-                                                color:items<selectMonth.getDate()?'gray':item[0]===items?'red':'black',
+                                                /* 현재 일자 이전 일자 색상 회색처리 - 비활성화 */
+                                                color:/* items<selectMonth.getDate()?'gray': */item[0]===items?'red':'black',
                                                 cursor:items<selectMonth.getDate()?'default':'pointer',
                                                
                                             }}><span className="cal_num">{items}</span></td>

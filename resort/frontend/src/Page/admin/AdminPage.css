@@ -7,13 +7,18 @@
     font-weight: 700;
     margin-bottom: 30px;
 }
-.admin_wrap .admin_header{
-    background-color: rgb(213, 197, 176);
+.admin_wrap .admin_header {
+    background-color: #7ED6E4;
     display: flex;
     justify-content: center;
     position: relative;
-    height: 30px;
-    padding-top: 7px;
+    padding: 20px 0;
+    
+}
+.admin_wrap .admin_header .admin_menu{
+    font-size: 20px;
+    font-weight: 600;
+    margin-left:20px
 }
 .admin_wrap .admin_header .admin_submenu{
     position: absolute;
@@ -21,7 +26,7 @@
     left: auto;
 }
 .admin_wrap .admin_body{
-    background-color: antiquewhite;
+    background-color: #f0f4f8;;
     padding: 100px 0;
 }
 .admin_wrap .admin_body .admin_text{
@@ -37,7 +42,8 @@
     width: 1200px;
 }
 .admin_wrap .admin_body .admin_list .list_table th{
-    background-color: #ccc;
+    background-color: #333;
+    color: #fff
 }
 .admin_wrap .admin_body .admin_list .list_table td{
     background-color: #fff;
@@ -46,4 +52,15 @@
 .admin_wrap .admin_body .admin_list .list_table td{
     text-align: center;
     padding: 10px 0;
+}
+.paging .pages .pageBtn{
+    width: 30px;
+    height:30px;
+    background-color: #fff;
+    border: 2px solid #333;
+    margin-right:10px;
+    border-radius: 50%; 
+}
+.paging .pages .pageBtn .active{
+    border: 2px solid #42799b;
 }

@@ -49,45 +49,17 @@ export default function Room(){
         console.log("cityEn00",cityEn)
         console.log("countryEn00",countryEn)
         if(cityEn===null && countryEn ===null){
-            dateFilterCopy = hotelMerge.filter((f)=>(f.startDate>=DayData[0] && f.startDate<=DayData[1]) || (f.endDate<=DayData[1] && f.endDate>=DayData[0]) || (DayData[0]<=f.startDate && DayData[1]<=f.endDate))
+            dateFilterCopy = hotelMerge.filter((f)=>(f.startDate>=DayData[0] && f.startDate<=DayData[1]) || (f.endDate<=DayData[1] && f.endDate>=DayData[0]) || (DayData[0]>=f.startDate && DayData[1]<=f.endDate))
         }else{
-            dateFilterCopy = townfilter.filter((f)=>(f.startDate>=DayData[0] && f.startDate<=DayData[1]) || (f.endDate<=DayData[1] && f.endDate>=DayData[0]) || (DayData[0]<=f.startDate && DayData[1]<=f.endDate))
+            dateFilterCopy = townfilter.filter((f)=>(f.startDate>=DayData[0] && f.startDate<=DayData[1]) || (f.endDate<=DayData[1] && f.endDate>=DayData[0]) || (DayData[0]>=f.startDate && DayData[1]<=f.endDate))
         }
         
         setDateFilter(dateFilterCopy)
         console.log("dateFilterCopy",dateFilterCopy)
         console.log("DayData",DayData)
     },[DayData,cityEn,countryEn])
-
-    // 검색어 입력, 날짜 선택 필터
-    /* const serchHandler =()=>{
-        const dateFilter = HotelData.filter((f)=>f.startDate>DayData[0] && f.endDate<DayData[1])
-        let overFilter = []
-        if(cityEn !== null){
-            overFilter = dateFilter.filter((f)=>f.city===cityEn)
-        }else if(countryEn !== null){
-            overFilter = dateFilter.filter((f)=>f.country===countryEn)
-        }else{
-            overFilter = dateFilter
-        }
-        console.log(overFilter)
-        // 필터한 내용 정렬
-        if(hotelSort===1){
-            overFilter.sort((a,b) => a.id - b.id)
-        }else if(hotelSort===2){
-            overFilter.sort((a,b) => b.score - a.score)
-        }else if(hotelSort===3){
-            overFilter.sort((a,b) => a.score - b.score)
-        }else if(hotelSort===4){
-            overFilter.sort((a,b) => b.price - a.price)
-        }else{
-            overFilter.sort((a,b) => a.price - b.price)
-        }
-        setmyhotel(overFilter)
-    } */
     
-    //
-    //
+    
     useEffect(()=>{
         //console.log(myFilter,'현재 마이필터')
         //console.log(myhotel,'현재 마이호텔')

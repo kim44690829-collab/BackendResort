@@ -4,10 +4,10 @@ import '../admin/AdminPage.css'
 import axios from "axios";
 
 export default function AdminPage(){
-    const {MemberAllData} = useContext(ResortDataContext);
+    const {} = useContext(ResortDataContext);
 
     const [members,setMembers] = useState([]);
-    const [ph,setPh] = useState([]);
+    const [ph,setPh] = useState({});
     const [page, setPage] = useState(1);
     useEffect(()=>{
         axios.get('/api/member/list',{
@@ -25,7 +25,18 @@ export default function AdminPage(){
         .catch((error) => {
             console.error("error", error)
         })
+        console.log(page)
     },[page])
+
+    const pages = [];
+
+    for (let i = ph.startPage; i <= ph.endPage; i++) {
+        pages.push(
+            <button key={i} onClick={() => {setPage(i), window.scrollTo(0,0)}} className={i === ph.pageNum ? "pageBtn active" : "pageBtn"}>
+            {i}
+            </button>
+        );
+    }
 
 
     return(
@@ -65,7 +76,7 @@ export default function AdminPage(){
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {MemberAllData.map((item,index)=>{
+                                    {members.map((item,index)=>{
                                         const member_birth = new Date(item.m_birth)
                                         const birth_Date = member_birth.toLocaleDateString('ko-KR')
                                         const member_reg = new Date(item.m_regDate)
@@ -87,11 +98,14 @@ export default function AdminPage(){
                                 </tbody>
                             </table>
                             <div className="paging">
-                                <button type="button">◀</button>
-                                <span>
-                                    
-                                </span>
-                                <button type="button">▶</button>
+                                {/* 페이지가 많을때 좌우 버튼 */}
+                                {ph.prev && (
+                                    <button onClick={() => setPage(ph.startPage - 1)}>◀</button>
+                                )}
+                                <div className="pages">{pages}</div>
+                                {ph.next && (
+                                    <button onClick={() => setPage(ph.endPage + 1)}>▶</button>
+                                )}
                             </div>
                             <div id="search_wrap">
                                 <form >
