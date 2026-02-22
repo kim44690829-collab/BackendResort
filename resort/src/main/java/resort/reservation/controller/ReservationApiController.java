@@ -34,6 +34,13 @@ public class ReservationApiController {
 	@PostMapping("/reservations")
 	public int insertReservation(@RequestBody ReservationDTO redto){
 		System.out.println("ReservationApiController : insertReservation() 메서드 확인");
-		return reservationservice.insertReservation(redto);
+		if(redto.getG_code() != null && redto.getM_code() == null) {
+			return reservationservice.gInsertReservation(redto);
+		}else if(redto.getG_code() == null && redto.getM_code() != null){
+			return reservationservice.mInsertReservation(redto);
+		}else {
+			System.out.println("예약 실패");
+			return 0;
+		}
 	}
 }

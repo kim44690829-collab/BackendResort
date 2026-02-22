@@ -126,11 +126,19 @@ export default function ResortData({children}){
         axios.get('/api/member/allmember')
         .then((res) => {
             console.log("회원전체 데이터 : ", res.data);
+
+            if (!res.data || res.data.length === 0) {
+                console.warn("회원 데이터 없음");
+                setMemberAllData([]);   // 그래도 상태는 넣어줘야 함
+                return;
+            }
+
             setMemberAllData(res.data);
         })
         .catch((error) => {
-            console.error("error", error)
-        })
+            console.error("회원 데이터 요청 실패", error);
+            setMemberAllData([]); // 실패해도 최소 빈 배열 넣기 (중요)
+        });
 
     },[])
 
@@ -429,7 +437,7 @@ export default function ResortData({children}){
         sessionStorage.setItem('hotelNum', JSON.stringify(hotelNum))
     },[hotelNum])
 
-    if(HotelData.length > 0 && RoomData.length > 0 && ReviewData.length >0 && RatingData.length > 0 && RatingAvgData.length > 0 && hotelMinPrice.length > 0 && hotelMerge.length>0 && MemberAllData.length>0) {
+    if(HotelData.length > 0 && RoomData.length > 0 && ReviewData.length >0 && RatingData.length > 0 && RatingAvgData.length > 0 && hotelMinPrice.length > 0 && hotelMerge.length>0) {
         return(
             <ResortDataContext.Provider value={{userEmail,MemberAllData,setHotelMerge,hotelMerge,hotelNum, setHotelNum, WishAvg, hotelMinPrice,HotelRatingDate,RoomData, HotelData,ReviewData, RatingData, RatingAvgData, hotelRatingAvgData, setReviewData,DayData,setDayData,selectDate,setSelectDate,selectday,setSelectday,selectMonth,setSelectMonth,wish,wishStar,wishArray,wishHandler,setWish, 
             payHead,setPayHead,

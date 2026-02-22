@@ -11,11 +11,17 @@ public class ReservationServiceImpl implements ReservationService {
 
 	@Autowired
 	ReservationMapper reservationmapper;
-	
+
 	@Override
-	public int insertReservation(ReservationDTO redto) {
+	public int gInsertReservation(ReservationDTO redto) {
 		System.out.println("ReservationServiceImpl : insertReservation() 메서드 확인");
-		return reservationmapper.insertReservation(redto);
+		return reservationmapper.gInsertReservation(redto);
+	}
+
+	@Override
+	public int mInsertReservation(ReservationDTO redto) {
+		System.out.println("ReservationServiceImpl : mInsertReservation() 메서드 확인");
+		return reservationmapper.mInsertReservation(redto);
 	}
 
 	
