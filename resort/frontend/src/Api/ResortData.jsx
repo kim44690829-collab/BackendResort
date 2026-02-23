@@ -431,10 +431,24 @@ export default function ResortData({children}){
 
     if(HotelData.length > 0 && RoomData.length > 0 && ReviewData.length >0 && RatingData.length > 0 && RatingAvgData.length > 0 && hotelMinPrice.length > 0 && hotelMerge.length>0 && MemberAllData.length>0) {
         return(
-            <ResortDataContext.Provider value={{userEmail,MemberAllData,setHotelMerge,hotelMerge,hotelNum, setHotelNum, WishAvg, hotelMinPrice,HotelRatingDate,RoomData, HotelData,ReviewData, RatingData, RatingAvgData, hotelRatingAvgData, setReviewData,DayData,setDayData,selectDate,setSelectDate,selectday,setSelectday,selectMonth,setSelectMonth,wish,wishStar,wishArray,wishHandler,setWish, 
-            payHead,setPayHead,
-            // payRoom,setPayRoom, 
-            userNumFront, setUserNumFront, userNumBack, setUserNumBack, userNickName, loginSave, logout,town,setTown,serchHandler,hotelSort,setHotelSort,myhotel,setmyhotel,cityEn,countryEn, Domestic, setDomestic, headerChange, setHeaderChange,dateFilter,setDateFilter,townfilter,customer,setCustomer}}>
+            <ResortDataContext.Provider value={{
+                userEmail,MemberAllData,setHotelMerge,
+                hotelMerge,hotelNum, setHotelNum, 
+                WishAvg, hotelMinPrice,HotelRatingDate,
+                RoomData, HotelData,ReviewData, RatingData, 
+                RatingAvgData, hotelRatingAvgData, setReviewData,
+                DayData,setDayData,selectDate,
+                setSelectDate,selectday,setSelectday,
+                selectMonth,setSelectMonth,
+                wish,wishStar,wishArray,
+                wishHandler,setWish, payHead,setPayHead,
+                userNumFront, setUserNumFront, userNumBack, 
+                setUserNumBack, userNickName, loginSave, 
+                logout,town,setTown,serchHandler,
+                hotelSort,setHotelSort,myhotel,
+                setmyhotel,cityEn,countryEn, Domestic, 
+                setDomestic, headerChange, setHeaderChange,
+                dateFilter,setDateFilter,townfilter,customer,setCustomer}}>
                 {children}
             </ResortDataContext.Provider>
         );
