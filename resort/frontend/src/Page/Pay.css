@@ -12,14 +12,11 @@
 .paysection .pay_info{
     display: flex;
 }
-.paysection .pay_info .user_info{}
 .paysection .pay_info .user_info .pay_left_title{
     font-size: 18px;
     font-weight: 500;
     padding: 18px 0;
 }
-.paysection .pay_info .user_info .guest_info{}
-.paysection .pay_info .user_info .guest_info .guest_list{}
 .paysection .pay_info .user_info .guest_info .guest_list .guest_sub_title{
     font-size: 13px;
     margin-bottom: 4px;
@@ -292,9 +289,6 @@
     border: none;
 }
 .paysection .pay_modal{
-    
-}
-.paysection .pay_modal{
     position: fixed;
     top: 50%;
     left: 50%;
@@ -363,47 +357,52 @@
     padding: 15px;
     border-radius: 10px;
 }
-.paysection .pay2_info{
+
+/* pay2 ---------------------------------------------------------------------- */
+.paysection2 .pay2_info{
     text-align: center;
-    margin-top: 200px;
+    margin: 135px auto;
+    width: 900px;
+    border: 15px solid #cccdcf;
+    border-radius: 10px;
 }
-.paysection .pay2_info .pay2_title{
+.paysection2 .pay2_info .pay2_title{
     font-weight: 700;
-    font-size: 40px;
-    margin-bottom: 70px;
+    font-size: 30px;
+    margin: 50px 0 30px 0;
 }
-.paysection .pay2_info .pay2_coment{
+.paysection2 .pay2_info .pay2_coment{
     margin: 20px 0;
     font-size: 20px;
     margin-bottom: 30px;
 }
-.paysection .pay2_info .pay2_table{
+.paysection2 .pay2_info .pay2_table{
     margin: 0 auto;
-    width: 600px;
+    width: 700px;
     border-bottom: 1px solid #ccc;
     border-top: 1px solid #ccc;
     padding: 20px 0;
 }
-.paysection .pay2_info .pay2_table .pay2_list{
+.paysection2 .pay2_info .pay2_table .pay2_list{
     text-align: left;
-    padding: 25px 25px 15px;
+    padding: 20px 25px 15px;
     font-size: 20px;
     font-weight: 500;
 }
-.paysection .pay2_info .pay2_btns .pay2_btn{
+.paysection2 .pay2_info .pay2_btns .pay2_btn{
     width: 290px;
     height: 60px;
     border-radius: 10px;
-    margin-top: 80px;
+    margin: 30px 0 30px 0;
     font-weight: 600;
 } 
-.paysection .pay2_info .pay2_btns .pay_chk{
+.paysection2 .pay2_info .pay2_btns .pay_chk{
     color: #42799b;
     border: 2px solid #42799b;
     background-color: #fff;
 }
-.paysection .pay2_info .pay2_btns .move_main{
-    margin-left: 20px;
+.paysection2 .pay2_info .pay2_btns .move_main{
+    
     background-color: #42799b;
     color: #fff;
     border: none;

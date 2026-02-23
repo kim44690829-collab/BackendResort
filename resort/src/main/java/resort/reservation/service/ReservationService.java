@@ -1,9 +1,18 @@
 package resort.reservation.service;
 
+import java.util.List;
+
+import resort.reservation.dto.ResInfoDTO;
 import resort.reservation.dto.ReservationDTO;
 
 public interface ReservationService {
 	
-	public int insertReservation(ReservationDTO redto);
+	// 비회원 예약 내역 insert
+	public int gInsertReservation(ReservationDTO redto);
 
+	// 회원 예약 내역 insert
+	public int mInsertReservation(ReservationDTO redto);
+	
+	// 회원 예약 내역 select
+	public List<ResInfoDTO> resSelect(String booker_name);
 }

@@ -49,9 +49,9 @@ export default function Room(){
         console.log("cityEn00",cityEn)
         console.log("countryEn00",countryEn)
         if(cityEn===null && countryEn ===null){
-            dateFilterCopy = hotelMerge.filter((f)=>(f.startDate>=DayData[0] && f.startDate<=DayData[1]) || (f.endDate<=DayData[1] && f.endDate>=DayData[0]) || (DayData[0]<=f.startDate && DayData[1]<=f.endDate))
+            dateFilterCopy = hotelMerge.filter((f)=>(f.startDate>=DayData[0] && f.startDate<=DayData[1]) || (f.endDate<=DayData[1] && f.endDate>=DayData[0]) || (DayData[0]>=f.startDate && DayData[1]<=f.endDate))
         }else{
-            dateFilterCopy = townfilter.filter((f)=>(f.startDate>=DayData[0] && f.startDate<=DayData[1]) || (f.endDate<=DayData[1] && f.endDate>=DayData[0]) || (DayData[0]<=f.startDate && DayData[1]<=f.endDate))
+            dateFilterCopy = townfilter.filter((f)=>(f.startDate>=DayData[0] && f.startDate<=DayData[1]) || (f.endDate<=DayData[1] && f.endDate>=DayData[0]) || (DayData[0]>=f.startDate && DayData[1]<=f.endDate))
         }
         
         setDateFilter(dateFilterCopy)

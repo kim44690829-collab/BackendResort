@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -51,5 +53,12 @@ public class ReviewboardApiController {
 	public List<HotelAvgDTO> getHotelRatingAvgAll(){
 		System.out.println("ReviewboardApiController : getRatingAvgAll() 메서드 확인");
 		return reviewboardservice.getHotelRatingAvgAll();
+	}
+	
+	// 리뷰 insert
+	@PostMapping("/board/reviewSend")
+	public int reviewAdd(@RequestBody ReviewboardDTO redto) {
+		System.out.println("ReviewboardServiceImpl : reviewAdd() 메서드 확인");
+		return reviewboardservice.reviewAdd(redto);
 	}
 }

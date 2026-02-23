@@ -111,7 +111,7 @@ export default function Main(){
             copyminPrice.push(prices[0])
         }
         setMinPrice(copyminPrice)
-        console.log("999",copyminPrice)
+        // console.log("999",copyminPrice)
     },[])
 
 
@@ -135,7 +135,7 @@ export default function Main(){
             item.type === 'Camping' ? '캠핑' : 
             null ) === hotelType[htypeModalOpen2].typeName)
         setTypeAndHotel(hotel_modal1)
-        console.log('111111111111111111', hotel_modal1)
+        // console.log('111111111111111111', hotel_modal1)
     }, [htypeModalOpen])
 
         
@@ -152,10 +152,10 @@ export default function Main(){
             // null ) === popularSpot[spotModalOpen2].cityName && item.score >= 4)
             null ) === popularSpot[spotModalOpen2].cityName)
         setCityAndHotel(hotel_modal2)
-        console.log('ddd1', popularSpot)
-        console.log('ddd2', hotel_modal2)
+        // console.log('ddd1', popularSpot)
+        // console.log('ddd2', hotel_modal2)
         
-        console.log('555555555555', cityAndHotel)
+        // console.log('555555555555', cityAndHotel)
     }, [spotModalOpen])
 
     // const hotelCityRating = [...cityAndHotel].sort((a,b) => b.score - a.score);
@@ -367,8 +367,8 @@ export default function Main(){
     useEffect(()=>{
         let dateFilterCopy = [...dateFilter]
         //const townfilter = HotelData.filter((f)=>f.city===cityEn || f.country===countryEn)
-        console.log(cityEn)
-        console.log(countryEn)
+        // console.log(cityEn)
+        // console.log(countryEn)
         if(cityEn===null && countryEn ===null){
             dateFilterCopy = HotelData.filter((f)=>(f.startDate>=DayData[0] && f.startDate<=DayData[1]) || (f.endDate<=DayData[1] && f.endDate>=DayData[0]))
         }else{
@@ -376,8 +376,8 @@ export default function Main(){
         }
         
         setDateFilter(dateFilterCopy)
-        console.log(dateFilterCopy)
-        console.log(DayData)
+        // console.log(dateFilterCopy)
+        // console.log(DayData)
     },[DayData,cityEn,countryEn])
 
     // 모달이 열리면 화면 전체의 스크롤 제거

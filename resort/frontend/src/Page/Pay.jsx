@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Pay(){
     // 2026-02-20
-    const {payHead,setPayHead,hotelNum, HotelData,RoomData,DayData,customer,setCustomer} = useContext(ResortDataContext)
+    const {payHead,setPayHead,hotelNum, HotelData,RoomData, userNickName, MemberAllData, DayData,customer,setCustomer} = useContext(ResortDataContext)
     const navigate = useNavigate();
     
     const {toggle,setModalContent,AddressCopy, AddressCopyClick} = useContext(ModalContext);
@@ -24,6 +24,8 @@ export default function Pay(){
     const roomprice = HotelData.filter((f)=>f.h_code === myRoom[0].h_code)
     // 고객 전화번호
     const [phone,setPhone] = useState('')
+    // 회원코드
+    // const [memberNum, setMemberNum] = useState(0);
 
     //전체 선택 함수
     const chkAllHandler=()=>{
@@ -126,17 +128,49 @@ export default function Pay(){
     )
     
 
-    //생년월일
+    // 비회원 생년월일
     const [birth,setBirth] = useState('')
     
     const birthYear = birth.substring(0, 4);
     const birthMonth = birth.substring(4, 6);
     const birthDate = birth.substring(6, 8);
 
-    // console.log("생년월일",birthYear, birthMonth, birthDate)
+    // 회원 생일 저장 19990303 이런 형식
+    let birthMember = '';
+    // 회원 생일 출력
+    function birthToNumber(b){
+        if(!b) return "";
+
+        const memberBirth = new Date(b);
+
+        const y = memberBirth.getFullYear();
+        const m = String(memberBirth.getMonth()+1).padStart(2,"0");
+        const d = String(memberBirth.getDate()).padStart(2,"0");
+
+        birthMember = `${y}${m}${d}`
+
+        return birthMember;
+    }
+
+    // 회원코드
+    const memberNum = MemberAllData.find((item) => item.m_nickName === userNickName);
+    console.log('회원코드', memberNum)
 
     const payHandler =()=>{
-        if(chking[0].state===true && btnNum !== 0 && phone.length === 11 && customer.length !==0){
+        let phoneDigits = '';
+        if(memberNum){
+            phoneDigits = memberNum.m_phone;
+        }
+
+        console.log('phone.length',phoneDigits.length)
+        console.log('birthDigits',birthMember.length )
+        console.log('customer.length',customer.length)
+        console.log('btnNum',btnNum)
+        console.log('chking[0].state',chking[0].state)
+        
+
+        if((chking[0].state===true && btnNum !== 0 && birthMember.length === 8 && phoneDigits.length === 11 && customer.length !==0) 
+            || (chking[0].state===true && btnNum !== 0 && birth.length === 8 && phone.length === 11 && customer.length !==0)){
             setOpen(!open)
             // console.log('확인')
             // console.log(open)
@@ -146,18 +180,19 @@ export default function Pay(){
         }else if(btnNum===0){
             setModalContent(<p style={{fontSize:'18px',fontWeight:'700'}}>결제 수단을 선택해 주세요.</p>)
             toggle();
-        }else if(phone.length < 11 || birth.length<8 || customer.length <1){
+        }else if((!memberNum && (phone.length < 11 || birth.length < 8 || customer.length < 1)) || (memberNum && customer.length < 1)){
             setModalContent(<p style={{fontSize:'18px',fontWeight:'700'}}>예약자 정보를 입력해주세요.</p>)
+            toggle();
+        }else{
+            setModalContent(<p style={{fontSize:'18px',fontWeight:'700'}}>정보를 정확하게 입력해주세요</p>)
             toggle();
         }
     }
-    // console.log(payRoom)
+
+    
 
     // localStorage의 데이터를 json형식으로 변환
     const DayDataResult = JSON.parse(localStorage.getItem("DayData"));
-
-    // console.log('DayDataResult', DayDataResult);
-    const [curGuest, setCurGuest] = useState(0);
 
     const submitReservation = async() => {
         // 세션스토리지에서 가져온 user정보 user : user, 를 axios에 담아서 감
@@ -165,25 +200,42 @@ export default function Pay(){
         // null이면 비회원 insert 및 예약 insert
         // null이 아니면 회원fk를 포함한 예약정보 insert
         try{
-            const res = await axios.post("/api/guest", {
-                g_name : customer,
-                g_birth : `${birthYear}-${birthMonth}-${birthDate}`, 
-                g_phone : phone
-            });
-            // setCurGuest(res.data.g_code)
-            console.log('비회원 fk', res.data)
+            if(!memberNum){
+                // 비로그인
+                const res = await axios.post("/api/guest", {
+                    g_name : customer,
+                    g_birth : `${birthYear}-${birthMonth}-${birthDate}`, 
+                    g_phone : phone
+                });
+                // setCurGuest(res.data.g_code)
+                console.log('비회원 fk', res.data)
 
-            const res02 = await axios.post("/api/reservations",{
-                g_code : res.data,
-                r_code : hotelNum,
-                booker_name : customer,
-                check_in_date : DayDataResult[0], 
-                check_out_date : DayDataResult[1],
-                original_price : myRoomPrice,
-                discount_rate : isDiscount,
-                final_price : totalPrice
-            })
-            console.log(res02)
+                const res01 = await axios.post("/api/reservations",{
+                    g_code : res.data,
+                    r_code : hotelNum,
+                    booker_name : customer,
+                    check_in_date : DayDataResult[0], 
+                    check_out_date : DayDataResult[1],
+                    original_price : myRoomPrice,
+                    discount_rate : isDiscount,
+                    final_price : totalPrice
+                })
+                console.log(res01)
+            }else{
+                // 로그인
+                const res02 = await axios.post("/api/reservations",{
+                    m_code : memberNum.m_code,
+                    r_code : hotelNum,
+                    booker_name : customer,
+                    check_in_date : DayDataResult[0], 
+                    check_out_date : DayDataResult[1],
+                    original_price : myRoomPrice,
+                    discount_rate : isDiscount,
+                    final_price : totalPrice
+                })
+                console.log(res02)
+            }
+            
         }catch(err){
             console.error(err)
         }
@@ -206,7 +258,15 @@ export default function Pay(){
                             <li className="guest_list">
                                 <p className="guest_sub_title">예약자 생년월일</p>
                                 {/* value자리에 삼항연산자 사용해서 user(세션 스토리지에 저장한 유저 정보) === null ? birth : user.m_birth */}
-                                <input type="text" className="guest_birth01" placeholder="ex) 19800101" name="g_birth" maxLength={8} onChange={(e)=>setBirth(e.target.value)} value={birth}/>
+                                {!memberNum ? 
+                                    (<>
+                                        <input type="text" className="guest_birth01" placeholder="ex) 19800101" name="g_birth" maxLength={8} onChange={(e)=>setBirth(e.target.value)} value={birth}/>    
+                                    </>)
+                                    : 
+                                    (<>
+                                        <input type="text" className="guest_birth01" value={birthToNumber(memberNum.m_birth)} onChange={(e)=>setBirth(e.target.value)} readOnly/>    
+                                    </>)}
+                                
                                 <span> - </span>
                                 <input type="text" className="guest_birth02" maxLength={1}/>
                                 <span> ● ● ● ● ● ●</span>
@@ -214,7 +274,14 @@ export default function Pay(){
                             <li className="guest_list">
                                 <p className="guest_sub_title">휴대폰 번호</p>
                                 {/* value자리에 삼항연산자 사용해서 user(세션 스토리지에 저장한 유저 정보) === null ? phone : user.m_phone */}
-                                <input type="text" placeholder="'-' 를 빼고 작성해 주세요" className="guest_phone" name="g_phone" maxLength={11} onChange={(e)=>setPhone(e.target.value)} value={phone}/>
+                                {!memberNum ? 
+                                    (<>
+                                        <input type="text" placeholder="'-' 를 빼고 작성해 주세요" className="guest_phone" name="g_phone" maxLength={11} onChange={(e)=>setPhone(e.target.value)} value={phone}/> 
+                                    </>)
+                                    : 
+                                    (<>
+                                        <input type="text" className="guest_phone" value={memberNum.m_phone} onChange={(e)=>setPhone(e.target.value)} readOnly/> 
+                                    </>)}
                                 <button type="button" className="phone_btn">인증번호 발송 </button>
                                 <div className="phone_txt">
                                     <i className="fa-solid fa-circle-exclamation"></i>
