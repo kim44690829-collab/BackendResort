@@ -45,5 +45,30 @@ public class HotelServiceImpl implements HotelService {
 		System.out.println("HotelServiceImpl : getHotelMerge(^^) 메서드 확인");
 		return hotelMapper.getHotelMerge();
 	}
+	
+	// ================2026-02-23 수정 부분 =================
+	@Override
+	public int getAllHotelcount() {
+		System.out.println("HotelServiceImpl : getAllHotelcount(^^) 메서드 확인");
+		return hotelMapper.getAllHotelcount();
+	}
+
+	@Override
+	public List<HotelDTO> getPageHotellist(int startRow, int pageSize) {
+		System.out.println("HotelServiceImpl : getPageHotellist(^^) 메서드 확인");
+		return hotelMapper.getPageHotellist(startRow, pageSize);
+	}
+
+	@Override
+	public int getHotelSearchCount(String searchType, String searchKeyword) {
+		System.out.println("HotelServiceImpl : getHotelSearchCount(^^) 메서드 확인");
+		return hotelMapper.getHotelSearchCount(searchType, searchKeyword);
+	}
+
+	@Override
+	public List<HotelDTO> getSearchPageHotelList(String searchType, String searchKeyword, int startRow, int pageSize) {
+		System.out.println("HotelServiceImpl : getSearchPageHotelList(^^) 메서드 확인");
+		return hotelMapper.getSearchPageHotelList(searchType, searchKeyword, startRow, pageSize);
+	}
 
 }

@@ -4,22 +4,17 @@ import '../admin/AdminPage.css'
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-export default function AdminPage(){
+export default function AdminPage4(){
     
 
     const [members,setMembers] = useState([]);
     const [ph,setPh] = useState({});
     const [page, setPage] = useState(1);
-    const [searchType, setSearchType] = useState("phone");
-    const [searchKeyword, setSearchKeyword] = useState("");
-    const [serch,setSerch] = useState("")
     useEffect(()=>{
         axios.get('/api/member/list',{
             params: {
                 page: page,
-                pageSize: 10,
-                searchType: searchType,
-                searchKeyword: searchKeyword
+                pageSize: 10
             }
         })
         .then((res) => {
@@ -27,14 +22,12 @@ export default function AdminPage(){
             console.log("회원정보 데이터 : ", res.data.ph);
             setMembers(res.data.list);
             setPh(res.data.ph);
-            setSearchType(res.data.searchType);
-            setSearchKeyword(res.data.searchKeyword);
         })
         .catch((error) => {
             console.error("error", error)
         })
         console.log(page)
-    },[page,searchType,searchKeyword])
+    },[page])
 
     const pages = [];
 
@@ -46,27 +39,6 @@ export default function AdminPage(){
         );
     }
 
-    const submitHandler=(e)=>{
-        e.preventDefault()
-        setSearchKeyword(serch)
-        setPage(1);
-    }
-
-    // 삭제를 위한 useEffect
-    const delHandler=(email)=>{
-        axios.delete('/api/member/deletemember',{
-            params: {
-                m_email: email
-            }
-        })
-        .then((res) => {
-            console.log("회원정보 삭제 성공 : ");
-            alert("회원정보 삭제 성공 : ")
-        })
-        .catch((error) => {
-            console.error("error", error)
-        })
-    }
 
     return(
         <>
@@ -108,7 +80,7 @@ export default function AdminPage(){
                         </div>
                     </div>
                     <div className="admin_body">
-                        <div className="admin_text">회원 정보 조회</div>
+                        <div className="admin_text">예약 정보 조회</div>
                         <div className="admin_list">
                             <table className="list_table" border="1">
                                 <thead >
@@ -121,7 +93,6 @@ export default function AdminPage(){
                                         <th>별명</th>
                                         <th width="80px">쿠폰 보유</th>
                                         <th width="230px">가입일</th>
-                                        <th width="120px">회원정보수정</th>
                                         <th width="120px">탈퇴처리</th>
                                     </tr>
                                 </thead>
@@ -141,12 +112,7 @@ export default function AdminPage(){
                                                 <td>{item.m_nickName}</td>
                                                 <td>{item.m_coupon}</td>
                                                 <td>{reg_Date}</td>
-                                                <td><button>
-                                                        <Link to={`/memberUdate/${item.m_code}`}>
-                                                            회원수정
-                                                        </Link>
-                                                    </button></td>
-                                                <td><button type="button" onClick={()=>delHandler(item.m_email)}>회원삭제</button></td>
+                                                <td><button>회원삭제</button></td>
                                             </tr>
                                         )
                                     })}
@@ -163,17 +129,17 @@ export default function AdminPage(){
                                 )}
                             </div>
                             <div id="search_wrap">
-                                <form onSubmit={submitHandler}>
-                                    <select name="searchType" onChange={(e) => setSearchType(e.target.value)}>
+                                <form >
+                                    <select name="searchType">
                                         <option value="phone">전화번호</option>
                                         <option value="gender">성별</option>
                                         <option value="nickName">별명</option>
                                         <option value="mail">이메일</option>
                                     </select>
                                     
-                                    <input type="text" name="searchKeyword" placeholder="검색어를 입력하세요" onChange={(e) => setSerch(e.target.value)}/>
-                                    <input type="submit" value="검색" className="searchBtn" onClick={()=>submitHandler()}/>
-                                    <input type="button" value="전체보기" className="searchBtn" onClick={()=>{setSearchKeyword(""),setSearchType("phone")}}/>
+                                    <input type="text" name="searchKeyword" placeholder="검색어를 입력하세요"/>
+                                    <input type="submit" value="검색" className="searchBtn"/>
+                                    <input type="button" value="전체보기" className="searchBtn" />
                                 </form>
 					        </div>
                         </div>

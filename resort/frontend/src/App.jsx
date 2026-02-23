@@ -22,6 +22,10 @@ import Wish from './Page/Wish'
 import HotelSection from './Page/HotelSection'
 import HotelSection2 from './Page/HotelSection2'
 import AdminPage from './Page/admin/AdminPage'
+import AdminPage2 from './Page/admin/AdminPage2'
+import AdminPage3 from './Page/admin/AdminPage3'
+import AdminPage4 from './Page/admin/AdminPage4'
+import MemberUdate from './Page/admin/memberUdate'
 
 function App() {
 
@@ -47,6 +51,10 @@ function App() {
             <Route path='/hotelSection' element={<HotelSection />} />
             <Route path='/hotelSection2' element={<HotelSection2 />} />
             <Route path='/adminPage' element={<AdminPage />} />
+            <Route path='/adminPage2' element={<AdminPage2 />} />
+            <Route path='/adminPage3' element={<AdminPage3 />} />
+            <Route path='/adminPage4' element={<AdminPage4 />} />
+            <Route path='/memberUdate/:m_code' element={<MemberUdate />} />
           </Routes>
           <Footer />
         </BrowserRouter>

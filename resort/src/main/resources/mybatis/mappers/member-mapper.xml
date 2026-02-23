@@ -61,4 +61,49 @@
 	LIMIT #{startRow}, #{pageSize}
 </select>
 
+<!-- ================2026-02-23 수정 부분 ============= -->
+
+
+<select id="getSearchCount" resultType="int">
+		SELECT COUNT(*) FROM member
+		<where>
+			<choose>
+				<when test="searchType == 'phone'">
+					m_phone LIKE CONCAT("%",#{searchKeyword},"%")
+				</when>
+				<when test="searchType == 'gender'">
+					m_gender LIKE CONCAT("%",#{searchKeyword},"%")
+				</when>
+				<when test="searchType == 'nickName'">
+					m_nickName LIKE CONCAT("%",#{searchKeyword},"%")
+				</when>
+				<otherwise>
+					m_email LIKE CONCAT("%",#{searchKeyword},"%")				
+				</otherwise>
+			</choose>
+		</where>
+	</select>
+
+	<select id="getSearchPageList" resultType="memberDTO">
+		SELECT * FROM member 
+		<where>
+			<choose>
+				<when test="searchType == 'phone'">
+					m_phone LIKE CONCAT("%",#{searchKeyword},"%")
+				</when>
+				<when test="searchType == 'gender'">
+					m_gender LIKE CONCAT("%",#{searchKeyword},"%")
+				</when>
+				<when test="searchType == 'nickName'">
+					m_nickName LIKE CONCAT("%",#{searchKeyword},"%")
+				</when>
+				<otherwise>
+					m_email LIKE CONCAT("%",#{searchKeyword},"%")				
+				</otherwise>
+			</choose>
+		</where>
+		ORDER BY m_code DESC
+		LIMIT #{startRow}, #{pageSize}
+	</select>
+
 </mapper>

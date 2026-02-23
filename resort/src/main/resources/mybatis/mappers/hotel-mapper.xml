@@ -44,4 +44,65 @@
 		group by h.h_code
 	</select>
 	
+	
+	<!-- ================2026-02-23 수정 부분 ============= -->
+	
+	<!-- 회원정보 개수  -->
+	<select id="getAllHotelcount" resultType="int">
+		SELECT COUNT(*) FROM hotel
+	</select>
+	
+	<!-- 회원정보 보이는 개수 -->
+	<select id="getPageHotellist" resultType="HotelDTO">
+		SELECT *FROM hotel ORDER BY h_code DESC
+		LIMIT #{startRow}, #{pageSize}
+	</select>
+	
+	
+	
+	<select id="getHotelSearchCount" resultType="int">
+		SELECT COUNT(*) FROM hotel
+		<where>
+			<choose>
+				<when test="searchType == 'hotelName'">
+					hotelName LIKE CONCAT("%",#{searchKeyword},"%")
+				</when>
+				<when test="searchType == 'country'">
+					country LIKE CONCAT("%",#{searchKeyword},"%")
+				</when>
+				<when test="searchType == 'city'">
+					city LIKE CONCAT("%",#{searchKeyword},"%")
+				</when>
+				<otherwise>
+					type LIKE CONCAT("%",#{searchKeyword},"%")				
+				</otherwise>
+			</choose>
+		</where>
+	</select>
+
+	<select id="getSearchPageHotelList" resultType="HotelDTO">
+		SELECT * FROM hotel 
+		<where>
+			<choose>
+				<when test="searchType == 'hotelName'">
+					hotelName LIKE CONCAT("%",#{searchKeyword},"%")
+				</when>
+				<when test="searchType == 'country'">
+					country LIKE CONCAT("%",#{searchKeyword},"%")
+				</when>
+				<when test="searchType == 'city'">
+					city LIKE CONCAT("%",#{searchKeyword},"%")
+				</when>
+				<otherwise>
+					type LIKE CONCAT("%",#{searchKeyword},"%")				
+				</otherwise>
+			</choose>
+		</where>
+		ORDER BY h_code DESC
+		LIMIT #{startRow}, #{pageSize}
+	</select>
+	
+	
+	
+	
 </mapper>
