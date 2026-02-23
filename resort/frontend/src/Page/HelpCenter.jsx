@@ -1,7 +1,11 @@
 import '../Page/HelpCenter.css'
-import { useState } from 'react';
+import { useState,useContext } from 'react';
+import { ResortDataContext} from '../Api/ResortData';
+import axios from "axios";
 
 export default function HelpCenter(){
+    const {userEmail} = useContext(ResortDataContext);
+
     // 왼쪽 리스트 클릭시 컨텐츠 전환
     const [listType, setListType] = useState(1)
 
@@ -51,6 +55,29 @@ export default function HelpCenter(){
     const noticeBtnHandeler = () => {
         setListType(2);
     }
+
+
+
+
+
+    // useEffect(() => {    
+    //     axios.post('/api/board/write', { m_email: userEmail,
+    //         b_writer:'a',
+    //         b_title:'a',
+    //         b_pw:'a',
+    //         b_content:'a'
+    //     })
+    //     .then((res) => {
+    //         if(res.data === true){
+    //             console.log("게시글 작성 성공");
+    //         }else{
+    //             console.log("게시글 작성 실패");
+    //         }
+    //     })
+    //     .catch((error) => {
+    //         console.error("error", error)
+    //     })
+    // },[])
 
     return(
         <div className="helpCenter_container">
@@ -407,14 +434,44 @@ export default function HelpCenter(){
             }
             {/* 1대1 문의 */}
             {listType === 8 && 
-            (<div className='helpCenter_text'>
-                <h1 className='text_title'>1 대 1 문의</h1>
-                <div>
-                    <p className='support-1on1'>현재 문의 사항이 없습니다.</p>
+            (
+                <div id="section_wrap">
+			        <div className="word"><h2>게시글 목록 보기</h2></div>
+                    <div className="content">
+                        <table width="500" border="1">
+                            <tbody>
+                                <tr height="50">
+                                    <td width="150" align="center">                                        
+                                        {/* 로그인이 된 상태에서만 게시글을 쓰도록 정의할 예정 */}
+                                        {userEmail !== null ?
+                                            <a href="#" className="write-btn" id="writeBtn">글쓰기</a>
+                                        : null}
+                                    </td>
+                                </tr>
+                                <tr height="50">
+                                    <td width="50" align="center">번호</td>
+                                    <td width="320" align="center">제목</td>
+                                    <td width="100" align="center">작성자</td>
+                                    <td width="150" align="center">작성일자</td>
+                                    <td width="80" align="center">조회수</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                <button type='button' className='sportBtn'>문의하기</button>
-            </div>)
+            )
+            // (<div className='helpCenter_text'>
+            //     <h1 className='text_title'>1 대 1 문의</h1>
+            //     <div>
+            //         <p className='support-1on1'>현재 문의 사항이 없습니다.</p>
+            //     </div>
+            //     <button type='button' className='sportBtn'>문의하기</button>
+            // </div>)
             }
+
+
+
+
             {/* 우측 고객센터 전화번호 등 */}
             <div className='helpCenter_tel'>
                 <div className='helpCenter_tel1'>

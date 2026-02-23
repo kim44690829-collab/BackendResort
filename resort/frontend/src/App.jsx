@@ -22,6 +22,7 @@ import Wish from './Page/Wish'
 import HotelSection from './Page/HotelSection'
 import HotelSection2 from './Page/HotelSection2'
 import AdminPage from './Page/admin/AdminPage'
+import MyPage from './Page/mypage/MyPage'
 
 function App() {
 
@@ -47,6 +48,7 @@ function App() {
             <Route path='/hotelSection' element={<HotelSection />} />
             <Route path='/hotelSection2' element={<HotelSection2 />} />
             <Route path='/adminPage' element={<AdminPage />} />
+            <Route path='/myPage' element={<MyPage />} />
           </Routes>
           <Footer />
         </BrowserRouter>

@@ -30,7 +30,13 @@
 
 <!-- 개인 한 사람의 정보를 검색하는 메소드 -->
 <select id="oneSelectMember" parameterType="String" resultType="MemberDTO">
-	SELECT * FROM member WHERE m_email=#{m_email}
+    SELECT *,
+        CASE 
+            WHEN NOW() > DATE_ADD(m.m_regDate, INTERVAL 1 MONTH) THEN 0
+            ELSE m.m_coupon
+        END AS currentCoupon
+    FROM member m
+    WHERE m.m_email = #{m_email}
 </select>
 
 <!-- 개인 한사람의 패스워드 리턴하는 쿼리 -->
@@ -44,7 +50,7 @@
 </update>
 
 <!-- 한사람 개인의 정보를 삭제하는 메소드 작성 -->
-<delete id="deleteMember" parameterType="String" >
+<delete id="deleteMember" parameterType="MemberDTO" >
 	DELETE FROM member WHERE m_email=#{m_email} 
 </delete>
 
@@ -57,7 +63,7 @@
 
 <!-- 회원정보 보이는 개수 -->
 <select id="getPagelist" resultType="MemberDTO">
-	SELECT *FROM member ORDER BY num DESC
+	SELECT * FROM member ORDER BY num DESC
 	LIMIT #{startRow}, #{pageSize}
 </select>
 

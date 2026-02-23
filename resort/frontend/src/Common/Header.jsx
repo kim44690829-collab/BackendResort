@@ -69,10 +69,18 @@ export default function Header(){
             setMenuModal(false);
             setHeaderChange(0);
             navigate('/wish')
-        }else{
+        }else if(num === 4){
             setMenuModal(false);
             setHeaderChange(0);
             navigate('/helpCenter')
+        }else if(num === 5){
+            setMenuModal(false);
+            setHeaderChange(0);
+            navigate('/adminPage')
+        }else{
+            setMenuModal(false);
+            setHeaderChange(0);
+            navigate('/myPage')
         }
 
         window.scrollTo(0,0)
@@ -178,6 +186,17 @@ export default function Header(){
             {menuModal && 
                 <>
                     <ul className="menus" ref={menuRef}>
+                        {!userNickName ? null //로그인 X
+                        //관리자
+                        : userEmail === 'admin@resort.com' ?
+                            <li className="menus_sub">
+                                <button type="button" className="domestic-hotels" onClick={() => menuModalHandeler(5)}>관리자페이지</button>
+                            </li>
+                        : //회원 로그인
+                            <li className="menus_sub">
+                                <button type="button" className="domestic-hotels" onClick={() => menuModalHandeler(6)}>마이페이지</button>
+                            </li>
+                        }
                         <li className="menus_sub">
                             <button type="button" className="domestic-hotels" onClick={() => menuModalHandeler(1)}>국내숙소</button>
                         </li>

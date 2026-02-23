@@ -15,6 +15,8 @@ public class ReservationDTO{
 	private int original_price; //원가격
 	private int discount_rate; //할인율
 	private int final_price; //할인 후 가격
+	private int cancel; //취소여부
+	private Date cancel_date; //취소일자
 	
 	public int getRe_code() {
 		return re_code;
@@ -82,6 +84,18 @@ public class ReservationDTO{
 	}
 	public void setFinal_price(int final_price) {
 		this.final_price = final_price;
+	}
+	public int getCancel() {
+		return cancel;
+	}
+	public void setCancel(int cancel) {
+		this.cancel = cancel;
+	}
+	public Date getCancel_date() {
+		return cancel_date;
+	}
+	public void setCancel_date(Date cancel_date) {
+		this.cancel_date = cancel_date;
 	}
 
 	

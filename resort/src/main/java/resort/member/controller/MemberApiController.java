@@ -6,8 +6,10 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -46,41 +48,18 @@ public class MemberApiController {
 	}	
 
 	//개인 한사람의 정보를 수정
-	@PostMapping("/member/updatemember")
+	@PutMapping("/member/updatemember")
 	public boolean updateMember(@RequestBody MemberDTO mdto){			
 		System.out.println("MemberApiController : updateMember() 메서드 확인");
 		return memberservice.updateMember(mdto);
 	}
 	
 	// 한사람 개인의 정보를 삭제하는 메소드 작성
-	@GetMapping("/member/deletemember")
-	public boolean deleteMember(@RequestParam("m_email") String m_email){
+	@DeleteMapping("/member/deletemember")
+	public boolean deleteMember(@RequestBody MemberDTO mdto){
 		System.out.println("MemberApiController : deleteMember() 메서드 확인");
-		return memberservice.deleteMember(m_email);
+		return memberservice.deleteMember(mdto);
 		
-	}
-	
-	
-	// ============= 2026-02-20 수정 부분 ==============
-	@GetMapping("member/list")
-	public Map<String, Object> memberList(
-			@RequestParam(value="page",defaultValue="1") int page, // 초기 페이지
-			@RequestParam(value="pageSize",defaultValue="10") int pageSize // 한 페이지당 보여줄 목록의 수
-			){
-		System.out.println("MemberApiController : memberList(@-@) 메서드 확인");
-		
-		int totalCnt = memberservice.getAllcount();
-		
-		// 페이지 핸들러 인스터스화
-		PageHandler ph = new PageHandler(totalCnt, page, pageSize);
-		
-		List<MemberDTO>list = memberservice.getPagelist(ph.getStartPage(), pageSize);
-		Map<String, Object> result = new HashMap<>();
-		
-		result.put("list", list);
-		result.put("ph", ph);
-		
-		return result;
 	}
 	
 	

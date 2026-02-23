@@ -26,7 +26,7 @@ public interface MemberMapper {
 	//개인 한사람의 정보를 수정하는 쿼리
 	public int updateMember(MemberDTO mdto);
 	// 한사람 개인의 정보를 삭제하는 메소드 작성
-	public int deleteMember(String m_email);
+	public int deleteMember(MemberDTO mdto);
 	
 	
 	//=========2026-02-20 수정============
