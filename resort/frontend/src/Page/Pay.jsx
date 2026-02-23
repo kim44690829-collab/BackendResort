@@ -220,7 +220,17 @@ export default function Pay(){
                     discount_rate : isDiscount,
                     final_price : totalPrice
                 })
-                console.log(res01)
+                console.log(res01.data)
+                // 비회원 예약번호 꺼내기
+                const reservationNo = res01.data.reservation_no;
+
+                // sessionStorage 저장 => 새로고침시 사라짐 방지
+                sessionStorage.setItem("reservation_no", reservationNo);
+
+                alert("결제가 완료되었습니다.");
+
+                // 페이지 이동
+                navigate("/pay2");
             }else{
                 // 로그인
                 const res02 = await axios.post("/api/reservations",{
@@ -233,11 +243,21 @@ export default function Pay(){
                     discount_rate : isDiscount,
                     final_price : totalPrice
                 })
-                console.log(res02)
+                console.log(res02.data)
+
+                // 회원 예약 번호 꺼내기 
+                const reservationNo = res02.data.reservation_no;
+                // sessionStorage 저장 => 새로고침시 사라짐 방지
+                sessionStorage.setItem("reservation_no", reservationNo);
+
+                alert("결제가 완료되었습니다.");
+
+                navigate("/pay2");
             }
             
         }catch(err){
             console.error(err)
+            alert("결제 실패")
         }
     }
 
@@ -408,10 +428,15 @@ export default function Pay(){
                         </ul>
                         <div className="pay_modal_btn">
                             <button type="button" className="btns" style={{width:'125px'}} onClick={()=>setOpen(!open)}>취소</button>
-                            <Link to='/pay2' onClick={()=>{setOpen(!open),alert('결제가 완료되었습니다.'),window.scrollTo(0,0)}}>
+                            {/* <Link to='/pay2' onClick={()=>{setOpen(!open),alert('결제가 완료되었습니다.'),window.scrollTo(0,0)}}>
                                 <button type="button" className="btns"style={{color:'#fff',backgroundColor:'#42799b'}} onClick={submitReservation}>동의 후 결제</button>
-                            </Link>
-                            
+                            </Link> */}
+                            <button type="button"
+                            className="btns"
+                            style={{color:'#fff',backgroundColor:'#42799b'}}
+                            onClick={() => {submitReservation(),window.scrollTo(0,0);}}>
+                            동의 후 결제
+                            </button>
                         </div>
                     </div>
                 </div>:''}

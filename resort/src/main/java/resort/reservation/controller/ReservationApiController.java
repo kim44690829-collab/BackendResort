@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import resort.reservation.dto.ResInfoDTO;
+import resort.reservation.dto.ResResponseDTO;
 import resort.reservation.dto.ReservationDTO;
 import resort.reservation.service.ReservationService;
 
@@ -27,34 +28,37 @@ public class ReservationApiController {
 	
 	// 예약 추가
 	@PostMapping("/reservations")
-	public int insertReservation(@RequestBody ReservationDTO redto){
+	public ResResponseDTO insertReservation(@RequestBody ReservationDTO redto){
 		System.out.println("ReservationApiController : insertReservation() 메서드 확인");
 		
+		int result;
 		String res_id = ""; 
 		res_id = "R" + "-" + LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE) + "-" + UUID.randomUUID().toString().substring(0,8);
 		redto.setReservation_no(res_id);
 		
 		if(redto.getG_code() != null && redto.getM_code() == null) {
-			return reservationservice.gInsertReservation(redto);
+			result = reservationservice.gInsertReservation(redto);
 		}else if(redto.getG_code() == null && redto.getM_code() != null){
-			return reservationservice.mInsertReservation(redto);
+			result = reservationservice.mInsertReservation(redto);
 		}else {
 			System.out.println("예약 실패");
-			return 0;
+			result = 0;
 		}
+		boolean success = (result == 1);
+		return new ResResponseDTO(success, result, success ? res_id : null);
 	}
 	
 	// 예약 내역 가져오는 컨트롤러
 	@GetMapping("/reservationInfo")
-	public List<ResInfoDTO> resSelect(@RequestParam("booker_name") String booker_name) {
+	public ResInfoDTO resSelect(@RequestParam("reservation_no") String reservation_no) {
 		System.out.println("ReservationApiController : resSelect() 메서드 확인");
-		System.out.println("booker_name = [" + booker_name + "]");
-		List<ResInfoDTO> resDTO = reservationservice.resSelect(booker_name);
+		System.out.println("reservation_no = [" + reservation_no + "]");
 		
-		System.out.println("조회 건수: " + (resDTO == null ? "null" : resDTO.size()));
-		if (resDTO == null) return new ArrayList<>();
+		if (reservation_no == null || reservation_no.trim().isEmpty()) {
+	        return null;
+	    }
 		
-		return resDTO;
+		return reservationservice.resSelect(reservation_no);
 	}
 	
 }

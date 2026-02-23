@@ -16,14 +16,14 @@
 		VALUES(#{m_code}, #{reservation_no}, #{r_code}, #{booker_name}, #{check_in_date}, #{check_out_date}, #{original_price}, #{discount_rate}, #{final_price})
 	</insert>
 	
-	<!-- // 회원 예약 내역 select public List<ResInfoDTO> resSelect(@Param("booker_name") String booker_name); -->
+	<!-- // 회원 예약 내역 select public ResInfoDTO resSelect(@Param("reservation_no") String reservation_no); -->
 	<select id="resSelect" resultType="ResInfoDTO">
 		SELECT h.hotelName, r.roomName, re.check_in_date, re.check_out_date, re.original_price, re.discount_rate, re.coupon_used, re.final_price, re.booker_name, re.reserved_at, re.reservation_no FROM reservation re
 		INNER JOIN room r
 		ON r.r_code = re.r_code
 		INNER JOIN hotel h
 		ON h.h_code = r.h_code
-		WHERE TRIM(re.booker_name) = TRIM(#{booker_name})
+		WHERE TRIM(re.reservation_no) = TRIM(#{reservation_no})
 	</select>
 	
 </mapper>

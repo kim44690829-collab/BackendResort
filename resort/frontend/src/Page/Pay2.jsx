@@ -17,8 +17,7 @@ export default function Pay2(){
     const [open,setOpen] = useState(false)
     const myRoom = RoomData.filter((f)=>f.id===payRoom)
 
-    // const [loading, setLoading] = useState(true);
-    const [resInfo, setResInfo] = useState([]);
+    const [resInfo, setResInfo] = useState(null);
 
     const customerHandler = () => {
         setCustomer('');
@@ -26,45 +25,41 @@ export default function Pay2(){
 
     useEffect(() => {
 
-        if(!customer){
-            console.log("데이터 없음");
-            setResInfo([]);
-            // setLoading(false);
+        const reservationNo = sessionStorage.getItem("reservation_no");
+
+        if(!reservationNo){
+            console.log("예약 번호 없음.");
             return;
         }
 
         axios.get("/api/reservationInfo", {
             params: {
-                booker_name : customer
+                reservation_no: reservationNo
             }
         })
         .then((res) => {
 
-            if(!res.data || res.data.length === 0){
+            if(!res.data){
                 console.log("데이터 없음");
-                setResInfo([]);
+                setResInfo(null);
                 return;
             }
-            console.log("예약 1명 데이터 : " , res.data)
+            console.log("예약 상세",res.data);
             setResInfo(res.data)
         })
         .catch((err) => {
             console.error(err)
-            setResInfo([]);
+            setResInfo(null);
         })
-        // .finally(() => {
-        //     setLoading(false);
-        // })
-    },[customer])
+    },[])
 
-    // if (loading) return <div>로딩중...</div>;
-    // if (resInfo.length === 0) return <div>예약 없음</div>;
+    if(!resInfo) return <div>로딩중...</div>;
 
-    // const res_at = new Date(resInfo.reserved_at).toLocaleDateString("sv-SE");
-    // const chkInDate = new Date(resInfo.check_in_date)
-    // const chkOutDate = new Date(resInfo.check_out_date)
+    const res_at = new Date(resInfo.reserved_at).toLocaleDateString("sv-SE");
+    const chkInDate = new Date(resInfo.check_in_date)
+    const chkOutDate = new Date(resInfo.check_out_date)
 
-    // const totalDay = (chkOutDate.getTime()-chkInDate.getTime())/(1000*24*60*60);
+    const totalDay = (chkOutDate.getTime()-chkInDate.getTime())/(1000*24*60*60);
 
 
     return(
@@ -77,21 +72,21 @@ export default function Pay2(){
                         <tbody>
                             <tr>
                                 <td className="pay2_list">호텔</td>
-                                {/* <td className="pay2_list">{resInfo.hotelName}</td> */}
+                                <td className="pay2_list">{resInfo.hotelName}</td>
                             </tr>
                             <tr>
                                 <td className="pay2_list">객실</td>
-                                {/* <td className="pay2_list">{resInfo.roomName}</td> */}
+                                <td className="pay2_list">{resInfo.roomName}</td>
                             </tr>
                             <tr>
                                 <td className="pay2_list">체크인/체크아웃</td>
-                                {/* <td className="pay2_list">{resInfo.check_in_date} ~ {resInfo[0].check_out_date}</td> */}
-                                {/* <td className="pay2_list">총 {totalDay}박</td> */}
+                                <td className="pay2_list">{resInfo.check_in_date} ~ {resInfo.check_out_date}</td>
+                                <td className="pay2_list">총 {totalDay}박</td>
                                 <td className="pay2_list"></td>
                             </tr>
                             <tr>
                                 <td className="pay2_list">결제 금액</td>
-                                {/* <td className="pay2_list">{(resInfo.final_price ?? 0).toLocaleString()}원</td> */}
+                                <td className="pay2_list">{(resInfo.final_price ?? 0).toLocaleString()}원</td>
                             </tr>
                             {/* <tr>
                                 <td className="pay2_list">원가</td>
@@ -101,15 +96,15 @@ export default function Pay2(){
                             </tr> */}
                             <tr>
                                 <td className="pay2_list">예약자</td>
-                                {/* <td className="pay2_list">{resInfo.booker_name} 님</td> */}
+                                <td className="pay2_list">{resInfo.booker_name} 님</td>
                             </tr>
                             <tr>
                                 <td className="pay2_list">예약일</td>
-                                {/* <td className="pay2_list">{res_at}</td> */}
+                                <td className="pay2_list">{res_at}</td>
                             </tr>
                             <tr>
                                 <td className="pay2_list">예약번호</td>
-                                {/* <td className="pay2_list">{resInfo.reservation_no}</td> */}
+                                <td className="pay2_list">{resInfo.reservation_no}</td>
                             </tr>
                         </tbody>
                     </table>

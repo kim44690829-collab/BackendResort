@@ -10,10 +10,12 @@ export default function MyPage(){
 
     const[myPage, setMyPage] = useState([]);
     const navigate = useNavigate();
+    // 리뷰 작성 성공
+    const [reviewCom, setReviewCom] = useState(0);
 
     useEffect(() => {
         fetchMyPage(); //마이페이지 DB전체호출
-    },[userEmail]);
+    },[userEmail, reviewCom]);
     
 
     //마이페이지 DB불러오는 함수
@@ -153,54 +155,55 @@ export default function MyPage(){
     const [dayClick, setDayClick] = useState(false); 
 
     // 리뷰 작성
-        const [isOpen, setIsOpen] = useState(false);
-        const [star1, setStar1] = useState(false);
-        const [star2, setStar2] = useState(false);
-        const [star3, setStar3] = useState(false);
-        const [star4, setStar4] = useState(false);
-        const [star5, setStar5] = useState(false);
-        const [rating, setRating] = useState(0);
-        const [roomCode, setRoomCode] = useState(0);
+    const [isOpen, setIsOpen] = useState(false);
+    const [star1, setStar1] = useState(false);
+    const [star2, setStar2] = useState(false);
+    const [star3, setStar3] = useState(false);
+    const [star4, setStar4] = useState(false);
+    const [star5, setStar5] = useState(false);
+    const [rating, setRating] = useState(0);
+    const [roomCode, setRoomCode] = useState(0);
+    
 
-        const starHandler = (num) => {
-            if(num === 1){
-                setStar1(true)
-                setStar2(false)
-                setStar3(false)
-                setStar4(false)
-                setStar5(false)
-                setRating(1)
-            }else if(num === 2){
-                setStar1(true)
-                setStar2(true)
-                setStar3(false)
-                setStar4(false)
-                setStar5(false)
-                setRating(2)
-            }else if(num === 3){
-                setStar1(true)
-                setStar2(true)
-                setStar3(true)
-                setStar4(false)
-                setStar5(false)
-                setRating(3)
-            }else if(num === 4){
-                setStar1(true)
-                setStar2(true)
-                setStar3(true)
-                setStar4(true)
-                setStar5(false)
-                setRating(4)
-            }else{
-                setStar1(true)
-                setStar2(true)
-                setStar3(true)
-                setStar4(true)
-                setStar5(true)
-                setRating(5)
-            }
-            
+    const starHandler = (num) => {
+        if(num === 1){
+            setStar1(true)
+            setStar2(false)
+            setStar3(false)
+            setStar4(false)
+            setStar5(false)
+            setRating(1)
+        }else if(num === 2){
+            setStar1(true)
+            setStar2(true)
+            setStar3(false)
+            setStar4(false)
+            setStar5(false)
+            setRating(2)
+        }else if(num === 3){
+            setStar1(true)
+            setStar2(true)
+            setStar3(true)
+            setStar4(false)
+            setStar5(false)
+            setRating(3)
+        }else if(num === 4){
+            setStar1(true)
+            setStar2(true)
+            setStar3(true)
+            setStar4(true)
+            setStar5(false)
+            setRating(4)
+        }else{
+            setStar1(true)
+            setStar2(true)
+            setStar3(true)
+            setStar4(true)
+            setStar5(true)
+            setRating(5)
         }
+        
+    }
 
         // console.log('rating', rating)
         // console.log('roomCode', roomCode)
@@ -217,7 +220,15 @@ export default function MyPage(){
                 }else{
                     alert("리뷰 작성에 실패하였습니다.");
                 }
+                setReviewCom(prev => prev + 1);
+                setStar1(false);
+                setStar2(false);
+                setStar3(false);
+                setStar4(false);
+                setStar5(false);
+                setRating(0)
                 setIsOpen(false)
+                
             })
         }
     
@@ -331,7 +342,7 @@ export default function MyPage(){
 
                                                             {item.check_in_date.slice(0,10) <= new Date().toLocaleDateString('sv-SE') && item.rb_score !== 0 && ( 
                                                                 <span className='del' onClick={()=>{reviewModalOpen(item.r_code)}}><i className="fa-solid fa-star" style={{color:'#FCC34B'}}></i> 리뷰수정</span>
-                                                            )}                                                           
+                                                            )} 
                                                         </p>
                                                     </li>
                                                     <li>

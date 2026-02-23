@@ -14,5 +14,5 @@ public interface ReservationService {
 	public int mInsertReservation(ReservationDTO redto);
 	
 	// 회원 예약 내역 select
-	public List<ResInfoDTO> resSelect(String booker_name);
+	public ResInfoDTO resSelect(String reservation_no);
 }

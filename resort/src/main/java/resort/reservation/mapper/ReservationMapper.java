@@ -18,5 +18,5 @@ public interface ReservationMapper {
 	public int mInsertReservation(ReservationDTO redto);
 	
 	// 회원 예약 내역 select
-	public List<ResInfoDTO> resSelect(@Param("booker_name") String booker_name);
+	public ResInfoDTO resSelect(@Param("reservation_no") String reservation_no);
 }

@@ -28,9 +28,9 @@ public class ReservationServiceImpl implements ReservationService {
 	}
 
 	@Override
-	public List<ResInfoDTO> resSelect(String booker_name) {
+	public ResInfoDTO resSelect(String reservation_no) {
 		System.out.println("ReservationServiceImpl : resSelect() 메서드 확인");
-		return reservationmapper.resSelect(booker_name);
+		return reservationmapper.resSelect(reservation_no);
 	}
 
 	
