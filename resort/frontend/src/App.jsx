@@ -26,6 +26,9 @@ import AdminPage2 from './Page/admin/AdminPage2'
 import AdminPage3 from './Page/admin/AdminPage3'
 import AdminPage4 from './Page/admin/AdminPage4'
 import MemberUdate from './Page/admin/memberUdate'
+import HotelInsert from './Page/admin/HotelInsert'
+import RoomInsert from './Page/admin/RoomInsert'
+
 
 function App() {
 
@@ -54,6 +57,8 @@ function App() {
             <Route path='/adminPage2' element={<AdminPage2 />} />
             <Route path='/adminPage3' element={<AdminPage3 />} />
             <Route path='/adminPage4' element={<AdminPage4 />} />
+            <Route path='/hotelinsert' element={<HotelInsert />} />
+            <Route path='/roominsert' element={<RoomInsert />} />
             <Route path='/memberUdate/:m_code' element={<MemberUdate />} />
           </Routes>
           <Footer />

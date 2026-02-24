@@ -41,4 +41,26 @@ public interface MemberService {
 			@Param("startRow") int startRow,
 			@Param("pageSize") int pageSize
 				);
+	
+	//=========== 2026-02-24 수정부분 ===============
+	public int adminUpdateMember(MemberDTO mdto);
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

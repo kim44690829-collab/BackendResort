@@ -6,7 +6,9 @@
 
 	<!-- // 호텔 전체 검색 public List<HotelDTO> getHotelAll(); -->
 	<select id="getHotelAll" resultType="HotelDTO">
-		SELECT * FROM hotel
+		SELECT h.*,MIN(r.price) as minPrice FROM hotel h INNER JOIN room r
+		ON h.h_code = r.h_code
+		GROUP BY h.h_code
 	</select>
 	
 	<!-- (상세페이지 호텔과) 같은지역의 추천호텔 -->
@@ -45,7 +47,7 @@
 	</select>
 	
 	
-	<!-- ================2026-02-23 수정 부분 ============= -->
+	<!-- ================2026-02-23 수정 부분 JHJ ============= -->
 	
 	<!-- 회원정보 개수  -->
 	<select id="getAllHotelcount" resultType="int">
@@ -102,7 +104,11 @@
 		LIMIT #{startRow}, #{pageSize}
 	</select>
 	
+	<!-- ===========2026-02-24 수정부분 JHJ ================ -->
 	
-	
+	<insert id="insertHotel" parameterType="HotelDTO">
+		INSERT INTO hotel(hotelName,country,city,type,h_address,discount,h_Img,h_s_Img1,h_s_Img2,h_s_Img3,h_s_Img4,startDate,endDate,roomservice,publicservice,otherservice)
+		VALUES(#{hotelName},#{country},#{city},#{type},#{h_address},#{discount},#{h_Img},#{h_s_Img1},#{h_s_Img2},#{h_s_Img3},#{h_s_Img4},#{startDate},#{endDate},#{roomservice},#{publicservice},#{otherservice})
+	</insert>
 	
 </mapper>

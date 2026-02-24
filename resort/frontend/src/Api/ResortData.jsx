@@ -27,7 +27,7 @@ export default function ResortData({children}){
         // HotelData
         axios.get('/api/hotel/context')
         .then((res) => {
-            //console.log("호텔 데이터 : ", res.data);
+            console.log("호텔 데이터 : ", res.data);
             setHotelData(res.data);
         })
         .catch((error) => {
@@ -85,7 +85,7 @@ export default function ResortData({children}){
         // })
         axios.get('/api/board/hotelRatingAvg')
         .then((res) => {
-            //console.log("호텔(평점) 평균 데이터 : ", res.data);
+            console.log("호텔(평점) 평균 데이터 : ", res.data);
             setHotelRatingAvgData(res.data);
         })
         .catch((error) => {
@@ -387,7 +387,7 @@ export default function ResortData({children}){
     //검색 핸들러
     const serchHandler =()=>{
         const dateFilter = hotelMerge.filter((f)=>f.startDate>DayData[0] && f.endDate<DayData[1])
-    
+        console.log('여기서 필터링 확인',dateFilter)
         let overFilter = []
         if(cityEn !== null){
             overFilter = dateFilter.filter((f)=>f.city===cityEn)

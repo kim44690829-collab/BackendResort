@@ -117,7 +117,6 @@ export default function AdminPage3(){
                                         <th width="100px">가격</th>
                                         <th width="100px">최대인원</th>
                                         <th width="80px">상세정보</th>
-                                        <th width="80px">호텔삭제</th>
                                         
                                     </tr>
                                 </thead>
@@ -132,7 +131,6 @@ export default function AdminPage3(){
                                                     <td>{item.price}</td>
                                                     <td>{item.maxOccupancy}</td>
                                                     <td><button onClick={()=>setTrue(index)}>상세정보</button></td>
-                                                    <td><button>호텔삭제</button></td>
                                                 </tr>
                                                 {isInfo[index] && 
                                                  <div className="admin_modal">

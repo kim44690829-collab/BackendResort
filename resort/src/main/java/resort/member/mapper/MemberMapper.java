@@ -54,7 +54,8 @@ public interface MemberMapper {
 	
 	
 	
-	
+	//=========== 2026-02-24 수정부분 ===============
+	public int adminUpdateMember(MemberDTO mdto);
 	
 	
 	

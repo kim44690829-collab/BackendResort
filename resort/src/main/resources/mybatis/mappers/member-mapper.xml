@@ -105,5 +105,11 @@
 		ORDER BY m_code DESC
 		LIMIT #{startRow}, #{pageSize}
 	</select>
+	
+	<!-- ============== 2026-02-24 수정부분 ============ -->
+	<!-- 관리자 페이지에서 회원정보 수정 -->
+	<update id="adminUpdateMember" parameterType="MemberDTO">
+		UPDATE member SET m_phone=#{m_phone},m_nickName=#{m_nickName} WHERE m_code=#{m_code}
+	</update>
 
 </mapper>

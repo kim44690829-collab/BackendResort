@@ -1,17 +1,24 @@
 package resort.product.controller;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import resort.handler.PageHandler;
 import resort.member.dto.MemberDTO;
+import resort.product.dto.HotelDTO;
 import resort.product.dto.RoomDTO;
 import resort.product.service.RoomService;
 
@@ -68,5 +75,28 @@ public class RoomApiController {
 			result.put("searchType",searchType);
 			result.put("searchKeyword",searchKeyword);
 			return result;
+		}
+		
+		
+		
+		// =============== 2026-02-24 수정부분 JHJ =====================
+		// 호텔 목록 추가
+		@PostMapping("/room/insert")
+		public int insertRoom(
+				//@ModelAttribute HotelDTO hdto ,
+				@RequestParam("roomData") String roomData
+				) throws Exception{
+			System.out.println("자동차 등록 요청");
+			
+			// JSON 문자열 → TestImgDTO 변환
+	        ObjectMapper mapper = new ObjectMapper();
+	        RoomDTO rdto = mapper.readValue(roomData, RoomDTO.class);
+			
+			
+			
+			// DB에 저장
+			roomService.insertRoom(rdto);
+			
+			return 1;
 		}
 }

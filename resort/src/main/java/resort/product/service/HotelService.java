@@ -47,5 +47,9 @@ public interface HotelService {
 			@Param("startRow") int startRow,
 			@Param("pageSize") int pageSize
 			);
+	
+	// =============== 2026-02-24 수정부분 JHJ =====================
+	public void insertHotel(HotelDTO hdto);
+	
 
 }

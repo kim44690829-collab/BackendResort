@@ -61,6 +61,10 @@
 		ORDER BY r_code DESC
 		LIMIT #{startRow}, #{pageSize}
 	</select>
-	
+	<!-- =========2026-02-24 수정부분 JHJ =========== -->
+	<insert id="insertRoom">
+		INSERT INTO room(h_code,roomName,price,maxOccupancy,r_img)
+		VALUES(#{h_code},#{roomName},#{price},#{maxOccupancy},#{r_img})
+	</insert>
 	
 </mapper>

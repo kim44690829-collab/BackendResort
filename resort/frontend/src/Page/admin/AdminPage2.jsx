@@ -118,7 +118,6 @@ export default function AdminPage2(){
                                         <th width="150px">시작일</th>
                                         <th width="150px">종료일</th>
                                         <th width="80px">상세정보</th>
-                                        <th width="80px">호텔삭제</th>
                                         
                                     </tr>
                                 </thead>
@@ -136,7 +135,6 @@ export default function AdminPage2(){
                                                     <td>{item.startDate}</td>
                                                     <td>{item.endDate}</td>
                                                     <td><button onClick={()=>setTrue(index)}>상세정보</button></td>
-                                                    <td><button>호텔삭제</button></td>
                                                 </tr>
                                                 {isInfo[index] && 
                                                  <div className="admin_modal">

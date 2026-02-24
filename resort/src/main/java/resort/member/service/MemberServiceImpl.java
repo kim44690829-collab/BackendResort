@@ -148,6 +148,13 @@ public class MemberServiceImpl implements MemberService {
 		System.out.println("MemberServiceImpl : getPagelist(@-@) 메서드 확인");
 		return membermapper.getSearchPageList(searchType, searchKeyword, startRow, pageSize);
 	}
+	
+	// =================== 2026-02-24 수정부분 ======================
+	@Override
+	public int adminUpdateMember(MemberDTO mdto) {
+		System.out.println("MemberServiceImpl : getPagelist^(@-@)^ 메서드 확인");
+		return membermapper.adminUpdateMember(mdto);
+	}
 
 	
 

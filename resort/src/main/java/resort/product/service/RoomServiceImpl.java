@@ -45,6 +45,13 @@ public class RoomServiceImpl implements RoomService {
 		System.out.println("RoomServiceImpl : getSearchRoomPageList() 메서드 확인");
 		return roomMapper.getSearchRoomPageList(searchType, searchKeyword, startRow, pageSize);
 	}
+	
+	// =========== 2026-02-24 수정부분 JHJ =========
+	@Override
+	public void insertRoom(RoomDTO rdto) {
+		System.out.println("RoomServiceImpl : insertRoom() 메서드 확인");
+		roomMapper.insertRoom(rdto);
+	}
 
 	
 	

@@ -112,27 +112,6 @@ public class MemberApiController {
 		result.put("searchKeyword",searchKeyword);
 		return result;
 	}
-//	@GetMapping("member/list")
-//	public Map<String, Object> memberList(
-//			@RequestParam(value="page",defaultValue="1") int page, // 초기 페이지
-//			@RequestParam(value="pageSize",defaultValue="10") int pageSize // 한 페이지당 보여줄 목록의 수
-//			){
-//		System.out.println("MemberApiController : memberList(@-@) 메서드 확인");
-//		
-//		int totalCnt = memberservice.getAllcount();
-//		
-//		// 페이지 핸들러 인스터스화
-//		PageHandler ph = new PageHandler(totalCnt, page, pageSize);
-//		
-//		List<MemberDTO>list = memberservice.getPagelist(ph.getStartRow(), pageSize);
-//		Map<String, Object> result = new HashMap<>();
-//		
-//		result.put("list", list);
-//		result.put("ph", ph);
-//		
-//		return result;
-//	}
-	
 	
 	
 	
@@ -160,5 +139,13 @@ public class MemberApiController {
 		return 1;//성공
 	}	
 	
+	// ========================== 2026-02-24 수정부분 ==============================
+	// 관리자 페이지에서 회원수정
+	//개인 한사람의 정보를 수정
+	@PutMapping("/member/adminupdatemember")
+	public int adminUpdateMember(@RequestBody MemberDTO mdto){			
+		System.out.println("MemberApiController : updateMember() 메서드 확인");
+		return memberservice.adminUpdateMember(mdto);
+	}
 	
 }

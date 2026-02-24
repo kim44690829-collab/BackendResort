@@ -102,8 +102,16 @@ export default function AdminPage(){
                         <div className="menu_box">
                             <span className="admin_menu">등록</span>
                             <ul className="admin_submenu">
-                                <li className="a_menus">호텔 정보 등록</li>
-                                <li className="a_menus">객실 정보 등록</li>
+                                <li className="a_menus">
+                                    <Link to={`/hotelinsert` } onClick={() => window.scrollTo(0, 0)}>
+                                        <span>호텔 정보 등록</span>
+                                    </Link>
+                                </li>
+                                <li className="a_menus">
+                                    <Link to={`/roominsert`} onClick={() => window.scrollTo(0, 0)}>
+                                        <span>객실 정보 등록</span> 
+                                    </Link>
+                                </li>
                             </ul>
                         </div>
                     </div>

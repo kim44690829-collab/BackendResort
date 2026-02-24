@@ -33,7 +33,7 @@ public interface HotelMapper {
 	public List<HotelMergeDTO> getHotelMerge();
 	
 	
-	//=========2026-02-23 수정 ==========
+	//=========2026-02-23 수정 JHJ==========
 	
 	// 전체 호텔정보의 개수를 구하는 매소드
 	public int getAllHotelcount();
@@ -54,5 +54,25 @@ public interface HotelMapper {
 			@Param("startRow") int startRow,
 			@Param("pageSize") int pageSize
 			);
+	
+	
+	// =============== 2026-02-24 수정부분 JHJ =====================
+	public void insertHotel(HotelDTO hdto);
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }
