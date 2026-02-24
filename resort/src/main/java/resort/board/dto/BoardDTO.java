@@ -18,7 +18,7 @@ public class BoardDTO {
 	private int re_step; // 댓글출력순서
 	private int re_level; //댓글 들여쓰기 단계(원글/댓글 구분)
 	private Date b_update; // 수정일자
-	private String upload;  // 첨부파일
+	private String b_upload;  // 첨부파일
 	
 	public int getB_code() {
 		return b_code;
@@ -82,12 +82,6 @@ public class BoardDTO {
 	public void setB_writer(String b_writer) {
 		this.b_writer = b_writer;
 	}
-	public String getUpload() {
-		return upload;
-	}
-	public void setUpload(String upload) {
-		this.upload = upload;
-	}
 	public int getRe_level() {
 		return re_level;
 	}
@@ -99,6 +93,14 @@ public class BoardDTO {
 	}
 	public void setM_code(int m_code) {
 		this.m_code = m_code;
+	}
+	public String getB_upload() {
+		return b_upload;
+	}
+	public void setB_upload(String b_upload) {
+		this.b_upload = b_upload;
 	}	
+	
+	
 	
 }

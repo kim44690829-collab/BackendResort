@@ -9,6 +9,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,7 +38,6 @@ public class BoardApiController {
 		
 		MemberDTO loginedMember = (MemberDTO)session.getAttribute("loginUser");
 		
-		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 		System.out.println(loginedMember);
 			
 		//1. 파일을 저장할 실제 하드디스크 위치를 지정한다.
@@ -59,12 +59,14 @@ public class BoardApiController {
 			// c:/upload/20.jpg
 			File file = new File(savePath + "/" + saveName);
 			
+			
+			System.out.println("저장경로확인 : " + file.getAbsolutePath());
 			//transferTo() : 이 명령어가 실행된 순간 서버 메모리에서 존재하던 파일이 실제 하드디스크
 			//               c:/upload로 복사된다.
 			upload.transferTo(file); // add throw~ 클릭하여 윗부분에 추가
 			
 			//DB에 저장할 파일명 DTO에 세팅
-			bdto.setUpload(saveName);
+			bdto.setB_upload(savePath);
 		}		
 		//DB저장결과
 		boolean result = boardservice.insertBoard(bdto,loginedMember);
@@ -130,16 +132,18 @@ public class BoardApiController {
 	//4. 하나의 게시글 상세정보 확인 핸들러
 	//num 글번호 받아 -> 해당 게시글 DB에서 조회하고, 그 상세정보를 
 	//boardInfo 전달하는 컨트롤러
-//	@GetMapping("/board/boardInfo")
-//	public String boardInfo(@RequestParam("num") int num, Model model) {
-//		System.out.println("1)BoardController boardInfo() 메소드호출");
-//		
-//		BoardDTO oneboardInfo = boardservice.OneBoard(num);
-//		model.addAttribute("oneboard", oneboardInfo);
-//		
-//		String nextPage = "board/boardInfo";
-//		return nextPage;		
-//	}	
+	@GetMapping("/board/boardInfo")
+	public BoardDTO boardInfo(BoardDTO bdto,HttpSession session) {
+		System.out.println("BoardApiController boardInfo() 메소드호출");
+		
+		MemberDTO loginedMember = (MemberDTO)session.getAttribute("loginUser");
+		
+		System.out.println(loginedMember);
+		
+		BoardDTO result = boardservice.getOneBoard(bdto,loginedMember);
+
+		return result;		
+	}	
 	
 	//5. 게시글의 수정폼으로 이동하는 컨트롤러
 //	@GetMapping("/board/update")

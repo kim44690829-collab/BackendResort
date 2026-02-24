@@ -17,8 +17,8 @@ public interface BoardMapper {
 	
 	//하나의 게시글 상세정보보기
 	//Readcount 누적하여 조회수를 증가하는 메소드도 함께 작성한다.
-//	public int upReadCount(int b_code);
-//	public BoardDTO getOneBoard(int b_code);
+	public int upReadCount(BoardDTO bdto);
+	public BoardDTO getOneBoard(BoardDTO bdto);
 	
 	//하나의 게시글을 수정하는 메소드
 	//public int updateBoard(BoardDTO bdto);

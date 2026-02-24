@@ -7,9 +7,9 @@
 	
 <!-- 하나의 게시글 작성하여 추가하는 쿼리문 -->
 <insert id="insertBoard" parameterType="BoardDTO" >
-	INSERT INTO board(b_writer,b_title,b_pw,b_content,m_code,ref,re_step,re_level,upload)
+	INSERT INTO board(b_writer,b_title,b_pw,b_content,m_code,ref,re_step,re_level,b_upload)
 	VALUES(#{b_writer},#{b_title},#{b_pw},#{b_content},#{m_code},
-	(SELECT IFNULL(MAX(b.ref)+1,1) FROM board b),1,1,#{upload})
+	(SELECT IFNULL(MAX(b.ref)+1,1) FROM board b),1,1,#{b_upload})
 </insert>
 
 <!-- 전체 게시글 목록을 출력하는 쿼리문 -->
@@ -19,14 +19,14 @@
 </select>
 
 <!-- Readcount 누적하여 조회수를 증가하는 메소드 -->
-<!-- <update id="upReadCount" parameterType="int">
+<update id="upReadCount" parameterType="BoardDTO">
 	UPDATE board SET readcount = readcount+1 WHERE b_code=#{b_code}
-</update> -->
+</update>
 
 <!-- 하나의 게시글 상세정보보기 -->
-<!-- <select id="getOneBoard" resultType="BoardDTO" parameterType="int">
-	SELECT * FROM board WHERE b_code=#{b_code}
-</select> -->
+<select id="getOneBoard" resultType="BoardDTO" parameterType="BoardDTO">
+	SELECT * FROM board WHERE b_code=#{b_code} AND m_code=#{m_code}
+</select>
 
 <!-- 하나의 게시글을 수정하는 메소드 -->
 <!-- <update id="updateBoard" parameterType="BoardDTO">

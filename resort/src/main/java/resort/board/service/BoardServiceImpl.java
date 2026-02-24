@@ -47,14 +47,31 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	//하나의 게시글을 출력하는 메소드
-//	@Override
-//	public BoardDTO getOneBoard(int b_code) {
-//		System.out.println("BoardServiceImpl getOneBoard() 메소드호출");
-//		// 조회수 증가 메소드 추가
-//		boardmapper.upReadCount(b_code);
-//		//조회수 증가 + 하나게시글 검색
-//		return boardmapper.getOneBoard(b_code);
-//	}
+	@Override
+	public BoardDTO getOneBoard(BoardDTO bdto, MemberDTO loginedMember) {
+		System.out.println("BoardServiceImpl getOneBoard() 메소드호출");
+		
+		if(loginedMember == null) {
+			System.out.println("로그인 해주세요");
+			return null;
+		}
+		
+		//로그인시 작성자 이메일 저장
+		bdto.setM_code(loginedMember.getM_code());
+		
+		BoardDTO result = boardmapper.getOneBoard(bdto);
+		
+		if(result == null) {
+			System.out.println("본인이 작성한 글만 볼 수 있습니다.");
+			return null;
+		}else {
+			System.out.println("게시글 출력 성공");
+			// 조회수 증가 메소드 추가
+			boardmapper.upReadCount(bdto);
+			//조회수 증가 + 하나게시글 검색
+			return boardmapper.getOneBoard(bdto);
+		}
+	}
 
 	//하나의 게시글을 수정하는 메소드
 //	@Override

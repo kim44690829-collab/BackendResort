@@ -16,7 +16,7 @@ public interface BoardService {
 	
 	//하나의 게시글 상세정보보기
 	//Readcount 누적하여 조회수를 증가하는 메소드도 함께 작성한다.
-	//public BoardDTO getOneBoard(int b_code);
+	public BoardDTO getOneBoard(BoardDTO bdto, MemberDTO loginedMember);
 	
 	//하나의 게시글을 수정하는 메소드
 	//public boolean updateBoard(BoardDTO bdto);
