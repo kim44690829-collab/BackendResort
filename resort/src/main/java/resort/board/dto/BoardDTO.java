@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class BoardDTO {
 
 	private int b_code; // 게시판코드(PK)
-	private String m_email; //회원아이디
+	private int m_code; //회원코드(FK)
 	private String b_title; // 제목
 	private String b_writer; // 작성자
 	private String b_pw; // 글 비밀번호 
@@ -16,8 +16,9 @@ public class BoardDTO {
 	private String b_content; // 내용
 	private int ref; // 원글번호
 	private int re_step; // 댓글출력순서
+	private int re_level; //댓글 들여쓰기 단계(원글/댓글 구분)
 	private Date b_update; // 수정일자
-	private MultipartFile upload;  // 첨부파일
+	private String upload;  // 첨부파일
 	
 	public int getB_code() {
 		return b_code;
@@ -62,12 +63,7 @@ public class BoardDTO {
 	public void setB_update(Date b_update) {
 		this.b_update = b_update;
 	}
-	public String getM_email() {
-		return m_email;
-	}
-	public void setM_email(String m_email) {
-		this.m_email = m_email;
-	}
+	
 	public String getB_pw() {
 		return b_pw;
 	}
@@ -86,12 +82,23 @@ public class BoardDTO {
 	public void setB_writer(String b_writer) {
 		this.b_writer = b_writer;
 	}
-	public MultipartFile getUpload() {
+	public String getUpload() {
 		return upload;
 	}
-	public void setUpload(MultipartFile upload) {
+	public void setUpload(String upload) {
 		this.upload = upload;
 	}
-	
+	public int getRe_level() {
+		return re_level;
+	}
+	public void setRe_level(int re_level) {
+		this.re_level = re_level;
+	}
+	public int getM_code() {
+		return m_code;
+	}
+	public void setM_code(int m_code) {
+		this.m_code = m_code;
+	}	
 	
 }

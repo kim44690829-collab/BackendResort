@@ -72,7 +72,8 @@ public class MemberApiController {
 		
 		if(loginUser != null) {
 			//세션에 로그인 정보담기
-			session.setAttribute("loginUser", loginUser.getM_email());
+			//session.setAttribute("loginUser", loginUser.getM_email());
+			session.setAttribute("loginUser", loginUser);
 		}
 		
 		//React로 JSON 변환

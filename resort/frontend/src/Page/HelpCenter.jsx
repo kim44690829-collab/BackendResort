@@ -1,10 +1,10 @@
 import '../Page/HelpCenter.css'
-import { useState,useContext } from 'react';
+import { useState,useContext,useEffect } from 'react';
 import { ResortDataContext} from '../Api/ResortData';
 import axios from "axios";
 
 export default function HelpCenter(){
-    const {userEmail} = useContext(ResortDataContext);
+    const {userEmail,userNickName} = useContext(ResortDataContext);
 
     // 왼쪽 리스트 클릭시 컨텐츠 전환
     const [listType, setListType] = useState(1)
@@ -56,28 +56,90 @@ export default function HelpCenter(){
         setListType(2);
     }
 
+    const [boardList,setBoardList] = useState([]);//1:1 문의게시글 리스트
+    const [page, setPage] = useState(1); // 페이지번호
+    const [pageSize, setPageSize] = useState(5); // 페이지사이즈
+    const [searchType, setSearchType] = useState(''); // 검색타입 상태
+    const [searchKeyword, setSearchKeyword] = useState(''); // 검색어 상태
+    
+    //문의하기 상태
+    const [writeBoard, setWriteBoard] =useState(false);
+    //작성자
+    const [writer, setWriter] = useState(userNickName);
+    //제목
+    const [title, setTitle] = useState('');
+    //비밀번호
+    const [password, setPassword] = useState('');
+    //글내용
+    const [boardText, setBoardText] = useState('');
+    //업로드파일
+    const [file, setFile] = useState(null);
 
 
+    useEffect(() => {
+        loadList();
+    },[page, searchType, searchKeyword]);
 
+    //게시글 리스트 불러오기
+    const loadList = () => {
+        axios.get('/api/board/list', {
+	        params: {
+	            searchType: searchType,
+	            searchKeyword: searchKeyword,
+                page:page,
+                pageSize:pageSize
+	        }
+	    }).then((res) => {
+            console.log("1:1문의게시글 데이터 : ", res.data);
+            setBoardList(res.data.boardList || []);
+        })
+        .catch((error) => {
+            console.error("error", error)
+        })
+    }
 
-    // useEffect(() => {    
-    //     axios.post('/api/board/write', { m_email: userEmail,
-    //         b_writer:'a',
-    //         b_title:'a',
-    //         b_pw:'a',
-    //         b_content:'a'
-    //     })
-    //     .then((res) => {
-    //         if(res.data === true){
-    //             console.log("게시글 작성 성공");
-    //         }else{
-    //             console.log("게시글 작성 실패");
-    //         }
-    //     })
-    //     .catch((error) => {
-    //         console.error("error", error)
-    //     })
-    // },[])
+    //문의글 작성 버튼 클릭
+    const writeSubmit = () => {    
+        const formData = new FormData();
+        formData.append("b_writer", writer);
+        formData.append("b_title", title);
+        formData.append("b_pw", password);
+        formData.append("b_content", boardText);
+
+        if(file !== null){// 파일 객체
+            formData.append("upload", file);
+        }
+
+        axios.post('/api/board/write', formData, {
+            headers: {
+                "Content-Type": "multipart/form-data"
+            },
+            withCredentials: true
+        })
+        .then((res) => {
+            if(res.data === true || res.data === "true"){
+                console.log("게시글 작성 성공");
+                loadList();
+                setListType(8);                
+                setWriteBoard(false);
+            }else{
+                console.log("게시글 작성 실패");
+            }
+        })
+        .catch((error) => {
+            console.error("error", error)
+        })
+    };
+
+    //문의하기 클릭
+    const writeButton = () => {
+        if(userEmail !== null){            
+            setWriteBoard(true);
+        }else{
+            alert("로그인시 문의가능합니다.");
+        }
+    }
+
 
     return(
         <div className="helpCenter_container">
@@ -96,7 +158,7 @@ export default function HelpCenter(){
                         </button>
                     </li>
                     <li className='list_menu'>
-                        <button type='button' className='list_menuBtn' onClick={() => setListType(8)} style={{fontWeight: listType === 8 ? 'bold' : 'normal'}}>
+                        <button type='button' className='list_menuBtn' onClick={() => {setListType(8);setWriteBoard(false);}} style={{fontWeight: listType === 8 ? 'bold' : 'normal'}}>
                             1 대 1 문의
                         </button>
                     </li>
@@ -432,46 +494,120 @@ export default function HelpCenter(){
                 <button type='button' className='noticeContentsBtn' onClick={noticeBtnHandeler}>목록 보기</button>
             </div>)
             }
-            {/* 1대1 문의 */}
-            {listType === 8 && 
-            (
-                <div id="section_wrap">
-			        <div className="word"><h2>게시글 목록 보기</h2></div>
-                    <div className="content">
-                        <table width="500" border="1">
-                            <tbody>
-                                <tr height="50">
-                                    <td width="150" align="center">                                        
-                                        {/* 로그인이 된 상태에서만 게시글을 쓰도록 정의할 예정 */}
-                                        {userEmail !== null ?
-                                            <a href="#" className="write-btn" id="writeBtn">글쓰기</a>
-                                        : null}
-                                    </td>
-                                </tr>
-                                <tr height="50">
-                                    <td width="50" align="center">번호</td>
-                                    <td width="320" align="center">제목</td>
-                                    <td width="100" align="center">작성자</td>
-                                    <td width="150" align="center">작성일자</td>
-                                    <td width="80" align="center">조회수</td>
-                                </tr>
-                            </tbody>
-                        </table>
+            {/* 1대1 문의 게시글 작성*/}
+            {listType === 8 && writeBoard === true && (
+                <div className="helpCenter_text">
+                    <h1 className="text_title">1 대 1 문의</h1>
+                    <div id="board_wrap">
+                    <div className="word"><h2>게시글 작성</h2></div>
+                        <div className="content">
+                            <table style={{ width: '500px', border: '1px solid' }}>
+                                <tbody>
+                                    <tr height="40">
+                                        <td align="center" style={{ width: '150px' }}>작성자</td>
+                                        <td style={{ width: '450px' }}><input type="text" name="writer" value={writer} onChange={(e) => setWriter(e.target.value)} /></td>
+                                    </tr>
+                                    <tr height="40">
+                                        <td align="center" style={{ width: '150px' }}>제목</td>
+                                        <td style={{ width: '450px' }}><input type="text" name="subject" className="b_subject" value={title} onChange={(e) => setTitle(e.target.value)} /></td>
+                                    </tr>
+                                    <tr height="40">
+                                        <td align="center" style={{ width: '150px' }}>비밀번호</td>
+                                        <td style={{ width: '450px' }}><input type="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} /></td>
+                                    </tr>
+                                    <tr height="40">
+                                        <td align="center" style={{ width: '150px' }}>글내용</td>
+                                        <td style={{ width: '450px' }}><textarea rows="10" cols="55" name="content" className="b_contents" value={boardText} onChange={(e) => setBoardText(e.target.value)}></textarea></td>
+                                    </tr>
+                                    {/* 이미지 업로드 */}
+                                    <tr height="40">
+                                        <td align="center" style={{ width: '150px' }}>이미지</td>
+                                        <td style={{ width: '450px' }}>
+                                            <input type="file" name="upload" onChange={(e) => setFile(e.target.files[0])} />
+                                        </td>
+                                    </tr>
+                                    <tr height="40">
+                                        <td align="center" colSpan="2">
+                                        <input type="button" onClick={writeSubmit} value="확인" />&nbsp;&nbsp;
+                                        <input type="button" onClick={() => { setListType(8); setWriteBoard(false); }} value="전체목록" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
-            )
-            // (<div className='helpCenter_text'>
-            //     <h1 className='text_title'>1 대 1 문의</h1>
-            //     <div>
-            //         <p className='support-1on1'>현재 문의 사항이 없습니다.</p>
-            //     </div>
-            //     <button type='button' className='sportBtn'>문의하기</button>
-            // </div>)
-            }
+            )}     
 
+            {/* 1대1 문의 게시글 전체 */}
+            {listType === 8 && writeBoard === false && (
+                <div className="helpCenter_text">
+                    <h1 className="text_title">1 대 1 문의</h1>
 
+                    {boardList && boardList.length > 0 ? (
+                    <div id="board_wrap">
+                        <div className="word"><h2>게시글 목록 보기</h2></div>
+                        <div className="content">
+                        <table style={{ width: '500px', border: '1px solid' }}>
+                            <tbody>
+                            {/* 테이블 헤더 */}
+                            <tr style={{ height: '50px' }}>
+                                <td style={{ width: '50px', textAlign: 'center' }}>번호</td>
+                                <td style={{ width: '320px', textAlign: 'center' }}>제목</td>
+                                <td style={{ width: '100px', textAlign: 'center' }}>작성자</td>
+                                <td style={{ width: '150px', textAlign: 'center' }}>작성일자</td>
+                                <td style={{ width: '80px', textAlign: 'center' }}>조회수</td>
+                            </tr>
 
-
+                            {/* 게시글 반복 */}
+                            {boardList.map((item, index) => (
+                                <tr key={item.b_code} style={{ height: '50px' }}>
+                                <td style={{ width: '50px', textAlign: 'center' }}>
+                                    {boardList.length - index}
+                                </td>
+                                <td style={{ width: '320px', textAlign: 'center' }}>
+                                    {/* 답글인 경우 */}
+                                    {item.re_level > 1 ? (
+                                    <span style={{ paddingLeft: `${(item.re_level - 1) * 20}px` }}>
+                                        ↳[re] {item.b_title}
+                                    </span>
+                                    ) : (
+                                    item.b_title
+                                    )}
+                                </td>
+                                <td style={{ width: '100px', textAlign: 'center' }}>
+                                    {item.b_writer}
+                                </td>
+                                <td style={{ width: '150px', textAlign: 'center' }}>
+                                    {item.b_date}
+                                </td>
+                                <td style={{ width: '80px', textAlign: 'center' }}>
+                                    {item.readcount}
+                                </td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                    ) : (
+                    <div>
+                        <p className="support-1on1">현재 문의 사항이 없습니다.</p>
+                    </div>
+                    )}
+                    <div className="search-wrap">
+                        <button type="button" className="sportBtn" onClick={writeButton}>문의하기</button>
+                        <select name="searchType" onChange={(e) => setSearchType(e.target.value)} style={{ width: "100px", padding: "0 10px", height: "37px" }}>
+                            <option value="b_title">제목</option>
+                            <option value="b_content">내용</option>
+                            <option value="b_writer">작성자</option>
+                        </select>
+                        <input type="text" name="searchKeyword" placeholder="검색어를 입력하세요." onChange={(e) => setSearchKeyword(e.target.value)}
+                            style={{ height: "37px", width: "300px", padding: "0 10px" }}/>
+                        <button type="button" className="btn" onClick={loadList} style={{ width: "100px", height: "43px" }}>검색</button>
+                    </div>                    
+                </div>
+            )}
             {/* 우측 고객센터 전화번호 등 */}
             <div className='helpCenter_tel'>
                 <div className='helpCenter_tel1'>

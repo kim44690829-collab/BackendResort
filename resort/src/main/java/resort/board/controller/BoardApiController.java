@@ -29,27 +29,20 @@ public class BoardApiController {
 
 	// 1. 게시글 작성 
 	@PostMapping("/board/write")
-	public boolean boardWrite(@RequestBody BoardDTO bdto, HttpSession session
+	public boolean boardWrite(BoardDTO bdto,
+			@RequestParam(value="upload", required=false) MultipartFile upload,
+			HttpSession session
 			) throws IllegalStateException, IOException {
 		System.out.println("BoardApiController boardWrite() 메소드호출");
 		
-		
 		MemberDTO loginedMember = (MemberDTO)session.getAttribute("loginUser");
 		
-		//로그인 정보가 존재하는지 체크하는 코드가 필요
-		if(loginedMember != null){
-			//지금 현재 로그인된 id=>loginedMember.getId()
-			bdto.setM_email(loginedMember.getM_email());
-			System.out.println("DB에 저장될 아이디 확인:"+loginedMember.getM_email());
-
-		}else{
-			System.out.println("로그인 해주세요");
-			return false;			
-		}
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+		System.out.println(loginedMember);
 			
 		//1. 파일을 저장할 실제 하드디스크 위치를 지정한다.
 		//WebConfig에서 설정한 "file:///c:/upload/' 이 경로와 반드시 일치하여야 한다.
-		String savePath = "c:/upload/";
+		String savePath = "c:/resort2026/resort/frontend/public/boardImg";
 		//2. 안전장치 : 만약 c:/upload/ 폴더가 존재하지않으면,
 		//프로그램을 통해 자동으로 생성되도록 작성한다.
 		File saveDir = new File(savePath);
@@ -57,32 +50,29 @@ public class BoardApiController {
 			saveDir.mkdirs(); //mkdirs() 메소드는 폴더가 없어도 한꺼번에 만들어주는 메소드이다.
 		}
 		//3. 첫번째 이미지 업로드 처리
-		//예외처리: 이미지가 비어있으면 추가되면 안됨
-		
-		MultipartFile upload = bdto.getUpload();
-		
-		if(!upload.isEmpty()) { //사용자가 실제 파일을 선택해서 보냈는지 확인
+		//예외처리: 이미지가 비어있으면 추가되면 안됨		
+		if(upload != null && !upload.isEmpty()) { //사용자가 실제 파일을 선택해서 보냈는지 확인
 			//사용자가 올린 원래 파일명(예: 20.jpg)을 가져온다.
 			String originalName = upload.getOriginalFilename();
-			String saveName = UUID.randomUUID().toString().subSequence(0, 4) + "_" + originalName;//파일명에 랜덤 문자 섞고 싶으면 pdf 16강 - 13페이지(random.UUID) 추가하면됨.
+			String saveName = UUID.randomUUID().toString().subSequence(0, 6) + "_" + originalName;//파일명에 랜덤 문자 섞고 싶으면 pdf 16강 - 13페이지(random.UUID) 추가하면됨.
 			
 			// c:/upload/20.jpg
-			File file = new File(savePath + saveName);
+			File file = new File(savePath + "/" + saveName);
 			
 			//transferTo() : 이 명령어가 실행된 순간 서버 메모리에서 존재하던 파일이 실제 하드디스크
 			//               c:/upload로 복사된다.
 			upload.transferTo(file); // add throw~ 클릭하여 윗부분에 추가
 			
 			//DB에 저장할 파일명 DTO에 세팅
-			bdto.setUpload(upload);
+			bdto.setUpload(saveName);
 		}		
-		//DB저장
-		boardservice.insertBoard(bdto);
+		//DB저장결과
+		boolean result = boardservice.insertBoard(bdto,loginedMember);
 		
-		return true;		 			
+		return result;	 			
 	}
 	
-	//3. DB에서 전체 게시글 목록 select로 검색하여 추출 => 모델(model)객체 담는다.
+	//3. DB에서 전체 게시글 목록 select로 검색하여 추출
 	@GetMapping("/board/list")
 	public Map<String,Object> boardList(
 			@RequestParam(value="searchType",required=false) String searchType,
@@ -97,7 +87,7 @@ public class BoardApiController {
 		//3. 전체 게시글의 개수인 totalCnt 메소드 가져오기
 		int totalCnt;
 		
-		if(searchType != null && !searchKeyword.trim().isEmpty()) {
+		if(searchType != null && searchKeyword != null && !searchKeyword.trim().isEmpty()) {
 			//검색을 성공한 경우 검색한 결과에 해당되는 개수 반환
 			totalCnt = boardservice.getSearchCount(searchType, searchKeyword);
 		}else {
@@ -111,7 +101,7 @@ public class BoardApiController {
 		List<BoardDTO> listboard;
 		
 		//검색 종료 후 => 검색내용이 list나오기
-		if(searchType != null && !searchKeyword.trim().isEmpty()) {
+		if(searchType != null && searchKeyword != null && !searchKeyword.trim().isEmpty()) {
 			//서비스에서 searchBoard() 메소드호출
 			//검색이 성공했을때 검색된 리스트를 반환하는 메소드
 			listboard = boardservice.getSearchPageList
@@ -127,19 +117,13 @@ public class BoardApiController {
 
 		Map<String, Object> result = new HashMap<>();
 		
-		result.put("list", listboard);
+		result.put("boardList", listboard);
 	    result.put("ph", ph);
 
 		result.put("searchType", searchType);
 	    result.put("searchKeyword", searchKeyword);
 		
 	    return result;
-//	    axios.get('/api/board/list', {
-//	        params: {
-//	            searchType: searchType,
-//	            searchKeyword: searchKeyword
-//	        }
-//	    })
 	}
 	
 	

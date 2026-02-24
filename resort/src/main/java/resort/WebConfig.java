@@ -14,7 +14,10 @@ public class WebConfig implements WebMvcConfigurer{
 	// file:///c:/upload/ => 실제로 파일이 저장되는 물리적인 경로이다.
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/upload/**")
-		        .addResourceLocations("file:///c:/upload/");
+		registry.addResourceHandler("/boardImg/**")
+		        .addResourceLocations("file:///c:/resort2026/resort/frontend/public/boardImg/");
+		
+		registry.addResourceHandler("/img/**")
+        .addResourceLocations("file:///c:/resort2026/resort/frontend/public/img/");
 	}
 }
