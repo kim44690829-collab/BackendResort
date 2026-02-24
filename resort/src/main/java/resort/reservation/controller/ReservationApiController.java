@@ -61,4 +61,19 @@ public class ReservationApiController {
 		return reservationservice.resSelect(reservation_no);
 	}
 	
+	// 비회원 예약정보 검색시 select
+	@GetMapping("/reservationGuest")
+	public ResInfoDTO guestSelect(@RequestParam("reservation_no") String reservation_no, @RequestParam("g_phone") String g_phone) {
+		System.out.println("ReservationApiController : guestSelect() 메서드 확인");
+		
+		System.out.println("reservation_no : " + reservation_no);
+		System.out.println("g_phone : " + g_phone);
+		
+		if (reservation_no == null || reservation_no.trim().isEmpty()) {
+	        return null;
+	    }
+		
+		return reservationservice.guestSelect(reservation_no, g_phone);
+	}
+	
 }

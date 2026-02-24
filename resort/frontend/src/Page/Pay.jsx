@@ -24,8 +24,8 @@ export default function Pay(){
     const roomprice = HotelData.filter((f)=>f.h_code === myRoom[0].h_code)
     // 고객 전화번호
     const [phone,setPhone] = useState('')
-    // 회원코드
-    // const [memberNum, setMemberNum] = useState(0);
+    // 쿠폰 모달
+    const [couponModal, setCouponModal] = useState(false);
 
     //전체 선택 함수
     const chkAllHandler=()=>{
@@ -228,7 +228,7 @@ export default function Pay(){
                 sessionStorage.setItem("reservation_no", reservationNo);
 
                 alert("결제가 완료되었습니다.");
-
+                customer('');
                 // 페이지 이동
                 navigate("/pay2");
             }else{
@@ -251,7 +251,7 @@ export default function Pay(){
                 sessionStorage.setItem("reservation_no", reservationNo);
 
                 alert("결제가 완료되었습니다.");
-
+                customer('');
                 navigate("/pay2");
             }
             
@@ -311,7 +311,22 @@ export default function Pay(){
                             </li>
                         </ul>
                         <div className="payline"></div>
-                        <h4 className="pay_left_title">결제 수단</h4>
+                        <div className="couponUse">
+                            <h4 className="pay_left_title">쿠폰</h4>
+                            <input type="text" name="" placeholder="" className="coupon_name" />
+                            <button type="button" className="pay_x_btn">
+                                <i className="fa-solid fa-xmark"></i>
+                            </button>
+                            <button type="button" className="couponSearch" onClick={() => setCouponModal(!couponModal)}>보유중인 쿠폰</button>
+                            {couponModal && (
+                                <div className="couponModal">
+                            
+                                </div>
+                            )}
+                            
+                        </div>
+                        <div className="payline"></div>
+                        <h4 className="pay_left_title2">결제 수단</h4>
                         <ul className="pay_type">
                             <li className="type_list"><button onClick={()=>payTypeHandler(1)} type="button" className="type_btn" style={{backgroundColor:btnNum===1?'#fff':''}}><img src="payLogo5.png" alt="kakao pay" style={{height:'30px',width:'70px', marginTop:'10px'}}></img></button></li>
                             <li className="type_list"><button onClick={()=>payTypeHandler(2)} type="button" className="type_btn" style={{backgroundColor:btnNum===2?'#fff':''}}><img src="payLogo4.png" alt="kakao pay" style={{height:'13px',width:'70px'}}></img></button></li>

@@ -26,4 +26,16 @@
 		WHERE TRIM(re.reservation_no) = TRIM(#{reservation_no})
 	</select>
 	
+	<!-- // 비회원의 g_check가 0이면서 axios로 받아온 데이터와 동일한 예약정보만 select public ResInfoDTO guestSelect(@Param("reservation_no") String reservation_no, @Param("g_phone") String g_phone); -->
+	<select id="guestSelect" resultType="ResInfoDTO">
+		SELECT h.hotelName, r.roomName, re.check_in_date, re.check_out_date, re.original_price, re.discount_rate, re.coupon_used, re.final_price, re.booker_name, re.reserved_at, re.reservation_no FROM reservation re
+		INNER JOIN room r
+		ON r.r_code = re.r_code
+		INNER JOIN hotel h
+		ON h.h_code = r.h_code
+		INNER JOIN guest g
+		ON g.g_code = re.g_code
+		WHERE TRIM(re.reservation_no) = TRIM(#{reservation_no}) AND TRIM(g.g_phone) = TRIM(#{g_phone}) AND g.g_check = 0 
+	</select>
+	
 </mapper>

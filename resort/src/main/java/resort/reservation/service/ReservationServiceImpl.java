@@ -33,6 +33,12 @@ public class ReservationServiceImpl implements ReservationService {
 		return reservationmapper.resSelect(reservation_no);
 	}
 
+	@Override
+	public ResInfoDTO guestSelect(String reservation_no, String g_phone) {
+		System.out.println("ReservationServiceImpl : guestSelect() 메서드 확인");
+		return reservationmapper.guestSelect(reservation_no, g_phone);
+	}
+
 	
 	
 }

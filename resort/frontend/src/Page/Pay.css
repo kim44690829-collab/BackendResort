@@ -17,6 +17,56 @@
     font-weight: 500;
     padding: 18px 0;
 }
+.paysection .pay_info .user_info .couponUse{
+    position: relative;
+    width: 900px;
+    height: 124px;
+}
+.paysection .pay_info .user_info .couponUse .coupon_name{
+    width: 340px;
+    height: 48px;
+    background-color: #f5f7fa;
+    border: none;
+    border-radius: 10px;
+    padding: 0 18px;
+    margin-bottom: 8px;
+}
+.pay_x_btn{
+    position: absolute;
+    border: none;
+    background-color: transparent;
+    left: 310px;
+    top: 70px;
+    color: #807f7f;
+}
+.paysection .pay_info .user_info .couponUse .couponSearch{
+    width: 130px;
+    height: 48px;
+    background-color: #fff;
+    border: 1px solid #f5f7fa;
+    border-radius: 10px;
+    padding: 0 10px;
+    margin-bottom: 5px;
+    margin-left: 10px;
+    font-weight: 500;
+}
+.couponModal{
+    position: absolute;
+    width: 340px;
+    height: 300px;
+    margin: 0;
+    /* box-shadow: 0 0 5px rgba(0, 0, 0, 0.4); */
+    border: 1px solid rgba(90, 90, 90, 0.185);
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 10px;
+    z-index: 999;
+}
+.paysection .pay_info .user_info .pay_left_title2{
+    font-size: 18px;
+    font-weight: 500;
+    padding: 18px 0;
+}
 .paysection .pay_info .user_info .guest_info .guest_list .guest_sub_title{
     font-size: 13px;
     margin-bottom: 4px;

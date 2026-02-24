@@ -1,27 +1,15 @@
 import { useState,useEffect } from "react";
 import '../Page/pay.css'
-import { useContext } from "react";
-import { ResortDataContext } from "../Api/ResortData";
+// import { useContext } from "react";
+// import { ResortDataContext } from "../Api/ResortData";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
 export default function Pay2(){
 
-    const {payHead,setPayHead,payRoom,setPayRoom,HotelData,RoomData,DayData,customer,setCustomer} = useContext(ResortDataContext)
-   // console.log(payHead) // 1
-   // console.log(payRoom) // null
-   // console.log(HotelData) // 140개
-   // console.log(RoomData) //420개
-   // console.log(DayData) // 선택한 날짜
-    const payDay = `${new Date().getFullYear()} - ${new Date().getMonth()+1} - ${new Date().getDate()}`
-    const [open,setOpen] = useState(false)
-    const myRoom = RoomData.filter((f)=>f.id===payRoom)
-
+    // const {payHead,setPayHead,payRoom,setPayRoom,HotelData,RoomData,DayData,customer,setCustomer} = useContext(ResortDataContext)
+    
     const [resInfo, setResInfo] = useState(null);
-
-    const customerHandler = () => {
-        setCustomer('');
-    }
 
     useEffect(() => {
 
@@ -88,12 +76,6 @@ export default function Pay2(){
                                 <td className="pay2_list">결제 금액</td>
                                 <td className="pay2_list">{(resInfo.final_price ?? 0).toLocaleString()}원</td>
                             </tr>
-                            {/* <tr>
-                                <td className="pay2_list">원가</td>
-                                <td className="pay2_list"></td>
-                                <td className="pay2_list">할인율</td>
-                                <td className="pay2_list"></td>
-                            </tr> */}
                             <tr>
                                 <td className="pay2_list">예약자</td>
                                 <td className="pay2_list">{resInfo.booker_name} 님</td>
@@ -109,38 +91,11 @@ export default function Pay2(){
                         </tbody>
                     </table>
                     <div className="pay2_btns">
-                        {/* <button className="pay2_btn pay_chk"type="button" onClick={()=>setOpen(!open)}>주문내역 조회</button> */}
                         <Link to={'/'}>
-                            <button className="pay2_btn move_main" type="button" onClick={customerHandler}>홈으로 이동</button>
+                            <button className="pay2_btn move_main" type="button">홈으로 이동</button>
                         </Link>
                     </div>
-
                 </div>
-                {/* {open?
-                <div className="pay_modal">
-                    <div className="backimg" onClick={()=>setOpen(!open)}></div>
-                    <div className="modal_content">
-                        <h2 className="pay_modal_title">예약내역 확인</h2>
-                        <div className="modal_info">
-                            <h4 className="modal_hotel">{myRoom[0].hotelName}</h4>
-                            <p className="modal_room">{myRoom[0].roomName}</p>
-                        </div>
-                        <table className="modal_table">
-                            <tr>
-                                <td className="modal_list">체크인</td>
-                                <td className="modal_list">{DayData[0]}</td>
-                            </tr>
-                            <tr>
-                                <td className="modal_list">체크아웃</td>
-                                <td className="modal_list">{DayData[1]}</td>
-                            </tr>
-                        </table>
-                        <div className="pay_modal_btn">
-                            <button type="button" className="btns" style={{width:'250px',background:'#42799b',color:'#fff'}} onClick={()=>setOpen(!open)}>닫기</button>                            
-                        </div>
-                    </div>
-                </div>:''} */}
-                
             </div>
         </>
     )
