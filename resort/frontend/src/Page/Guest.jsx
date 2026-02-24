@@ -86,7 +86,7 @@ export default function Guest(){
                 setGuestData(res02.data);
             }
             if(res.data === -1){
-                setModalContent(<p style={{fontSize:'18px',fontWeight:'700'}}>예약 번호 혹은 핸드폰 번호를 확이해주세요.</p>)
+                setModalContent(<p style={{fontSize:'18px',fontWeight:'700'}}>예약 번호 혹은 핸드폰 번호를 확인해주세요.</p>)
                 toggle();
                 setGuestUpdateResult(null)
                 setGuestData(null);

@@ -21,6 +21,8 @@ public interface MemberMapper {
 	public List<MemberDTO> allSelectMember();
 	//개인 한 사람의 정보를 검색하는 메소드
 	public MemberDTO oneSelectMember(String m_email);
+	//개인 한 사람의 정보를 검색하는 메소드
+	public MemberDTO getOneSelectMember(String m_nickName);
 	//개인 한사람의 패스워드 리턴하는 쿼리
 	public String getPass(String m_email);
 	//개인 한사람의 정보를 수정하는 쿼리
@@ -36,4 +38,9 @@ public interface MemberMapper {
 	
 	// 전체 회원정보의 시작(startRow), 몇개의 행 (pageSize)만큼 보는 메소드
 	public List<MemberDTO> getPagelist(@Param("startRow")int startRow,@Param("pageSize")int pageSize);
+	
+	// ==========2026-02-24===============
+	// 쿠폰 사용한 회원 쿠폰수량 업데이트
+	public int couponMod(@Param("m_code") Integer m_code );
+	// 회원 정보 검색
 }

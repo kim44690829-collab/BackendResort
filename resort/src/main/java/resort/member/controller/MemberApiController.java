@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -43,6 +44,12 @@ public class MemberApiController {
 	public MemberDTO oneSelectMember(@RequestParam("m_email") String m_email){
 		System.out.println("MemberApiController : oneSelectMember() 메서드 확인");
 		return memberservice.oneSelectMember(m_email);
+	}	
+	//개인 한 사람의 정보를 검색
+	@GetMapping("/member/onememberSelect")
+	public MemberDTO getOneSelectMember(@RequestParam("m_nickName") String m_nickName){
+		System.out.println("MemberApiController : oneSelectMember() 메서드 확인");
+		return memberservice.getOneSelectMember(m_nickName);
 	}	
 
 	//개인 한사람의 정보를 수정
@@ -107,5 +114,11 @@ public class MemberApiController {
 		return 1;//성공
 	}	
 	
+	// 쿠폰 사용한 회원 쿠폰수량 업데이트
+	@PutMapping("/member/couponMod")
+	public int couponMod(@RequestParam("m_code") Integer m_code) {
+		System.out.println("MemberApiController : couponMod 요청됨");
+		return memberservice.couponMod(m_code);
+	}
 	
 }

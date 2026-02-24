@@ -263,7 +263,7 @@ export default function Main(){
 
     // e.target.closest(.className) : .className의 하위 클래스들을 범위로 묶어서 한묶음으로 지정
     // 즉, 현재 .className 에 들어간 hotelModal의 하위 input, ul, li 만 묶음으로 지정
-    // !!e.target.closest('.hotelModal') 를 통해 부정하여 반대로 적용시켜서 input, ul, li 이외에 다른곳을 클릭하면
+    // !e.target.closest('.hotelModal') 를 통해 부정하여 반대로 적용시켜서 input, ul, li 이외에 다른곳을 클릭하면
     // setIsInput(false) 로 모달 닫기
     const closeUl1 = (e) => {
         if (!e.target.closest('.hotelModal')) {

@@ -1,3 +1,6 @@
+.pay_wrap{
+    width: 100%;
+}
 .paysection{
     margin: 0 auto;
     width: 1200px;
@@ -19,7 +22,7 @@
 }
 .paysection .pay_info .user_info .couponUse{
     position: relative;
-    width: 900px;
+    width: 500px;
     height: 124px;
 }
 .paysection .pay_info .user_info .couponUse .coupon_name{
@@ -31,14 +34,55 @@
     padding: 0 18px;
     margin-bottom: 8px;
 }
+/* 쿠폰 리스트 */
+.couponModal ul{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* li 간격 */
+.couponModal ul li{
+  margin-bottom: 6px;
+}
+
+/* 버튼 스타일 */
+.couponModal ul li button{
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #e4e4e4;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 14px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+/* hover */
+.couponModal ul li button:hover{
+  background: #f5f8fb;
+  border-color: #cfd9e3;
+}
+
+/* 클릭 느낌 */
+.couponModal ul li button:active{
+  transform: scale(0.98);
+}
+
+/* 마지막 li margin 제거 */
+.couponModal ul li:last-child{
+  margin-bottom: 0;
+}
 .pay_x_btn{
     position: absolute;
     border: none;
     background-color: transparent;
-    left: 310px;
-    top: 70px;
+    left: 306px;
+    top: 13px;
     color: #807f7f;
 }
+
 .paysection .pay_info .user_info .couponUse .couponSearch{
     width: 130px;
     height: 48px;
@@ -53,7 +97,7 @@
 .couponModal{
     position: absolute;
     width: 340px;
-    height: 300px;
+    
     margin: 0;
     /* box-shadow: 0 0 5px rgba(0, 0, 0, 0.4); */
     border: 1px solid rgba(90, 90, 90, 0.185);

@@ -12,8 +12,8 @@
 	
 	<!-- // 회원 예약 내역 insert public int mInsertReservation(ReservationDTO redto); -->
 	<insert id="mInsertReservation" parameterType="ReservationDTO">
-		INSERT INTO reservation (m_code, reservation_no, r_code, booker_name, check_in_date, check_out_date, original_price, discount_rate, final_price)
-		VALUES(#{m_code}, #{reservation_no}, #{r_code}, #{booker_name}, #{check_in_date}, #{check_out_date}, #{original_price}, #{discount_rate}, #{final_price})
+		INSERT INTO reservation (m_code, reservation_no, r_code, booker_name, check_in_date, check_out_date, original_price, discount_rate, coupon_used, final_price)
+		VALUES(#{m_code}, #{reservation_no}, #{r_code}, #{booker_name}, #{check_in_date}, #{check_out_date}, #{original_price}, #{discount_rate}, #{coupon_used}, #{final_price})
 	</insert>
 	
 	<!-- // 회원 예약 내역 select public ResInfoDTO resSelect(@Param("reservation_no") String reservation_no); -->

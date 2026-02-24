@@ -6,11 +6,12 @@ import { useNavigate } from 'react-router-dom';
 
 export default function Footer(){
     const navigate = useNavigate();
-    const {setHeaderChange} = useContext(ResortDataContext);
+    const {setHeaderChange, setCustomer} = useContext(ResortDataContext);
 
     const footerLogoBtn = () => {
-        navigate('/');
         setHeaderChange(0);
+        setCustomer('');
+        navigate('/');
         window.scrollTo(0,0);
     }
 

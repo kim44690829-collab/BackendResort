@@ -26,6 +26,56 @@ export default function Pay(){
     const [phone,setPhone] = useState('')
     // 쿠폰 모달
     const [couponModal, setCouponModal] = useState(false);
+    // 쿠폰 선택
+    const [useCoupon, setUseCoupon] = useState("쿠폰 사용 안함");
+    const [useCouponNum, setUseCouponNum] = useState(0);
+    const [couponUse, setCouponUse] = useState(0);
+    const [memberSel, setMemberSel] = useState(null); 
+
+    // 회원코드
+    const memberNum = MemberAllData.find((item) => item.m_nickName === userNickName);
+    
+
+    useEffect(() => {
+        if (!userNickName) return;
+
+        if(memberNum){
+            axios.get("/api/member/onememberSelect", {
+            params : {
+                m_nickName : userNickName
+            }
+        })
+        .then((res) => {
+            console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~', res.data)
+            setMemberSel(res.data);
+        })
+        .catch((err) => {
+            console.error(err)
+        })
+        }
+    },[])
+
+    useEffect(() => {
+        console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",memberSel)
+    },[])
+
+    const couponSel = (num) => {
+        if(num === 0){
+            setUseCoupon("쿠폰 사용 안함");
+            setUseCouponNum(0);
+            setCouponUse(0);
+        }else if(num === 1){
+            setUseCoupon("회원가입 환영 쿠폰 - 10000원");
+            setUseCouponNum(10000);
+            setCouponUse(1);
+        }else{
+            setUseCoupon('');
+            setUseCouponNum(null);
+            setCouponUse(null);
+        }
+    }
+
+    console.log("zzzzzzzzzzzz", useCouponNum)
 
     //전체 선택 함수
     const chkAllHandler=()=>{
@@ -120,13 +170,13 @@ export default function Pay(){
     const myRoomPrice = myRoom[0].price * nights // 일반 호텔 총 금액
     const isDiscount = (roomprice[0].discount === 1 ? 10 : 0); // 할인 여부
     const discountPrice = ((myRoom[0].price) - ((myRoom[0].price)*0.1)) * nights // 할인 호텔 총금액
+    const basePrice = roomprice[0].discount === 1 ? discountPrice : myRoomPrice;
     const totalPrice = 
-    (roomprice[0].discount === 1 ? 
-        discountPrice
+    (useCouponNum === 0 ? 
+        basePrice
         : 
-        myRoomPrice
+        basePrice - useCouponNum
     )
-    
 
     // 비회원 생년월일
     const [birth,setBirth] = useState('')
@@ -152,22 +202,11 @@ export default function Pay(){
         return birthMember;
     }
 
-    // 회원코드
-    const memberNum = MemberAllData.find((item) => item.m_nickName === userNickName);
-    console.log('회원코드', memberNum)
-
     const payHandler =()=>{
         let phoneDigits = '';
         if(memberNum){
             phoneDigits = memberNum.m_phone;
-        }
-
-        console.log('phone.length',phoneDigits.length)
-        console.log('birthDigits',birthMember.length )
-        console.log('customer.length',customer.length)
-        console.log('btnNum',btnNum)
-        console.log('chking[0].state',chking[0].state)
-        
+        }    
 
         if((chking[0].state===true && btnNum !== 0 && birthMember.length === 8 && phoneDigits.length === 11 && customer.length !==0) 
             || (chking[0].state===true && btnNum !== 0 && birth.length === 8 && phone.length === 11 && customer.length !==0)){
@@ -228,7 +267,7 @@ export default function Pay(){
                 sessionStorage.setItem("reservation_no", reservationNo);
 
                 alert("결제가 완료되었습니다.");
-                customer('');
+                setCustomer('');
                 // 페이지 이동
                 navigate("/pay2");
             }else{
@@ -241,9 +280,18 @@ export default function Pay(){
                     check_out_date : DayDataResult[1],
                     original_price : myRoomPrice,
                     discount_rate : isDiscount,
+                    coupon_used : couponUse,
                     final_price : totalPrice
                 })
                 console.log(res02.data)
+
+                const res03 = await axios.put("/api/member/couponMod", null, {
+                    params : {
+                        m_code : memberNum.m_code,
+                        coupon_used : couponUse
+                    }
+                })
+                console.log("121212123e123124124124123er1",res03.data)
 
                 // 회원 예약 번호 꺼내기 
                 const reservationNo = res02.data.reservation_no;
@@ -251,7 +299,7 @@ export default function Pay(){
                 sessionStorage.setItem("reservation_no", reservationNo);
 
                 alert("결제가 완료되었습니다.");
-                customer('');
+                setCustomer('');
                 navigate("/pay2");
             }
             
@@ -259,12 +307,19 @@ export default function Pay(){
             console.error(err)
             alert("결제 실패")
         }
+        
+    }
+
+    const closeCoupon = (e) => {
+        if (!e.target.closest('.couponUse')) {
+            setCouponModal(false);
+        }
     }
 
     
 
     return(
-        <>
+        <div className="pay_wrap" onClick={closeCoupon}>
             <div className="paysection">
                 <h2 className="pay_title">예약 확인 및 결제</h2>
                 <div className="pay_info">
@@ -278,13 +333,13 @@ export default function Pay(){
                             <li className="guest_list">
                                 <p className="guest_sub_title">예약자 생년월일</p>
                                 {/* value자리에 삼항연산자 사용해서 user(세션 스토리지에 저장한 유저 정보) === null ? birth : user.m_birth */}
-                                {!memberNum ? 
+                                {!memberSel ? 
                                     (<>
                                         <input type="text" className="guest_birth01" placeholder="ex) 19800101" name="g_birth" maxLength={8} onChange={(e)=>setBirth(e.target.value)} value={birth}/>    
                                     </>)
                                     : 
                                     (<>
-                                        <input type="text" className="guest_birth01" value={birthToNumber(memberNum.m_birth)} onChange={(e)=>setBirth(e.target.value)} readOnly/>    
+                                        <input type="text" className="guest_birth01" value={birthToNumber(memberSel?.m_birth)} onChange={(e)=>setBirth(e.target.value)} readOnly/>    
                                     </>)}
                                 
                                 <span> - </span>
@@ -294,13 +349,13 @@ export default function Pay(){
                             <li className="guest_list">
                                 <p className="guest_sub_title">휴대폰 번호</p>
                                 {/* value자리에 삼항연산자 사용해서 user(세션 스토리지에 저장한 유저 정보) === null ? phone : user.m_phone */}
-                                {!memberNum ? 
+                                {!memberSel ? 
                                     (<>
                                         <input type="text" placeholder="'-' 를 빼고 작성해 주세요" className="guest_phone" name="g_phone" maxLength={11} onChange={(e)=>setPhone(e.target.value)} value={phone}/> 
                                     </>)
                                     : 
                                     (<>
-                                        <input type="text" className="guest_phone" value={memberNum.m_phone} onChange={(e)=>setPhone(e.target.value)} readOnly/> 
+                                        <input type="text" className="guest_phone" value={memberSel?.m_phone} onChange={(e)=>setPhone(e.target.value)} readOnly/> 
                                     </>)}
                                 <button type="button" className="phone_btn">인증번호 발송 </button>
                                 <div className="phone_txt">
@@ -313,14 +368,25 @@ export default function Pay(){
                         <div className="payline"></div>
                         <div className="couponUse">
                             <h4 className="pay_left_title">쿠폰</h4>
-                            <input type="text" name="" placeholder="" className="coupon_name" />
-                            <button type="button" className="pay_x_btn">
-                                <i className="fa-solid fa-xmark"></i>
-                            </button>
+                            <input type="text" value={useCoupon} placeholder="쿠폰을 선택해주세요." className="coupon_name" readOnly onClick={() => setCouponModal(true)}/>
                             <button type="button" className="couponSearch" onClick={() => setCouponModal(!couponModal)}>보유중인 쿠폰</button>
                             {couponModal && (
                                 <div className="couponModal">
-                            
+                                    {/* <button type="button" className="pay_x_btn" onClick={() => setCouponModal(false)}>
+                                        <i className="fa-solid fa-xmark"></i>
+                                    </button> */}
+                                    <ul>
+                                        <li>
+                                            <button type="button" value={couponUse} onClick={() => {couponSel(0); setCouponModal(false);}}>쿠폰 사용 안함</button>
+                                        </li>
+                                        {(memberSel && memberSel.m_coupon === 1) ? 
+                                        (<>
+                                            <li>
+                                                <button type="button" onClick={() => {couponSel(1); setCouponModal(false);}}>회원가입 쿠폰</button>
+                                            </li>
+                                        </>) : ''
+                                        }
+                                    </ul>
                                 </div>
                             )}
                             
@@ -443,9 +509,6 @@ export default function Pay(){
                         </ul>
                         <div className="pay_modal_btn">
                             <button type="button" className="btns" style={{width:'125px'}} onClick={()=>setOpen(!open)}>취소</button>
-                            {/* <Link to='/pay2' onClick={()=>{setOpen(!open),alert('결제가 완료되었습니다.'),window.scrollTo(0,0)}}>
-                                <button type="button" className="btns"style={{color:'#fff',backgroundColor:'#42799b'}} onClick={submitReservation}>동의 후 결제</button>
-                            </Link> */}
                             <button type="button"
                             className="btns"
                             style={{color:'#fff',backgroundColor:'#42799b'}}
@@ -456,6 +519,6 @@ export default function Pay(){
                     </div>
                 </div>:''}
             </div>
-        </>
+        </div>
     )
 }
