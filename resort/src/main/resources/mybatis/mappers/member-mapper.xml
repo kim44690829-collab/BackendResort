@@ -38,6 +38,10 @@
     FROM member m
     WHERE m.m_email = #{m_email}
 </select>
+<!-- //개인 한 사람의 정보를 검색하는 메소드 public MemberDTO getOneSelectMember(String m_nickName); -->
+<select id="getOneSelectMember" parameterType="String" resultType="MemberDTO">
+	SELECT * FROM member WHERE m_nickName=#{m_nickName}
+</select>
 
 <!-- 개인 한사람의 패스워드 리턴하는 쿼리 -->
 <select id="getPass" parameterType="String" resultType="String" >
@@ -63,8 +67,64 @@
 
 <!-- 회원정보 보이는 개수 -->
 <select id="getPagelist" resultType="MemberDTO">
-	SELECT * FROM member ORDER BY num DESC
+	SELECT *FROM member ORDER BY m_code DESC
 	LIMIT #{startRow}, #{pageSize}
 </select>
+
+<!-- ================2026-02-23 수정 부분 ============= -->
+
+
+<select id="getSearchCount" resultType="int">
+		SELECT COUNT(*) FROM member
+		<where>
+			<choose>
+				<when test="searchType == 'phone'">
+					m_phone LIKE CONCAT("%",#{searchKeyword},"%")
+				</when>
+				<when test="searchType == 'gender'">
+					m_gender LIKE CONCAT("%",#{searchKeyword},"%")
+				</when>
+				<when test="searchType == 'nickName'">
+					m_nickName LIKE CONCAT("%",#{searchKeyword},"%")
+				</when>
+				<otherwise>
+					m_email LIKE CONCAT("%",#{searchKeyword},"%")				
+				</otherwise>
+			</choose>
+		</where>
+	</select>
+
+	<select id="getSearchPageList" resultType="memberDTO">
+		SELECT * FROM member 
+		<where>
+			<choose>
+				<when test="searchType == 'phone'">
+					m_phone LIKE CONCAT("%",#{searchKeyword},"%")
+				</when>
+				<when test="searchType == 'gender'">
+					m_gender LIKE CONCAT("%",#{searchKeyword},"%")
+				</when>
+				<when test="searchType == 'nickName'">
+					m_nickName LIKE CONCAT("%",#{searchKeyword},"%")
+				</when>
+				<otherwise>
+					m_email LIKE CONCAT("%",#{searchKeyword},"%")				
+				</otherwise>
+			</choose>
+		</where>
+		ORDER BY m_code DESC
+		LIMIT #{startRow}, #{pageSize}
+	</select>
+	
+	<!-- ============== 2026-02-24 수정부분 ============ -->
+	<!-- 관리자 페이지에서 회원정보 수정 -->
+	<update id="adminUpdateMember" parameterType="MemberDTO">
+		UPDATE member SET m_phone=#{m_phone},m_nickName=#{m_nickName} WHERE m_code=#{m_code}
+	</update>
+<!-- // 쿠폰 사용한 회원 쿠폰수량 업데이트 public int couponMod(@Param("m_code") Integer m_code ); -->
+<update id="couponMod">
+	UPDATE member m INNER JOIN reservation re ON m.m_code = re.m_code
+	SET m.m_coupon = 0 WHERE m.m_code = #{m_code} AND re.coupon_used = 1 
+</update>
 
 </mapper>

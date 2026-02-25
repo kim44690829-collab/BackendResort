@@ -160,5 +160,43 @@ public class MemberServiceImpl implements MemberService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+<<<<<<< HEAD
+=======
+	
+	// ============= 2026-02-23 수정 ===============
+	@Override
+	public int getSearchCount(String searchType, String searchKeyword) {
+		System.out.println("MemberServiceImpl : getPagelist(@-@) 메서드 확인");
+		return membermapper.getSearchCount(searchType, searchKeyword);
+	}
+	
+	@Override
+	public int couponMod(Integer m_code) {
+		System.out.println("MemberServiceImpl : couponMod(@-@) 메서드 확인");
+		return membermapper.couponMod(m_code);
+	}
+
+	@Override
+	public MemberDTO getOneSelectMember(String m_nickName) {
+		System.out.println("MemberServiceImpl : getOneSelectMember(@-@) 메서드 확인");
+		return membermapper.getOneSelectMember(m_nickName);
+	}
+
+	@Override
+	public List<MemberDTO> getSearchPageList(String searchType, String searchKeyword, int startRow, int pageSize) {
+		System.out.println("MemberServiceImpl : getPagelist(@-@) 메서드 확인");
+		return membermapper.getSearchPageList(searchType, searchKeyword, startRow, pageSize);
+	}
+	
+	// =================== 2026-02-24 수정부분 ======================
+	@Override
+	public int adminUpdateMember(MemberDTO mdto) {
+		System.out.println("MemberServiceImpl : getPagelist^(@-@)^ 메서드 확인");
+		return membermapper.adminUpdateMember(mdto);
+	}
+
+	
+
+>>>>>>> main
 
 }

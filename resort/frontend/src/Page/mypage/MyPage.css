@@ -2567,3 +2567,74 @@
     color: rgb(255, 255, 255);
     border: 1px solid rgb(66, 121, 155);
 }
+/* 리뷰 css--------------------------------------------------------------------------- */
+
+.review_overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 998;
+}
+.review_overlay .review_wrap{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 200px;
+    background-color: #fff;
+    z-index: 999;
+    border-radius: 10px;
+}
+.review_overlay .review_wrap .review_Xbtn{
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    border: none;
+    background-color: transparent;
+}
+.review_overlay .review_wrap .reviewTitle{
+    margin: 30px 0 20px 0;
+    text-align: center;
+    font-size: 20px;
+}
+.review_overlay .review_wrap .reviewBtn{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+.review_overlay .review_wrap .reviewBtn .starBtn{
+    border: none;
+    background: transparent;
+    padding: 0;
+    cursor: pointer;
+    transition: 0.15s ease;
+}
+.review_overlay .review_wrap .reviewBtn .starBtn:hover{
+    transform: scale(1.15);
+}
+.review_overlay .review_wrap .review_rating{
+    width: 240px;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 14px;
+    color: #444;
+    margin-bottom: 20px;
+}
+.review_wrap button[type="button"].comBtn{
+    width: 200px;
+    height: 40px;
+    display: block;
+    margin: 0 auto;
+    border-radius: 10px;
+    border: none;
+    background: #42799b;
+    color: #fff;
+    font-size: 17px;
+    font-weight: 700;
+    cursor: pointer;
+}

@@ -44,4 +44,10 @@ public class ReviewboardServiceImpl implements ReviewboardService{
 		System.out.println("ReviewboardServiceImpl : getRatingAvgAll() 메서드 확인");
 		return reviewboardmapper.getHotelRatingAvgAll();
 	}
+
+	@Override
+	public int reviewAdd(ReviewboardDTO redto) {
+		System.out.println("ReviewboardServiceImpl : reviewAdd() 메서드 확인");
+		return reviewboardmapper.reviewAdd(redto);
+	}
 }

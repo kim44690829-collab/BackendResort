@@ -75,7 +75,7 @@ export default function Login(){
     useEffect(() => {
         const pwCondition = pwInput.length > 7;
 
-        if( emailInput.includes('@') && emailInput.includes('.com') && pwCondition){
+        if( emailInput.includes('@') && (emailInput.includes('.com') || emailInput.includes('.net')) && pwCondition){
             setIsDisabledLogin(false)
             setMouseCursor(true)
         }else{

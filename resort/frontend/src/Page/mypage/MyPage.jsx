@@ -42,6 +42,12 @@ export default function MyPage(){
         fetchMyInfo(); //회원정보 DB호출
         
     },[userEmail])
+    
+
+    // 리뷰 작성 성공
+    const [reviewCom, setReviewCom] = useState(0);
+
+   
 
     //마이페이지 DB불러오는 함수
     const fetchMyPage = () => {
@@ -349,6 +355,88 @@ export default function MyPage(){
             console.error("error", error)
         })
     }
+    // 리뷰 작성
+    const [isOpen, setIsOpen] = useState(false);
+    const [star1, setStar1] = useState(false);
+    const [star2, setStar2] = useState(false);
+    const [star3, setStar3] = useState(false);
+    const [star4, setStar4] = useState(false);
+    const [star5, setStar5] = useState(false);
+    const [rating, setRating] = useState(0);
+    const [roomCode, setRoomCode] = useState(0);
+    
+
+    const starHandler = (num) => {
+        if(num === 1){
+            setStar1(true)
+            setStar2(false)
+            setStar3(false)
+            setStar4(false)
+            setStar5(false)
+            setRating(1)
+        }else if(num === 2){
+            setStar1(true)
+            setStar2(true)
+            setStar3(false)
+            setStar4(false)
+            setStar5(false)
+            setRating(2)
+        }else if(num === 3){
+            setStar1(true)
+            setStar2(true)
+            setStar3(true)
+            setStar4(false)
+            setStar5(false)
+            setRating(3)
+        }else if(num === 4){
+            setStar1(true)
+            setStar2(true)
+            setStar3(true)
+            setStar4(true)
+            setStar5(false)
+            setRating(4)
+        }else{
+            setStar1(true)
+            setStar2(true)
+            setStar3(true)
+            setStar4(true)
+            setStar5(true)
+            setRating(5)
+        }
+        
+    }
+
+        // console.log('rating', rating)
+        // console.log('roomCode', roomCode)
+        // console.log('MemberAllData', MemberAllData)
+        // console.log('userNickName',userNickName)
+        const memberNum = MemberAllData.find(m => m.m_nickName === userNickName)?.m_code;
+        // console.log('memberNum', memberNum)
+    
+        const reviewSend = () => {
+            axios.post('/api/board/reviewSend', {rb_score: rating, m_code : memberNum, r_code: roomCode})
+            .then((res) => {
+                if(res.data === 1){
+                    alert("리뷰를 작성해주셔서 감사합니다.");
+                }else{
+                    alert("리뷰 작성에 실패하였습니다.");
+                }
+                setReviewCom(prev => prev + 1);
+                setStar1(false);
+                setStar2(false);
+                setStar3(false);
+                setStar4(false);
+                setStar5(false);
+                setRating(0)
+                setIsOpen(false)
+                
+            })
+        }
+    
+        const reviewModalOpen = (r_code) => {
+            setRoomCode(r_code);
+            setIsOpen(true);
+        }
 
     return(
         <div className="reserVation_container">
@@ -410,7 +498,7 @@ export default function MyPage(){
                                                                 )}
 
                                                                 {item.check_in_date.slice(0,10) <= new Date().toLocaleDateString('sv-SE') && ( 
-                                                                    <span className='del' onClick={()=>{}}><i className="fa-solid fa-star" style={{color:'#FCC34B'}}></i> 리뷰작성</span>
+                                                                    <span className='del' onClick={()=>{reviewModalOpen(item.r_code)}}><i className="fa-solid fa-star" style={{color:'#FCC34B'}}></i> 리뷰작성</span>
                                                                 )}                                                            
                                                             </p>
                                                         </li>
@@ -450,12 +538,12 @@ export default function MyPage(){
                                                             )}
 
                                                             {item.check_in_date.slice(0,10) <= new Date().toLocaleDateString('sv-SE') && item.rb_score === 0 && ( 
-                                                                <span className='del' onClick={()=>{}}><i className="fa-solid fa-star" style={{color:'#FCC34B'}}></i> 리뷰작성</span>
+                                                                <span className='del' onClick={()=>{reviewModalOpen(item.r_code)}}><i className="fa-solid fa-star" style={{color:'#FCC34B'}}></i> 리뷰작성</span>
                                                             )}
 
                                                             {item.check_in_date.slice(0,10) <= new Date().toLocaleDateString('sv-SE') && item.rb_score !== 0 && ( 
-                                                                <span className='del' onClick={()=>{}}><i className="fa-solid fa-star" style={{color:'#FCC34B'}}></i> 리뷰수정</span>
-                                                            )}                                                           
+                                                                <span className='del' onClick={()=>{reviewModalOpen(item.r_code)}}><i className="fa-solid fa-star" style={{color:'#FCC34B'}}></i> 리뷰수정</span>
+                                                            )} 
                                                         </p>
                                                     </li>
                                                     <li>
@@ -1000,6 +1088,44 @@ export default function MyPage(){
                 </div>
             </div>            
             }
+            
+            {/* 리뷰 ------------------------------------------------------------------------------------ */}
+            {isOpen && (
+                <div className='review_overlay'>
+                    <div className='review_wrap'>
+                        <p className="reviewTitle">호텔에 만족하셨나요?</p>
+                        <div className="reviewBtn">
+                            <button type="button" onClick={() => starHandler(1)} className="starBtn">
+                                {star1 ? <img src='/img/star-one.png' alt="score" /> : <img src='/img/star-zero.png' alt="score" />}
+                            </button>
+                            <button type="button" onClick={() => starHandler(2)} className="starBtn">
+                                {star2 ? <img src='/img/star-one.png' alt="score" /> : <img src='/img/star-zero.png' alt="score" />}
+                            </button>
+                            <button type="button" onClick={() => starHandler(3)} className="starBtn">
+                                {star3 ? <img src='/img/star-one.png' alt="score" /> : <img src='/img/star-zero.png' alt="score" />}
+                            </button>
+                            <button type="button" onClick={() => starHandler(4)} className="starBtn">
+                                {star4 ? <img src='/img/star-one.png' alt="score" /> : <img src='/img/star-zero.png' alt="score" />}
+                            </button>
+                            <button type="button" onClick={() => starHandler(5)} className="starBtn">
+                                {star5 ? <img src='/img/star-one.png' alt="score" /> : <img src='/img/star-zero.png' alt="score" />}
+                            </button>
+                        </div>
+                        <div className="review_rating">
+                            {rating} 점 : {rating === 0 ? "별점을 선택해주세요." : rating === 1 ? "최악이에요" : rating === 2 ? "그저 그랬어요" : rating === 3 ? "보통이었어요" : rating === 4 ? "만족스러워요" : "정말 최고에요"} 
+                        </div>
+                        <button type='button' onClick={()=>{setIsOpen(false)}} className='review_Xbtn'>
+                            <i className="fa-solid fa-x"></i>
+                        </button>
+                        <button type="button" onClick={reviewSend} className="comBtn"
+                        style={{
+                            backgroundColor : star1 === false ? '#e7e7e7ff' : '#42799b',
+                            color:'#fff',
+                            cursor:star1 === false ? 'not-allowed' : 'pointer'
+                            }}>완료</button>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }

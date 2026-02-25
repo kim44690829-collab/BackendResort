@@ -27,7 +27,7 @@ export default function ResortData({children}){
         // HotelData
         axios.get('/api/hotel/context')
         .then((res) => {
-            console.log("호텔 데이터 : ", res.data);
+            // console.log("호텔 데이터 : ", res.data);
             setHotelData(res.data);
         })
         .catch((error) => {
@@ -37,7 +37,7 @@ export default function ResortData({children}){
         // RoomData
         axios.get('/api/room/context')
         .then((res) => {
-            console.log("객실 데이터 : ", res.data);
+            // console.log("객실 데이터 : ", res.data);
             setRoomData(res.data);
         })
         .catch((error) => {
@@ -47,7 +47,7 @@ export default function ResortData({children}){
         // ReviewData
         axios.get('/api/board/review')
         .then((res) => {
-            console.log("리뷰(평점) 데이터 : ", res.data);
+            // console.log("리뷰(평점) 데이터 : ", res.data);
             setReviewData(res.data);
         })
         .catch((error) => {
@@ -57,7 +57,7 @@ export default function ResortData({children}){
         // ReviewRating
         axios.get('/api/board/rating')
         .then((res) => {
-            console.log("객실(평점) 데이터 : ", res.data);
+            // console.log("객실(평점) 데이터 : ", res.data);
             setRatingData(res.data);
         })
         .catch((error) => {
@@ -67,7 +67,7 @@ export default function ResortData({children}){
         // ReviewRatingAvg
         axios.get('/api/board/ratingAvg')
         .then((res) => {
-            console.log("객실(평점) 평균 데이터 : ", res.data);
+            // console.log("객실(평점) 평균 데이터 : ", res.data);
             setRatingAvgData(res.data);
         })
         .catch((error) => {
@@ -85,7 +85,7 @@ export default function ResortData({children}){
         // })
         axios.get('/api/board/hotelRatingAvg')
         .then((res) => {
-            console.log("호텔(평점) 평균 데이터 : ", res.data);
+            // console.log("호텔(평점) 평균 데이터 : ", res.data);
             setHotelRatingAvgData(res.data);
         })
         .catch((error) => {
@@ -95,7 +95,7 @@ export default function ResortData({children}){
         // hotelRating
         axios.get("/api/hotel/hotelRating")
         .then((res) => {
-            console.log("호텔평점 데이터 : ", res.data);
+            // console.log("호텔평점 데이터 : ", res.data);
             setHotelRatingDate(res.data);
         })
         .catch((error) => {
@@ -105,7 +105,7 @@ export default function ResortData({children}){
             // hotelMinPrice
         axios.get('/api/hotel/price')
         .then((res) => {
-            console.log("호텔 가격(최저가) 데이터 : ", res.data);
+            // console.log("호텔 가격(최저가) 데이터 : ", res.data);
             setHotelMinPrice(res.data);
         })
         .catch((error) => {
@@ -115,7 +115,7 @@ export default function ResortData({children}){
         // HotelMergeData
         axios.get('/api/hotel/hotelMarge')
         .then((res) => {
-            console.log("호텔총합 데이터 : ", res.data);
+            // console.log("호텔총합 데이터 : ", res.data);
             setHotelMerge(res.data);
         })
         .catch((error) => {
@@ -125,17 +125,21 @@ export default function ResortData({children}){
         // MemberAllData
         axios.get('/api/member/allmember')
         .then((res) => {
-            if(res.data.length === 0 || res.data === null){
-                console.log("****************************");
-                setMemberAllData(null);
-            }else{
-                console.log("회원전체 데이터 : ", res.data);
-                setMemberAllData(res.data);
+            // console.log("회원전체 데이터 : ", res.data);
+
+            if (!res.data || res.data.length === 0) {
+                console.warn("회원 데이터 없음");
+                setMemberAllData([]);   // 그래도 상태는 넣어줘야 함
+                return;
             }
+
+            setMemberAllData(res.data);
         })
         .catch((error) => {
-            console.error("error", error)
-        })
+            console.error("회원 데이터 요청 실패", error);
+            setMemberAllData([]); // 실패해도 최소 빈 배열 넣기 (중요)
+        });
+
     },[])
 
 
@@ -388,10 +392,11 @@ export default function ResortData({children}){
     const countryEn = town === '대한민국' || town ===  '한국' || town ===  '한' || town ===  'gksrnr'? 'Korea' : town === '일본' || town ===  '일'? 'Japan' : town === '미국'? 'USA' : town === '중국'? 'China': town === '이탈리아' || town ===  '이테리'? 'Italy' : town === '프랑스'? 'France':null
     const cityEn = town === '속초'? 'Sokcho':town === '경주'? 'Gyeongju':town === '부산'? 'Busan':town === '강릉'? 'Gangneung':town === '여수'? 'Yeosu':town === '대전'? 'Daejeon':town === '광주'? 'Gwangju':town === '제주' || town ===  '제주도'? 'Jeju':town === '포항'? 'Pohang':town === '서울'? 'Seoul':town === '도쿄'? 'Tokyo':town === '삿포로'? 'Sapporo':town === '로스앤젤레스'? 'LosAngeles':town === '뉴욕'? 'New York':town === '괌'? 'Guam':town === '장가계'? 'Zhangjiajie':town === '상하이'? 'Shanghai':town === '로마'? 'Rome':town === '베네치아'? 'Venice':town === '파리'? 'Paris':null
     const townfilter = hotelMerge.filter((f)=>f.city===cityEn || f.country===countryEn)
+    const townfilter2 = HotelData.filter((f)=>f.city===cityEn || f.country===countryEn)
     //검색 핸들러
     const serchHandler =()=>{
         const dateFilter = hotelMerge.filter((f)=>f.startDate>DayData[0] && f.endDate<DayData[1])
-    
+        console.log('여기서 필터링 확인',dateFilter)
         let overFilter = []
         if(cityEn !== null){
             overFilter = dateFilter.filter((f)=>f.city===cityEn)
@@ -433,13 +438,27 @@ export default function ResortData({children}){
         sessionStorage.setItem('hotelNum', JSON.stringify(hotelNum))
     },[hotelNum])
 
-    //if(HotelData.length > 0 && RoomData.length > 0 && ReviewData.length >0 && RatingData.length > 0 && RatingAvgData.length > 0 && hotelMinPrice.length > 0 && hotelMerge.length>0) {
-    if(HotelData.length > 0 && RoomData.length > 0 &&  hotelMinPrice.length > 0) {
+    if(HotelData.length > 0 && RoomData.length > 0 && ReviewData.length >0 && RatingData.length > 0 && RatingAvgData.length > 0 && hotelMinPrice.length > 0 && hotelMerge.length>0) {
         return(
-            <ResortDataContext.Provider value={{userEmail,MemberAllData,setHotelMerge,hotelMerge,hotelNum, setHotelNum, WishAvg, hotelMinPrice,HotelRatingDate,RoomData, HotelData,ReviewData, RatingData, RatingAvgData, hotelRatingAvgData, setReviewData,DayData,setDayData,selectDate,setSelectDate,selectday,setSelectday,selectMonth,setSelectMonth,wish,wishStar,wishArray,wishHandler,setWish, 
-            payHead,setPayHead,
-            // payRoom,setPayRoom, 
-            userNumFront, setUserNumFront, userNumBack, setUserNumBack, userNickName, loginSave, logout,town,setTown,serchHandler,hotelSort,setHotelSort,myhotel,setmyhotel,cityEn,countryEn, Domestic, setDomestic, headerChange, setHeaderChange,dateFilter,setDateFilter,townfilter,customer,setCustomer}}>
+            <ResortDataContext.Provider value={{
+                townfilter2,
+                userEmail,MemberAllData,setHotelMerge,
+                hotelMerge,hotelNum, setHotelNum, 
+                WishAvg, hotelMinPrice,HotelRatingDate,
+                RoomData, HotelData,ReviewData, RatingData, 
+                RatingAvgData, hotelRatingAvgData, setReviewData,
+                DayData,setDayData,selectDate,
+                setSelectDate,selectday,setSelectday,
+                selectMonth,setSelectMonth,
+                wish,wishStar,wishArray,
+                wishHandler,setWish, payHead,setPayHead,
+                userNumFront, setUserNumFront, userNumBack, 
+                setUserNumBack, userNickName, loginSave, 
+                logout,town,setTown,serchHandler,
+                hotelSort,setHotelSort,myhotel,
+                setmyhotel,cityEn,countryEn, Domestic, 
+                setDomestic, headerChange, setHeaderChange,
+                dateFilter,setDateFilter,townfilter,customer,setCustomer}}>
                 {children}
             </ResortDataContext.Provider>
         );
