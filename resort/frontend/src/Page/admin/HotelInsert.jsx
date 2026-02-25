@@ -155,7 +155,7 @@ export default function HotelInsert(){
                 <div className="admin_section">
                     <div className="admin_header">
                         <div className="menu_box">
-                            <span className="admin_menu">조회.관리</span>
+                            <span className="admin_menu">조회</span>
                             <ul className="admin_submenu">
                                 <li className="a_menus">
                                     <Link to={`/adminPage` } onClick={() => window.scrollTo(0, 0)}>
@@ -182,8 +182,36 @@ export default function HotelInsert(){
                         <div className="menu_box">
                             <span className="admin_menu">등록</span>
                             <ul className="admin_submenu">
-                                <li className="a_menus">호텔 정보 등록</li>
-                                <li className="a_menus">객실 정보 등록</li>
+                                <li className="a_menus">
+                                    <Link to={`/hotelinsert` } onClick={() => window.scrollTo(0, 0)}>
+                                        <span>호텔 정보 등록</span>
+                                    </Link>
+                                </li>
+                                <li className="a_menus">
+                                    <Link to={`/roominsert`} onClick={() => window.scrollTo(0, 0)}>
+                                        <span>객실 정보 등록</span> 
+                                    </Link>
+                                </li>
+                            </ul>
+                        </div>
+                        <div className="menu_box">
+                            <span className="admin_menu">게시판</span>
+                            <ul className="admin_submenu">
+                                <li className="a_menus">
+                                    <Link to={`/adminPage5` } onClick={() => window.scrollTo(0, 0)}>
+                                        <span>1대1 문의</span>
+                                    </Link>
+                                </li>
+                                <li className="a_menus">
+                                    <Link to={`/adminPage6`} onClick={() => window.scrollTo(0, 0)}>
+                                        <span>공지사항</span> 
+                                    </Link>
+                                </li>
+                                <li className="a_menus">
+                                    <Link to={`/adminPage7`} onClick={() => window.scrollTo(0, 0)}>
+                                        <span>리뷰</span> 
+                                    </Link>
+                                </li>
                             </ul>
                         </div>
                     </div>

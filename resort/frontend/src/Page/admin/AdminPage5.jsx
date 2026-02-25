@@ -4,21 +4,17 @@ import '../admin/AdminPage.css'
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-export default function AdminPage3(){
-    const {HotelData} = useContext(ResortDataContext)
+export default function AdminPage5(){
+    
 
-    const [room,setRoom] = useState([]);
+    const [members,setMembers] = useState([]);
     const [ph,setPh] = useState({});
     const [page, setPage] = useState(1);
-    
-    const [searchType, setSearchType] = useState("roomName");
+    const [searchType, setSearchType] = useState("phone");
     const [searchKeyword, setSearchKeyword] = useState("");
     const [serch,setSerch] = useState("")
-    const [isInfo,setIsinfo] = useState(
-        new Array(10).fill(false)
-    )
     useEffect(()=>{
-        axios.get('/api/room/list',{
+        axios.get('/api/member/list',{
             params: {
                 page: page,
                 pageSize: 10,
@@ -27,12 +23,12 @@ export default function AdminPage3(){
             }
         })
         .then((res) => {
-            console.log("객실정보 데이터 : ", res.data.list);
-            console.log("객실정보 데이터 : ", res.data.ph);
-            setRoom(res.data.list || []);
+            console.log("회원정보 데이터 : ", res.data.list);
+            console.log("회원정보 데이터 : ", res.data.ph);
+            setMembers(res.data.list);
             setPh(res.data.ph);
             setSearchType(res.data.searchType);
-            setSearchKeyword(res.data.searchKeyword||"");
+            setSearchKeyword(res.data.searchKeyword);
         })
         .catch((error) => {
             console.error("error", error)
@@ -51,20 +47,26 @@ export default function AdminPage3(){
     }
 
     const submitHandler=(e)=>{
-        e.preventDefault();
+        e.preventDefault()
         setSearchKeyword(serch)
         setPage(1);
     }
 
-    const setTrue =(index)=>{
-        setIsinfo((state)=>{
-            const statecopy = [...state]
-            statecopy[index] = !statecopy[index]
-            return statecopy
+    // 삭제를 위한 useEffect
+    const delHandler=(email)=>{
+        axios.delete('/api/member/deletemember',{
+            params: {
+                m_email: email
+            }
+        })
+        .then((res) => {
+            console.log("회원정보 삭제 성공 : ");
+            alert("회원정보 삭제 성공 : ")
+        })
+        .catch((error) => {
+            console.error("error", error)
         })
     }
-
-    
 
     return(
         <>
@@ -134,63 +136,46 @@ export default function AdminPage3(){
                         </div>
                     </div>
                     <div className="admin_body">
-                        <div className="admin_text">객실 정보 조회</div>
+                        <div className="admin_text">회원 정보 조회</div>
                         <div className="admin_list">
                             <table className="list_table" border="1">
                                 <thead >
                                     <tr>
                                         <th width="50px">Num</th>
-                                        <th width="200px">호텔명</th>
-                                        <th width="100px">객실명</th>
-                                        <th width="100px">가격</th>
-                                        <th width="100px">최대인원</th>
-                                        <th width="80px">상세정보</th>
-                                        
+                                        <th width="200px">E_mail</th>
+                                        <th width="160px">전화번호</th>
+                                        <th width="160px">생일</th>
+                                        <th width="80px">성별</th>
+                                        <th>별명</th>
+                                        <th width="80px">쿠폰 보유</th>
+                                        <th width="230px">가입일</th>
+                                        <th width="120px">회원정보수정</th>
+                                        <th width="120px">탈퇴처리</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {room.map((item,index)=>{
+                                    {members.map((item,index)=>{
+                                        const member_birth = new Date(item.m_birth)
+                                        const birth_Date = member_birth.toLocaleDateString('ko-KR')
+                                        const member_reg = new Date(item.m_regDate)
+                                        const reg_Date = member_reg.toLocaleString('ko-KR')
                                         return(
-                                            <>
-                                                <tr key={index}>
-                                                    <td>{item.r_code}</td>
-                                                    <td>{HotelData[item.h_code-1].hotelName}</td>
-                                                    <td>{item.roomName}</td>
-                                                    <td>{item.price}</td>
-                                                    <td>{item.maxOccupancy}</td>
-                                                    <td><button onClick={()=>setTrue(index)}>상세정보</button></td>
-                                                </tr>
-                                                {isInfo[index] && 
-                                                 <div className="admin_modal">
-                                                    
-                                                        <button type="button" onClick={()=>setTrue(index)} className="closeBtn">✖</button>
-                                                        <div className="img_box" >
-                                                            <img  src={item.r_code%3===0?`/img/${HotelData[item.h_code-1].h_s_Img1}`
-                                                            :item.r_code%3===1?`/img/${HotelData[item.h_code-1].h_s_Img2}`
-                                                            :`/img/${HotelData[item.h_code-1].h_s_Img3}`} alt="img" className="roomImg"/>
-                                                        </div>
-                                                        <div className="service_box">
-                                                            <ul>
-                                                                
-                                                                <li>
-                                                                    <p>호텔명 : {HotelData[item.h_code-1].hotelName}</p>
-                                                                </li>
-                                                                <li>
-                                                                    <p>방이름 : {item.roomName}</p>
-                                                                </li>
-                                                                <li>
-                                                                    <p>방가격 : {item.price.toLocaleString()}</p>
-                                                                </li>
-                                                                <li>
-                                                                    <p>최대인원 : {item.maxOccupancy}</p>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                        <button className="updateBtn">내용 수정하기</button>
-                                                 </div>
-                                                }
-                                            </>
-
+                                            <tr key={index}>
+                                                <td>{item.m_code}</td>
+                                                <td>{item.m_email}</td>
+                                                <td>{item.m_phone}</td>
+                                                <td>{birth_Date}</td>
+                                                <td>{item.m_gender === 0? "남":"여"}</td>
+                                                <td>{item.m_nickName}</td>
+                                                <td>{item.m_coupon}</td>
+                                                <td>{reg_Date}</td>
+                                                <td><button>
+                                                        <Link to={`/memberUdate/${item.m_code}`}>
+                                                            회원수정
+                                                        </Link>
+                                                    </button></td>
+                                                <td><button type="button" onClick={()=>delHandler(item.m_email)}>회원삭제</button></td>
+                                            </tr>
                                         )
                                     })}
                                 </tbody>
@@ -208,13 +193,15 @@ export default function AdminPage3(){
                             <div id="search_wrap">
                                 <form onSubmit={submitHandler}>
                                     <select name="searchType" onChange={(e) => setSearchType(e.target.value)}>
-                                        <option value="roomName">객실명</option>
-                                        <option value="maxOccupancy">최대인원</option>
+                                        <option value="phone">전화번호</option>
+                                        <option value="gender">성별</option>
+                                        <option value="nickName">별명</option>
+                                        <option value="mail">이메일</option>
                                     </select>
                                     
                                     <input type="text" name="searchKeyword" placeholder="검색어를 입력하세요" onChange={(e) => setSerch(e.target.value)}/>
                                     <input type="submit" value="검색" className="searchBtn" onClick={()=>submitHandler()}/>
-                                    <input type="button" value="전체보기" className="searchBtn" onClick={()=>{setSearchKeyword(""),setSearchType("hotelName")}}/>
+                                    <input type="button" value="전체보기" className="searchBtn" onClick={()=>{setSearchKeyword(""),setSearchType("phone")}}/>
                                 </form>
 					        </div>
                         </div>

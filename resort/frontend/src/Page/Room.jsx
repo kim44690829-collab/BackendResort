@@ -9,7 +9,7 @@ import axios from "axios";
 
 export default function Room(){
     // 가져오는 호텔, 개실 데이터
-    const {HotelData,RoomData, hotelInput,hotelMerge,HotelRatingDate, setHotelInput, DayData,RatingAvgData,RatingData,ReviewData, hotelMinPrice,HotelPriceDate, setDayData,countryEn,cityEn,town,townfilter,setTown,
+    const {HotelData,RoomData, hotelInput,hotelMerge,HotelRatingDate,townfilter2, setHotelInput, DayData,RatingAvgData,RatingData,ReviewData, hotelMinPrice,HotelPriceDate, setDayData,countryEn,cityEn,town,townfilter,setTown,
         serchHandler,dateFilter,setDateFilter,hotelSort,setHotelSort,myhotel,setmyhotel,wish,wishStar,wishArray,wishHandler,} = useContext(ResortDataContext);
     //const {selectDate,setSelectDate,setSelectday} = useContext(calendarAuth)
 
@@ -51,6 +51,7 @@ export default function Room(){
             imsi = HotelData.filter((f)=>(f.startDate>=DayData[0] && f.startDate<=DayData[1]) || (f.endDate<=DayData[1] && f.endDate>=DayData[0]) || (DayData[0]>=f.startDate && DayData[1]<=f.endDate))
         }else{
             dateFilterCopy = townfilter.filter((f)=>(f.startDate>=DayData[0] && f.startDate<=DayData[1]) || (f.endDate<=DayData[1] && f.endDate>=DayData[0]) || (DayData[0]>=f.startDate && DayData[1]<=f.endDate))
+            imsi = townfilter2.filter((f)=>(f.startDate>=DayData[0] && f.startDate<=DayData[1]) || (f.endDate<=DayData[1] && f.endDate>=DayData[0]) || (DayData[0]>=f.startDate && DayData[1]<=f.endDate))
         }
         setmyhotel03(imsi)
         setDateFilter(dateFilterCopy)
@@ -96,28 +97,29 @@ export default function Room(){
             HotelRatingDate.sort((a,b) => a.r_h_code - b.r_h_code)
             sorted =pricefilter.sort((a,b) => a.h_code - b.h_code)
         }else if(hotelSort===2){
-            HotelRatingDate.sort((a,b) => b.h_rating - a.h_rating)
+            /* HotelRatingDate.sort((a,b) => b.h_rating - a.h_rating)
             console.log(HotelRatingDate)
             sorted = HotelRatingDate.map((item2) => {
                 return pricefilter.find((item1) => item1.h_code === item2.r_h_code)
-            }).filter(Boolean)
-            //pricefilter.sort((a,b) => b.hotelAvgScore - a.hotelAvgScore)
+            }).filter(Boolean) */
+            sorted =pricefilter.sort((a,b) => b.hotelAvgScore - a.hotelAvgScore)
         }else if(hotelSort===3){
-            HotelRatingDate.sort((a,b) => a.h_rating - b.h_rating)
+            /* HotelRatingDate.sort((a,b) => a.h_rating - b.h_rating)
             console.log(HotelRatingDate)
             sorted = HotelRatingDate.map((item2) => {
                 return pricefilter.find((item1) => item1.h_code === item2.r_h_code)
-            }).filter(Boolean)
-            //pricefilter.sort((a,b) => a.hotelAvgScore - b.hotelAvgScore)
+            }).filter(Boolean) */
+            sorted =pricefilter.sort((a,b) => a.hotelAvgScore - b.hotelAvgScore)
         }else if(hotelSort===4){
-            sorted =pricefilter.sort((a,b) => b.hotelPrice - a.hotelPrice)
+            sorted =pricefilter.sort((a,b) => b.minPrice - a.minPrice)
         }else{
-            sorted =pricefilter.sort((a,b) => a.hotelPrice - b.hotelPrice)
+            sorted =pricefilter.sort((a,b) => a.minPrice - b.minPrice)
         }
         console.log("pricefilter",pricefilter)
 
         if(pricefilter.length !== 0 && DayData.length===2 && openC === false){
             setmyhotel02(sorted)
+            console.log(myhotel02.length,"랭스확인")
         }
         
 
@@ -333,8 +335,8 @@ export default function Room(){
                 <div className="arr_menu">
                     <span className="arr_total">총 {myhotel02.length}개</span>
                     <ul className="arr_group">
-                        <li className="arr_list" onClick={()=>sortHandeler(1)} style={{color:hotelSort===1?'white':'#ccc',fontWeight:hotelSort===1?600:400}}>추천수</li>
-                        <li className="arr_list" onClick={()=>sortHandeler(2)} style={{color:hotelSort===2?'white':'#ccc',fontWeight:hotelSort===2?600:400}}>높은평점순</li>
+                        <li className="arr_list" onClick={()=>{sortHandeler(1)}} style={{color:hotelSort===1?'white':'#ccc',fontWeight:hotelSort===1?600:400}}>추천수</li>
+                        <li className="arr_list" onClick={()=>{sortHandeler(2),console.log(myhotel02,"myhotel02확인용")}} style={{color:hotelSort===2?'white':'#ccc',fontWeight:hotelSort===2?600:400}}>높은평점순</li>
                         <li className="arr_list" onClick={()=>sortHandeler(3)} style={{color:hotelSort===3?'white':'#ccc',fontWeight:hotelSort===3?600:400}}>낮은평점순</li>
                         <li className="arr_list" onClick={()=>sortHandeler(4)} style={{color:hotelSort===4?'white':'#ccc',fontWeight:hotelSort===4?600:400}}>높은가격순</li>
                         <li className="arr_list" onClick={()=>sortHandeler(5)} style={{color:hotelSort===5?'white':'#ccc',fontWeight:hotelSort===5?600:400}}>낮은가격순</li>
