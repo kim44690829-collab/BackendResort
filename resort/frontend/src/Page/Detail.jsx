@@ -78,8 +78,9 @@ export default function Detail(){
     // console.log('rooooooooooooooooooom', Room);
     //예외처리
     if (Room.length === 0) return <p>객실 정보가 없습니다.</p>;
-
+    console.log(Room)
     //객실 전체 리뷰 데이터
+    
     const RoomReview = ReviewData.filter((item)=>item.r_code === Room[0].r_code || item.r_code === Room[1].r_code || item.r_code === Room[2].r_code);
     //예외처리
     //if(RoomReview.length === 0) return <p>객실 정보가 없습니다.</p>;

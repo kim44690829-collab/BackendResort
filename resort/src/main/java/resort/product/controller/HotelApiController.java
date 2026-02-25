@@ -9,6 +9,8 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -74,14 +76,14 @@ public class HotelApiController {
 	}
 	
 	// ============= 2026-02-23 수정 부분 JHJ==============
-	@GetMapping("hotel/list")
-	public Map<String, Object> memberList(
+	@GetMapping("/hotel/list")
+	public Map<String, Object> hotelList(
 			@RequestParam(value="searchType", required = false ) String searchType,
 			@RequestParam(value="searchKeyword", required = false) String searchKeyword,
 			@RequestParam(value="page",defaultValue="1") int page, // 초기 페이지
 			@RequestParam(value="pageSize",defaultValue="10") int pageSize // 한 페이지당 보여줄 목록의 수
 			){
-		System.out.println("MemberApiController : memberList(@-@) 메서드 확인");
+		System.out.println("MemberApiController : hotelList(@-@) 메서드 확인");
 		
 		int totalCnt ;
 		
@@ -218,6 +220,18 @@ public class HotelApiController {
 		hotelService.insertHotel(hdto);
 		
 		return 1;
+	}
+	
+	@GetMapping("/hotel/onlyhotel")
+	public List<HotelDTO> allonlyHotel(){
+		System.out.println("HotelApiController : allonlyHotel() 메서드 확인");
+		return hotelService.getonlyHotelAll();
+	}
+	
+	@PutMapping("/hotel/adminupdatehotel")
+	public int adminupdatehotel(@RequestBody HotelDTO hdto) {
+		System.out.println("HotelApiController : adminupdatehotel() 메서드 확인");
+		return hotelService.updateHotel(hdto);
 	}
 	
 }

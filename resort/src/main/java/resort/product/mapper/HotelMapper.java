@@ -59,9 +59,11 @@ public interface HotelMapper {
 	// =============== 2026-02-24 수정부분 JHJ =====================
 	public void insertHotel(HotelDTO hdto);
 	
+	// =============== 2026-02-25 수정부분 JHJ =====================
 	
+	public List<HotelDTO> getonlyHotelAll();
 	
-	
+	public int updateHotel(HotelDTO hdto);
 	
 	
 	

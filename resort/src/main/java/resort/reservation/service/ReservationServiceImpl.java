@@ -39,6 +39,31 @@ public class ReservationServiceImpl implements ReservationService {
 		return reservationmapper.guestSelect(reservation_no, g_phone);
 	}
 
+	@Override
+	public int getAllRescount() {
+		System.out.println("ReservationServiceImpl : getAllRescount() 메서드 확인");
+		return reservationmapper.getAllRescount();
+	}
+
+	@Override
+	public List<ReservationDTO> getResPagelist(int startRow, int pageSize) {
+		System.out.println("ReservationServiceImpl : getResPagelist() 메서드 확인");
+		return reservationmapper.getResPagelist(startRow, pageSize);
+	}
+
+	@Override
+	public int getSearchResCount(String searchType, String searchKeyword) {
+		System.out.println("ReservationServiceImpl : getSearchResCount() 메서드 확인");
+		return reservationmapper.getSearchResCount(searchType, searchKeyword);
+	}
+
+	@Override
+	public List<ReservationDTO> getSearchResPageList(String searchType, String searchKeyword, int startRow,
+			int pageSize) {
+		System.out.println("ReservationServiceImpl : getSearchResPageList() 메서드 확인");
+		return reservationmapper.getSearchResPageList(searchType, searchKeyword, startRow, pageSize);
+	}
+
 	
 	
 }

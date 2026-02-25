@@ -79,4 +79,16 @@ public class HotelServiceImpl implements HotelService {
 		
 	}
 
+	@Override
+	public List<HotelDTO> getonlyHotelAll() {
+		System.out.println("HotelServiceImpl : getonlyHotelAll(^o^) 메서드 확인");
+		return hotelMapper.getonlyHotelAll();
+	}
+
+	@Override
+	public int updateHotel(HotelDTO hdto) {
+		System.out.println("HotelServiceImpl : getonlyHotelAll(^o^) 메서드 확인");
+		return hotelMapper.updateHotel(hdto);
+	}
+
 }

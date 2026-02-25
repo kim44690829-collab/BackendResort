@@ -61,4 +61,11 @@ public class RoomServiceImpl implements RoomService {
 		return roomMapper.reservateRoom(resRdto);
 	}
 
+	// =========== 2026-02-25 수정부분 JHJ =========
+	@Override
+	public int updateRoom(RoomDTO rdto) {
+		System.out.println("RoomServiceImpl : updateRoom() 메서드 확인");
+		return roomMapper.updateRoom(rdto);
+	}
+
 }

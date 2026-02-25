@@ -345,7 +345,7 @@ export default function Room(){
                 {/* 방정보 영역 */}
                 <div className="room_menu">
                     <ul className="room_product">
-                        {myhotel02.length !== 0?myhotel02.map((item)=>{
+                        {myhotel02.length !== 0?myhotel02.map((item,index)=>{
                             const otherService01 = JSON.parse(item.otherservice);
                             const publicService01 = JSON.parse(item.publicservice);
                             const roomservice01 = JSON.parse(item.roomservice);
@@ -394,13 +394,13 @@ export default function Room(){
                                                 {item.discount===1?
                                                 <span className="disC">
                                                     <span className="s_box">10%할인</span>
-                                                    <span className="p_box">{hotelMinPrice[item.h_code-1].hotelPrice.toLocaleString()}원</span>
+                                                    <span className="p_box">{hotelMinPrice[index].hotelPrice.toLocaleString()}원</span>
                                                 </span>
                                                 :
                                                 <span className="coupon">회원가입시 10,000원 할인쿠폰</span>
                                                 }
                                             </p>
-                                            <p className="menu_price">{item.discount===1?(hotelMinPrice[item.h_code-1].hotelPrice*0.9).toLocaleString():hotelMinPrice[item.h_code-1].hotelPrice.toLocaleString()}원</p>
+                                            <p className="menu_price">{item.discount===1?(hotelMinPrice[index].hotelPrice*0.9).toLocaleString():(hotelMinPrice[index]?.hotelPrice.toLocaleString())}원</p>
                                             
                                             
                                         </div>

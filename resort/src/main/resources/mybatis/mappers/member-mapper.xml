@@ -121,10 +121,10 @@
 	<update id="adminUpdateMember" parameterType="MemberDTO">
 		UPDATE member SET m_phone=#{m_phone},m_nickName=#{m_nickName} WHERE m_code=#{m_code}
 	</update>
-<!-- // 쿠폰 사용한 회원 쿠폰수량 업데이트 public int couponMod(@Param("m_code") Integer m_code ); -->
-<update id="couponMod">
-	UPDATE member m INNER JOIN reservation re ON m.m_code = re.m_code
-	SET m.m_coupon = 0 WHERE m.m_code = #{m_code} AND re.coupon_used = 1 
-</update>
+	<!-- // 쿠폰 사용한 회원 쿠폰수량 업데이트 public int couponMod(@Param("m_code") Integer m_code ); -->
+	<update id="couponMod">
+		UPDATE member m INNER JOIN reservation re ON m.m_code = re.m_code
+		SET m.m_coupon = 0 WHERE m.m_code = #{m_code} AND re.coupon_used = 1 
+	</update>
 
 </mapper>

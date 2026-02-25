@@ -10,13 +10,11 @@ export default function AdminPage2(){
     const [hotel,setHotel] = useState([]);
     const [ph,setPh] = useState({});
     const [page, setPage] = useState(1);
-    
+    const [num,setNum] = useState(0)
     const [searchType, setSearchType] = useState("hotelName");
     const [searchKeyword, setSearchKeyword] = useState("");
     const [serch,setSerch] = useState("")
-    const [isInfo,setIsinfo] = useState(
-        new Array(10).fill(false)
-    )
+    const [isInfo,setIsinfo] = useState(false)
     useEffect(()=>{
         axios.get('/api/hotel/list',{
             params: {
@@ -56,13 +54,13 @@ export default function AdminPage2(){
         setPage(1);
     }
 
-    const setTrue =(index)=>{
+    /* const setTrue =(index)=>{
         setIsinfo((state)=>{
             const statecopy = [...state]
             statecopy[index] = !statecopy[index]
             return statecopy
         })
-    }
+    } */
 
     return(
         <>
@@ -150,75 +148,74 @@ export default function AdminPage2(){
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {hotel.map((item,index)=>{
-                                        return(
-                                            <>
-                                                <tr key={index}>
-                                                    <td>{item.h_code}</td>
-                                                    <td>{item.hotelName}</td>
-                                                    <td>{item.country}</td>
-                                                    <td>{item.city}</td>
-                                                    <td>{item.type}</td>
-                                                    <td>{item.h_address}</td>
-                                                    <td>{item.startDate}</td>
-                                                    <td>{item.endDate}</td>
-                                                    <td><button onClick={()=>setTrue(index)}>상세정보</button></td>
-                                                </tr>
-                                                {isInfo[index] && 
-                                                 <div className="admin_modal">
-                                                    
-                                                        <button type="button" onClick={()=>setTrue(index)} className="closeBtn">✖</button>
-                                                        <div className="img_box">
-                                                            <img src={`/img/${item.h_Img}`} alt={`/img/${item.h_Img}`} />
-                                                            <img src={`/img/${item.h_s_Img1}`} alt={`/img/${item.h_Img}`} />
-                                                            <img src={`/img/${item.h_s_Img2}`} alt={`/img/${item.h_Img}`} />
-                                                            <img src={`/img/${item.h_s_Img3}`} alt={`/img/${item.h_Img}`} />
-                                                            <img src={`/img/${item.h_s_Img4}`} alt={`/img/${item.h_Img}`} />
-                                                        </div>
-                                                        <div className="service_box">
-                                                            <ul>
-                                                                
-                                                                <li>
-                                                                    <p>호텔명 : {item.hotelName}</p>
-                                                                </li>
-                                                                <li>
-                                                                    <p>국가 : {item.country}</p>
-                                                                </li>
-                                                                <li>
-                                                                    <p>도시 : {item.city}</p>
-                                                                </li>
-                                                                <li>
-                                                                    <p>숙소유형 : {item.type}</p>
-                                                                </li>
-                                                                <li>
-                                                                    <p>주소지 : {item.h_address}</p>
-                                                                </li>
-                                                                <li>
-                                                                    <p>시작일 : {item.startDate}</p>
-                                                                </li>
-                                                                <li>
-                                                                    <p>종료일 : {item.endDate}</p>
-                                                                </li>
-                                                                <li>
-                                                                    <p>기타시설 : {item.otherservice}</p>
-                                                                </li>
-                                                                <li>
-                                                                    <p>공용시설 : {item.publicservice}</p>
-                                                                </li>
-                                                                <li>
-                                                                    <p>객내시설 : {item.roomservice}</p>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                        <button className="updateBtn">내용 수정하기</button>
-                                                 </div>
-                                                }
-                                            </>
-
-                                        )
-                                    })}
+                                    {hotel.map((item,index)=>(
+                                        <tr key={index}>
+                                            <td>{item.h_code}</td>
+                                            <td>{item.hotelName}</td>
+                                            <td>{item.country}</td>
+                                            <td>{item.city}</td>
+                                            <td>{item.type}</td>
+                                            <td>{item.h_address}</td>
+                                            <td>{item.startDate}</td>
+                                            <td>{item.endDate}</td>
+                                            <td><button onClick={()=>{setIsinfo(!isInfo),setNum(index)}}>상세정보</button></td>
+                                        </tr>                                        
+                                    ))}
+                                    
                                 </tbody>
                             </table>
+                            {isInfo && <div className="admin_modal">
+                                        
+                                            <button type="button" onClick={()=>setIsinfo(!isInfo)} className="closeBtn">✖</button>
+                                            <div className="img_box">
+                                                <img src={`/img/${hotel[num].h_Img}`} alt={`/img/${hotel[num].h_Img}`} />
+                                                <img src={`/img/${hotel[num].h_s_Img1}`} alt={`/img/${hotel[num].h_Img}`} />
+                                                <img src={`/img/${hotel[num].h_s_Img2}`} alt={`/img/${hotel[num].h_Img}`} />
+                                                <img src={`/img/${hotel[num].h_s_Img3}`} alt={`/img/${hotel[num].h_Img}`} />
+                                                <img src={`/img/${hotel[num].h_s_Img4}`} alt={`/img/${hotel[num].h_Img}`} />
+                                            </div>
+                                            <div className="service_box">
+                                                <ul>
+                                                    
+                                                    <li>
+                                                        <p>호텔명 : {hotel[num].hotelName}</p>
+                                                    </li>
+                                                    <li>
+                                                        <p>국가 : {hotel[num].country}</p>
+                                                    </li>
+                                                    <li>
+                                                        <p>도시 : {hotel[num].city}</p>
+                                                    </li>
+                                                    <li>
+                                                        <p>숙소유형 : {hotel[num].type}</p>
+                                                    </li>
+                                                    <li>
+                                                        <p>주소지 : {hotel[num].h_address}</p>
+                                                    </li>
+                                                    <li>
+                                                        <p>시작일 : {hotel[num].startDate}</p>
+                                                    </li>
+                                                    <li>
+                                                        <p>종료일 : {hotel[num].endDate}</p>
+                                                    </li>
+                                                    <li>
+                                                        <p>기타시설 : {hotel[num].otherservice}</p>
+                                                    </li>
+                                                    <li>
+                                                        <p>공용시설 : {hotel[num].publicservice}</p>
+                                                    </li>
+                                                    <li>
+                                                        <p>객내시설 : {hotel[num].roomservice}</p>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <button className="updateBtn">
+                                                <Link to={`/hotelUpdate/${hotel[num].h_code}`}>
+                                                    내용 수정하기
+                                                </Link>
+                                            </button>
+                                        </div>
+                                    }
                             <div className="paging">
                                 {/* 페이지가 많을때 좌우 버튼 */}
                                 {ph.prev && (

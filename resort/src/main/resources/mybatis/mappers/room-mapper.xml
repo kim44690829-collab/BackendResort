@@ -78,4 +78,10 @@
 		AND r.maxOccupancy &gt;= #{maxOccupancy}
 		AND re.r_code IS NULL
 	</select>
+	
+	<!-- ===========2026-02-26 수정부분 JHJ ================ -->
+	<!-- 하나의 호텔의 정보를 수정하는 쿼리 -->
+	<update id="updateRoom" parameterType="RoomDTO">
+		UPDATE room SET h_code = #{h_code},roomName = #{roomName},price = #{price},maxOccupancy = #{maxOccupancy},r_img = #{r_img} WHERE r_code =#{r_code}
+	</update>
 </mapper>

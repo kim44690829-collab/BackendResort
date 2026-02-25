@@ -9,6 +9,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -39,7 +40,7 @@ public class RoomApiController {
 	}
 	
 	// ============= 2026-02-23 수정 부분 ==============
-		@GetMapping("room/list")
+		@GetMapping("/room/list")
 		public Map<String, Object> roomList(
 				@RequestParam(value="searchType", required = false ) String searchType,
 				@RequestParam(value="searchKeyword", required = false) String searchKeyword,
@@ -107,5 +108,24 @@ public class RoomApiController {
 		System.out.println("RoomApiController : reservateRoom() 메서드 확인");
 		return roomService.reservateRoom(resRdto);
 	}
+	
+	
+	// =============== 2026-02-25 수정부분 JHJ =====================
+	
+	@PutMapping("/room/update")
+	public int RoomUpdate(@RequestBody RoomDTO rdto) {
+		System.out.println("RoomApiController : RoomUpdate() 메서드 확인");
+		return roomService.updateRoom(rdto);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }

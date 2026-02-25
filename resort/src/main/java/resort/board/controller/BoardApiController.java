@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import jakarta.servlet.http.HttpSession;
 import resort.board.dto.BoardDTO;
 import resort.board.service.BoardService;
+import resort.handler.PageHandler;
 import resort.member.dto.MemberDTO;
 
 @RestController
