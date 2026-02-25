@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import resort.product.dto.ReservateRoomDTO;
 import resort.product.dto.RoomDTO;
 import resort.product.mapper.RoomMapper;
 
@@ -55,4 +56,9 @@ public class RoomServiceImpl implements RoomService {
 
 	
 	
+	public List<RoomDTO> reservateRoom(ReservateRoomDTO resRdto) {
+		System.out.println("RoomServiceImpl : getRoomAll() 메서드 확인");
+		return roomMapper.reservateRoom(resRdto);
+	}
+
 }

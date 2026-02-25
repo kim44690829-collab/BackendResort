@@ -59,7 +59,7 @@
     top: 65px;
     right: 40px;
     width: 200px;
-    height: 224px;
+    /* height: 224px; */
     z-index: 900;
     background-color: #fff;
     box-shadow: 0 1px 3px rgba(0,0,0,0.3);

@@ -93,5 +93,4 @@ export default function HotelSection(){
             </div>
         </div>
     )
-    
 }

@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
-import jakarta.servlet.http.HttpSession;
+
 import resort.handler.PageHandler;
+import jakarta.servlet.http.HttpSession;
+import resort.board.controller.PageHandler;
 import resort.member.dto.MemberDTO;
 import resort.member.service.MemberService;
 
@@ -46,6 +48,12 @@ public class MemberApiController {
 	public MemberDTO oneSelectMember(@RequestParam("m_email") String m_email){
 		System.out.println("MemberApiController : oneSelectMember() 메서드 확인");
 		return memberservice.oneSelectMember(m_email);
+	}	
+	//개인 한 사람의 정보를 검색
+	@GetMapping("/member/onememberSelect")
+	public MemberDTO getOneSelectMember(@RequestParam("m_nickName") String m_nickName){
+		System.out.println("MemberApiController : oneSelectMember() 메서드 확인");
+		return memberservice.getOneSelectMember(m_nickName);
 	}	
 
 	//개인 한사람의 정보를 수정
@@ -146,6 +154,12 @@ public class MemberApiController {
 	public int adminUpdateMember(@RequestBody MemberDTO mdto){			
 		System.out.println("MemberApiController : updateMember() 메서드 확인");
 		return memberservice.adminUpdateMember(mdto);
+		
+	// 쿠폰 사용한 회원 쿠폰수량 업데이트
+	@PutMapping("/member/couponMod")
+	public int couponMod(@RequestParam("m_code") Integer m_code) {
+		System.out.println("MemberApiController : couponMod 요청됨");
+		return memberservice.couponMod(m_code);
 	}
 	
 }

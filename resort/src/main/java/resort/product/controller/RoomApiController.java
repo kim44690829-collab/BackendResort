@@ -9,6 +9,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import resort.handler.PageHandler;
 import resort.member.dto.MemberDTO;
 import resort.product.dto.HotelDTO;
+import resort.product.dto.ReservateRoomDTO;
 import resort.product.dto.RoomDTO;
 import resort.product.service.RoomService;
 
@@ -99,4 +101,11 @@ public class RoomApiController {
 			
 			return 1;
 		}
+		
+	@GetMapping("/room/available")
+	public List<RoomDTO> reservateRoom(ReservateRoomDTO resRdto) {
+		System.out.println("RoomApiController : reservateRoom() 메서드 확인");
+		return roomService.reservateRoom(resRdto);
+	}
+	
 }

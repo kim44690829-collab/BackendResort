@@ -65,13 +65,17 @@ export default function Detail(){
     //인원수 필터링
     const [headFilter, setHeadFilter] = useState([]);
 
+    // 최종 날짜
+    const [resultRooms, setResultRooms] = useState([]);
+
 
     //아이디값 비교
     const Hotel = HotelData.find((item)=>item.h_code === Number(h_code));
     //예외처리
     if(!Hotel) return <p>호텔 정보가 없습니다.</p>
     //호텔코드 비교
-    const Room = RoomData.filter((item)=>item.h_code === Hotel.h_code);    
+    const Room = RoomData.filter((item)=>item.h_code === Hotel.h_code);
+    // console.log('rooooooooooooooooooom', Room);
     //예외처리
     if (Room.length === 0) return <p>객실 정보가 없습니다.</p>;
 
@@ -407,40 +411,46 @@ export default function Detail(){
         setFilterRcode(filterRcode1);
     },[Hotel]);
 
-    //객실검색
-    const searchClick = () =>{        
-        console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-        console.log(Hotel);
-        console.log(DayData[1]);
+    // //객실검색
+    // const searchClick = () =>{        
+    //     console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+    //     console.log(Hotel);
+    //     console.log(DayData[1]);
 
-        if((Hotel.startDate >= DayData[0] && Hotel.startDate <= DayData[1]  ) || (Hotel.endDate >= DayData[0] && Hotel.endDate <= DayData[1]) || (DayData[0]>=Hotel.startDate && DayData[1]<=Hotel.endDate)){
-            console.log("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
-            setDateFilter(true);
-            const headFilter2 = Room.filter((item)=>item.maxOccupancy >= head);
-            setHeadFilter(headFilter2);
+    //     // DayData[0] = 체크인 DayData[1] = 체크아웃
+    //     // 호텔 예약가능 첫날이 체크인보다 크고 호텔 예약 가능 첫날이 마지막날보다 작거나
+    //     // Hotel.startDate <= DayData[1] && Hotel.endDate   >= DayData[0]
+    //     if((Hotel.startDate >= DayData[0] && Hotel.startDate <= DayData[1]  ) 
+    //         || (Hotel.endDate >= DayData[0] && Hotel.endDate <= DayData[1]) 
+    //         || (DayData[0]>=Hotel.startDate && DayData[1]<=Hotel.endDate)){
+    //         console.log("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
+    //         setDateFilter(true);
 
-            //Room에서 필터된 인덱스 저장
-            const filterIndex2 = Room.map((arr,index) =>
-                headFilter2.some(item => item.r_code === arr.r_code) ? index : null
-            ).filter(index => index !== null);
+    //         const headFilter2 = Room.filter((item)=>item.maxOccupancy >= head);
+    //         setHeadFilter(headFilter2);
 
-            setFilterIndex(filterIndex2);
+    //         //Room에서 필터된 인덱스 저장
+    //         const filterIndex2 = Room.map((arr,index) =>
+    //             headFilter2.some(item => item.r_code === arr.r_code) ? index : null
+    //         ).filter(index => index !== null);
 
-            //Room에서 필터된 인덱스 저장
-            const filterRcode2 = Room.map((arr) =>
-                headFilter2.some(item => item.r_code === arr.r_code) ? arr.r_code : null
-            ).filter(arr => arr !== null);
+    //         setFilterIndex(filterIndex2);
 
-            setFilterRcode(filterRcode2);
+    //         //Room에서 필터된 인덱스 저장
+    //         const filterRcode2 = Room.map((arr) =>
+    //             headFilter2.some(item => item.r_code === arr.r_code) ? arr.r_code : null
+    //         ).filter(arr => arr !== null);
 
-        }else{
-            setDateFilter(false);
-            setHeadFilter([]);
-        }
+    //         setFilterRcode(filterRcode2);
 
-        setSearch(true);
-        //console.log(DayData[1]);
-    }
+    //     }else{
+    //         setDateFilter(false);
+    //         setHeadFilter([]);
+    //     }
+
+    //     setSearch(true);
+    //     //console.log(DayData[1]);
+    // }
 
     console.log("========================");
         console.log(filterIndex);
@@ -514,14 +524,76 @@ export default function Detail(){
             return;
         }        
     }
-    console.log(avgRoom);
-console.log(RatingAvgData);
-    console.log(filterIndex);
-console.log(filterRcode);
 
     const [slider, setSlider] = useState(false);
     const [bigImg, setBigImg] = useState(`/img/${Hotel.h_Img}`);
 
+    useEffect(() => {
+        // 날짜/인원 값이 준비된 순간 자동 조회
+        if (Hotel?.h_code && DayData?.[0] && DayData?.[1] && head) {
+            searchClick(); // axios로 /api/room/available 호출
+            setSearch(true); // "검색한 상태"로 취급
+        }
+        }, []);
+        // [Hotel?.h_code, DayData?.[0], DayData?.[1], head]
+
+        // 객실 검색
+    const searchClick = async () => {
+
+        const hotelOk =
+        new Date(Hotel.startDate) <= new Date(DayData[1]) &&
+        new Date(Hotel.endDate)   >= new Date(DayData[0]);
+
+        if (!hotelOk) {
+            setDateFilter(false);
+            setHeadFilter([]);
+            return;
+        }
+
+        setDateFilter(true);
+
+        try {
+            // 서버에서 “예약 가능한 객실만” 받기
+            const res = await axios.get("/api/room/available", {
+                params: {
+                    h_code : Hotel.h_code,
+                    maxOccupancy : head,
+                    check_in_date : DayData[0],
+                    check_out_date : DayData[1],
+                },
+            });
+            
+            const availableRooms = res.data ?? [];
+            console.log('availableRooms', availableRooms)
+            setResultRooms(availableRooms);
+
+            const headFilter2 = Room.filter((item)=>item.maxOccupancy >= head);
+            setHeadFilter(headFilter2);
+            console.log('headFilter2', headFilter2)
+
+            const codeToIndex = new Map(Room.map((r, idx) => [r.r_code, idx]));
+            const filterIndex2 = availableRooms.map(r => codeToIndex.get(r.r_code)).filter(v => v !== undefined);
+            setFilterIndex(filterIndex2);
+
+            const filterRcode2 = availableRooms.map(r => r.r_code);
+            setFilterRcode(filterRcode2);
+
+        } catch (error) {
+            console.error(error);
+            setResultRooms([]);
+        }
+        setSearch(true);
+    }
+
+        
+
+    const roomsToShow =
+    search ? 
+    (resultRooms.length > 0 ? resultRooms : Room) : Room;
+
+    // set => 
+    const availableSet = new Set(resultRooms.map(r => r.r_code));
+    
 
     return(
         <div className="detail" onClick={()=>setCal(false)}>
@@ -661,20 +733,20 @@ console.log(filterRcode);
                                     <p className='empty-txt'>예약날짜를 다시 설정해주세요.</p>
                                     <p className='empty-bottom'>아래 객실들은 설정한 날짜 외 다른 날짜에 투숙 가능한 객실입니다.</p>
                                 </div>
-                            ): search && dateFilter && headFilter.length === 0
+                            ): search && dateFilter && resultRooms.length === 0
                             ?(
                                 <div className="empty-room">
                                     <p className='x-icon'>
                                         <i className="fa-solid fa-xmark"></i>
                                     </p>
-                                    <p className='empty-tit'>설정한 인원에 부합하는 객실이 없습니다.</p>
+                                    <p className='empty-tit'>설정한 인원/날짜에 부합하는 객실이 없습니다.</p>
                                     <p className='empty-txt'>객실별 투숙 가능 인원을 다시 확인해주세요.</p>
                                     <p className='empty-bottom'>아래 객실들은 설정한 인원보다 투숙 가능한 인원이 적은 객실입니다.</p>
                                 </div>
                             ) : null}
                             <ul>
-                                {(search && headFilter.length >= 1 ? headFilter : Room).map((item,index)=>(
-                                    <li key={index}>
+                                {roomsToShow.map((item,index)=>(
+                                    <li key={item.r_code ?? index}>
                                         <div className="room-left">
                                             <img src={`/img/${Hotel.h_code}-${index+2}.jpg`} alt={Hotel.hotelName} />
                                         </div>
@@ -751,13 +823,21 @@ console.log(filterRcode);
                                                                 원<span>/1박</span></span>
                                                         </>
                                                     }
-                                                    {/* <button type='button' className='cart'><i className="fa-solid fa-basket-shopping"></i></button> */}
-                                                    <button type='button' className='pay' onClick={()=>{payClick(head,item.r_code); window.scrollTo(0,0)}} >예약하기</button>
+                                                    <button type="button" className="pay"
+                                                    disabled={search && !availableSet.has(item.r_code)}
+                                                    style={{ cursor: (search && !availableSet.has(item.r_code)) ? 'not-allowed' : 'pointer' }}
+                                                    onClick={() => {
+                                                        payClick(head, item.r_code);
+                                                        window.scrollTo(0, 0);
+                                                    }}>
+                                                    {search && !availableSet.has(item.r_code) ? "예약불가" : "예약하기"}
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
                                     </li>
-                                ))}
+                                    )
+                                )}
                             </ul>
                         </div>
                         <div className="hotel-map">

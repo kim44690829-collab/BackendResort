@@ -1,13 +1,13 @@
 package resort.product.mapper;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import resort.member.dto.MemberDTO;
 import resort.product.dto.HotelDTO;
+import resort.product.dto.ReservateRoomDTO;
 import resort.product.dto.RoomDTO;
 
 @Mapper
@@ -42,4 +42,6 @@ public interface RoomMapper {
 	
 	// =============== 2026-02-24 수정부분 JHJ =====================
 	public void insertRoom(RoomDTO rdto);
+	// 예약된 객실 제외한 객실을 찾는 select
+	public List<RoomDTO> reservateRoom(ReservateRoomDTO resRdto);
 }
