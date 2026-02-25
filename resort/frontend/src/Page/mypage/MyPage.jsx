@@ -1,12 +1,14 @@
 import { useState,useEffect,useContext,useRef,Fragment } from "react";
 import Calendar from '../Calendar';
 import { ResortDataContext } from '../../Api/ResortData';
+import { ModalContext } from '../Modal';
 import { Link, useNavigate } from 'react-router-dom';
 import '../mypage/MyPage.css'
 import axios from "axios";
 
 export default function MyPage(){
     const {DayData,setSelectday,userEmail,loginSave,logout,setHeaderChange, MemberAllData, userNickName} = useContext(ResortDataContext);
+    const {toggle,setModalContent} = useContext(ModalContext);
     
     //회원의 예약정보 가져오기
     const[myPage, setMyPage] = useState([]);
@@ -339,7 +341,7 @@ export default function MyPage(){
         }
 
         //수정정보 전송
-        axios.delete('/api/member/deletemember',{data: {m_email: userMail, pw_before: userPw_before}})
+        axios.put('/api/member/deletemember', {m_email: userMail, pw_before: userPw_before})
         .then((res) => {
             if(res.data === true){
                 alert('탈퇴가 완료 되었습니다.');
@@ -363,6 +365,9 @@ export default function MyPage(){
     const [star5, setStar5] = useState(false);
     const [rating, setRating] = useState(0);
     const [roomCode, setRoomCode] = useState(0);
+    const [reviewIndex, setReviewIndex] = useState(0);
+    console.log('roomCode', roomCode)
+    console.log('reviewIndex', reviewIndex)
     
 
     const starHandler = (num) => {
@@ -416,9 +421,41 @@ export default function MyPage(){
             axios.post('/api/board/reviewSend', {rb_score: rating, m_code : memberNum, r_code: roomCode})
             .then((res) => {
                 if(res.data === 1){
-                    alert("리뷰를 작성해주셔서 감사합니다.");
+                    setModalContent(<p style={{fontSize:'18px',fontWeight:'700'}}>리뷰를 작성해주셔서 감사합니다.</p>)
+                    toggle();
                 }else{
-                    alert("리뷰 작성에 실패하였습니다.");
+                    setModalContent(<p style={{fontSize:'18px',fontWeight:'700'}}>리뷰 작성에 실패하였습니다.</p>)
+                    toggle();
+                }
+                setReviewCom(prev => prev + 1);
+                setStar1(false);
+                setStar2(false);
+                setStar3(false);
+                setStar4(false);
+                setStar5(false);
+                setRating(0)
+                setIsOpen(false)
+                
+            })
+        }
+
+
+        console.log('myPage[reviewIndex].rb_code', myPage[reviewIndex]?.rb_code)
+        const reviewMod = () => {
+
+            axios.put('/api/board/reviewMod', null,{
+                params: {
+                    rb_code: reviewIndex, 
+                    rb_score: rating
+                }
+            })
+            .then((res) => {
+                if(res.data === 1){
+                    setModalContent(<p style={{fontSize:'18px',fontWeight:'700'}}>리뷰를 수정하셨습니다.</p>)
+                    toggle();
+                }else{
+                    setModalContent(<p style={{fontSize:'18px',fontWeight:'700'}}>리뷰 수정에 실패하였습니다.</p>)
+                    toggle();
                 }
                 setReviewCom(prev => prev + 1);
                 setStar1(false);
@@ -432,8 +469,9 @@ export default function MyPage(){
             })
         }
     
-        const reviewModalOpen = (r_code) => {
-            setRoomCode(r_code);
+        const reviewModalOpen = (item) => {
+            setRoomCode(item.r_code);
+            setReviewIndex(item.rb_code);
             setIsOpen(true);
         }
 
@@ -526,7 +564,7 @@ export default function MyPage(){
 
                                         {(!search && activeList && activeList.length > 0) ? ( 
                                             <ul>
-                                                {activeList.map((item)=>(
+                                                {activeList.map((item, index)=>(
                                                     item.cancel === 0 ? (
                                                     <Fragment key={item.re_code}>
                                                     <li style={{padding: '0',background: 'transparent',marginBottom: '10px'}}>
@@ -537,11 +575,11 @@ export default function MyPage(){
                                                             )}
 
                                                             {item.check_in_date.slice(0,10) <= new Date().toLocaleDateString('sv-SE') && item.rb_score === 0 && ( 
-                                                                <span className='del' onClick={()=>{reviewModalOpen(item.r_code)}}><i className="fa-solid fa-star" style={{color:'#FCC34B'}}></i> 리뷰작성</span>
+                                                                <span className='del' onClick={()=>{reviewModalOpen(item)}}><i className="fa-solid fa-star" style={{color:'#FCC34B'}}></i> 리뷰작성</span>
                                                             )}
 
                                                             {item.check_in_date.slice(0,10) <= new Date().toLocaleDateString('sv-SE') && item.rb_score !== 0 && ( 
-                                                                <span className='del' onClick={()=>{}}><i className="fa-solid fa-star" style={{color:'#FCC34B'}}></i> 리뷰수정</span>
+                                                                <span className='del' onClick={()=>{reviewModalOpen(item)}}><i className="fa-solid fa-star" style={{color:'#FCC34B'}}></i> 리뷰수정</span>
                                                             )} 
                                                         </p>
                                                     </li>
@@ -1089,7 +1127,7 @@ export default function MyPage(){
             }
             
             {/* 리뷰 ------------------------------------------------------------------------------------ */}
-            {isOpen && (
+            {isOpen && (myPage.rb_code ? (
                 <div className='review_overlay'>
                     <div className='review_wrap'>
                         <p className="reviewTitle">호텔에 만족하셨나요?</p>
@@ -1124,7 +1162,44 @@ export default function MyPage(){
                             }}>완료</button>
                     </div>
                 </div>
-            )}
+            ) 
+            : 
+            (
+                <div className='review_overlay'>
+                    <div className='review_wrap'>
+                        <p className="reviewTitle">리뷰 수정</p>
+                        <div className="reviewBtn">
+                            <button type="button" onClick={() => starHandler(1)} className="starBtn">
+                                {star1 ? <img src='/img/star-one.png' alt="score" /> : <img src='/img/star-zero.png' alt="score" />}
+                            </button>
+                            <button type="button" onClick={() => starHandler(2)} className="starBtn">
+                                {star2 ? <img src='/img/star-one.png' alt="score" /> : <img src='/img/star-zero.png' alt="score" />}
+                            </button>
+                            <button type="button" onClick={() => starHandler(3)} className="starBtn">
+                                {star3 ? <img src='/img/star-one.png' alt="score" /> : <img src='/img/star-zero.png' alt="score" />}
+                            </button>
+                            <button type="button" onClick={() => starHandler(4)} className="starBtn">
+                                {star4 ? <img src='/img/star-one.png' alt="score" /> : <img src='/img/star-zero.png' alt="score" />}
+                            </button>
+                            <button type="button" onClick={() => starHandler(5)} className="starBtn">
+                                {star5 ? <img src='/img/star-one.png' alt="score" /> : <img src='/img/star-zero.png' alt="score" />}
+                            </button>
+                        </div>
+                        <div className="review_rating">
+                            {rating} 점 : {rating === 0 ? "별점을 선택해주세요." : rating === 1 ? "최악이에요" : rating === 2 ? "그저 그랬어요" : rating === 3 ? "보통이었어요" : rating === 4 ? "만족스러워요" : "정말 최고에요"} 
+                        </div>
+                        <button type='button' onClick={()=>{setIsOpen(false)}} className='review_Xbtn'>
+                            <i className="fa-solid fa-x"></i>
+                        </button>
+                        <button type="button" onClick={reviewMod} className="comBtn"
+                        style={{
+                            backgroundColor : star1 === false ? '#e7e7e7ff' : '#42799b',
+                            color:'#fff',
+                            cursor:star1 === false ? 'not-allowed' : 'pointer'
+                            }}>완료</button>
+                    </div>
+                </div>
+            ))}
         </div>
     )
 }

@@ -32,6 +32,7 @@ public class MyPageDTO {
 	private int m_coupon;  //쿠폰
 	private Date m_regDate;  //가입일
 	
+	private int rb_code; // 리뷰보드코드
 	private int rb_score; // 별점
 	
 	public int getRe_code() {
@@ -93,6 +94,18 @@ public class MyPageDTO {
 	}
 	public void setFinal_price(int final_price) {
 		this.final_price = final_price;
+	}
+	public int getCancel() {
+		return cancel;
+	}
+	public void setCancel(int cancel) {
+		this.cancel = cancel;
+	}
+	public Date getCancel_date() {
+		return cancel_date;
+	}
+	public void setCancel_date(Date cancel_date) {
+		this.cancel_date = cancel_date;
 	}
 	public int getH_code() {
 		return h_code;
@@ -172,24 +185,20 @@ public class MyPageDTO {
 	public void setM_regDate(Date m_regDate) {
 		this.m_regDate = m_regDate;
 	}
+	public int getRb_code() {
+		return rb_code;
+	}
+	public void setRb_code(int rb_code) {
+		this.rb_code = rb_code;
+	}
 	public int getRb_score() {
 		return rb_score;
 	}
 	public void setRb_score(int rb_score) {
 		this.rb_score = rb_score;
 	}
-	public int getCancel() {
-		return cancel;
-	}
-	public void setCancel(int cancel) {
-		this.cancel = cancel;
-	}
-	public Date getCancel_date() {
-		return cancel_date;
-	}
-	public void setCancel_date(Date cancel_date) {
-		this.cancel_date = cancel_date;
-	}
+	
+	
 	
 		
 	

@@ -3,6 +3,7 @@ package resort.board.service;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import resort.board.dto.HotelAvgDTO;
 import resort.board.dto.RatingDTO;
@@ -25,4 +26,7 @@ public interface ReviewboardService {
 	
 	// 리뷰 insert
 	public int reviewAdd(ReviewboardDTO redto);
+	
+	// 리뷰 update
+	public int reviewMod(int rb_code, int rb_score);
 }

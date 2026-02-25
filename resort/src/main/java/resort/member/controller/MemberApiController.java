@@ -61,7 +61,7 @@ public class MemberApiController {
 	}
 	
 	// 한사람 개인의 정보를 삭제하는 메소드 작성
-	@DeleteMapping("/member/deletemember")
+	@PutMapping("/member/deletemember")
 	public boolean deleteMember(@RequestBody MemberDTO mdto){
 		System.out.println("MemberApiController : deleteMember() 메서드 확인");
 		return memberservice.deleteMember(mdto);

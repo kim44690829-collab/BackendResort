@@ -15,6 +15,8 @@ public class MemberDTO {
 	private Date m_regDate;  //가입일
 	private int currentCoupon;//쿠폰만료일
 	private String pw_before; //이전 비밀번호
+	private int m_is_deleted; // 탈퇴여부
+	private Date deleted_at; // 탈퇴일
 	
 	public int getM_code() {
 		return m_code;
@@ -82,6 +84,20 @@ public class MemberDTO {
 	public void setPw_before(String pw_before) {
 		this.pw_before = pw_before;
 	}
+	public int getM_is_deleted() {
+		return m_is_deleted;
+	}
+	public void setM_is_deleted(int m_is_deleted) {
+		this.m_is_deleted = m_is_deleted;
+	}
+	public Date getDeleted_at() {
+		return deleted_at;
+	}
+	public void setDeleted_at(Date deleted_at) {
+		this.deleted_at = deleted_at;
+	}
+	
+	
 		
 	
 }

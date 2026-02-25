@@ -68,6 +68,10 @@ export default function Detail(){
     // 최종 날짜
     const [resultRooms, setResultRooms] = useState([]);
 
+    useEffect(() => {
+        searchClick();
+    },[h_code])
+
     
     // const [Room, setRoom] = useState([]);
 
@@ -565,7 +569,7 @@ export default function Detail(){
             searchClick(); // axios로 /api/room/available 호출
             setSearch(true); // "검색한 상태"로 취급
         }
-        }, []);
+    }, []);
         // [Hotel?.h_code, DayData?.[0], DayData?.[1], head]
 
         // 객실 검색
@@ -621,11 +625,13 @@ export default function Detail(){
     const roomsToShow =
     search ? 
     (resultRooms.length > 0 ? resultRooms : Room) : Room;
+    console.log('roomsToShow', roomsToShow)
+    console.log('search', search)
+    console.log('resultRooms', resultRooms)
 
-    // set => 
+
+    // set => 중복 제거 배열
     const availableSet = new Set(resultRooms.map(r => r.r_code));
-    
-    console.log('hotelScore', hotelScore)
 
     return(
         <div className="detail" onClick={()=>setCal(false)}>
@@ -707,14 +713,14 @@ export default function Detail(){
                                                 {Hotel.minPrice.toLocaleString()}
                                                 원</span></p>
                                             <p className='final-price'>
-                                                {(Hotel.minPrice - (Hotel.minPrice*0.1)).toLocaleString()}
+                                                {Math.floor(Hotel.minPrice - (Hotel.minPrice*0.1)).toLocaleString()}
                                                 원<span>/1박</span></p>
                                         </>
                                     ):(
                                         <>
                                             <p className='discount'><span className='red'>회원가입시 10,000원 할인쿠폰</span></p>
                                             <p className='final-price'>
-                                                {(Hotel.minPrice).toLocaleString()}
+                                                {Math.floor(Hotel.minPrice).toLocaleString()}
                                                 원<span>/1박</span></p>
                                         </>
                                     )}
@@ -1298,7 +1304,8 @@ export default function Detail(){
                             <ul style={{transform: `translateX(-${307 * current02}px)`}}>
                                 {wishArray.map((hotel,index)=>(
                                     <li key={index}>
-                                        <Link to={`/detail/${hotel.h_code}`}  onClick={() => window.location.reload()}>
+                                        {/* <Link to={`/detail/${hotel.h_code}`} onClick={() => window.scrollTo(0,0)}> */}
+                                        <div onClick={() => {window.scrollTo(0,0); navigate(`/detail/${hotel.h_code}`);}}>
                                             <div className="hotel-img-wrap">
                                                 <img src={`/img/${hotel.h_Img}`} alt={hotel.hotelName} className='hotel-img'/>
                                             </div>
@@ -1334,7 +1341,7 @@ export default function Detail(){
                                                     )}
                                                 </div>
                                             </div>
-                                        </Link>
+                                        </div>
                                         <button type='button' onClick={()=>wishHandler(hotel.h_code)}>
                                             <i className="fa-solid fa-heart" style={
                                             wish.find((item) => item.h_code === Number(hotel.h_code)) ?
