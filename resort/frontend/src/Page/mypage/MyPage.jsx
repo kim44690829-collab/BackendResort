@@ -6,7 +6,7 @@ import '../mypage/MyPage.css'
 import axios from "axios";
 
 export default function MyPage(){
-    const {DayData,setSelectday,userEmail,loginSave,logout,setHeaderChange} = useContext(ResortDataContext);
+    const {DayData,setSelectday,userEmail,loginSave,logout,setHeaderChange, MemberAllData, userNickName} = useContext(ResortDataContext);
     
     //회원의 예약정보 가져오기
     const[myPage, setMyPage] = useState([]);
@@ -35,19 +35,17 @@ export default function MyPage(){
 
     const navigate = useNavigate();
 
+    // 리뷰 작성 성공
+    const [reviewCom, setReviewCom] = useState(0);
+
     useEffect(() => {    
         if (!userEmail) return;
 
         fetchMyPage(); //마이페이지 DB전체호출
         fetchMyInfo(); //회원정보 DB호출
         
-    },[userEmail])
+    },[userEmail, reviewCom])
     
-
-    // 리뷰 작성 성공
-    const [reviewCom, setReviewCom] = useState(0);
-
-   
 
     //마이페이지 DB불러오는 함수
     const fetchMyPage = () => {
@@ -163,6 +161,7 @@ export default function MyPage(){
 
     //예약내역 필터링
     const activeList = myPage.filter(item => item.cancel === 0);
+    console.log('activeList', activeList)
     //취소내역 필터링
     const cancelList = myPage.filter(item => item.cancel === 1);
 
@@ -202,7 +201,7 @@ export default function MyPage(){
         return;
     }
 
-
+    console.log('-------------------------', dateFilter)
     const [dayClick, setDayClick] = useState(false); 
 
     //------------------------------------------------------ 회원정보 수정관련
@@ -505,7 +504,7 @@ export default function MyPage(){
                                                         <li>
                                                             <div className="room-left">
                                                                 <Link to={`/detail/${item.h_code}`} onClick={() => window.scrollTo(0,0)} >
-                                                                    <img src={`/img/${item.h_code}-1.jpg`} alt={item.hotelName} />
+                                                                    <img src={`/img/${item.h_Img}`} alt={item.hotelName} />
                                                                 </Link>
                                                             </div>
                                                             <div className="room-right">
@@ -542,14 +541,14 @@ export default function MyPage(){
                                                             )}
 
                                                             {item.check_in_date.slice(0,10) <= new Date().toLocaleDateString('sv-SE') && item.rb_score !== 0 && ( 
-                                                                <span className='del' onClick={()=>{reviewModalOpen(item.r_code)}}><i className="fa-solid fa-star" style={{color:'#FCC34B'}}></i> 리뷰수정</span>
+                                                                <span className='del' onClick={()=>{}}><i className="fa-solid fa-star" style={{color:'#FCC34B'}}></i> 리뷰수정</span>
                                                             )} 
                                                         </p>
                                                     </li>
                                                     <li>
                                                         <div className="room-left">
                                                             <Link to={`/detail/${item.h_code}`} onClick={() => window.scrollTo(0,0)} >
-                                                                <img src={`/img/${item.h_code}-1.jpg`} alt={item.hotelName} />
+                                                                <img src={`/img/${item.h_Img}`} alt={item.hotelName} />
                                                             </Link>
                                                         </div>
                                                         <div className="room-right">
@@ -632,7 +631,7 @@ export default function MyPage(){
                                                 <div className="hotelInfo">
                                                     <div className="room-left">
                                                         <Link to={`/detail/${item.h_code}`} onClick={() => window.scrollTo(0,0)} >
-                                                            <img src={`/img/${item.h_code}-1.jpg`} alt={item.hotelName} />
+                                                            <img src={`/img/${item.h_Img}`} alt={item.hotelName} />
                                                         </Link>
                                                     </div>
                                                     <div className="room-right">
@@ -750,7 +749,7 @@ export default function MyPage(){
                                                         <li>
                                                             <div className="room-left">
                                                                 <Link to={`/detail/${item.h_code}`} onClick={() => window.scrollTo(0,0)} >
-                                                                    <img src={`/img/${item.h_code}-1.jpg`} alt={item.hotelName} />
+                                                                    <img src={`/img/${item.h_Img}`} alt={item.hotelName} />
                                                                 </Link>
                                                             </div>
                                                             <div className="room-right">
@@ -783,7 +782,7 @@ export default function MyPage(){
                                                     <li>
                                                         <div className="room-left">
                                                             <Link to={`/detail/${item.h_code}`} onClick={() => window.scrollTo(0,0)} >
-                                                                <img src={`/img/${item.h_code}-1.jpg`} alt={item.hotelName} />
+                                                                <img src={`/img/${item.h_Img}`} alt={item.hotelName} />
                                                             </Link>
                                                         </div>
                                                         <div className="room-right">

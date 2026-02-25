@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import { Link,useLocation  } from "react-router-dom";
 import '../Common/Header.css';
 import { useContext } from 'react';
 import { ResortDataContext } from '../Api/ResortData';
@@ -8,7 +9,7 @@ import { useClickAway } from 'react-use';
 
 export default function Header(){
     const navigate = useNavigate();
-    const {userNickName,userEmail, logout, headerChange, setHeaderChange, setCustomer} = useContext(ResortDataContext);
+    const {userNickName,userEmail,setUserEmail,setUserNickName, headerChange, setHeaderChange, setCustomer} = useContext(ResortDataContext);
     // const [headerChange, setHeaderChange] = useState(0);
     // 헤더 메뉴바 모달
     // useRef, useClickAway 를 사용하기 전 npm install react-use 를 해야 함.
@@ -25,18 +26,41 @@ export default function Header(){
     })
 
     // 로그아웃용 함수
-    const logoutHandeler = () => {
-        logout();
-        alert('로그아웃 되었습니다.');
-        navigate('/');
-        setCustomer('');
-        setHeaderChange(0);
+    // const logoutHandeler = () => {
+    //     logout();
+    //     alert('로그아웃 되었습니다.');
+    //     navigate('/');
+    //     setCustomer('');
+    //     setHeaderChange(0);
+    //     setDetail({});
+    //     setDetailBoard(false);
+    //     setBoardList([]);
+    // }
+
+    const logoutHandeler = async () => {
+        try {
+            await axios.get('/member/logout', { withCredentials: true });
+
+            sessionStorage.clear();
+
+            setUserNickName(null);
+            setUserEmail(null);
+            setCustomer('');
+            setHeaderChange(0);
+
+            navigate('/', { replace: true });
+
+        } catch (err) {
+            console.error(err);
+        }
     }
 
     // 컴포넌트 이동시 모달 닫기
+    const location = useLocation();
+
     useEffect(() => {
         setMenuModal(false);
-    },[navigate])
+    }, [location.pathname]);
 
     // 헤더 변경 함수
     const headChangeHandeler = (num) => {

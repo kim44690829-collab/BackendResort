@@ -4,7 +4,7 @@ import { ResortDataContext} from '../Api/ResortData';
 import axios from "axios";
 
 export default function HelpCenter(){
-    const {userEmail,userNickName} = useContext(ResortDataContext);
+    const {userEmail,userNickName,logout, headerChange, setHeaderChange} = useContext(ResortDataContext);
 
     // 왼쪽 리스트 클릭시 컨텐츠 전환
     const [listType, setListType] = useState(1)
@@ -139,6 +139,8 @@ export default function HelpCenter(){
             setDetailBoard(false);
         }else{
             alert("로그인시 문의가능합니다.");
+            setWriteBoard(false);
+            setDetailBoard(true);
         }
     }
 
@@ -151,8 +153,9 @@ export default function HelpCenter(){
 
     //게시글 상세보기
     const detailView = (num) => {
-        setDetailBoard(true);
-        setWriteBoard(false);
+        if(!userNickName || !userEmail){
+            return alert("로그인이 필요합니다");
+        }
         
         axios.get('/api/board/boardInfo', {
 	        params: {
@@ -161,16 +164,20 @@ export default function HelpCenter(){
             withCredentials: true
 	    }).then((res) => {
             
-            if(res.data === null || res.data === undefined){
+            if(!res.data){
                 alert("본인이 작성한 게시글만 열람가능합니다.");
+                setDetail({});       
+                setDetailBoard(false);
+                setWriteBoard(false);
             }else{
-                console.log("상세보기 성공");
-                console.log(res.data);
-                setDetail(res.data || {});
+                setDetail(res.data);
+                setDetailBoard(true);
+                setWriteBoard(false);
             }
         })
         .catch((error) => {
-            console.error("error", error)
+            console.error("error", error);
+            alert("로그인이 필요합니다.");
         })
     }
 
