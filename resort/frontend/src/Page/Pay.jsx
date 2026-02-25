@@ -39,20 +39,19 @@ export default function Pay(){
     useEffect(() => {
         if (!userNickName) return;
 
-        if(memberNum){
-            axios.get("/api/member/onememberSelect", {
+        axios.get("/api/member/onememberSelect", {
             params : {
                 m_nickName : userNickName
             }
         })
-        .then((res) => {
-            console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~', res.data)
-            setMemberSel(res.data);
-        })
-        .catch((err) => {
-            console.error(err)
-        })
-        }
+    .then((res) => {
+        console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~', res.data)
+        setMemberSel(res.data);
+    })
+    .catch((err) => {
+        console.error(err)
+    })
+
     },[])
 
     useEffect(() => {
