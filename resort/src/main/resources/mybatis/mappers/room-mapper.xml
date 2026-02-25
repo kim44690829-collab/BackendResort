@@ -17,6 +17,56 @@
 		GROUP BY r.h.code
 	</select>
 	
+<!-- ================2026-02-23 수정 부분 ============= -->
+	
+	<!-- 회원정보 개수  -->
+<select id="getAllRoomcount" resultType="int">
+	SELECT COUNT(*) FROM room
+</select>
+
+<!-- 회원정보 보이는 개수 -->
+<select id="getRoomPagelist" resultType="roomDTO">
+	SELECT *FROM room ORDER BY r_code DESC
+	LIMIT #{startRow}, #{pageSize}
+</select>
+
+
+
+<select id="getSearchRoomCount" resultType="int">
+		SELECT COUNT(*) FROM room 
+		<where>
+			<choose>
+				<when test="searchType == 'roomName'">
+					roomName LIKE CONCAT("%",#{searchKeyword},"%")
+				</when>
+				<otherwise>
+					maxOccupancy LIKE CONCAT("%",#{searchKeyword},"%")				
+				</otherwise>
+			</choose>
+		</where>
+	</select>
+
+	<select id="getSearchRoomPageList" resultType="roomDTO">
+		SELECT * FROM room 
+		<where>
+			<choose>
+				<when test="searchType == 'roomName'">
+					roomName LIKE CONCAT("%",#{searchKeyword},"%")
+				</when>
+				<otherwise>
+					maxOccupancy LIKE CONCAT("%",#{searchKeyword},"%")				
+				</otherwise>
+			</choose>
+		</where>
+		ORDER BY r_code DESC
+		LIMIT #{startRow}, #{pageSize}
+	</select>
+	<!-- =========2026-02-24 수정부분 JHJ =========== -->
+	<insert id="insertRoom">
+		INSERT INTO room(h_code,roomName,price,maxOccupancy,r_img)
+		VALUES(#{h_code},#{roomName},#{price},#{maxOccupancy},#{r_img})
+	</insert>
+	
 	<!-- // 예약된 객실 제외한 객실을 찾는 select / public List<RoomDTO> reservateRoom(ReservateRoomDTO resRdto); -->
 	<select id="reservateRoom" resultType="RoomDTO" parameterType="ReservateRoomDTO">
 		SELECT r.* FROM room r

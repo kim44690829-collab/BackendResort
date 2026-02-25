@@ -1,0 +1,405 @@
+import { useState,useEffect,useContext } from "react";
+import { ResortDataContext } from '../../Api/ResortData';
+import '../admin/AdminPage.css'
+import axios from "axios";
+import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
+export default function HotelInsert(){
+    const [roomservice,setRoomservice] = useState([])
+    const [r_value,setR_value] = useState("")
+    const [publicservice,setPublicservice] = useState([])
+    const [p_value,setP_value] = useState("")
+    const [otherservice,setOtherservice] = useState([])
+    const [o_value,setO_value] = useState("")
+    const [hotel,setHotel] = useState({
+        hotelName:'',
+        country:'',
+        city:'',
+        type:'',
+        h_address:'',
+        discount:'',
+        h_Img:null,
+        h_s_Img1:null,
+        h_s_Img2:null,
+        h_s_Img3:null,
+        h_s_Img4:null,
+        startDate:'',
+        endDate:'',
+        roomservice:r_value,
+        publicservice:p_value,
+        otherservice:o_value,
+    })
+
+    const navigate = useNavigate();
+    //상품 들록하는 submit 함수
+    const submitHandler=()=>{
+        // React에서 이미지 업로드시 반드시 formData 객체를 생성한다.
+        const formData = new FormData();
+
+        // 자바의 확장 for문과 비슷한 
+        // 리액트의 for ~ in 구문
+        // 객체의 key를 하나씩 꺼내는 구문
+        /* for(let key in hotel){
+            // key중 img 확인
+            if(key === 'h_Img' || key === 'h_s_Img1' || key === 'h_s_Img2' || key === 'h_s_Img3' || key === 'h_s_Img4'){
+                formData.append('uploadFile', hotel[key]);
+            }else if(key === 'discount'){
+                formData.append(key,Number(hotel[key]));
+            }else if(key === 'startDate' || key === 'endDate'){
+                formData.append(key,Date(hotel[key]));
+            }else{
+                formData.append(key,hotel[key]);
+            }
+        } */
+         /// 파일만 별도로 추가
+        formData.append('h_Img', hotel.h_Img);
+        formData.append('h_s_Img1', hotel.h_s_Img1);
+        formData.append('h_s_Img2', hotel.h_s_Img2);
+        formData.append('h_s_Img3', hotel.h_s_Img3);
+        formData.append('h_s_Img4', hotel.h_s_Img4);
+        // 나머지 텍스트 필드들을 JSON 하나로 묶어서 추가
+        const textData = {
+            hotelName: hotel.hotelName,
+            country: hotel.country,
+            city: hotel.city,
+            type: hotel.type,
+            h_address: hotel.h_address,
+            discount:Number( hotel.discount),
+            startDate: hotel.startDate,
+            endDate: hotel.endDate,
+            roomservice: r_value,
+            publicservice: p_value,
+            otherservice: o_value
+        };
+
+        console.log(textData.publicservice,"00000000000000000000000000000000000000000")
+
+        // JSON 문자열로 변환해서 testData 하나로 묶기
+        formData.append('hotelData', JSON.stringify(textData));
+
+
+
+        axios.post('/api/hotel/insert',formData)
+        .then((res)=>{
+            if(res.data === 1){
+                alert("상품등록 성공")
+                navigate("/adminpage2")
+            }
+        })
+        .catch((error)=>{
+            console.log("등록실패")
+        })
+    }
+    // 공통 임력 처리 함수
+    const handleChange=(e)=>{
+        // input의 name 값을 가져오기
+        const inputName = e.target.name;
+        if(e.target.type === 'file'){
+            // ...car를 반드시 얕은 복사해야함
+            // 얕은 복사 하지 않으면 랜더링이 안됨
+            //
+            setHotel({...hotel,[inputName]:e.target.files[0]})
+        }else{
+            // file를 제외한 모든 숫자, 문자, 의 input value저장
+            setHotel({...hotel,[inputName]:e.target.value}) // 스프레드구문 -> 펼쳐진 상테로 원하는 값
+        }
+    }
+
+    // 체크 박스 선택시 선택한 요소 추가
+    const addroomServiceHandler=(e)=>{
+        const roomserviceCopy=[...roomservice]
+        if(roomserviceCopy.find((f)=>f===e)===undefined){
+            roomserviceCopy.push(e)
+            setRoomservice(roomserviceCopy)
+        }else{
+            const arr = roomserviceCopy.filter((f)=>f !== e)
+            setRoomservice(arr)
+        }
+        
+    }
+    const addpublicServiceHandler=(e)=>{
+        const publicserviceCopy=[...publicservice]
+        if(publicserviceCopy.find((f)=>f===e)===undefined){
+            publicserviceCopy.push(e)
+            setPublicservice(publicserviceCopy)
+        }else{
+            const arr = publicserviceCopy.filter((f)=>f !== e)
+            setPublicservice(arr)
+        }
+    }
+    const addotherServiceHandler=(e)=>{
+        const otherserviceCopy=[...otherservice]
+        if(otherserviceCopy.find((f)=>f===e)===undefined){
+            otherserviceCopy.push(e)
+            setOtherservice(otherserviceCopy)
+        }else{
+            const arr = otherserviceCopy.filter((f)=>f !== e)
+            setOtherservice(arr)
+        }
+    }
+    // 추가된 요소 텍스트로 변환된값
+    useEffect(()=>{
+        const text = `[${roomservice.map(v => `"${v}"`).join(',')}]`
+        setR_value(text)
+        const text2 = `[${publicservice.map(v => `"${v}"`).join(',')}]`
+        setP_value(text2)
+        const text3 = `[${otherservice.map(v => `"${v}"`).join(',')}]`
+        setO_value(text3)
+    },[roomservice,publicservice,otherservice])
+    return(
+        <>
+            <div className="admin_wrap">
+                <h2 className="admin_title">관리자 페이지</h2>
+                <div className="admin_section">
+                    <div className="admin_header">
+                        <div className="menu_box">
+                            <span className="admin_menu">조회</span>
+                            <ul className="admin_submenu">
+                                <li className="a_menus">
+                                    <Link to={`/adminPage` } onClick={() => window.scrollTo(0, 0)}>
+                                       <span>회원 정보 조회</span>
+                                    </Link>
+                                </li>
+                                <li className="a_menus">
+                                    <Link to={`/adminPage2` } onClick={() => window.scrollTo(0, 0)}>
+                                        <span>호텔 정보 조회</span>
+                                    </Link>
+                                </li>
+                                <li className="a_menus">
+                                    <Link to={`/adminPage3` } onClick={() => window.scrollTo(0, 0)}>
+                                        <span>객실 정보 조회</span>
+                                    </Link>
+                                </li>
+                                <li className="a_menus">
+                                    <Link to={`/adminPage4` } onClick={() => window.scrollTo(0, 0)}>
+                                        <span>예약 정보 조회</span>
+                                    </Link>
+                                </li>
+                            </ul>
+                        </div>
+                        <div className="menu_box">
+                            <span className="admin_menu">등록</span>
+                            <ul className="admin_submenu">
+                                <li className="a_menus">
+                                    <Link to={`/hotelinsert` } onClick={() => window.scrollTo(0, 0)}>
+                                        <span>호텔 정보 등록</span>
+                                    </Link>
+                                </li>
+                                <li className="a_menus">
+                                    <Link to={`/roominsert`} onClick={() => window.scrollTo(0, 0)}>
+                                        <span>객실 정보 등록</span> 
+                                    </Link>
+                                </li>
+                            </ul>
+                        </div>
+                        <div className="menu_box">
+                            <span className="admin_menu">게시판</span>
+                            <ul className="admin_submenu">
+                                <li className="a_menus">
+                                    <Link to={`/adminPage5` } onClick={() => window.scrollTo(0, 0)}>
+                                        <span>1대1 문의</span>
+                                    </Link>
+                                </li>
+                                <li className="a_menus">
+                                    <Link to={`/adminPage6`} onClick={() => window.scrollTo(0, 0)}>
+                                        <span>공지사항</span> 
+                                    </Link>
+                                </li>
+                                <li className="a_menus">
+                                    <Link to={`/adminPage7`} onClick={() => window.scrollTo(0, 0)}>
+                                        <span>리뷰</span> 
+                                    </Link>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div className="admin_body">
+                        <div className="admin_text">호텔 상품 추가</div>
+                        <div className="admin_list">
+                            <table className="list_table" border="1" style={{width:"800px"}}>
+                                <thead >
+                                    <tr>
+                                        <th width="200px">hotelName</th>
+                                        <th style={{backgroundColor:"#fff",color:"#333"}}>
+                                            <input type="text" name="hotelName" onChange={handleChange} />
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th width="200px">country</th>
+                                        <th style={{backgroundColor:"#fff",color:"#333"}}>
+                                            <input type="text" name="country" onChange={handleChange} />
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th width="200px">city</th>
+                                        <th style={{backgroundColor:"#fff",color:"#333"}}>
+                                            <input type="text" name="city" onChange={handleChange} />
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th width="200px">type</th>
+                                        <th style={{backgroundColor:"#fff",color:"#333"}}>
+                                            <input type="text" name="type" onChange={handleChange} />
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th width="200px">h_address</th>
+                                        <th style={{backgroundColor:"#fff",color:"#333"}}>
+                                            <input type="text" name="h_address" onChange={handleChange} />
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th width="200px">discount</th>
+                                        <th style={{backgroundColor:"#fff",color:"#333"}}>
+                                            <input type="text" name="discount" onChange={handleChange} />
+                                        </th>
+
+                                    </tr>
+                                    <tr>
+                                        <th width="200px">startDate</th>
+                                        <th style={{backgroundColor:"#fff",color:"#333"}}>
+                                            <input type="text" name="startDate" onChange={handleChange} />
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th width="200px">endDate</th>
+                                        <th style={{backgroundColor:"#fff",color:"#333"}}>
+                                            <input type="text" name="endDate" onChange={handleChange} />
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th width="200px">h_Img</th>
+                                        <th style={{backgroundColor:"#fff",color:"#333"}}>
+                                            <input type="file" name="h_Img" onChange={handleChange} />
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th width="200px">h_s_Img1</th>
+                                        <th style={{backgroundColor:"#fff",color:"#333"}}>
+                                            <input type="file" name="h_s_Img1" onChange={handleChange} />
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th width="200px">h_s_Img2</th>
+                                        <th style={{backgroundColor:"#fff",color:"#333"}}>
+                                            <input type="file" name="h_s_Img2" onChange={handleChange} />
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th width="200px">h_s_Img3</th>
+                                        <th style={{backgroundColor:"#fff",color:"#333"}}>
+                                            <input type="file" name="h_s_Img3" onChange={handleChange} />
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th width="200px">h_s_Img4</th>
+                                        <th style={{backgroundColor:"#fff",color:"#333"}}>
+                                            <input type="file" name="h_s_Img4" onChange={handleChange} />
+                                        </th>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <th width="200px">roomservice{`(최대 8개)`}</th>
+                                        <th style={{backgroundColor:"#fff",color:"#333"}}>
+                                            {/* <input type="text" name="roomservice" onChange={handleChange} /> */}
+                                            <input type="checkbox" name="roomservice" id="roomservice1" onChange={()=>addroomServiceHandler("무선인터넷")}/>
+                                            <label htmlFor="roomservice1">무선인터넷</label>
+                                            <input type="checkbox" name="roomservice" id="roomservice2" onChange={()=>addroomServiceHandler("욕실용품")}/>
+                                            <label htmlFor="roomservice2">욕실용품</label>
+                                            <input type="checkbox" name="roomservice" id="roomservice3" onChange={()=>addroomServiceHandler("실내수영장")}/>
+                                            <label htmlFor="roomservice3">실내수영장</label>
+                                            <input type="checkbox" name="roomservice" id="roomservice4" onChange={()=>addroomServiceHandler("TV")}/>
+                                            <label htmlFor="roomservice4">TV</label>
+                                            <input type="checkbox" name="roomservice" id="roomservice5" onChange={()=>addroomServiceHandler("샤워실")}/>
+                                            <label htmlFor="roomservice5">샤워실</label>
+                                            <input type="checkbox" name="roomservice" id="roomservice6" onChange={()=>addroomServiceHandler("욕조")}/>
+                                            <label htmlFor="roomservice6">욕조</label>
+                                            <input type="checkbox" name="roomservice" id="roomservice7" onChange={()=>addroomServiceHandler("객실내취사")}/>
+                                            <label htmlFor="roomservice7">객실내취사</label>
+                                            <input type="checkbox" name="roomservice" id="roomservice8" onChange={()=>addroomServiceHandler("금연")}/>
+                                            <label htmlFor="roomservice8">금연</label>
+                                            <input type="checkbox" name="roomservice" id="roomservice9" onChange={()=>addroomServiceHandler("에어컨")}/>
+                                            <label htmlFor="roomservice9">에어컨</label>
+                                            <input type="checkbox" name="roomservice" id="roomservice10" onChange={()=>addroomServiceHandler("드라이기")}/>
+                                            <label htmlFor="roomservice10">드라이기</label>
+                                            <input type="checkbox" name="roomservice" id="roomservice11" onChange={()=>addroomServiceHandler("냉장고")}/>
+                                            <label htmlFor="roomservice11">냉장고</label>
+                                            <input type="checkbox" name="roomservice" id="roomservice12" onChange={()=>addroomServiceHandler("전기주전자")}/>
+                                            <label htmlFor="roomservice12">전기주전자</label>
+                                            <input type="checkbox" name="roomservice" id="roomservice13" onChange={()=>addroomServiceHandler("개인콘센트")}/>
+                                            <label htmlFor="roomservice13">개인콘센트</label>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th width="200px">publicservice{`(최대 8개)`}</th>
+                                        <th style={{backgroundColor:"#fff",color:"#333"}}>
+                                            {/* <input type="text" name="publicservice" onChange={handleChange} /> */}
+                                            <input type="checkbox" name="publicservice" id="publicservice1" onChange={()=>addpublicServiceHandler("피트니스")}/>
+                                            <label htmlFor="publicservice1">피트니스</label>
+                                            <input type="checkbox" name="publicservice" id="publicservice2" onChange={()=>addpublicServiceHandler("레스토랑")}/>
+                                            <label htmlFor="publicservice2">레스토랑</label>
+                                            <input type="checkbox" name="publicservice" id="publicservice3" onChange={()=>addpublicServiceHandler("사우나")}/>
+                                            <label htmlFor="publicservice3">사우나</label>
+                                            <input type="checkbox" name="publicservice" id="publicservice4" onChange={()=>addpublicServiceHandler("실내수영장")}/>
+                                            <label htmlFor="publicservice4">실내수영장</label>
+                                            <input type="checkbox" name="publicservice" id="publicservice5" onChange={()=>addpublicServiceHandler("야외수영장")}/>
+                                            <label htmlFor="publicservice5">야외수영장</label>
+                                            <input type="checkbox" name="publicservice" id="publicservice6" onChange={()=>addpublicServiceHandler("편의점")}/>
+                                            <label htmlFor="publicservice6">편의점</label>
+                                            <input type="checkbox" name="publicservice" id="publicservice7" onChange={()=>addpublicServiceHandler("바")}/>
+                                            <label htmlFor="publicservice7">바</label>
+                                            <input type="checkbox" name="publicservice" id="publicservice8" onChange={()=>addpublicServiceHandler("라운지")}/>
+                                            <label htmlFor="publicservice8">라운지</label>
+                                            <input type="checkbox" name="publicservice" id="publicservice9" onChange={()=>addpublicServiceHandler("엘리베이터")}/>
+                                            <label htmlFor="publicservice9">엘리베이터</label>
+                                            <input type="checkbox" name="publicservice" id="publicservice10" onChange={()=>addpublicServiceHandler("비즈니스센터")}/>
+                                            <label htmlFor="publicservice10">비즈니스센터</label>
+                                            <input type="checkbox" name="publicservice" id="publicservice11" onChange={()=>addpublicServiceHandler("건조기")}/>
+                                            <label htmlFor="publicservice11">건조기</label>
+                                            <input type="checkbox" name="publicservice" id="publicservice12" onChange={()=>addpublicServiceHandler("탈수기")}/>
+                                            <label htmlFor="publicservice12">탈수기</label>
+                                            <input type="checkbox" name="publicservice" id="publicservice13" onChange={()=>addpublicServiceHandler("바베큐")}/>
+                                            <label htmlFor="publicservice13">바베큐</label>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th width="200px">otherservice{`(최대 3개)`}</th>
+                                        <th style={{backgroundColor:"#fff",color:"#333"}}>
+                                            {/* <input type="text" name="otherservice" onChange={handleChange} /> */}
+                                            <input type="checkbox" name="otherservice" id="otherservice1" onChange={()=>addotherServiceHandler("스프링클러")}/>
+                                            <label htmlFor="otherservice1">스프링클러</label>
+                                            <input type="checkbox" name="otherservice" id="otherservice2" onChange={()=>addotherServiceHandler("반려견동반")}/>
+                                            <label htmlFor="otherservice2">반려견동반</label>
+                                            <input type="checkbox" name="otherservice" id="otherservice3" onChange={()=>addotherServiceHandler("카드결제")}/>
+                                            <label htmlFor="otherservice3">카드결제</label>
+                                            <input type="checkbox" name="otherservice" id="otherservice4" onChange={()=>addotherServiceHandler("짐보관가능")}/>
+                                            <label htmlFor="otherservice4">짐보관가능</label>
+                                            <input type="checkbox" name="otherservice" id="otherservice5" onChange={()=>addotherServiceHandler("개인사물함")}/>
+                                            <label htmlFor="otherservice5">개인사물함</label>
+                                            <input type="checkbox" name="otherservice" id="otherservice6" onChange={()=>addotherServiceHandler("픽업서비스")}/>
+                                            <label htmlFor="otherservice6">픽업서비스</label>
+                                            <input type="checkbox" name="otherservice" id="otherservice7" onChange={()=>addotherServiceHandler("캠프파이어")}/>
+                                            <label htmlFor="otherservice7">캠프파이어</label>
+                                            <input type="checkbox" name="otherservice" id="otherservice8" onChange={()=>addotherServiceHandler("무료주차")}/>
+                                            <label htmlFor="otherservice8">무료주차</label>
+                                            <input type="checkbox" name="otherservice" id="otherservice9" onChange={()=>addotherServiceHandler("조식제공")}/>
+                                            <label htmlFor="otherservice9">조식제공</label>
+                                        </th>
+                                    </tr>
+                                </thead>
+                            </table>
+                                <button type="button">
+                                    <Link to={'/adminpage'}>
+                                        취소하기
+                                    </Link>
+                                </button>
+                                <button type="button" onClick={submitHandler}>추가하기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </>
+    )
+}

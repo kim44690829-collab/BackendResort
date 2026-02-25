@@ -2,6 +2,8 @@ package resort.product.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import resort.product.dto.HotelDTO;
 import resort.product.dto.HotelMergeDTO;
 import resort.product.dto.HotelPriceDTO;
@@ -23,5 +25,31 @@ public interface HotelService {
 	public List<HotelRatingDTO> getHotelRating();
 	// 호텔 총합 정보(가격+별점)
 	public List<HotelMergeDTO> getHotelMerge();
+	
+	//=========2026-02-23 수정 ==========
+
+	// 전체 호텔정보의 개수를 구하는 매소드
+	public int getAllHotelcount();
+	
+	// 전체 회원정보의 시작(startRow), 몇개의 행 (pageSize)만큼 보는 메소드
+	public List<HotelDTO> getPageHotellist(@Param("startRow")int startRow,@Param("pageSize")int pageSize);
+	
+	//검색페이징에 필요한 메서드
+	//searchType, searchKeyword에 해당하는 검색된 개수를 반환하는 메소드
+	public int getHotelSearchCount(@Param("searchType") String searchType,
+			@Param("searchKeyword") String searchKeyword);
+	
+	// searchType, searchKeyword, startRow, pageSize
+	// => limit startRow부터, pageSize개 만큼 한 화면에 보여질 행의 개수
+	public List<HotelDTO> getSearchPageHotelList(
+			@Param("searchType") String searchType,
+			@Param("searchKeyword") String searchKeyword,
+			@Param("startRow") int startRow,
+			@Param("pageSize") int pageSize
+			);
+	
+	// =============== 2026-02-24 수정부분 JHJ =====================
+	public void insertHotel(HotelDTO hdto);
+	
 
 }

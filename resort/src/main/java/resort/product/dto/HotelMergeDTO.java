@@ -27,7 +27,7 @@ public class HotelMergeDTO {
 	private int rb_score; // 별점
 	// ---------------------------------- 별칭(그룹 묶을 시)
 	private int roomAvgScore;  //객실평균별점
-	private int hotelAvgScore;  //호텔평균별점
+	private double hotelAvgScore;  //호텔평균별점
 	private int hotelPrice; // 호텔가격(객실별 최소가)
 	private int roomReviewCount; // 객실별 평가 인원수
 	private int hotelReviewCount; // 호텔 전체 평가 인원수
@@ -172,10 +172,10 @@ public class HotelMergeDTO {
 	public void setRoomAvgScore(int roomAvgScore) {
 		this.roomAvgScore = roomAvgScore;
 	}
-	public int getHotelAvgScore() {
+	public double getHotelAvgScore() {
 		return hotelAvgScore;
 	}
-	public void setHotelAvgScore(int hotelAvgScore) {
+	public void setHotelAvgScore(double hotelAvgScore) {
 		this.hotelAvgScore = hotelAvgScore;
 	}
 	public int getHotelPrice() {

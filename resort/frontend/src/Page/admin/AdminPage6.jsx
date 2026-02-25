@@ -4,7 +4,7 @@ import '../admin/AdminPage.css'
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-export default function AdminPage(){
+export default function AdminPage6(){
     
 
     const [members,setMembers] = useState([]);
