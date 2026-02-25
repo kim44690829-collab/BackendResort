@@ -29,10 +29,10 @@
 </select>
 
 <!-- 하나의 게시글을 수정하는 메소드 -->
-<!-- <update id="updateBoard" parameterType="BoardDTO">
-	UPDATE board SET b_title=#{b_title}, b_content=#{b_content}
+<update id="updateBoard" parameterType="BoardDTO">
+	UPDATE board SET b_writer=#{b_writer}, b_title=#{b_title}, b_content=#{b_content}, b_upload=#{b_upload}
 	WHERE b_code=#{b_code} AND b_pw=#{b_pw}
-</update> -->
+</update>
 
 <!-- 글을 삭제하는 메소드 -->
 <!-- @Param("num") int num,@Param("writerPw") String writerPw 

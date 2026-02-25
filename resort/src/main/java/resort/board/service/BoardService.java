@@ -19,7 +19,7 @@ public interface BoardService {
 	public BoardDTO getOneBoard(BoardDTO bdto, MemberDTO loginedMember);
 	
 	//하나의 게시글을 수정하는 메소드
-	//public boolean updateBoard(BoardDTO bdto);
+	public boolean updateBoard(BoardDTO bdto);
 	
 	// 게시글 작성시 비밀번호 입력하였기 때문에 => 삭제시에도 비밀번호와 번호가 일치하는지 체크
 	// 매개변수가 2개이상인 경우는 @Param("변수" 데이터타입 필드명)이용해 작성한다.

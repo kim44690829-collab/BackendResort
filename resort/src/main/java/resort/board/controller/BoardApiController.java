@@ -8,9 +8,11 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import jakarta.servlet.http.HttpSession;
 import resort.board.dto.BoardDTO;
 import resort.board.service.BoardService;
+import resort.handler.PageHandler;
 import resort.member.dto.MemberDTO;
 
 @RestController
@@ -66,7 +69,7 @@ public class BoardApiController {
 			upload.transferTo(file); // add throw~ 클릭하여 윗부분에 추가
 			
 			//DB에 저장할 파일명 DTO에 세팅
-			bdto.setB_upload(savePath);
+			bdto.setB_upload(saveName);
 		}		
 		//DB저장결과
 		boolean result = boardservice.insertBoard(bdto,loginedMember);
@@ -145,40 +148,76 @@ public class BoardApiController {
 		return result;		
 	}	
 	
-	//5. 게시글의 수정폼으로 이동하는 컨트롤러
-//	@GetMapping("/board/update")
-//	public String boardUpdateForm(@RequestParam("num") int num, Model model) {
-//		System.out.println("1)BoardController boardUpdateForm() 메소드호출");
-//		//기존의 하나의 게시글을 불러오는 쿼리를 이용하여 수정한다.
-//		BoardDTO oneboardInfo = boardservice.OneBoard(num);
-//		
-//		model.addAttribute("oneboard", oneboardInfo);
-//		
-//		String nextPage = "board/boardUpdate_form";
-//		return nextPage;
-//	}
-	
-	//6. 하나의 게시글 수정을 처리하는 컨트롤러
-//	@PostMapping("/board/updatePro")
-//	public String boardUpdatePro(BoardDTO bdto, Model model) {
-//		System.out.println("1)BoardController boardUpdatePro() 메소드호출");
-//		
-//		boolean isSuccess = boardservice.modifyBoard(bdto);
-//		//수정완료면 true, 아니면 false
-//		if(isSuccess) {
-//			//수정 성공시 list로 이동
-//			return "redirect:/board/list";
-//		}else {
-//			//수정 실패시 현재 수정하고 있는 폼에 num을 가지고 존재해야 함
-//			return "redirect:/board/update?num="+bdto.getNum();
-//		}		
-//	}
+	//5. 게시글의 수정
+	@PutMapping("/board/update")
+	public boolean boardUpdate(BoardDTO bdto,
+			@RequestParam(value="upload", required=false) MultipartFile upload,
+			HttpSession session
+			)throws IllegalStateException, IOException {
+		System.out.println("BoardApiController boardUpdate() 메소드호출");	
+		
+		String savePath = "c:/resort2026/resort/frontend/public/boardImg";
+
+		File saveDir = new File(savePath);
+		if(!saveDir.exists()) {
+			saveDir.mkdirs(); 
+		}
+		
+		MemberDTO loginedMember = (MemberDTO)session.getAttribute("loginUser");
+		if(loginedMember == null) return false;
+		
+		// bdto에 m_code 세팅
+	    bdto.setM_code(loginedMember.getM_code());
+
+	    // 기존 게시글 조회 (b_code + m_code)
+	    BoardDTO original = boardservice.getOneBoard(bdto,loginedMember);
+		
+	    if(original == null) {
+	    	// 본인 글 아니거나 존재 안함
+	    	System.out.println("수정실패");
+	        return false;
+	    }
+	    
+	    // 비밀번호 체크
+	    if(!original.getB_pw().equals(bdto.getB_pw())) {
+	    	System.out.println("비밀번호가 맞지 않습니다");
+	        return false;
+	    }
+	    
+	    // 기존 파일명 가져오기
+	    String oldFileName = original.getB_upload();
+	    
+	    // 새 파일이 선택된 경우
+		if(upload != null && !upload.isEmpty()) { 
+			// 기존 파일 삭제
+	        if(oldFileName != null) {
+	            File oldFile = new File(savePath + "/" + oldFileName);
+	            if(oldFile.exists()) {
+	                oldFile.delete();
+	            }
+	        }
+			
+	        // 새 파일 저장
+			String originalName = upload.getOriginalFilename();
+			String saveName = UUID.randomUUID().toString().subSequence(0, 6) + "_" + originalName;//파일명에 랜덤 문자 섞고 싶으면 pdf 16강 - 13페이지(random.UUID) 추가하면됨.
+			
+			File newFile  = new File(savePath + "/" + saveName);
+			
+			upload.transferTo(newFile ); 			
+			//DB에 저장할 파일명 DTO에 세팅
+			bdto.setB_upload(saveName);
+		}else {
+			// 새 파일 선택 안 했으면 기존 파일 유지
+	        bdto.setB_upload(oldFileName);
+		}	
+		
+		boolean isSuccess = boardservice.updateBoard(bdto);
+		
+		return isSuccess;
+	}
 	
 	// 7. 하나의 게시글을 삭제하는 컨트롤러
-	// 현재 boardInfo.html의 [삭제하기]버튼 클릭하면 삭제됨
-	// 삭제된 후 board/list로 이동
-	// 삭제 실패 후는 boardInfo.html에 머물다.
-//	@GetMapping("/board/deletePro")
+//	@DeleteMapping("/board/delete")
 //	public String boardDeletePro(
 //			@RequestParam("num") int num,
 //			@RequestParam("writerPw") String writerPw

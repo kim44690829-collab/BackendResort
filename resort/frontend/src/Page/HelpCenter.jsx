@@ -67,6 +67,9 @@ export default function HelpCenter(){
     const [writeBoard, setWriteBoard] =useState(false);
     //상세보기 상태
     const [detailBoard, setDetailBoard] =useState(false);
+    //수정하기 상태
+    const [modifyBoard, setModifyBoard] =useState(false);
+
     //작성자
     const [writer, setWriter] = useState(userNickName);
     //제목
@@ -137,16 +140,22 @@ export default function HelpCenter(){
         if(userEmail !== null){            
             setWriteBoard(true);
             setDetailBoard(false);
+            setModifyBoard(false);
+            setTitle('');
+            setPassword('');
+            setBoardText('');
+            setFile(null);
         }else{
             alert("로그인시 문의가능합니다.");
             setWriteBoard(false);
             setDetailBoard(true);
+            setModifyBoard(false);
         }
     }
 
     //문의게시판 리셋(새로고침)후 전체목록 돌아가기
     const resetBoard = () =>{
-        setListType(8); setWriteBoard(false); loadList(); setDetailBoard(false);
+        setListType(8); setWriteBoard(false); loadList(); setDetailBoard(false);setModifyBoard(false);
         setSearchType(''); setSearchKeyword(''); setWriter(userNickName);
         setTitle(''); setPassword(''); setBoardText(''); setFile(null);
     }
@@ -169,15 +178,71 @@ export default function HelpCenter(){
                 setDetail({});       
                 setDetailBoard(false);
                 setWriteBoard(false);
+                setModifyBoard(false);
             }else{
                 setDetail(res.data);
                 setDetailBoard(true);
                 setWriteBoard(false);
+                setModifyBoard(false);
             }
         })
         .catch((error) => {
             console.error("error", error);
             alert("로그인이 필요합니다.");
+        })
+    }
+    //게시글 수정버튼 클릭
+    const modifyButton = () => {
+        if(userEmail !== null){            
+            setWriteBoard(false);
+            setDetailBoard(false);
+            setModifyBoard(true);
+            setWriter(detail.b_writer);
+            setTitle(detail.b_title);
+            setPassword('');
+            setBoardText(detail.b_content);
+        }else{
+            alert("로그인시 수정가능합니다.");
+        }
+    }    
+
+    //게시글 수정 컨펌
+    const detailModify = () => {
+        if(!userNickName || !userEmail){
+            return alert("로그인이 필요합니다");
+        } 
+        
+        if(password === ""){
+            return alert("비밀번호를 입력하세요");
+        }  
+
+        const formData = new FormData();
+        formData.append("b_writer", writer);
+        formData.append("b_title", title);
+        formData.append("b_pw", password);
+        formData.append("b_content", boardText);
+        formData.append("b_code", detail.b_code);
+
+         // 새 파일 선택했을 때만 추가
+        if(file){
+            formData.append("upload", file);
+        }
+
+        axios.put('/api/board/update', formData, {
+	        headers: {
+                "Content-Type": "multipart/form-data"
+            },
+            withCredentials: true
+	    }).then((res) => {
+            if(res.data === true || res.data === "true"){
+                alert("게시글 수정 완료");
+                detailView(detail.b_code);
+            }else{
+                alert("게시글 수정 실패. 비밀번호를 다시 확인해주세요");
+            }
+        })
+        .catch((error) => {
+            console.error("error", error);
         })
     }
 
@@ -536,7 +601,7 @@ export default function HelpCenter(){
             </div>)
             }
             {/* 1대1 문의 게시글 작성*/}
-            {listType === 8 && writeBoard === true && detailBoard === false && (
+            {listType === 8 && writeBoard === true && detailBoard === false && modifyBoard === false &&(
                 <div className="helpCenter_text">
                     <h1 className="text_title">1 대 1 문의</h1>
                     <div id="board_wrap" style={{borderTop:'2px solid black'}}>
@@ -581,7 +646,7 @@ export default function HelpCenter(){
             )}     
 
             {/* 1대1 문의 게시글 전체 */}
-            {listType === 8 && writeBoard === false && detailBoard === false && (
+            {listType === 8 && writeBoard === false && detailBoard === false && modifyBoard === false &&(
                 <div className="helpCenter_text">
                     <h1 className="text_title">1 대 1 문의</h1>
 
@@ -653,7 +718,7 @@ export default function HelpCenter(){
             )}
 
             {/* 1대1 문의 게시글 상세*/}
-            {listType === 8 && writeBoard === false && detailBoard === true && (
+            {listType === 8 && writeBoard === false && detailBoard === true && modifyBoard === false &&(
                 <div className="helpCenter_text">
                     <h1 className="text_title">1 대 1 문의</h1>
                     <div id="board_wrap" style={{borderTop:'2px solid black'}}>
@@ -662,27 +727,40 @@ export default function HelpCenter(){
                             <table style={{ width: '100%', border: '1px solid' }}>
                                 <tbody>
                                     <tr height="40">
-                                        <td align="center" style={{ width: '150px' }}>작성자</td>
-                                        <td style={{ width: '450px' }}>{detail.b_writer}</td>
-                                    </tr>
-                                    <tr height="40">
                                         <td align="center" style={{ width: '150px' }}>제목</td>
                                         <td style={{ width: '450px' }}>{detail.b_title}</td>
+                                        <td style={{ width: '450px' }}>{detail.b_date}</td>
+                                    </tr>
+                                    <tr height="40">
+                                        <td align="center" style={{ width: '150px' }}>작성자 : </td>
+                                        <td style={{ width: '450px' }}>{detail.b_writer}</td>
+                                        
+                                        <td align="center" style={{ width: '150px' }}>조회수 : </td>
+                                        <td style={{ width: '450px' }}>{detail.readcount}</td>
                                     </tr>
                                     <tr height="40">
                                         <td align="center" style={{ width: '150px' }}>글내용</td>
                                         <td style={{ width: '450px' }}>{detail.b_content}</td>
                                     </tr>
                                     {/* 이미지 업로드 */}
-                                    {/* <tr height="40">
-                                        <td align="center" style={{ width: '150px' }}>이미지</td>
+                                    <tr height="40">
+                                        <td align="center" style={{ width: '150px' }}>첨부파일</td>
                                         <td style={{ width: '450px' }}>
-                                            <input type="file" name="upload" onChange={(e) => setFile(e.target.files[0])} />
+                                            {detail.b_upload ? (
+                                                <a 
+                                                href={`http://localhost:5173/boardImg/${detail.b_upload}`} 
+                                                download
+                                                >
+                                                {detail.b_upload}
+                                                </a>
+                                            ) : (
+                                                "첨부파일 없음"
+                                            )}
                                         </td>
-                                    </tr> */}
+                                    </tr>
                                     <tr height="40">
                                         <td align="center" colSpan="2">
-                                        {/* <input type="button" onClick={writeSubmit} value="확인" />&nbsp;&nbsp; */}
+                                        <input type="button" onClick={modifyButton} value="수정하기" />&nbsp;&nbsp;
                                         <input type="button" onClick={resetBoard} value="전체목록" />
                                         </td>
                                     </tr>
@@ -691,7 +769,68 @@ export default function HelpCenter(){
                         </div>
                     </div>
                 </div>
-            )}  
+            )} 
+
+            {/* 1대1 문의 게시글 수정*/}
+            {listType === 8 && writeBoard === false && detailBoard === false &&  modifyBoard === true &&(
+                <div className="helpCenter_text">
+                    <h1 className="text_title">1 대 1 문의</h1>
+                    <div id="board_wrap" style={{borderTop:'2px solid black'}}>
+                    <div className="word"><h2>게시글 수정</h2></div>
+                        <div className="content">
+                            <table style={{ width: '100%', border: '1px solid' }}>
+                                <tbody>
+                                    <tr height="40">
+                                        <td align="center" style={{ width: '150px' }}>작성자</td>
+                                        <td style={{ width: '450px' }}><input type="text" name="writer" value={writer} onChange={(e) => setWriter(e.target.value)} /></td>
+                                    </tr>
+                                    <tr height="40">
+                                        <td align="center" style={{ width: '150px' }}>제목</td>
+                                        <td style={{ width: '450px' }}><input type="text" name="subject" className="b_subject" value={title} onChange={(e) => setTitle(e.target.value)} /></td>
+                                    </tr>
+                                    <tr height="40">
+                                        <td align="center" style={{ width: '150px' }}>비밀번호</td>
+                                        <td style={{ width: '450px' }}><input type="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} /></td>
+                                    </tr>
+                                    <tr height="40">
+                                        <td align="center" style={{ width: '150px' }}>글내용</td>
+                                        <td style={{ width: '450px' }}><textarea rows="10" cols="55" name="content" className="b_contents" value={boardText} onChange={(e) => setBoardText(e.target.value)}></textarea></td>
+                                    </tr>
+                                    {/* 이미지 업로드 */}
+                                    <tr height="40">
+                                        <td align="center" style={{ width: '150px' }}>첨부파일</td>
+                                        <td style={{ width: '450px' }}>
+                                            {detail.b_upload ? (
+                                                <a 
+                                                href={`http://localhost:5173/boardImg/${detail.b_upload}`} 
+                                                download
+                                                >
+                                                {detail.b_upload}
+                                                </a>
+                                            ) : (
+                                                "첨부파일 없음"
+                                            )}
+                                        </td>
+                                    </tr>
+                                    <tr height="40">
+                                        <td align="center" style={{ width: '150px' }}>이미지</td>
+                                        <td style={{ width: '450px' }}>
+                                            <input type="file" name="upload" onChange={(e) => setFile(e.target.files[0])} />
+                                        </td>
+                                    </tr>
+                                    <tr height="40">
+                                        <td align="center" colSpan="2">
+                                        <input type="button" onClick={detailModify} value="수정" />&nbsp;&nbsp;
+                                        <input type="button" onClick={resetBoard} value="취소" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            )} 
+
             {/* 우측 고객센터 전화번호 등 */}
             <div className='helpCenter_tel'>
                 <div className='helpCenter_tel1'>

@@ -151,22 +151,20 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public int getAllcount() {
-		// TODO Auto-generated method stub
-		return 0;
+		System.out.println("MemberServiceImpl : getAllcount(@-@) 메서드 확인");
+		return membermapper.getAllcount();
 	}
 
 	@Override
 	public List<MemberDTO> getPagelist(int startRow, int pageSize) {
-		// TODO Auto-generated method stub
-		return null;
+		System.out.println("MemberServiceImpl : getPagelist(@-@) 메서드 확인");
+		return membermapper.getPagelist(startRow, pageSize);
 	}
-<<<<<<< HEAD
-=======
 	
 	// ============= 2026-02-23 수정 ===============
 	@Override
 	public int getSearchCount(String searchType, String searchKeyword) {
-		System.out.println("MemberServiceImpl : getPagelist(@-@) 메서드 확인");
+		System.out.println("MemberServiceImpl : getSearchCount(@-@) 메서드 확인");
 		return membermapper.getSearchCount(searchType, searchKeyword);
 	}
 	
@@ -196,7 +194,4 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	
-
->>>>>>> main
-
 }
