@@ -31,6 +31,7 @@ export default function Pay(){
     const [useCouponNum, setUseCouponNum] = useState(0);
     const [couponUse, setCouponUse] = useState(0);
     const [memberSel, setMemberSel] = useState(null); 
+    // 2026-02-25 git
 
     // 회원코드
     const memberNum = MemberAllData.find((item) => item.m_nickName === userNickName);
