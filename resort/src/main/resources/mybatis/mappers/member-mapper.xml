@@ -30,7 +30,13 @@
 
 <!-- 개인 한 사람의 정보를 검색하는 메소드 -->
 <select id="oneSelectMember" parameterType="String" resultType="MemberDTO">
-	SELECT * FROM member WHERE m_email=#{m_email}
+    SELECT *,
+        CASE 
+            WHEN NOW() > DATE_ADD(m.m_regDate, INTERVAL 1 MONTH) THEN 0
+            ELSE m.m_coupon
+        END AS currentCoupon
+    FROM member m
+    WHERE m.m_email = #{m_email}
 </select>
 <!-- //개인 한 사람의 정보를 검색하는 메소드 public MemberDTO getOneSelectMember(String m_nickName); -->
 <select id="getOneSelectMember" parameterType="String" resultType="MemberDTO">
@@ -48,7 +54,7 @@
 </update>
 
 <!-- 한사람 개인의 정보를 삭제하는 메소드 작성 -->
-<delete id="deleteMember" parameterType="String" >
+<delete id="deleteMember" parameterType="MemberDTO" >
 	DELETE FROM member WHERE m_email=#{m_email} 
 </delete>
 

@@ -290,10 +290,29 @@
     width: 565px;
     margin-bottom: 25px;
 }
+.reserVation-wrap.coupon{
+    margin-left: 0;
+}
+.reserVation-wrap.coupon .detail-content .detail-left .reserve-select ul li{
+    padding: 35px 40px;
+    margin-left: 0;
+    width: 660px;
+}
+
 .reserVation-wrap .detail-content .detail-left .reserve-select ul li .room-left,
 .reserVation-wrap .detail-content .detail-left .reserve-select ul li .room-right{
     float: left;
 }
+.reserVation-wrap .detail-content .detail-left .reserve-select ul li .coupon-left{
+    overflow: hidden;
+    position: relative;
+    margin-right: 23px;
+    float: left;
+}
+.reserVation-wrap .detail-content .detail-left .reserve-select ul li .coupon-left img{
+    width: 200px;
+}
+
 .reserVation-wrap .detail-content .detail-left .reserve-select ul li .room-left{
     overflow: hidden;
     width: 142px;
@@ -360,9 +379,19 @@
     border-radius: 10px;
     margin-top: 15px;
 }
+.reserve-select ul li .room-right .room-info.coupon{
+    padding: 14px 25px;
+    margin-left: 0;
+}
 .reserve-select ul li .room-right .room-info p{
     font-size: 14px;
     line-height: 23px;
+}
+.reserve-select ul li .room-right .room-info p.coupon,
+.reserve-select ul li .room-right .room-info p.coupon .bold{
+    font-size: 16px;
+    line-height: 29px;
+    margin-left: 0;
 }
 .reserve-select ul li .room-right .room-info p i{
     color: #42799b;
@@ -1237,13 +1266,16 @@
 }
 .reserVation_container .reserVation_list .list_menu{
     border-bottom: 1px solid gray;
-    padding: 30px 0 30px 0;
+    /* padding: 30px 0 30px 0; */
 }
 .reserVation_container .reserVation_list .list_menu .list_menuBtn{
     border: none;
     outline: none;
     background-color: transparent;
     font-size: 16px;
+    padding: 30px 0 30px 0;
+    width: 100%;
+    text-align: left;
 }
 .reserVation_container .reserVation_list .list_menu .list_menuBtn:hover{
     color: #42799b;
@@ -1988,6 +2020,8 @@
     font-weight: 700;
     line-height: 31px;
     padding-bottom: 0;
+    margin-top: 36px;
+    margin-bottom: 11px;
 }
 .reservDetail-wrap .detail-content .detail-left .reservDetail-select .room-title.wish .thirty{
     font-size: 14px;
@@ -2472,6 +2506,66 @@
     margin-left: 10px;
     color: #6d6d6d;
     line-height: 1.2;
+}
+
+.signup3_container.mypage{
+    margin: 10px auto;    
+}
+
+.signup3_container.mypage .signupForm .signupBtn{
+    width: 49%;
+}
+.signup3_container.mypage .signupForm .signupBtn:last-child{
+    margin-left: 10px;
+}
+
+.reservDetail-wrap .detail-content table{
+
+}
+.reservDetail-wrap .detail-content table tr{
+    
+}
+.reservDetail-wrap .detail-content table tr th,
+.reservDetail-wrap .detail-content table tr td{
+    border: 1px solid #cdcdcd;
+    line-height: 42px;
+}
+
+.reservDetail-wrap .detail-content table tr th{
+    width: 123px;
+    background-color: #e7e7e7;
+    font-weight: 500;
+    text-align: center;
+    font-size: 15px;
+}
+.reservDetail-wrap .detail-content table tr td{
+    width: 182px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.reservDetail-wrap .detail-content .detail-left .reservDetail-select .buttons{
+    text-align: center;
+    margin-top: 44px;
+    margin-bottom: 30px;
+}
+
+.reservDetail-wrap .detail-content .detail-left .reservDetail-select .buttons .del{
+    cursor: pointer;
+    color: rgb(0, 0, 0);
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(128, 128, 128);    
+    padding: 15px 10px 15px 10px;
+    border-radius: 10px;
+    display: inline-block;
+    text-align: center;
+    width: 165px;
+    margin: 0 5px;
+}
+.reservDetail-wrap .detail-content .detail-left .reservDetail-select .buttons .del.detail{
+    background-color: rgb(66, 121, 155);
+    color: rgb(255, 255, 255);
+    border: 1px solid rgb(66, 121, 155);
 }
 /* 리뷰 css--------------------------------------------------------------------------- */
 

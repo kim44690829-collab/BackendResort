@@ -2,17 +2,23 @@ package resort.board.dto;
 
 import java.util.Date;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class BoardDTO {
 
 	private int b_code; // 게시판코드(PK)
+	private int m_code; //회원코드(FK)
 	private String b_title; // 제목
-	private String b_author; // 작성자
-	private Date b_date; // 날짜
+	private String b_writer; // 작성자
+	private String b_pw; // 글 비밀번호 
+	private Date b_date; // 작성일자
+	private int readcount; // 조회수 
 	private String b_content; // 내용
-	private int ref; // 
-	private int re_step; // 
+	private int ref; // 원글번호
+	private int re_step; // 댓글출력순서
+	private int re_level; //댓글 들여쓰기 단계(원글/댓글 구분)
 	private Date b_update; // 수정일자
-	private String upload;  // 첨부파일
+	private String b_upload;  // 첨부파일
 	
 	public int getB_code() {
 		return b_code;
@@ -26,12 +32,7 @@ public class BoardDTO {
 	public void setB_title(String b_title) {
 		this.b_title = b_title;
 	}
-	public String getB_author() {
-		return b_author;
-	}
-	public void setB_author(String b_author) {
-		this.b_author = b_author;
-	}
+	
 	public Date getB_date() {
 		return b_date;
 	}
@@ -62,12 +63,44 @@ public class BoardDTO {
 	public void setB_update(Date b_update) {
 		this.b_update = b_update;
 	}
-	public String getUpload() {
-		return upload;
+	
+	public String getB_pw() {
+		return b_pw;
 	}
-	public void setUpload(String upload) {
-		this.upload = upload;
+	public void setB_pw(String b_pw) {
+		this.b_pw = b_pw;
 	}
+	public int getReadcount() {
+		return readcount;
+	}
+	public void setReadcount(int readcount) {
+		this.readcount = readcount;
+	}
+	public String getB_writer() {
+		return b_writer;
+	}
+	public void setB_writer(String b_writer) {
+		this.b_writer = b_writer;
+	}
+	public int getRe_level() {
+		return re_level;
+	}
+	public void setRe_level(int re_level) {
+		this.re_level = re_level;
+	}
+	public int getM_code() {
+		return m_code;
+	}
+	public void setM_code(int m_code) {
+		this.m_code = m_code;
+	}
+	public String getB_upload() {
+		return b_upload;
+	}
+	public void setB_upload(String b_upload) {
+		this.b_upload = b_upload;
+	}	
+	
 	
 	
 }

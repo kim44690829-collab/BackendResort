@@ -15,9 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+<<<<<<< HEAD
+=======
 
 
 import resort.handler.PageHandler;
+>>>>>>> main
 import jakarta.servlet.http.HttpSession;
 import resort.board.controller.PageHandler;
 import resort.member.dto.MemberDTO;
@@ -65,12 +68,18 @@ public class MemberApiController {
 	
 	// 한사람 개인의 정보를 삭제하는 메소드 작성
 	@DeleteMapping("/member/deletemember")
+<<<<<<< HEAD
+	public boolean deleteMember(@RequestBody MemberDTO mdto){
+=======
 	public boolean deleteMember(@RequestParam("m_email") String m_email){
+>>>>>>> main
 		System.out.println("MemberApiController : deleteMember() 메서드 확인");
-		return memberservice.deleteMember(m_email);
+		return memberservice.deleteMember(mdto);
 		
 	}
 	
+<<<<<<< HEAD
+=======
 	// ============= 2026-02-20 수정 부분 ==============
 	@GetMapping("member/list")
 	public Map<String, Object> memberList(
@@ -122,6 +131,7 @@ public class MemberApiController {
 	}
 	
 	
+>>>>>>> main
 	
 	//로그인 메소드
 	@PostMapping("/member/login")
@@ -132,7 +142,8 @@ public class MemberApiController {
 		
 		if(loginUser != null) {
 			//세션에 로그인 정보담기
-			session.setAttribute("loginUser", loginUser.getM_email());
+			//session.setAttribute("loginUser", loginUser.getM_email());
+			session.setAttribute("loginUser", loginUser);
 		}
 		
 		//React로 JSON 변환

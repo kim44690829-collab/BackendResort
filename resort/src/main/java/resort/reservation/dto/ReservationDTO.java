@@ -110,8 +110,6 @@ public class ReservationDTO{
 	public void setCancel_date(Date cancel_date) {
 		this.cancel_date = cancel_date;
 	}
-	
-	
 
 	
 	

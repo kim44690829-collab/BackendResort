@@ -13,6 +13,8 @@ public class MemberDTO {
 	private String m_nickName;  //닉네임
 	private int m_coupon;  //쿠폰
 	private Date m_regDate;  //가입일
+	private int currentCoupon;//쿠폰만료일
+	private String pw_before; //이전 비밀번호
 	
 	public int getM_code() {
 		return m_code;
@@ -67,6 +69,18 @@ public class MemberDTO {
 	}
 	public void setM_regDate(Date m_regDate) {
 		this.m_regDate = m_regDate;
+	}
+	public int getCurrentCoupon() {
+		return currentCoupon;
+	}
+	public void setCurrentCoupon(int currentCoupon) {
+		this.currentCoupon = currentCoupon;
+	}
+	public String getPw_before() {
+		return pw_before;
+	}
+	public void setPw_before(String pw_before) {
+		this.pw_before = pw_before;
 	}
 		
 	

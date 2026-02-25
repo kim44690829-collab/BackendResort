@@ -6,17 +6,48 @@ import '../mypage/MyPage.css'
 import axios from "axios";
 
 export default function MyPage(){
-    const {DayData,setSelectday,userEmail, userNickName, MemberAllData} = useContext(ResortDataContext);
-
+    const {DayData,setSelectday,userEmail,loginSave,logout,setHeaderChange} = useContext(ResortDataContext);
+    
+    //회원의 예약정보 가져오기
     const[myPage, setMyPage] = useState([]);
+    //회원의 회원정보 가져오기
+    const[memberInfo, setMemberInfo] = useState({});
+    //회원 전화번호 가운데 4자리
+    const[userNumFront, setUserNumFront] = useState('');
+    //회원 전화번호 끝 4자리
+    const[userNumBack, setUserNumBack] = useState('');
+    // 이메일
+    const [userMail, setUserMail] = useState('');
+    // 이전 비밀번호
+    const [userPw_before, setUserPw_before] = useState('');
+    // 새 비밀번호
+    const [userPw, setUserPw] = useState('');
+    // 새 비밀번호 확인
+    const [userPwConfirm, setUserPwConfirm] = useState('');
+    // 생일
+    const [BirthYear, setBirthYear] = useState('');
+    const [BirthMonth, setBirthMonth] = useState('');
+    const [BirthDate, setBirthDate] = useState('');    
+    // 성별
+    const [userGender, setUserGender] = useState(0);
+    // 닉네임
+    const [nickname, setNickname] = useState('');
+
     const navigate = useNavigate();
+
+    useEffect(() => {    
+        if (!userEmail) return;
+
+        fetchMyPage(); //마이페이지 DB전체호출
+        fetchMyInfo(); //회원정보 DB호출
+        
+    },[userEmail])
+    
+
     // 리뷰 작성 성공
     const [reviewCom, setReviewCom] = useState(0);
 
-    useEffect(() => {
-        fetchMyPage(); //마이페이지 DB전체호출
-    },[userEmail, reviewCom]);
-    
+   
 
     //마이페이지 DB불러오는 함수
     const fetchMyPage = () => {
@@ -28,6 +59,39 @@ export default function MyPage(){
         .then((res) => {
             console.log("마이페이지 데이터 : ", res.data);
             setMyPage(res.data);
+        })
+        .catch((error) => {
+            console.error("error", error)
+        })
+    }
+
+    //회원정보 DB불러오는 함수
+    const fetchMyInfo = () => {
+        if (!userEmail) return;
+
+        axios.get('/api/member/onemember', {
+            params: { m_email: userEmail }
+        })
+        .then((res) => {
+            console.log("회원 데이터 : ", res.data);
+            setMemberInfo(res.data);
+            const phone = res.data.m_phone;
+            const userNumFront = phone.substring(3, 7);
+            const userNumBack = phone.substring(7);
+            setUserNumFront(userNumFront);
+            setUserNumBack(userNumBack);
+            setUserMail(res.data.m_email);
+            setUserGender(res.data.m_gender);
+            setNickname(res.data.m_nickName);
+            const birth = res.data.m_birth;
+            if(birth) {
+                const BirthYear = birth.substring(0, 4);
+                const BirthMonth = birth.substring(5, 7);
+                const BirthDate = birth.substring(8, 10);
+                setBirthYear(BirthYear);
+                setBirthMonth(BirthMonth);
+                setBirthDate(BirthDate);
+            }
         })
         .catch((error) => {
             console.error("error", error)
@@ -73,13 +137,6 @@ export default function MyPage(){
         setDetailView(re_code);
     }
 
-    // 쿠폰 목록보기 버튼
-    const couponsBtnHandeler = () => {
-        setListType(2);
-    }
-
-
-
      //달력 
     const [Cal, setCal] = useState(false);
 
@@ -106,8 +163,6 @@ export default function MyPage(){
 
     //예약내역 필터링
     const activeList = myPage.filter(item => item.cancel === 0);
-    console.log('-----------------------------',activeList)
-    
     //취소내역 필터링
     const cancelList = myPage.filter(item => item.cancel === 1);
 
@@ -121,9 +176,7 @@ export default function MyPage(){
     const searchClick = () =>{        
         //날짜검색 범위 안에 드는 배열
         const dateArray = activeList.filter((item)=>item.reserved_at.slice(0,10) >= new Date(DayData[0]).toLocaleDateString('sv-SE') && item.reserved_at.slice(0,10) <= new Date(DayData[1]).toLocaleDateString('sv-SE') ? item :null);
-        
-        console.log("------------234234234");
-        console.log(dateArray);
+        //console.log(dateArray);
 
         if(dateArray === null || dateArray.length === 0){
             setDateFilter([]);
@@ -137,10 +190,8 @@ export default function MyPage(){
     //취소내역 검색
     const searchClick2 = () =>{        
         //날짜검색 범위 안에 드는 배열
-        const dateArray = cancelList.filter((item)=>item.reserved_at.slice(0,10) >= new Date(DayData[0]).toLocaleDateString('sv-SE') && item.reserved_at.slice(0,10) <= new Date(DayData[1]).toLocaleDateString('sv-SE') ? item :null);
-        
-        console.log("------------234234234");
-        console.log(dateArray);
+        const dateArray = cancelList.filter((item)=>item.cancel_date.slice(0,10) >= new Date(DayData[0]).toLocaleDateString('sv-SE') && item.cancel_date.slice(0,10) <= new Date(DayData[1]).toLocaleDateString('sv-SE') ? item :null);
+        //console.log(dateArray);
 
         if(dateArray === null || dateArray.length === 0){
             setDateFilter([]);
@@ -154,6 +205,156 @@ export default function MyPage(){
 
     const [dayClick, setDayClick] = useState(false); 
 
+    //------------------------------------------------------ 회원정보 수정관련
+
+    // 마우스 변경
+    const [mouseCursor, setMouseCursor] = useState(false);
+
+    // 회원가입 폼에서 조건을 만족하지 못했을때 확인버튼 비활성화
+    const [isDisabledSignup, setIsDisabledSignup] = useState(true);
+
+    // 도메인 배열
+    const ALLOWED_DOMAINS = [
+        "naver.com",
+        "gmail.com",
+        "daum.net",
+        "kakao.com",
+        "hanmail.net",
+        "nate.com",
+        "resort.com"
+    ];
+
+    //회원수정 버튼 클릭시 실행되는 핸들러 함수 
+    const signup = (e) => {
+        e.preventDefault();
+
+        if(!window.confirm("정말 수정하시겠습니까?")){
+           return;
+        }
+
+        //  새 비밀번호가 있으면 그걸 사용
+        // 없으면 이전 비밀번호 유지
+        const finalPw = userPw && userPw.trim() !== ""
+        ? userPw : userPw_before;
+
+        //수정정보 전송
+        axios.put('/api/member/updatemember',{m_email:userMail,
+            m_pw: finalPw,
+            m_gender:userGender,
+            m_nickName:nickname,
+            m_phone:'010'+userNumFront+userNumBack,
+            m_birth: `${BirthYear}-${BirthMonth.padStart(2,'0')}-${BirthDate.padStart(2,'0')}`,
+            pw_before: userPw_before
+        })
+        .then((res) => {
+            if(res.data === true){
+                alert('회원 정보가 수정 완료 되었습니다.');
+                fetchMyInfo();
+                setListType(4);
+                setListView(true);
+                setDetailView(0);
+                //setHeaderChange(0);
+                loginSave(nickname,userMail);
+            }else{
+                alert('회원 정보수정 실패. 비밀번호를 다시 입력해주세요.');               
+            }
+        })
+        .catch((error) => {
+            console.error("error", error)
+        })
+    }
+
+    // 정규식 .test() => ()안에있는게 앞의 조건에 맞으면 true를 반환 아니면 false를 반환
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+    const isValidEmail = emailRegex.test(userMail);
+    // emailInput에서 받은 이메일 주소를 @기준으로 잘라서 배열로 만듦
+    // ex) aaaa@naver.com => ['aaaa', 'naver.com'] 의 [1] => 'naver.com' => 즉 도메인명을 가져오기 위한 로직(소문자로)
+    // 중간의 ?는 없으면 undefined를 반환
+    const domain = userMail.split("@")[1]?.toLowerCase();
+    // 기존에 위에서 배열에 저장한 도메인 명들 중에 사용자가 입력한 도메인명이 포함되는지 알아보기위한 로직
+    const isAllowedDomain = ALLOWED_DOMAINS.includes(domain);
+
+    // 생일
+    const m = Number(BirthMonth);
+    const d = Number(BirthDate);
+
+    // 정보수정 시 버튼 활성화 조건
+    useEffect(() => {
+        if(
+            isValidEmail &&
+            isAllowedDomain &&
+            userPw_before.length >=8 &&
+            ((userPw !== "" && userPw.length >= 8 )||userPw === "") && 
+            userPwConfirm === userPw && 
+            BirthYear.length >= 4 && 
+            (1 <= m && m <= 12) &&
+            (1 <= d && d <= 31) &&
+            userGender !== '' &&
+            nickname !== ''
+        ){
+                setIsDisabledSignup(false)
+                setMouseCursor(true)
+            }else{
+                setIsDisabledSignup(true)
+                setMouseCursor(false)
+            }
+    }, [userMail, userPw, userPwConfirm, BirthYear, BirthMonth, BirthDate, userGender, nickname, userPw_before])
+
+
+    const validatePwAlert_before = () => {
+        if (!userPw_before) return;
+        if(userPw_before.length < 8){
+            alert('최소 8자리 이상의 숫자로 입력해주세요')
+        }
+    }
+    const validatePwAlert = () => {
+        if (!userPw) return;
+        if(userPw.length < 8){
+            alert('최소 8자리 이상의 숫자로 입력해주세요')
+        }
+    }
+    const validatePwConfAlert = () => {
+        if (!userPwConfirm) return;
+        if(userPwConfirm !== userPw){
+            alert('위의 비밀번호와 동일한 번호로 입력해주세요')
+        }
+    }
+    const validateNickNameAlert = () => {
+        if (!nickname) return;
+        else if( 20 < nickname.length || nickname.length < 2){
+            alert('닉네임은 2글자 이상, 20글자 이하로 입력해주세요')
+        }
+    }
+
+    //회원탈퇴 버튼 클릭시 실행되는 핸들러 함수 
+    const deleteAccount = (e) => {
+        e.preventDefault();
+
+        if(!window.confirm("정말 탈퇴하시겠습니까?")){
+           return;
+        }
+
+        if(userPw_before.length === 0 || userPw_before === null || userPw_before === ""){
+            alert('비밀번호를 입력해주세요');
+            return;
+        }
+
+        //수정정보 전송
+        axios.delete('/api/member/deletemember',{data: {m_email: userMail, pw_before: userPw_before}})
+        .then((res) => {
+            if(res.data === true){
+                alert('탈퇴가 완료 되었습니다.');
+                logout();
+                setHeaderChange(0);
+                navigate('/');
+            }else{
+                alert('탈퇴 실패. 비밀번호를 다시 입력해주세요.');               
+            }
+        })
+        .catch((error) => {
+            console.error("error", error)
+        })
+    }
     // 리뷰 작성
     const [isOpen, setIsOpen] = useState(false);
     const [star1, setStar1] = useState(false);
@@ -244,23 +445,23 @@ export default function MyPage(){
                 <ul>
                     <li className='list_title'>마이페이지</li>
                     <li className='list_menu'>
-                        <button type='button' className='list_menuBtn' onClick={() => {setListType(1);setListView(true);setDetailView(0);}} style={{fontWeight: listType === 1 ? 'bold' : 'normal'}}>
+                        <button type='button' className='list_menuBtn' onClick={() => {setListType(1);setListView(true);setDetailView(0);setSearch(false);}} style={{fontWeight: listType === 1 ? 'bold' : 'normal'}}>
                             예약내역
                         </button>
                     </li>
                     <li className='list_menu'>
-                        <button type='button' className='list_menuBtn' onClick={() => setListType(2)} style={{fontWeight: listType === 2 ? 'bold' : 'normal'}}>
+                        <button type='button' className='list_menuBtn' onClick={() => {setListType(2);setListView(true);setDetailView(0);setSearch(false);}} style={{fontWeight: listType === 2 ? 'bold' : 'normal'}}>
                             취소내역
                         </button>
                     </li>
                     <li className='list_menu'>
-                        <button type='button' className='list_menuBtn' onClick={() => setListType(3)} style={{fontWeight: listType === 3 ? 'bold' : 'normal'}}>
+                        <button type='button' className='list_menuBtn' onClick={() => {setListType(3);setListView(true);setDetailView(0);setSearch(false);}} style={{fontWeight: listType === 3 ? 'bold' : 'normal'}}>
                             쿠폰
                         </button>
                     </li>
                     <li className='list_menu'>
-                        <button type='button' className='list_menuBtn' onClick={() => setListType(4)} style={{fontWeight: listType === 4 ? 'bold' : 'normal'}}>
-                            정보수정/탈퇴
+                        <button type='button' className='list_menuBtn' onClick={() => {setListType(4);setListView(true);setDetailView(0);setSearch(false);}} style={{fontWeight: listType === 4 ? 'bold' : 'normal'}}>
+                            회원정보수정/탈퇴
                         </button>
                     </li>
                 </ul>
@@ -427,9 +628,38 @@ export default function MyPage(){
                                             item.re_code === detailView ? (
                                             <Fragment key={item.re_code}>
                                             <div style={{padding: '0',background: 'transparent',marginBottom: '10px'}}>
+                                                <p className='room-title wish'  style={{marginTop:'0'}}>예약호텔 정보</p>
+                                                <div className="hotelInfo">
+                                                    <div className="room-left">
+                                                        <Link to={`/detail/${item.h_code}`} onClick={() => window.scrollTo(0,0)} >
+                                                            <img src={`/img/${item.h_code}-1.jpg`} alt={item.hotelName} />
+                                                        </Link>
+                                                    </div>
+                                                    <div className="room-right">
+                                                        <h2><Link to={`/detail/${item.h_code}`} onClick={() => window.scrollTo(0,0)}>{item.hotelName}</Link></h2>
+                                                        <div className="intro-right">
+                                                            <button type='button' className='pay' onClick={()=>navigate(`/detail/${item.h_code}`)}>
+                                                                상세보기<i className="fa-solid fa-angle-right"></i>
+                                                            </button>
+                                                        </div>
+                                                        <div className="room-info">
+                                                            <p><i className="fa-solid fa-address-card"></i> 예약자명 : <span className='bold'>{item.booker_name}</span></p>                                                                
+                                                            <p><i className="fa-solid fa-couch"></i> 예약객실 : <span className='bold'>{item.roomName}</span></p>
+                                                            <p><i className="fa-regular fa-calendar"></i> 숙박일 : <span className='bold'>{new Date(item.check_in_date)?.toISOString().slice(0, 10)}({new Date(item.check_in_date).getDay()===0?'일':new Date(item.check_in_date).getDay()===1?'월':new Date(item.check_in_date).getDay()===2?'화':new Date(item.check_in_date).getDay()===3?'수':new Date(item.check_in_date).getDay()===4?'목':new Date(item.check_in_date).getDay()===5?'금':new Date(item.check_in_date).getDay()===6?'토':undefined})
+                                                                    ~ {new Date(item.check_out_date)?.toISOString().slice(0, 10)}({new Date(item.check_out_date).getDay()===0?'일':new Date(item.check_out_date).getDay()===1?'월':new Date(item.check_out_date).getDay()===2?'화':new Date(item.check_out_date).getDay()===3?'수':new Date(item.check_out_date).getDay()===4?'목':new Date(item.check_out_date).getDay()===5?'금':new Date(item.check_out_date).getDay()===6?'토':undefined})</span></p>
+                                                            <span className='final-price'>{(item.final_price).toLocaleString()}원<span>/{(new Date(item.check_out_date).getTime()-new Date(item.check_in_date).getTime())/(1000*24*60*60)}박</span></span>                                                                
+                                                        </div>
+                                                    </div>
+                                                </div>  
                                                 <p className='room-title wish'>예약 내역</p>
                                                 <table>
                                                     <tbody>
+                                                        <tr>
+                                                            <th>호텔명</th>
+                                                            <td colSpan={2}>{item.hotelName}</td>
+                                                            <th>객실명</th>
+                                                            <td colSpan={2}>{item.roomName}</td>
+                                                        </tr>
                                                         <tr>
                                                             <th>예약일</th>
                                                             <td>{item.reserved_at?.replace('T', ' ').substring(0, 19)}</td>
@@ -437,13 +667,7 @@ export default function MyPage(){
                                                             <td>{item.booker_name}</td>
                                                             <th>전화번호</th>
                                                             <td>{item.m_phone}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>호텔명</th>
-                                                            <td colSpan={2}>{item.hotelName}</td>
-                                                            <th>객실명</th>
-                                                            <td colSpan={2}>{item.roomName}</td>
-                                                        </tr>
+                                                        </tr>                                                        
                                                         <tr>
                                                             <th>숙박 시작일</th>
                                                             <td>{new Date(item.check_in_date)?.toISOString().slice(0, 10)}({new Date(item.check_in_date).getDay()===0?'일':new Date(item.check_in_date).getDay()===1?'월':new Date(item.check_in_date).getDay()===2?'화':new Date(item.check_in_date).getDay()===3?'수':new Date(item.check_in_date).getDay()===4?'목':new Date(item.check_in_date).getDay()===5?'금':new Date(item.check_in_date).getDay()===6?'토':undefined})</td>
@@ -467,40 +691,18 @@ export default function MyPage(){
                                                         </tr>
                                                     </tbody>
                                                 </table>
-                                                <p className='room-title wish'>예약호텔 정보</p>
-                                                <div className="hotelInfo">
-                                                    <div className="room-left">
-                                                        <Link to={`/detail/${item.h_code}`} onClick={() => window.scrollTo(0,0)} >
-                                                            <img src={`/img/${item.h_code}-1.jpg`} alt={item.hotelName} />
-                                                        </Link>
-                                                    </div>
-                                                    <div className="room-right">
-                                                        <h2><Link to={`/detail/${item.h_code}`} onClick={() => window.scrollTo(0,0)}>{item.hotelName}</Link></h2>
-                                                        <div className="intro-right">
-                                                            <button type='button' className='pay' onClick={()=>navigate(`/detail/${item.h_code}`)}>
-                                                                상세보기<i className="fa-solid fa-angle-right"></i>
-                                                            </button>
-                                                        </div>
-                                                        <div className="room-info">
-                                                            <p><i className="fa-solid fa-address-card"></i> 예약자명 : <span className='bold'>{item.booker_name}</span></p>                                                                
-                                                            <p><i className="fa-solid fa-couch"></i> 예약객실 : <span className='bold'>{item.roomName}</span></p>
-                                                            <p><i className="fa-regular fa-calendar"></i> 숙박일 : <span className='bold'>{new Date(item.check_in_date)?.toISOString().slice(0, 10)}({new Date(item.check_in_date).getDay()===0?'일':new Date(item.check_in_date).getDay()===1?'월':new Date(item.check_in_date).getDay()===2?'화':new Date(item.check_in_date).getDay()===3?'수':new Date(item.check_in_date).getDay()===4?'목':new Date(item.check_in_date).getDay()===5?'금':new Date(item.check_in_date).getDay()===6?'토':undefined})
-                                                                    ~ {new Date(item.check_out_date)?.toISOString().slice(0, 10)}({new Date(item.check_out_date).getDay()===0?'일':new Date(item.check_out_date).getDay()===1?'월':new Date(item.check_out_date).getDay()===2?'화':new Date(item.check_out_date).getDay()===3?'수':new Date(item.check_out_date).getDay()===4?'목':new Date(item.check_out_date).getDay()===5?'금':new Date(item.check_out_date).getDay()===6?'토':undefined})</span></p>
-                                                            <span className='final-price'>{(item.final_price).toLocaleString()}원<span>/{(new Date(item.check_out_date).getTime()-new Date(item.check_in_date).getTime())/(1000*24*60*60)}박</span></span>                                                                
-                                                        </div>
-                                                    </div>
-                                                </div>                                                
-                                                <div>
+                                                                                              
+                                                <div className="buttons">
                                                     {item.check_in_date.slice(0,10) > new Date().toLocaleDateString('sv-SE') && ( 
                                                         <span className='del' onClick={()=>{reserveCancel(item.re_code)}}><i className="fa-solid fa-ban" style={{color:'#f94239'}}></i> 취소하기</span>
                                                     )}
 
                                                     {item.check_in_date.slice(0,10) <= new Date().toLocaleDateString('sv-SE') && item.rb_score === 0 && ( 
-                                                        <span className='del' onClick={()=>{reviewModalOpen(item.r_code)}}><i className="fa-solid fa-star" style={{color:'#FCC34B'}}></i> 리뷰작성</span>
+                                                        <span className='del' onClick={()=>{}}><i className="fa-solid fa-star" style={{color:'#FCC34B'}}></i> 리뷰작성</span>
                                                     )}
 
                                                     {item.check_in_date.slice(0,10) <= new Date().toLocaleDateString('sv-SE') && item.rb_score !== 0 && ( 
-                                                        <span className='del' onClick={()=>{reviewModalOpen(item.r_code)}}><i className="fa-solid fa-star" style={{color:'#FCC34B'}}></i> 리뷰수정</span>
+                                                        <span className='del' onClick={()=>{}}><i className="fa-solid fa-star" style={{color:'#FCC34B'}}></i> 리뷰수정</span>
                                                     )}                                                           
                                                     <span className='del detail' onClick={()=>{setListType(1);setListView(true);setDetailView(0);}}>전체목록<i className="fa-solid fa-angle-right"></i></span>
                                                 </div>
@@ -532,7 +734,7 @@ export default function MyPage(){
                                                 <p className='x-icon'>
                                                     <i className="fa-solid fa-xmark"></i>
                                                 </p>
-                                                <p className='empty-tit'>검색한 날짜에 예약한 호텔정보가 없습니다.</p>
+                                                <p className='empty-tit'>검색한 날짜에 취소한 호텔정보가 없습니다.</p>
                                                 <p className='empty-txt'>검색날짜를 다시 설정해주세요.</p>
                                             </div>
                                         ) : (search && dateFilter !== null) || (search && dateFilter.length >= 1) ? (
@@ -541,15 +743,8 @@ export default function MyPage(){
                                                     item.cancel !== 0 ? (
                                                     <Fragment key={item.re_code}>
                                                         <li style={{padding: '0',background: 'transparent',marginBottom: '10px'}}>
-                                                            <p className='room-title wish'>{item.reserved_at?.slice(0, 10)} 예약
-                                                                <span className='del detail' onClick={()=>contentHandeler(item.re_code)}>상세보기 <i className="fa-solid fa-angle-right"></i></span>
-                                                                {item.check_in_date.slice(0,10) > new Date().toLocaleDateString('sv-SE') && ( 
-                                                                    <span className='del' onClick={()=>{reserveCancel(item.re_code)}}><i className="fa-solid fa-ban" style={{color:'#f94239'}}></i> 취소하기</span>
-                                                                )}
-
-                                                                {item.check_in_date.slice(0,10) <= new Date().toLocaleDateString('sv-SE') && ( 
-                                                                    <span className='del' onClick={()=>{}}><i className="fa-solid fa-star" style={{color:'#FCC34B'}}></i> 리뷰작성</span>
-                                                                )}                                                            
+                                                            <p className='room-title wish'>{item.cancel_date?.slice(0, 10)} 취소
+                                                                <span className='del detail' onClick={()=>contentHandeler(item.re_code)}>상세보기 <i className="fa-solid fa-angle-right"></i></span>                                                           
                                                             </p>
                                                         </li>
                                                         <li>
@@ -581,7 +776,7 @@ export default function MyPage(){
                                                     item.cancel !== 0 ? (
                                                     <Fragment key={item.re_code}>
                                                     <li style={{padding: '0',background: 'transparent',marginBottom: '10px'}}>
-                                                        <p className='room-title wish'>{item.reserved_at?.slice(0, 10)} 예약
+                                                        <p className='room-title wish'>{item.cancel_date?.slice(0, 10)} 취소
                                                             <span className='del detail' onClick={()=>contentHandeler(item.re_code)}>상세보기 <i className="fa-solid fa-angle-right"></i></span>
                                                         </p>
                                                     </li>
@@ -667,47 +862,7 @@ export default function MyPage(){
                                             item.re_code === detailView ? (
                                             <Fragment key={item.re_code}>
                                             <div style={{padding: '0',background: 'transparent',marginBottom: '10px'}}>
-                                                <p className='room-title wish'>예약 내역</p>
-                                                <table>
-                                                    <tbody>
-                                                        <tr>
-                                                            <th>예약일</th>
-                                                            <td>{item.reserved_at?.replace('T', ' ').substring(0, 19)}</td>
-                                                            <th>예약자명</th>
-                                                            <td>{item.booker_name}</td>
-                                                            <th>전화번호</th>
-                                                            <td>{item.m_phone}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>호텔명</th>
-                                                            <td colSpan={2}>{item.hotelName}</td>
-                                                            <th>객실명</th>
-                                                            <td colSpan={2}>{item.roomName}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>숙박 시작일</th>
-                                                            <td>{new Date(item.check_in_date)?.toISOString().slice(0, 10)}({new Date(item.check_in_date).getDay()===0?'일':new Date(item.check_in_date).getDay()===1?'월':new Date(item.check_in_date).getDay()===2?'화':new Date(item.check_in_date).getDay()===3?'수':new Date(item.check_in_date).getDay()===4?'목':new Date(item.check_in_date).getDay()===5?'금':new Date(item.check_in_date).getDay()===6?'토':undefined})</td>
-                                                            <th>숙박 종료일</th>
-                                                            <td>{new Date(item.check_out_date)?.toISOString().slice(0, 10)}({new Date(item.check_out_date).getDay()===0?'일':new Date(item.check_out_date).getDay()===1?'월':new Date(item.check_out_date).getDay()===2?'화':new Date(item.check_out_date).getDay()===3?'수':new Date(item.check_out_date).getDay()===4?'목':new Date(item.check_out_date).getDay()===5?'금':new Date(item.check_out_date).getDay()===6?'토':undefined})</td>
-                                                            <th>총 숙박 일수</th>
-                                                            <td>{(new Date(item.check_out_date).getTime()-new Date(item.check_in_date).getTime())/(1000*24*60*60)}박</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                                <p className='room-title wish'>결제 내역</p>
-                                                <table>
-                                                    <tbody>
-                                                        <tr>
-                                                            <th>총 결제금액</th>
-                                                            <td>{(item.original_price).toLocaleString()}원</td>
-                                                            <th>할인금액</th>
-                                                            <td>-{(item.original_price-item.final_price).toLocaleString()}원</td>
-                                                            <th>최종 결제금액</th>
-                                                            <td>{(item.final_price).toLocaleString()}원</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                                <p className='room-title wish'>예약호텔 정보</p>
+                                                <p className='room-title wish' style={{marginTop:'0'}}>예약취소 호텔 정보</p>
                                                 <div className="hotelInfo">
                                                     <div className="room-left">
                                                         <Link to={`/detail/${item.h_code}`} onClick={() => window.scrollTo(0,0)} >
@@ -729,8 +884,62 @@ export default function MyPage(){
                                                             <span className='final-price'>{(item.final_price).toLocaleString()}원<span>/{(new Date(item.check_out_date).getTime()-new Date(item.check_in_date).getTime())/(1000*24*60*60)}박</span></span>                                                                
                                                         </div>
                                                     </div>
-                                                </div>                                                
-                                                <div>                                                        
+                                                </div> 
+                                                <p className='room-title wish'>취소 내역</p>
+                                                <table>
+                                                    <tbody>
+                                                        <tr>
+                                                            <th>예약취소일</th>
+                                                            <td>{item.cancel_date?.replace('T', ' ').substring(0, 19)}</td>
+                                                            <th>취소여부</th>
+                                                            <td>취소완료</td>
+                                                            <th>환불금액</th>
+                                                            <td>{(item.final_price).toLocaleString()}원</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <p className='room-title wish'>취소전 예약 내역</p>
+                                                <table>
+                                                    <tbody>
+                                                        <tr>
+                                                            <th>호텔명</th>
+                                                            <td colSpan={2}>{item.hotelName}</td>
+                                                            <th>객실명</th>
+                                                            <td colSpan={2}>{item.roomName}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>예약일</th>
+                                                            <td>{item.reserved_at?.replace('T', ' ').substring(0, 19)}</td>
+                                                            <th>예약자명</th>
+                                                            <td>{item.booker_name}</td>
+                                                            <th>전화번호</th>
+                                                            <td>{item.m_phone}</td>
+                                                        </tr>                                                        
+                                                        <tr>
+                                                            <th>숙박 시작일</th>
+                                                            <td>{new Date(item.check_in_date)?.toISOString().slice(0, 10)}({new Date(item.check_in_date).getDay()===0?'일':new Date(item.check_in_date).getDay()===1?'월':new Date(item.check_in_date).getDay()===2?'화':new Date(item.check_in_date).getDay()===3?'수':new Date(item.check_in_date).getDay()===4?'목':new Date(item.check_in_date).getDay()===5?'금':new Date(item.check_in_date).getDay()===6?'토':undefined})</td>
+                                                            <th>숙박 종료일</th>
+                                                            <td>{new Date(item.check_out_date)?.toISOString().slice(0, 10)}({new Date(item.check_out_date).getDay()===0?'일':new Date(item.check_out_date).getDay()===1?'월':new Date(item.check_out_date).getDay()===2?'화':new Date(item.check_out_date).getDay()===3?'수':new Date(item.check_out_date).getDay()===4?'목':new Date(item.check_out_date).getDay()===5?'금':new Date(item.check_out_date).getDay()===6?'토':undefined})</td>
+                                                            <th>총 숙박 일수</th>
+                                                            <td>{(new Date(item.check_out_date).getTime()-new Date(item.check_in_date).getTime())/(1000*24*60*60)}박</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <p className='room-title wish'>취소전 결제 내역</p>
+                                                <table>
+                                                    <tbody>
+                                                        <tr>
+                                                            <th>총 결제금액</th>
+                                                            <td>{(item.original_price).toLocaleString()}원</td>
+                                                            <th>할인금액</th>
+                                                            <td>-{(item.original_price-item.final_price).toLocaleString()}원</td>
+                                                            <th>최종 결제금액</th>
+                                                            <td>{(item.final_price).toLocaleString()}원</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                                                               
+                                                <div className="buttons">                                                        
                                                     <span className='del detail' onClick={()=>{setListType(2);setListView(true);setDetailView(0);}}>전체목록<i className="fa-solid fa-angle-right"></i></span>
                                                 </div>
                                             </div>
@@ -745,38 +954,141 @@ export default function MyPage(){
                 </div>
             </div>
             )}
-            {/* 공지사항 메인 */}
+            {/* 쿠폰 */}
             {listType === 3 && 
             (<div className='reserVation_text'>
-                <h1 className='text_title'>공지사항</h1>
-                <div className='reserVation_texts coupons' style={{borderTop:'2px solid black'}} onClick={() => setListType(3)}>
-                    <p>[신규 가입 이벤트] 지금 가입하면 10,000원 할인 쿠폰 지급!</p>
-                </div>
-                <div className='reserVation_texts coupons' onClick={() => setListType(4)}>
-                    <p>[기간 한정] 전 숙소 10% 할인 이벤트 진행 중</p>
-                </div>
-                <div className='reserVation_texts coupons' onClick={() => setListType(5)}>
-                    <p>[포인트 혜택] 숙소 예약 시 5,000포인트 적립</p>
-                </div>
-                <div className='reserVation_texts coupons' onClick={() => setListType(6)}>
-                    <p>[후기 이벤트] 리얼 후기 작성하고 1,000포인트 받으세요</p>
-                </div>
-                <div className='reserVation_texts coupons' onClick={() => setListType(7)}>
-                    <p>[결제 혜택] 삼성카드 12월 무이자 할부 안내</p>
+                <h1 className='text_title'>보유 쿠폰</h1>
+                <div className='reserVation_texts' style={{borderTop:'2px solid black'}}>
+                    <div className="wish-wrap" onClick={()=>setCal(false)}>
+                        <section className="reserVation-wrap coupon">
+                            <div className="detail-content">
+                                <div className="detail-left" ref={triggerRef}>                       
+                                    <div className="reserve-select" style={{borderTop:'0px'}}>
+                                        {memberInfo.currentCoupon !== 0 ? (
+                                            <ul>    
+                                                <li style={{padding: '0',background: 'transparent',marginBottom: '10px'}}>
+                                                    <p className='room-title wish'>{memberInfo.m_regDate?.slice(0, 10)} 지급</p>
+                                                </li>
+                                                <li style={{width:'915px'}}>
+                                                    <div className="coupon-left">
+                                                        <img src={'/coupon.png'} alt='couponImg'/>
+                                                    </div>
+                                                    <div className="room-right">
+                                                        <h2 style={{fontSize:'24px'}}>신규 회원가입 쿠폰</h2>
+                                                        <div className="room-info coupon">
+                                                            <p className="coupon"><i className="fa-solid fa-address-card"></i> 모든 호텔예약 10,000원 할인혜택</p>                                                                
+                                                            <p className="coupon"><i className="fa-solid fa-couch"></i> 소멸예정일 : 
+                                                                <span className='bold'> 
+                                                                    {memberInfo.m_regDate && (() => {
+                                                                    const d = new Date(memberInfo.m_regDate);
+                                                                    d.setMonth(d.getMonth() + 1);
+                                                                    return d.toLocaleDateString('sv-SE');
+                                                                    })()
+                                                                }</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        ):(
+                                            <p className='room-empty'>보유한 쿠폰 내역이 없습니다.</p>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>               
+                        </section>
+                    </div> 
                 </div>
             </div>)
             }
             
-            {/* 1대1 문의 */}
+            {/* 회원정보수정/탈퇴 */}
             {listType === 4 && 
-            (<div className='reserVation_text'>
-                <h1 className='text_title'>1 대 1 문의</h1>
-                <div>
-                    <p className='support-1on1'>현재 문의 사항이 없습니다.</p>
+            <div className='reserVation_text'>
+                <h1 className='text_title'>회원 정보수정/탈퇴</h1>
+                <div className='reserVation_texts' style={{borderTop:'2px solid black'}}>
+                    <div className='signup3_container mypage'>
+                        <h2 className='signup3_info'>수정할 정보 재입력 후 수정하기 버튼을 눌러주세요</h2>
+                        {/* 회원가입 form */}
+                        <form className='signupForm' onSubmit={signup}>
+                            {/* 이메일 */}
+                            <div className='signup1'>
+                                <label htmlFor="userEmail">이메일<span style={{color:'red'}}> * 수정불가</span></label>
+                                <input type="email" id='userEmail' name='userEmail' placeholder='abc@naver.com' value={userMail} readOnly/>
+                            </div>
+                            {/* 비밀번호 */}
+                            <div className='signup1'>
+                                <label htmlFor="userpw_before">비밀번호 입력<span style={{color:'red'}}> * 필수입력</span></label>
+                                <input type="password" id='userpw_before' name='userpw_before' placeholder='최소 8자 이상' value={userPw_before} onChange={(e) => setUserPw_before(e.target.value)} onBlur={validatePwAlert_before} />
+                            </div>
+                            {/* 비밀번호 */}
+                            <div className='signup1'>
+                                <label htmlFor="userpw">새 비밀번호<span style={{color:'red'}}> * 미변경시 입력 X</span></label>
+                                <input type="password" id='userpw' name='userpw' placeholder='최소 8자 이상' value={userPw} onChange={(e) => setUserPw(e.target.value)} onBlur={validatePwAlert} />
+                            </div>
+                            {/* 비밀번호 확인 */}
+                            <div className='signup1'>
+                                <label htmlFor="pwConfirm">새 비밀번호 확인<span style={{color:'red'}}> * 미변경시 입력 X</span></label>
+                                <input type="password" id='pwConfirm' name='pwConfirm' placeholder='위 비밀번호와 동일하게 입력해주세요' value={userPwConfirm} onChange={(e) => setUserPwConfirm(e.target.value)} onBlur={validatePwConfAlert} />
+                            </div>
+                            {/* 전화번호 */}
+                            <div className='signup2'>
+                                <label>전화번호<span style={{color:'red'}}> * 앞자리(010)는 고정입니다.</span></label><br/>
+                                <div className='signup2_sub'>
+                                    <input type='text' id='usertel' name='usertel' value='010' disabled style={{color:'black'}} maxLength="3"/> <span>-</span>
+                                    <input type='text' id='usertelFront' name='usertel' placeholder='1234' value={userNumFront} onChange={(e) => setUserNumFront(e.target.value)} maxLength="4" /><span>-</span>
+                                    <input type='text' id='usertelBack' name='usertel' placeholder='5678' value={userNumBack} onChange={(e) => setUserNumBack(e.target.value)} maxLength="4" />
+                                </div>
+                            </div>
+                            {/* 생년월일 */}
+                            <div className='signup2'>
+                                <label>생년월일<span style={{color:'red'}}> * 필수입력</span></label><br/>
+                                <div className='signup2_sub'>
+                                    <input type="text" id='birth_year' name='birth' placeholder='YYYY' value={BirthYear} onChange={(e) => setBirthYear(e.target.value)} maxLength="4" /> <span>/</span>
+                                    <input type="text" id='birth_month' name='birth' placeholder='MM' value={BirthMonth} onChange={(e) => setBirthMonth(e.target.value)} maxLength="2" /> <span>/</span>
+                                    <input type="text" id='birth_date' name='birth' placeholder='DD' value={BirthDate} onChange={(e) => setBirthDate(e.target.value)} maxLength="2" />
+                                </div>
+                            </div>
+                            {/* 성별 */}
+                            <div className='signup3'>
+                                <p className='signup3_gender'>성별<span style={{color:'red'}}> * 필수입력</span></p>
+                                <input type="radio" id='man' name='gender' value={0} checked={userGender === 0} onChange={(e) => setUserGender(Number(e.target.value))}  />
+                                <label htmlFor='man'>남자</label>
+                                <input type="radio" id='woman' name='gender' value={1} checked={userGender === 1} onChange={(e) => setUserGender(Number(e.target.value))} />
+                                <label htmlFor='woman'>여자</label>                                
+                            </div>
+                            {/* 닉네임 */}
+                            <div className='signup4'>
+                                <label htmlFor="nickname">닉네임<span style={{color:'red'}}> * 필수입력</span></label>
+                                <input type="text" id='nickname' name='nickname' value={nickname} onChange={(e) => setNickname(e.target.value)} placeholder='2글자 이상 적어주세요' onBlur={validateNickNameAlert} />
+                            </div>
+                            {/* 버튼 */}
+                            <div className="buttons">
+                                <button type='submit' 
+                                className='signupBtn' 
+                                disabled={isDisabledSignup} 
+                                style={{
+                                    cursor: mouseCursor ? 'pointer' : 'not-allowed',
+                                    backgroundColor: mouseCursor ? '#42799b' : '#e7e7e7ff',
+                                    color: mouseCursor ? '#fff' : '#a5a5a5ff',
+                                    border:'none'
+                                    }}  >수정하기</button>
+                                <button type='button'
+                                onClick={deleteAccount} 
+                                className='signupBtn' 
+                                style={{
+                                    cursor: 'pointer',
+                                    color: '#000',
+                                    backgroundColor: '#fff',
+                                    border:'1px solid #808080'
+                                    }}  >탈퇴하기</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-                <button type='button' className='sportBtn'>문의하기</button>
-            </div>)
+            </div>            
             }
+            
             {/* 리뷰 ------------------------------------------------------------------------------------ */}
             {isOpen && (
                 <div className='review_overlay'>

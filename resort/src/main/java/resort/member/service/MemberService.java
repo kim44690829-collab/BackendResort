@@ -19,7 +19,7 @@ public interface MemberService {
 	//개인 한사람의 정보를 수정하는 쿼리
 	public boolean updateMember(MemberDTO mdto);
 	// 한사람 개인의 정보를 삭제하는 메소드 작성
-	public boolean deleteMember(String m_email);
+	public boolean deleteMember(MemberDTO mdto);
 	//로그인 메소드
 	public MemberDTO loginConfirm(MemberDTO mdto);
 	

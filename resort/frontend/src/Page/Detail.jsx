@@ -82,7 +82,7 @@ export default function Detail(){
     //객실 전체 리뷰 데이터
     const RoomReview = ReviewData.filter((item)=>item.r_code === Room[0].r_code || item.r_code === Room[1].r_code || item.r_code === Room[2].r_code);
     //예외처리
-    if(RoomReview.length === 0) return <p>객실 정보가 없습니다.</p>;
+    //if(RoomReview.length === 0) return <p>객실 정보가 없습니다.</p>;
     //1번 객실 리뷰 데이터
     const RoomReview01 = ReviewData.filter((item)=>item.r_code === Room[0].r_code);
     //2번 객실 리뷰 데이터
@@ -158,7 +158,7 @@ export default function Detail(){
         const recommStarImg = [];
 
         for(let i=0; i<RecommAvg.length; i++){
-            recommStar.push(RecommAvg[i].scoreAvg);
+            recommStar.push(RecommAvg[i] === undefined ? 0 : RecommAvg[i].scoreAvg);
 
             recommStarImg[i] = [];
                         
