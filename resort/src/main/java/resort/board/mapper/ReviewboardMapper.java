@@ -23,4 +23,7 @@ public interface ReviewboardMapper {
 	public List<ReviewboardDTO> getRecommReviewAvg(int hotelcode);
 	// 호텔별 별점 평균
 	public List<HotelAvgDTO> getHotelRatingAvgAll();
+	
+	// 리뷰 insert
+	public int reviewAdd(ReviewboardDTO redto);
 }

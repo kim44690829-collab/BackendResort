@@ -45,4 +45,9 @@
 		ON h.h_code = r.h_code 
 		GROUP BY h.h_code 
 	</select>
+	
+	<!-- // 리뷰 insert public int reviewAdd(ReviewboardDTO redto); -->
+	<insert id="reviewAdd" parameterType="ReviewboardDTO">
+		INSERT INTO reviewboard(rb_score, m_code, r_code) VALUES(#{rb_score}, #{m_code}, #{r_code})
+	</insert>
 </mapper>

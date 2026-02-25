@@ -17,4 +17,15 @@
 		GROUP BY r.h.code
 	</select>
 	
+	<!-- // 예약된 객실 제외한 객실을 찾는 select / public List<RoomDTO> reservateRoom(ReservateRoomDTO resRdto); -->
+	<select id="reservateRoom" resultType="RoomDTO" parameterType="ReservateRoomDTO">
+		SELECT r.* FROM room r
+		LEFT JOIN reservation re
+		ON r.r_code = re.r_code
+		AND re.check_in_date &lt; #{check_out_date}
+		AND re.check_out_date &gt; #{check_in_date}
+		WHERE r.h_code = #{h_code}
+		AND r.maxOccupancy &gt;= #{maxOccupancy}
+		AND re.r_code IS NULL
+	</select>
 </mapper>

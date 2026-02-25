@@ -1,13 +1,26 @@
 package resort.reservation.mapper;
 
-import org.apache.ibatis.annotations.Mapper;
+import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import resort.reservation.dto.ResInfoDTO;
 import resort.reservation.dto.ReservationDTO;
 
 @Mapper
 public interface ReservationMapper {
 
-	// 예약 내역 insert
-	public int insertReservation(ReservationDTO redto);
+	// 비회원 예약 내역 insert
+	public int gInsertReservation(ReservationDTO redto);
+	
+	// 회원 예약 내역 insert
+	public int mInsertReservation(ReservationDTO redto);
+	
+	// 회원 예약 내역 select
+	public ResInfoDTO resSelect(@Param("reservation_no") String reservation_no);
+	
+	// 비회원의 g_check가 0이면서 axios로 받아온 데이터와 동일한 예약정보만 select
+	public ResInfoDTO guestSelect(@Param("reservation_no") String reservation_no, @Param("g_phone") String g_phone);
 	
 }

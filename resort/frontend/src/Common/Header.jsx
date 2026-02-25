@@ -8,7 +8,7 @@ import { useClickAway } from 'react-use';
 
 export default function Header(){
     const navigate = useNavigate();
-    const {userNickName,userEmail, logout, headerChange, setHeaderChange} = useContext(ResortDataContext);
+    const {userNickName,userEmail, logout, headerChange, setHeaderChange, setCustomer} = useContext(ResortDataContext);
     // const [headerChange, setHeaderChange] = useState(0);
     // 헤더 메뉴바 모달
     // useRef, useClickAway 를 사용하기 전 npm install react-use 를 해야 함.
@@ -29,6 +29,7 @@ export default function Header(){
         logout();
         alert('로그아웃 되었습니다.');
         navigate('/');
+        setCustomer('');
         setHeaderChange(0);
     }
 
@@ -41,15 +42,19 @@ export default function Header(){
     const headChangeHandeler = (num) => {
         if(num === 1){
             setHeaderChange(0);
+            setCustomer('');
             navigate('/');
         }else if(num === 2){
             setHeaderChange(1); 
+            setCustomer('');
             navigate('/guest')
         }else if(num === 3){
             setHeaderChange(2);
+            setCustomer('');
             navigate('/login')
         }else{
             setHeaderChange(3);
+            setCustomer('');
             navigate('/signup1')
         }
         window.scrollTo(0,0);
@@ -60,19 +65,33 @@ export default function Header(){
         if(num === 1){
             setMenuModal(false);
             setHeaderChange(0);
+            setCustomer('');
             navigate('/hotelSection')
         }else if(num === 2){
             setMenuModal(false);
             setHeaderChange(0);
+            setCustomer('');
             navigate('/hotelSection2')
         }else if(num === 3){
             setMenuModal(false);
             setHeaderChange(0);
+            setCustomer('');
             navigate('/wish')
+        }else if(num === 4){
+            setMenuModal(false);
+            setHeaderChange(0);
+            setCustomer('');
+            navigate('/helpCenter')
+        }else if(num === 5){
+            setMenuModal(false);
+            setHeaderChange(0);
+            setCustomer('');
+            navigate('/adminPage')
         }else{
             setMenuModal(false);
             setHeaderChange(0);
-            navigate('/helpCenter')
+            setCustomer('');
+            navigate('/myPage')
         }
 
         window.scrollTo(0,0)
@@ -178,6 +197,17 @@ export default function Header(){
             {menuModal && 
                 <>
                     <ul className="menus" ref={menuRef}>
+                        {!userNickName ? null //로그인 X
+                        //관리자
+                        : userEmail === 'admin@resort.com' ?
+                            <li className="menus_sub">
+                                <button type="button" className="domestic-hotels" onClick={() => menuModalHandeler(5)}>관리자페이지</button>
+                            </li>
+                        : //회원 로그인
+                            <li className="menus_sub">
+                                <button type="button" className="domestic-hotels" onClick={() => menuModalHandeler(6)}>마이페이지</button>
+                            </li>
+                        }
                         <li className="menus_sub">
                             <button type="button" className="domestic-hotels" onClick={() => menuModalHandeler(1)}>국내숙소</button>
                         </li>

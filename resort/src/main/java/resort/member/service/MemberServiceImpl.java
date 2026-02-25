@@ -137,15 +137,15 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public int getAllcount() {
-		System.out.println("MemberServiceImpl : getAllcount(@-@) 메서드 확인");
-		return membermapper.getAllcount();
+	public int couponMod(Integer m_code) {
+		System.out.println("MemberServiceImpl : couponMod(@-@) 메서드 확인");
+		return membermapper.couponMod(m_code);
 	}
 
 	@Override
-	public List<MemberDTO> getPagelist(int startRow, int pageSize) {
-		System.out.println("MemberServiceImpl : getPagelist(@-@) 메서드 확인");
-		return membermapper.getPagelist(startRow, pageSize);
+	public MemberDTO getOneSelectMember(String m_nickName) {
+		System.out.println("MemberServiceImpl : getOneSelectMember(@-@) 메서드 확인");
+		return membermapper.getOneSelectMember(m_nickName);
 	}
 
 

@@ -15,4 +15,19 @@
 		SELECT * FROM guest WHERE g_code = #{g_code}
 	</select>
 	
+	<!-- // 비회원의 체크아웃 일자를 넘어서면 guest 의 g_check를 1로 업데이트 public void guestChk(@Param("reservation_no") String reservation_no, @Param("g_phone") String g_phone); -->
+	<update id="guestChk">
+		UPDATE guest g
+		INNER JOIN reservation re
+		ON g.g_code = re.g_code 
+		SET g_check = 1 
+		WHERE re.reservation_no = #{reservation_no} AND g.g_phone = #{g_phone} AND  re.check_out_date &lt; CURDATE()
+	</update>
+	
+	<!-- // 비회원의 정보가 있는지 확인하는 select문 public GuestDTO selectResGuest(@Param("reservation_no") String reservation_no, @Param("g_phone") String g_phone); -->
+	<select id="selectResGuest" resultType="GuestDTO">
+		SELECT g.* FROM guest g INNER JOIN reservation re ON g.g_code = re.g_code  
+		WHERE re.reservation_no = #{reservation_no} AND g.g_phone = #{g_phone}
+	</select>
+	
 </mapper>
