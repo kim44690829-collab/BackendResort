@@ -48,7 +48,8 @@ public interface MemberService {
 	//=========== 2026-02-24 수정부분 ===============
 	public int adminUpdateMember(MemberDTO mdto);
 	
-	
+	// 쿠폰 사용한 회원 쿠폰수량 업데이트
+	public int couponMod(Integer m_code );
 	
 	
 	

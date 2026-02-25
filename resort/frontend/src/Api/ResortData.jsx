@@ -47,7 +47,7 @@ export default function ResortData({children}){
         // ReviewData
         axios.get('/api/board/review')
         .then((res) => {
-            // console.log("리뷰(평점) 데이터 : ", res.data);
+             console.log("리뷰(평점) 데이터 : ", res.data);
             setReviewData(res.data);
         })
         .catch((error) => {
@@ -295,7 +295,8 @@ export default function ResortData({children}){
             }));
 
             setWishAvg(avgList);
-            console.log(avgList)
+            console.log("-----------------------------------");
+            console.log(responses.data)
         })
         .catch(error => {
             console.error("error", error);

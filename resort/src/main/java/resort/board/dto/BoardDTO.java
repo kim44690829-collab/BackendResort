@@ -2,8 +2,6 @@ package resort.board.dto;
 
 import java.util.Date;
 
-import org.springframework.web.multipart.MultipartFile;
-
 public class BoardDTO {
 
 	private int b_code; // 게시판코드(PK)
@@ -20,11 +18,18 @@ public class BoardDTO {
 	private Date b_update; // 수정일자
 	private String b_upload;  // 첨부파일
 	
+	
 	public int getB_code() {
 		return b_code;
 	}
 	public void setB_code(int b_code) {
 		this.b_code = b_code;
+	}
+	public int getM_code() {
+		return m_code;
+	}
+	public void setM_code(int m_code) {
+		this.m_code = m_code;
 	}
 	public String getB_title() {
 		return b_title;
@@ -32,12 +37,29 @@ public class BoardDTO {
 	public void setB_title(String b_title) {
 		this.b_title = b_title;
 	}
-	
+	public String getB_writer() {
+		return b_writer;
+	}
+	public void setB_writer(String b_writer) {
+		this.b_writer = b_writer;
+	}
+	public String getB_pw() {
+		return b_pw;
+	}
+	public void setB_pw(String b_pw) {
+		this.b_pw = b_pw;
+	}
 	public Date getB_date() {
 		return b_date;
 	}
 	public void setB_date(Date b_date) {
 		this.b_date = b_date;
+	}
+	public int getReadcount() {
+		return readcount;
+	}
+	public void setReadcount(int readcount) {
+		this.readcount = readcount;
 	}
 	public String getB_content() {
 		return b_content;
@@ -57,49 +79,24 @@ public class BoardDTO {
 	public void setRe_step(int re_step) {
 		this.re_step = re_step;
 	}
-	public Date getB_update() {
-		return b_update;
-	}
-	public void setB_update(Date b_update) {
-		this.b_update = b_update;
-	}
-	
-	public String getB_pw() {
-		return b_pw;
-	}
-	public void setB_pw(String b_pw) {
-		this.b_pw = b_pw;
-	}
-	public int getReadcount() {
-		return readcount;
-	}
-	public void setReadcount(int readcount) {
-		this.readcount = readcount;
-	}
-	public String getB_writer() {
-		return b_writer;
-	}
-	public void setB_writer(String b_writer) {
-		this.b_writer = b_writer;
-	}
 	public int getRe_level() {
 		return re_level;
 	}
 	public void setRe_level(int re_level) {
 		this.re_level = re_level;
 	}
-	public int getM_code() {
-		return m_code;
+	public Date getB_update() {
+		return b_update;
 	}
-	public void setM_code(int m_code) {
-		this.m_code = m_code;
+	public void setB_update(Date b_update) {
+		this.b_update = b_update;
 	}
 	public String getB_upload() {
 		return b_upload;
 	}
 	public void setB_upload(String b_upload) {
 		this.b_upload = b_upload;
-	}	
+	}
 	
 	
 	
