@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Pay(){
     // 2026-02-20
+    // 2026-02-26
     const {payHead,setPayHead,hotelNum, HotelData,RoomData, userNickName, MemberAllData, DayData,customer,setCustomer} = useContext(ResortDataContext)
     const navigate = useNavigate();
     
@@ -34,7 +35,7 @@ export default function Pay(){
     // 2026-02-25 git
 
     // 회원코드
-    const memberNum = MemberAllData.find((item) => item.m_nickName === userNickName);
+    // const memberNum = MemberAllData.find((item) => item.m_nickName === userNickName);
     
 
     useEffect(() => {
@@ -164,7 +165,7 @@ export default function Pay(){
         // console.log(roomprice)
     }
     // 호텔의 할인 여부 필터
-    const hotelDiscount = HotelData.filter((item) => item.h_code === RoomData[hotelNum].h_code);
+    const hotelDiscount = HotelData.filter((item) => item.h_code === RoomData[hotelNum-1].h_code);
     // console.log('hotelDiscount : ', hotelDiscount )
     const nights = (new Date(DayData[1]).getTime()-new Date(DayData[0]).getTime())/(1000*24*60*60); // 금액 * nights = 총금액
     const myRoomPrice = myRoom[0].price * nights // 일반 호텔 총 금액
@@ -204,8 +205,8 @@ export default function Pay(){
 
     const payHandler =()=>{
         let phoneDigits = '';
-        if(memberNum){
-            phoneDigits = memberNum.m_phone;
+        if(memberSel){
+            phoneDigits = memberSel.m_phone;
         }    
 
         if((chking[0].state===true && btnNum !== 0 && birthMember.length === 8 && phoneDigits.length === 11 && customer.length !==0) 
@@ -219,7 +220,7 @@ export default function Pay(){
         }else if(btnNum===0){
             setModalContent(<p style={{fontSize:'18px',fontWeight:'700'}}>결제 수단을 선택해 주세요.</p>)
             toggle();
-        }else if((!memberNum && (phone.length < 11 || birth.length < 8 || customer.length < 1)) || (memberNum && customer.length < 1)){
+        }else if((!memberSel && (phone.length < 11 || birth.length < 8 || customer.length < 1)) || (memberSel && customer.length < 1)){
             setModalContent(<p style={{fontSize:'18px',fontWeight:'700'}}>예약자 정보를 입력해주세요.</p>)
             toggle();
         }else{
@@ -239,7 +240,7 @@ export default function Pay(){
         // null이면 비회원 insert 및 예약 insert
         // null이 아니면 회원fk를 포함한 예약정보 insert
         try{
-            if(!memberNum){
+            if(!memberSel){
                 // 비로그인
                 const res = await axios.post("/api/guest", {
                     g_name : customer,
@@ -273,7 +274,7 @@ export default function Pay(){
             }else{
                 // 로그인
                 const res02 = await axios.post("/api/reservations",{
-                    m_code : memberNum.m_code,
+                    m_code : memberSel.m_code,
                     r_code : hotelNum,
                     booker_name : customer,
                     check_in_date : DayDataResult[0], 
@@ -287,7 +288,7 @@ export default function Pay(){
 
                 const res03 = await axios.put("/api/member/couponMod", null, {
                     params : {
-                        m_code : memberNum.m_code,
+                        m_code : memberSel.m_code,
                         coupon_used : couponUse
                     }
                 })
@@ -316,7 +317,12 @@ export default function Pay(){
         }
     }
 
-    
+    console.log('1',customer)
+    console.log('2',phone.length )
+    console.log('3',birth.length)
+    console.log('4',customer.length)
+    // console.log('5', memberNum)
+    console.log('6', memberSel)
 
     return(
         <div className="pay_wrap" onClick={closeCoupon}>

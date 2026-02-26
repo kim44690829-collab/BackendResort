@@ -4,9 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -15,14 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-<<<<<<< HEAD
-=======
-
-
-import resort.handler.PageHandler;
->>>>>>> main
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import resort.board.controller.PageHandler;
+import resort.handler.PageHandler;
 import resort.member.dto.MemberDTO;
 import resort.member.service.MemberService;
 
@@ -67,19 +61,13 @@ public class MemberApiController {
 	}
 	
 	// 한사람 개인의 정보를 삭제하는 메소드 작성
-	@DeleteMapping("/member/deletemember")
-<<<<<<< HEAD
+	@PutMapping("/member/deletemember")
 	public boolean deleteMember(@RequestBody MemberDTO mdto){
-=======
-	public boolean deleteMember(@RequestParam("m_email") String m_email){
->>>>>>> main
 		System.out.println("MemberApiController : deleteMember() 메서드 확인");
 		return memberservice.deleteMember(mdto);
 		
 	}
-	
-<<<<<<< HEAD
-=======
+
 	// ============= 2026-02-20 수정 부분 ==============
 	@GetMapping("member/list")
 	public Map<String, Object> memberList(
@@ -130,9 +118,6 @@ public class MemberApiController {
 		return result;
 	}
 	
-	
->>>>>>> main
-	
 	//로그인 메소드
 	@PostMapping("/member/login")
 	public MemberDTO login(@RequestBody MemberDTO mdto,HttpSession session) {
@@ -152,11 +137,18 @@ public class MemberApiController {
 	
 	//로그아웃
 	@GetMapping("/member/logout")
-	public int logout(HttpSession session) {
+	public int logout(HttpSession session, HttpServletResponse response) {
 		System.out.println("MemberApiController : logout 요청됨");
 		session.invalidate();//세션삭제
+		
+		// 2. 브라우저에게 JSESSIONID 쿠키를 삭제하라고 명령
+	    Cookie cookie = new Cookie("JSESSIONID", null);
+	    cookie.setPath("/");
+	    cookie.setMaxAge(0); // 수명을 0으로 설정하여 즉시 삭제
+	    response.addCookie(cookie);
+	    
 		return 1;//성공
-	}	
+	}
 	
 	// ========================== 2026-02-24 수정부분 ==============================
 	// 관리자 페이지에서 회원수정
@@ -165,7 +157,8 @@ public class MemberApiController {
 	public int adminUpdateMember(@RequestBody MemberDTO mdto){			
 		System.out.println("MemberApiController : updateMember() 메서드 확인");
 		return memberservice.adminUpdateMember(mdto);
-		
+	}
+	
 	// 쿠폰 사용한 회원 쿠폰수량 업데이트
 	@PutMapping("/member/couponMod")
 	public int couponMod(@RequestParam("m_code") Integer m_code) {

@@ -59,19 +59,6 @@ public interface MemberMapper {
 	//=========== 2026-02-24 수정부분 ===============
 	public int adminUpdateMember(MemberDTO mdto);
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	// ==========2026-02-24===============
 	// 쿠폰 사용한 회원 쿠폰수량 업데이트
 	public int couponMod(@Param("m_code") Integer m_code );

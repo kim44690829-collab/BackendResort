@@ -3,6 +3,7 @@ package resort.board.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import resort.board.dto.HotelAvgDTO;
 import resort.board.dto.RatingDTO;
@@ -26,4 +27,7 @@ public interface ReviewboardMapper {
 	
 	// 리뷰 insert
 	public int reviewAdd(ReviewboardDTO redto);
+	
+	// 리뷰 update
+	public int reviewMod(@Param("rb_code") int rb_code, @Param("rb_score") int rb_score);
 }
