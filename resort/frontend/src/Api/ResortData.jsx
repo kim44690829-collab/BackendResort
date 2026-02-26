@@ -442,7 +442,7 @@ export default function ResortData({children}){
     if(HotelData.length > 0 && RoomData.length > 0 && ReviewData.length >0 && RatingData.length > 0 && RatingAvgData.length > 0 && hotelMinPrice.length > 0 && hotelMerge.length>0) {
         return(
             <ResortDataContext.Provider value={{
-                townfilter2,
+                setUserEmail,setUserNickName,townfilter2,
                 userEmail,MemberAllData,setHotelMerge,
                 hotelMerge,hotelNum, setHotelNum, 
                 WishAvg, hotelMinPrice,HotelRatingDate,

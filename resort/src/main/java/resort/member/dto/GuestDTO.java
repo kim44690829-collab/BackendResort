@@ -13,6 +13,6 @@ public class GuestDTO {
 	private Date g_birth;  //생년월일
 	private int g_check; // 숙박완료여부
 
-	
+
 	
 }

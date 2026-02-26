@@ -31,8 +31,8 @@ import AdminPage7 from './Page/admin/AdminPage7'
 import MemberUdate from './Page/admin/memberUpdate'
 import HotelInsert from './Page/admin/HotelInsert'
 import RoomInsert from './Page/admin/RoomInsert'
-
 import MyPage from './Page/mypage/MyPage'
+
 
 function App() {
 
