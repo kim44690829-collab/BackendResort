@@ -13,9 +13,22 @@
 </insert>
 
 <!-- 전체 게시글 목록을 출력하는 쿼리문 -->
-<!-- public List<BoardDTO> getAllBoard(); -->
 <select id="getAllBoard" resultType="BoardDTO">
-	SELECT * FROM board ORDER BY b_code DESC 
+	SELECT * FROM board ORDER BY ref DESC, re_step ASC
+</select>
+
+<!-- 나의 게시글 목록을 출력하는 쿼리문 -->
+<select id="getMyBoard" resultType="BoardDTO">
+    SELECT *
+    FROM board
+    WHERE ref IN (
+        SELECT ref
+        FROM board
+        WHERE m_code = #{m_code}
+        AND re_level = 1
+    )
+    ORDER BY ref DESC, re_step ASC
+    <!-- LIMIT #{startRow}, #{pageSize} -->
 </select>
 
 <!-- Readcount 누적하여 조회수를 증가하는 메소드 -->
@@ -35,33 +48,9 @@
 </update>
 
 <!-- 글을 삭제하는 메소드 -->
-<!-- @Param("num") int num,@Param("writerPw") String writerPw 
-매퍼에서 파라미터로 매개변수 값을 받은 경우 SQL문에서 매개변수 생략한다.
--->
 <delete id="deleteBoard">
 	DELETE FROM board WHERE b_code=#{b_code} AND b_pw=#{b_pw}
 </delete>
-
-<!-- 내용 또는 제목으로 게시글 검색하는 메소드 -->
-<!-- 검색: 
-@Param("searchType") String searchType,
-@Param("searchKeyword") String searchKeyword
--->
-<!-- <select id="getSearchBoard" resultType="BoardDTO">
-	SELECT * FROM board
-	<where>SQL where절을 태그로 사용가능
-		<choose>
-		<when test="조건식 => a == b"> 
-			<when test="searchType == 'subject'">
-				subject LIKE CONCAT("%", #{searchKeyword}, "%")
-			</when>when = else if와 같음. when을 여러개 쓰면 else if가 반복되는거임 
-			<otherwise>otherwise = else와 같음.
-				content LIKE CONCAT("%", #{searchKeyword}, "%")
-			</otherwise>
-		</choose>
-	</where>
-	 ORDER BY num DESC
-</select> -->
 
 <!-- 전체 게시글 수 -->
 <select id="getAllcount" resultType="int">
@@ -70,7 +59,9 @@
 
 <!-- startRow ~ 한 페이지에 보여줄 레코드(=행의) 개수(pageSize)만큼 보여주는 메소드 -->
 <select id="getPagelist" resultType="BoardDTO">
-	SELECT * FROM board ORDER BY b_code DESC LIMIT #{startRow}, #{pageSize}
+	SELECT * FROM board
+    ORDER BY ref DESC, re_step ASC
+    LIMIT #{startRow}, #{pageSize}
 </select>
 
 
@@ -93,6 +84,7 @@
 		    </if>
 		</where>
 </select>
+
 <!-- 검색결과 노출 -->
 <select id="getSearchPageList" resultType="BoardDTO">
 	SELECT * FROM board
@@ -111,7 +103,8 @@
 		        </choose>
 		    </if>
 		</where>
-	ORDER BY b_code DESC LIMIT #{startRow}, #{pageSize}
+	ORDER BY ref DESC, re_step ASC
+    LIMIT #{startRow}, #{pageSize}
 </select>
 
 <!-- getMyBoardCount 메소드 생성 -->
@@ -136,6 +129,25 @@
 	ORDER BY b.b_code DESC
 	LIMIT #{startRow}, #{pageSize}
 </select> -->
+
+<!-- 댓글 작성하여 추가하는 메소드 -->
+<insert id="reWriteInsert" parameterType="BoardDTO">
+	INSERT INTO board(m_code,b_writer,b_title, b_pw, ref, re_step, re_level, b_content,b_upload)
+	VALUES(#{m_code},#{b_writer},#{b_title},#{b_pw},#{ref},#{re_step},#{re_level},#{b_content},#{b_upload})
+</insert>
+
+<!-- 댓글 업데이트 => 이게 위에 댓글추가 메소드보다 먼저 실행되야함 -->
+<!-- 이유는 먼저 달린 댓글인 경우 +1을 누적하여 정렬을 아래로 내린다. -->	
+<!-- ref = #{ref} AND re_step > #{re_step}이 조건에 만족하면 re_step을 업데이트하고,
+	새로 삽입되는 데이터의 re_step=2로 끼워넣기를 하는것이다.
+	re_step = 2, re_step = 3
+ -->
+<update id="reSqUpdate" parameterType="BoardDTO">
+	UPDATE board SET re_step = re_step + 1
+	WHERE ref = #{ref} AND re_step > #{re_step}
+	<!-- ref(원글번호)가 같고, re_step(댓글번호)가 1(기본값)보다 큰게 있으면 +1시킴 (1은 원글)  --> 
+</update>
+	
 
 	
 </mapper>

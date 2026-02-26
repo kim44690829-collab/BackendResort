@@ -45,6 +45,13 @@ public class BoardServiceImpl implements BoardService {
 		System.out.println("BoardServiceImpl insertBoard() 메소드호출");
 		return boardmapper.getAllBoard();
 	}
+	
+	//나의 게시글 목록을 출력하는 메소드
+	@Override
+	public List<BoardDTO> getMyBoard(int m_code) {
+		System.out.println("BoardServiceImpl getMyBoard() 메소드호출");
+		return boardmapper.getMyBoard(m_code);
+	}
 
 	//하나의 게시글을 출력하는 메소드
 	@Override
@@ -62,8 +69,9 @@ public class BoardServiceImpl implements BoardService {
 			System.out.println("게시글 없음");
 		    return null;
 		}
-
-		if(board.getM_code() != loginedMember.getM_code()) {
+		//게시판 작성회원코드와 세션에 로그인된 회원코드를 비교해서 다르거나,
+		//회원코드가 1번(관리자)가 아니면 조회실패
+		if((board.getM_code() != loginedMember.getM_code()) && (loginedMember.getM_code() != 1)) {
 			System.out.println("작성자만 조회 가능");
 			return null;
 		}		
@@ -158,4 +166,48 @@ public class BoardServiceImpl implements BoardService {
 //		return boardmapper.getMyBoardCount(m_email);
 //	} 
 //	
+	//답글 작성하여 추가하는 메소드
+	@Override
+	public void reWriteInsert(BoardDTO bdto) {
+		System.out.println("BoardServiceImpl reWriteInsert() 호출");	
+		boardmapper.reWriteInsert(bdto);
+	}
+	//답글작성시 부모글의 re_level보다 큰 값들을 모두 1씩 증가시키는 메소드
+	@Override
+	public void reSqUpdate(BoardDTO bdto) {
+		System.out.println("BoardServiceImpl reSqUpdate() 호출");
+		boardmapper.reSqUpdate(bdto);
+	}
+	//답글 추가시 reSqUpdate() 메소드가 먼저 실행 되도록 묶음으로 만든 메소드
+	@Override
+	public boolean replyProcess(BoardDTO bdto) {
+		//반드시 update메소드를 먼저 실행해야 함
+		System.out.println("BoardServiceImpl replyProcess() 호출");
+		
+		//관리자 회원코드(b_code=1)일시
+		if(bdto.getM_code() == 1) {
+			
+			boardmapper.reSqUpdate(bdto);
+			
+			// 댓글 위치 계산 (여기서 증가시킴)
+	        bdto.setRe_step(bdto.getRe_step() + 1);
+	        bdto.setRe_level(bdto.getRe_level() + 1);
+	        
+			//답글 insert 메소드
+			boardmapper.reWriteInsert(bdto);
+			
+			System.out.println("ref: " + bdto.getRef());
+			System.out.println("re_step: " + bdto.getRe_step());
+			System.out.println("re_level: " + bdto.getRe_level());
+			
+			System.out.println("댓글추가 성공");
+			
+			return true;
+		}else {
+			System.out.println("댓글추가 실패. 문의게시판은 관리자만 댓글작성 가능합니다.");
+			return false;
+		}
+	}
+
+	
 }

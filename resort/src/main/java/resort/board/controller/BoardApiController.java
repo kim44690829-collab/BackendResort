@@ -30,7 +30,7 @@ public class BoardApiController {
 	@Autowired
 	BoardService boardservice;
 
-	// 1. 게시글 작성 
+	// 게시글 작성 
 	@PostMapping("/board/write")
 	public boolean boardWrite(BoardDTO bdto,
 			@RequestParam(value="upload", required=false) MultipartFile upload,
@@ -76,7 +76,7 @@ public class BoardApiController {
 		return result;	 			
 	}
 	
-	//3. DB에서 전체 게시글 목록 select로 검색하여 추출
+	// DB에서 전체 게시글 목록 select로 검색하여 추출
 	@GetMapping("/board/list")
 	public Map<String,Object> boardList(
 			@RequestParam(value="searchType",required=false) String searchType,
@@ -130,8 +130,27 @@ public class BoardApiController {
 	    return result;
 	}
 	
+	// DB에서 나의 게시글 목록 select로 검색하여 추출
+	@GetMapping("/board/mylist")
+	public Map<String, Object> myList(HttpSession session) {
+
+	    MemberDTO loginedMember = (MemberDTO) session.getAttribute("loginUser");
+
+	    if (loginedMember == null) {
+	        throw new RuntimeException("로그인이 필요합니다.");
+	    }
+
+	    int m_code = loginedMember.getM_code();
+
+	    List<BoardDTO> boardList = boardservice.getMyBoard(m_code);
+
+	    Map<String, Object> result = new HashMap<>();
+	    result.put("boardList", boardList);
+
+	    return result;
+	}
 	
-	//4. 하나의 게시글 상세정보 확인 핸들러
+	// 하나의 게시글 상세정보 확인 핸들러
 	//num 글번호 받아 -> 해당 게시글 DB에서 조회하고, 그 상세정보를 
 	//boardInfo 전달하는 컨트롤러
 	@GetMapping("/board/boardInfo")
@@ -146,7 +165,7 @@ public class BoardApiController {
 		return result;		
 	}	
 	
-	//5. 게시글의 수정
+	// 게시글의 수정
 	@PutMapping("/board/update")
 	public boolean boardUpdate(BoardDTO bdto,
 			@RequestParam(value="upload", required=false) MultipartFile upload,
@@ -261,4 +280,43 @@ public class BoardApiController {
 //
 //		return "/board/mypage";
 //	}
+	
+	
+	//답글 작성을 처리하는 컨트롤러
+	@PostMapping("/board/reply")
+	public boolean reWrite(BoardDTO bdto,
+			@RequestParam(value="upload", required=false) MultipartFile upload,
+			HttpSession session
+			) throws IllegalStateException, IOException {
+		System.out.println("BoardApiController reWrite()호출");		
+		
+		MemberDTO loginedMember = (MemberDTO)session.getAttribute("loginUser");
+		
+		//회원코드 저장
+		bdto.setM_code(loginedMember.getM_code());
+		
+		String savePath = "c:/resort2026/resort/frontend/public/boardImg";
+	
+		File saveDir = new File(savePath);
+		
+		if(!saveDir.exists()) {
+			saveDir.mkdirs(); //mkdirs() 메소드는 폴더가 없어도 한꺼번에 만들어주는 메소드이다.
+		}
+		
+		if(upload != null && !upload.isEmpty()) { 
+			String originalName = upload.getOriginalFilename();
+			String saveName = UUID.randomUUID().toString().subSequence(0, 6) + "_" + originalName;
+	
+			File file = new File(savePath + "/" + saveName);
+			
+			upload.transferTo(file);
+			
+			//DB에 저장할 파일명 DTO에 세팅
+			bdto.setB_upload(saveName);
+		}		
+		boolean isSuccess = boardservice.replyProcess(bdto);
+		
+		return isSuccess;	 
+	}
+	
 }
