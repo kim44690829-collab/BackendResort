@@ -6,38 +6,92 @@ import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-export default function MemberUdate(){
-    const {m_code} = useParams();
-    const {MemberAllData} = useContext(ResortDataContext);
-    const [newph,setNewph] = useState(MemberAllData[m_code-1].m_phone)
-    const [newNick,setNewNick] = useState(MemberAllData[m_code-1].m_nickName)
-    console.log(MemberAllData[m_code-1].m_email)
-    const find = MemberAllData.find((f)=>f.m_nickName===newNick)
-    const find2 = MemberAllData.find((f)=>f.m_phone===newph)
+export default function NoticeInsert(){
+
+    const [textarea,setTextarea] = useState("")
+
+
+    const [room,setRoom] = useState({
+        h_code:'',
+        roomName:'',
+        price:'',
+        maxOccupancy:'',
+        r_img:'',
+    })
+    const [r_img,setR_img] = useState('')
     const navigate = useNavigate();
+    //상품 들록하는 submit 함수
+    const submitHandler=()=>{
+        // React에서 이미지 업로드시 반드시 formData 객체를 생성한다.
+        const formData = new FormData();
+
+        // 자바의 확장 for문과 비슷한 
+        // 리액트의 for ~ in 구문
+        // 객체의 key를 하나씩 꺼내는 구문
+        /* for(let key in hotel){
+            // key중 img 확인
+            if(key === 'h_Img' || key === 'h_s_Img1' || key === 'h_s_Img2' || key === 'h_s_Img3' || key === 'h_s_Img4'){
+                formData.append('uploadFile', hotel[key]);
+            }else if(key === 'discount'){
+                formData.append(key,Number(hotel[key]));
+            }else if(key === 'startDate' || key === 'endDate'){
+                formData.append(key,Date(hotel[key]));
+            }else{
+                formData.append(key,hotel[key]);
+            }
+        } */
+         /// 파일만 별도로 추가
+        /* formData.append('h_Img', hotel.h_Img);
+        formData.append('h_s_Img1', hotel.h_s_Img1);
+        formData.append('h_s_Img2', hotel.h_s_Img2);
+        formData.append('h_s_Img3', hotel.h_s_Img3);
+        formData.append('h_s_Img4', hotel.h_s_Img4); */
+        // 나머지 텍스트 필드들을 JSON 하나로 묶어서 추가
+        const textData = {
+            h_code:Number(room.h_code),
+            roomName:room.roomName,
+            price:Number(room.price),
+            maxOccupancy:Number(room.maxOccupancy),
+            r_img:r_img
+        };
+
+
+        // JSON 문자열로 변환해서 testData 하나로 묶기
+        formData.append('roomData', JSON.stringify(textData));
+
+
+
+        axios.post('/api/room/insert',formData)
+        .then((res)=>{
+            if(res.data === 1){
+                alert("상품등록 성공")
+                navigate("/adminpage3")
+            }
+        })
+        .catch((error)=>{
+            console.log("등록실패")
+        })
+    }
     // 공통 임력 처리 함수
-    const handleChange = ()=>{
-        axios.put('/api/member/adminupdatemember',{
-            m_code: m_code,
-            m_phone: find2===undefined || find2.m_phone === MemberAllData[m_code-1].m_phone?newph:MemberAllData[m_code-1].m_phone,
-            m_nickName: find===undefined || find.m_nickName === MemberAllData[m_code-1].m_nickName?newNick:MemberAllData[m_code-1].m_nickName
-        })
-        .then((res) => {
-            console.log("수정 성공");
-        })
-        .catch((error) => {
-            console.error(error);
-        });
-        if(find !== undefined && find.m_nickName !== MemberAllData[m_code-1].m_nickName){
-            alert("이미 존재하는 닉네임입니다.")
-        }else if(find2 !== undefined && find2.m_phone !== MemberAllData[m_code-1].m_phone){
-            alert("이미 존재하는 전화번호입니다.")
+    const handleChange=(e)=>{
+        // input의 name 값을 가져오기
+        const inputName = e.target.name;
+        if(e.target.type === 'file'){
+            // ...car를 반드시 얕은 복사해야함
+            // 얕은 복사 하지 않으면 랜더링이 안됨
+            //
+            setRoom({...room,[inputName]:e.target.files[0]})
         }else{
-            alert("회원정보 수정이 완료되었습니다")
-            navigate('/adminpage');
+            // file를 제외한 모든 숫자, 문자, 의 input value저장
+            setRoom({...room,[inputName]:e.target.value}) // 스프레드구문 -> 펼쳐진 상테로 원하는 값
+            setR_img(`["/img/${room.h_code}-1.jpg","/img/${room.h_code}-2.jpg","/img/${room.h_code}-3.jpg","/img/${room.h_code}-4.jpg","/img/${room.h_code}-5.jpg"]`)
         }
     }
 
+    // 추가된 요소 텍스트로 변환된값
+    useEffect(()=>{
+       
+    },[])
     return(
         <>
             <div className="admin_wrap">
@@ -111,52 +165,21 @@ export default function MemberUdate(){
                         </div>
                     </div>
                     <div className="admin_body">
-                        <div className="admin_text">회원 정보 수정</div>
+                        <div className="admin_text">객실 상품 추가</div>
                         <div className="admin_list">
-                            <table className="list_table" border="1" style={{width:"600px"}}>
+                            <table className="list_table" border="1" style={{width:"800px"}}>
                                 <thead >
                                     <tr>
-                                        <th width="200px">Num</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333"}}>{MemberAllData[m_code-1].m_code}</th>
-                                    </tr>
-                                    <tr>
-                                        <th width="200px">E_mail</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333"}}>{MemberAllData[m_code-1].m_email}</th>
-                                    </tr>
-                                    <tr>
-                                        <th width="200px">전화번호</th>
+                                        <th width="200px">n_title</th>
                                         <th style={{backgroundColor:"#fff",color:"#333"}}>
-                                            <input type="text" value={newph} name="m_phone" onChange={(e)=>setNewph(e.target.value)} maxLength={11}/>
-                                            <p style={{color:"#999"}}>{`ex) 01012345678`}</p>
+                                            <input type="text" name="h_code" onChange={handleChange} />
                                         </th>
                                     </tr>
                                     <tr>
-                                        <th width="200px">생일</th>
+                                        <th width="200px">n_content</th>
                                         <th style={{backgroundColor:"#fff",color:"#333"}}>
-                                            {MemberAllData[m_code-1].m_birth}
+                                            <input type="" name="roomName" onChange={handleChange} />
                                         </th>
-                                    </tr>
-                                    <tr>
-                                        <th width="200px">성별</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333"}}>
-                                            {MemberAllData[m_code-1].m_gender==0?"남성":"여성"}
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <th width="200px">별명</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333"}}>
-                                            <input type="text" name="m_birth" onChange={(e)=>setNewNick(e.target.value)} maxLength={15} 
-                                            value={newNick} />
-                                        </th>
-
-                                    </tr>
-                                    <tr>
-                                        <th width="200px">쿠폰 보유</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333"}}>{MemberAllData[m_code-1].m_coupon}</th>
-                                    </tr>
-                                    <tr>
-                                        <th width="200px">가입일</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333"}}>{MemberAllData[m_code-1].m_regDate}</th>
                                     </tr>
                                 </thead>
                             </table>
@@ -165,7 +188,7 @@ export default function MemberUdate(){
                                         취소하기
                                     </Link>
                                 </button>
-                                <button type="button" onClick={handleChange}>수정하기</button>
+                                <button type="button" onClick={submitHandler}>추가하기</button>
                         </div>
                     </div>
                 </div>

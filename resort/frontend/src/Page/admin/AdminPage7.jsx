@@ -1,20 +1,22 @@
 import { useState,useEffect,useContext } from "react";
 import { ResortDataContext } from '../../Api/ResortData';
+import { useNavigate } from "react-router-dom";
 import '../admin/AdminPage.css'
 import axios from "axios";
 import { Link } from "react-router-dom";
 
 export default function AdminPage7(){
     
-
-    const [members,setMembers] = useState([]);
+    const navigate = useNavigate();
+    const [reviewlist,setReviewlist] = useState([]);
     const [ph,setPh] = useState({});
     const [page, setPage] = useState(1);
     const [searchType, setSearchType] = useState("phone");
     const [searchKeyword, setSearchKeyword] = useState("");
     const [serch,setSerch] = useState("")
+    const [g,setG] = useState(false)
     useEffect(()=>{
-        axios.get('/api/member/list',{
+        axios.get('/api/board/reviewlist',{
             params: {
                 page: page,
                 pageSize: 10,
@@ -25,7 +27,7 @@ export default function AdminPage7(){
         .then((res) => {
             console.log("회원정보 데이터 : ", res.data.list);
             console.log("회원정보 데이터 : ", res.data.ph);
-            setMembers(res.data.list);
+            setReviewlist(res.data.list);
             setPh(res.data.ph);
             setSearchType(res.data.searchType);
             setSearchKeyword(res.data.searchKeyword);
@@ -34,7 +36,7 @@ export default function AdminPage7(){
             console.error("error", error)
         })
         console.log(page)
-    },[page,searchType,searchKeyword])
+    },[page,searchType,searchKeyword,g])
 
     const pages = [];
 
@@ -53,19 +55,21 @@ export default function AdminPage7(){
     }
 
     // 삭제를 위한 useEffect
-    const delHandler=(email)=>{
-        axios.delete('/api/member/deletemember',{
+    const delHandler=(rb_code)=>{
+        axios.delete('/api/board/deletereview',{
             params: {
-                m_email: email
+                rb_code: rb_code
             }
         })
         .then((res) => {
             console.log("회원정보 삭제 성공 : ");
-            alert("회원정보 삭제 성공 : ")
+            alert("리뷰정보 삭제 성공 : ")
+            navigate("/adminpage7")
         })
         .catch((error) => {
             console.error("error", error)
         })
+        setG(!g)
     }
 
     return(
@@ -112,6 +116,11 @@ export default function AdminPage7(){
                                         <span>객실 정보 등록</span> 
                                     </Link>
                                 </li>
+                                <li className="a_menus">
+                                    <Link to={`/noticeinsert`} onClick={() => window.scrollTo(0, 0)}>
+                                        <span>공지사항 작성</span> 
+                                    </Link>
+                                </li>
                             </ul>
                         </div>
                         <div className="menu_box">
@@ -136,45 +145,33 @@ export default function AdminPage7(){
                         </div>
                     </div>
                     <div className="admin_body">
-                        <div className="admin_text">회원 정보 조회</div>
+                        <div className="admin_text">리뷰 정보 조회</div>
                         <div className="admin_list">
                             <table className="list_table" border="1">
                                 <thead >
                                     <tr>
                                         <th width="50px">Num</th>
-                                        <th width="200px">E_mail</th>
-                                        <th width="160px">전화번호</th>
-                                        <th width="160px">생일</th>
-                                        <th width="80px">성별</th>
-                                        <th>별명</th>
-                                        <th width="80px">쿠폰 보유</th>
-                                        <th width="230px">가입일</th>
-                                        <th width="120px">회원정보수정</th>
-                                        <th width="120px">탈퇴처리</th>
+                                        <th width="50px">별점</th>
+                                        <th width="50px">작성일자</th>
+                                        <th width="50px">작성자 코드</th>
+                                        <th width="50px">객실 코드</th>
+                                        <th width="50px">리뷰 삭제 버튼</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {members.map((item,index)=>{
+                                    {reviewlist.map((item,index)=>{
                                         const member_birth = new Date(item.m_birth)
                                         const birth_Date = member_birth.toLocaleDateString('ko-KR')
                                         const member_reg = new Date(item.m_regDate)
                                         const reg_Date = member_reg.toLocaleString('ko-KR')
                                         return(
                                             <tr key={index}>
+                                                <td>{item.rb_code}</td>
+                                                <td>{item.rb_score}</td>
+                                                <td>{item.rb_date}</td>
                                                 <td>{item.m_code}</td>
-                                                <td>{item.m_email}</td>
-                                                <td>{item.m_phone}</td>
-                                                <td>{birth_Date}</td>
-                                                <td>{item.m_gender === 0? "남":"여"}</td>
-                                                <td>{item.m_nickName}</td>
-                                                <td>{item.m_coupon}</td>
-                                                <td>{reg_Date}</td>
-                                                <td><button>
-                                                        <Link to={`/memberUdate/${item.m_code}`}>
-                                                            회원수정
-                                                        </Link>
-                                                    </button></td>
-                                                <td><button type="button" onClick={()=>delHandler(item.m_email)}>회원삭제</button></td>
+                                                <td>{item.r_code}</td>
+                                                <td><button type="button" onClick={()=>delHandler(item.rb_code)}>리뷰삭제</button></td>
                                             </tr>
                                         )
                                     })}
@@ -193,15 +190,14 @@ export default function AdminPage7(){
                             <div id="search_wrap">
                                 <form onSubmit={submitHandler}>
                                     <select name="searchType" onChange={(e) => setSearchType(e.target.value)}>
-                                        <option value="phone">전화번호</option>
-                                        <option value="gender">성별</option>
-                                        <option value="nickName">별명</option>
-                                        <option value="mail">이메일</option>
+                                        <option value="rb_score">별점</option>
+                                        <option value="r_code">객실코드</option>
+                                        <option value="m_code">작성자코드</option>
                                     </select>
                                     
                                     <input type="text" name="searchKeyword" placeholder="검색어를 입력하세요" onChange={(e) => setSerch(e.target.value)}/>
                                     <input type="submit" value="검색" className="searchBtn" onClick={()=>submitHandler()}/>
-                                    <input type="button" value="전체보기" className="searchBtn" onClick={()=>{setSearchKeyword(""),setSearchType("phone")}}/>
+                                    <input type="button" value="전체보기" className="searchBtn" onClick={()=>{setSearchKeyword(""),setSearchType("rb_score")}}/>
                                 </form>
 					        </div>
                         </div>

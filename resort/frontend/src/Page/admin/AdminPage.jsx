@@ -5,7 +5,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 
 export default function AdminPage(){
-    
+    const {userEmail} = useContext(ResortDataContext)
 
     const [members,setMembers] = useState([]);
     const [ph,setPh] = useState({});
@@ -68,6 +68,17 @@ export default function AdminPage(){
         })
     }
 
+    if(userEmail !== 'admin@resort.com'){
+        return(
+            <>
+                <div>
+                    <Link to={"/"}>홈으로 돌아가기</Link>
+
+                </div>
+            </>
+        )
+    }
+
     return(
         <>
             <div className="admin_wrap">
@@ -110,6 +121,11 @@ export default function AdminPage(){
                                 <li className="a_menus">
                                     <Link to={`/roominsert`} onClick={() => window.scrollTo(0, 0)}>
                                         <span>객실 정보 등록</span> 
+                                    </Link>
+                                </li>
+                                <li className="a_menus">
+                                    <Link to={`/noticeinsert`} onClick={() => window.scrollTo(0, 0)}>
+                                        <span>공지사항 작성</span> 
                                     </Link>
                                 </li>
                             </ul>

@@ -234,4 +234,57 @@ public class BoardApiController {
 //
 //		return "/board/mypage";
 //	}
+	
+	// 관리자 페이지 에서 사용하는 리스트 
+	@GetMapping("/board/adminlist")
+	public Map<String,Object> boardAdminList(
+			@RequestParam(value="searchType",required=false) String searchType,
+			@RequestParam(value="searchKeyword",required=false) String searchKeyword,
+			//1. 페이지 번호 => 1부터 시작이므로 초기값 1로 정의한다.
+			@RequestParam(value="page",defaultValue = "1") int page,
+			//2. 페이지 사이즈 => 한 화면에 보여지는 게시글의 개수를 5로 초기화한다.
+			@RequestParam(value="pageSize",defaultValue = "10") int pageSize
+			) {
+		System.out.println("BoardApiController boardAdminList() 메소드호출");
+		
+		//3. 전체 게시글의 개수인 totalCnt 메소드 가져오기
+		int totalCnt;
+		
+		if(searchType != null && searchKeyword != null && !searchKeyword.trim().isEmpty()) {
+			//검색을 성공한 경우 검색한 결과에 해당되는 개수 반환
+			totalCnt = boardservice.getSearchCount(searchType, searchKeyword);
+		}else {
+			//검색을 하지 않은 경우 전체 게시글의 개수 반환
+			totalCnt = boardservice.getAllcount();
+		}
+		
+		//4. PageHandler 클래스 접근하기위해 인스턴스화 한다.	
+		PageHandler ph = new PageHandler(totalCnt,page,pageSize);
+		
+		List<BoardDTO> listboard;
+		
+		//검색 종료 후 => 검색내용이 list나오기
+		if(searchType != null && searchKeyword != null && !searchKeyword.trim().isEmpty()) {
+			//서비스에서 searchBoard() 메소드호출
+			//검색이 성공했을때 검색된 리스트를 반환하는 메소드
+			listboard = boardservice.getAdminSearchPageList
+					(searchType, searchKeyword, ph.getStartRow(), pageSize);
+		}else {
+			//검색하지 않고 전체보기 list나오기
+			//boardservice.allBoard() => 사용못하는 이유는?
+			//=>페이징이 안된 모든 레코드가 출력되는 메소드이므로
+			
+			//검색하지 않은 게시글 전체에 대한 리스트
+			listboard = boardservice.getAdminPagelist(ph.getStartRow(),pageSize);			
+		}
+
+		Map<String, Object> result = new HashMap<>();
+		
+		result.put("list", listboard);
+	    result.put("ph", ph);
+		result.put("searchType", searchType);
+	    result.put("searchKeyword", searchKeyword);
+		
+	    return result;
+	}
 }

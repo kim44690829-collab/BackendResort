@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="resort.board.mapper.NoticeMapper">
+	<!-- 회원정보 개수  -->
+	<select id="getAllNoticecount" resultType="int">
+		SELECT COUNT(*) FROM notice
+	</select>
+	
+	<!-- 회원정보 보이는 개수 -->
+	<select id="getPageNoticelist" resultType="NoticeDTO">
+		SELECT *FROM notice ORDER BY n_code DESC
+		LIMIT #{startRow}, #{pageSize}
+	</select>
+	
+	
+	
+	<select id="getNoticeSearchCount" resultType="int">
+		SELECT COUNT(*) FROM notice
+		<where>
+			<choose>
+				<when test="searchType == 'n_title'">
+					n_title LIKE CONCAT("%",#{searchKeyword},"%")
+				</when>
+				<otherwise>
+					n_content LIKE CONCAT("%",#{searchKeyword},"%")				
+				</otherwise>
+			</choose>
+		</where>
+	</select>
+
+	<select id="getSearchPageNoticeList" resultType="NoticeDTO">
+		SELECT * FROM notice 
+		<where>
+			<choose>
+				<when test="searchType == 'n_title'">
+					n_title LIKE CONCAT("%",#{searchKeyword},"%")
+				</when>
+				<otherwise>
+					n_content LIKE CONCAT("%",#{searchKeyword},"%")				
+				</otherwise>
+			</choose>
+		</where>
+		ORDER BY n_code DESC
+		LIMIT #{startRow}, #{pageSize}
+	</select>
+</mapper>

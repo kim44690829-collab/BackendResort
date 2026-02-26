@@ -33,6 +33,7 @@ import HotelInsert from './Page/admin/HotelInsert'
 import RoomInsert from './Page/admin/RoomInsert'
 import RoomUpdate from './Page/admin/RoomUpdate'
 import HotelUpdate from './Page/admin/HotelUpdate'
+import NoticeInsert from './Page/admin/NoticeInsert'
 
 import MyPage from './Page/mypage/MyPage'
 
@@ -68,6 +69,7 @@ function App() {
             <Route path='/adminPage7' element={<AdminPage7 />} />
             <Route path='/hotelinsert' element={<HotelInsert />} />
             <Route path='/roominsert' element={<RoomInsert />} />
+            <Route path='/noticeinsert' element={<NoticeInsert />} />
             <Route path='/roomUpdate/:r_code' element={<RoomUpdate />} />
             <Route path='/hotelUpdate/:h_code' element={<HotelUpdate />} />
             <Route path='/memberUdate/:m_code' element={<MemberUdate />} />

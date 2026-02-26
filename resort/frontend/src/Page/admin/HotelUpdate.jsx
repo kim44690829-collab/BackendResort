@@ -184,6 +184,11 @@ export default function HotelUpdate(){
                                         <span>객실 정보 등록</span> 
                                     </Link>
                                 </li>
+                                <li className="a_menus">
+                                    <Link to={`/noticeinsert`} onClick={() => window.scrollTo(0, 0)}>
+                                        <span>공지사항 작성</span> 
+                                    </Link>
+                                </li>
                             </ul>
                         </div>
                         <div className="menu_box">
