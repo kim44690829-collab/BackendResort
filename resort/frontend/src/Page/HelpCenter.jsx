@@ -58,9 +58,12 @@ export default function HelpCenter(){
 
     const [boardList,setBoardList] = useState([]);//1:1 문의게시글 리스트
     const [detail,setDetail] = useState({});//상세보기 게시글정보
+    const [pageHandler, setPageHandler] = useState({});//페이징핸들러
+    const [pagePrev, setPagePrev] = useState(pageHandler.prev);
+    const [pageNext, setPageNext] = useState(pageHandler.next);
     const [page, setPage] = useState(1); // 페이지번호
     const [pageSize, setPageSize] = useState(5); // 페이지사이즈
-    const [searchType, setSearchType] = useState(''); // 검색타입 상태
+    const [searchType, setSearchType] = useState('b_title'); // 검색타입 상태
     const [searchKeyword, setSearchKeyword] = useState(''); // 검색어 상태
     
     //문의하기 상태
@@ -92,12 +95,14 @@ export default function HelpCenter(){
 	        params: {
 	            searchType: searchType,
 	            searchKeyword: searchKeyword,
-                page:page,
-                pageSize:pageSize
+                page: page,
+                pageSize: pageSize
 	        }
 	    }).then((res) => {
             console.log("1:1문의게시글 데이터 : ", res.data);
             setBoardList(res.data.boardList || []);
+            setPageHandler(res.data.ph);
+            console.log(res.data.ph);
         })
         .catch((error) => {
             console.error("error", error)
@@ -156,7 +161,7 @@ export default function HelpCenter(){
     //문의게시판 리셋(새로고침)후 전체목록 돌아가기
     const resetBoard = () =>{
         setListType(8); setWriteBoard(false); loadList(); setDetailBoard(false);setModifyBoard(false);
-        setSearchType(''); setSearchKeyword(''); setWriter(userNickName);
+        setSearchType('b_title'); setSearchKeyword(''); setWriter(userNickName);
         setTitle(''); setPassword(''); setBoardText(''); setFile(null);
     }
 
@@ -173,6 +178,8 @@ export default function HelpCenter(){
             withCredentials: true
 	    }).then((res) => {
             
+            console.log("상세보기 테스트");
+            console.log(res.data);
             if(!res.data){
                 alert("본인이 작성한 게시글만 열람가능합니다.");
                 setDetail({});       
@@ -188,8 +195,9 @@ export default function HelpCenter(){
         })
         .catch((error) => {
             console.error("error", error);
-            alert("로그인이 필요합니다.");
+            alert("글 작성한 아이디로만 조회가 가능합니다.");
         })
+        console.log(num);
     }
     //게시글 수정버튼 클릭
     const modifyButton = () => {
@@ -211,7 +219,7 @@ export default function HelpCenter(){
         setDetailBoard(true);
         setModifyBoard(false);
     }
-
+    
     //게시글 수정 컨펌
     const detailModify = () => {
         if(!userNickName || !userEmail){
@@ -252,6 +260,47 @@ export default function HelpCenter(){
         })
     }
 
+    //삭제클릭 상태
+    const [delState, setDelState] = useState(false);
+
+    //게시글 삭제 클릭
+    const deleteButton = () => {
+        setDelState(true);
+    }
+
+    //게시글 삭제하기
+    const deleteSubmit = () => {
+        if(password === ""){
+            alert("비밀번호를 입력해주세요.")
+            return;
+        }
+
+        if(!window.confirm("정말 삭제하시겠습니까?")){
+           return;
+        }
+        
+        axios.delete('/api/board/delete', {
+	        params: {
+	            b_code: detail.b_code,
+                b_pw: password
+	        },
+            withCredentials: true
+	    }).then((res) => {        
+            if(res.data === true || res.data === "true"){
+                alert("게시글 삭제 완료");
+                setDelState(false);
+                setPassword('');
+                resetBoard();                
+            }else{
+                alert("게시글 삭제 실패. 비밀번호를 다시 확인해주세요");
+            }
+        })
+        .catch((error) => {
+            console.error("error", error);
+        })
+    }
+
+    console.log('boardList', boardList);
 
     return(
         <div className="helpCenter_container">
@@ -675,7 +724,7 @@ export default function HelpCenter(){
                             {boardList.map((item, index) => (
                                 <tr key={item.b_code} style={{ height: '50px' }}>
                                     <td style={{ width: '50px', textAlign: 'center' }}>
-                                        {boardList.length - index}
+                                        {pageHandler.totalCnt - ((page - 1) * pageSize) - index}
                                     </td>
                                     <td style={{ width: '320px', textAlign: 'center' }}>
                                         <button onClick={()=>{detailView(item.b_code)}}>
@@ -709,6 +758,53 @@ export default function HelpCenter(){
                         <p className="support-1on1">현재 문의 사항이 없습니다.</p>
                     </div>
                     )}
+                    <div className="pagination">
+                        <button onClick={() => {setPage(1);resetBoard();}}>처음</button> 
+
+                        
+                        {/* 이전 블록 */}
+                        {pageHandler.prev && (
+                            <button
+                            onClick={() =>
+                                setPage(pageHandler.startPage - pageHandler.pageBlock)
+                            }
+                            >
+                            ◀
+                            </button>
+                        )}
+
+                        {/* 페이지 번호 */}
+                        {Array.from(
+                            { length: pageHandler.endPage - pageHandler.startPage + 1 },
+                            (_, i) => pageHandler.startPage + i
+                        ).map((num) => (
+                            <button
+                            key={num}
+                            onClick={() => setPage(num)}
+                            className={page === num ? "active" : ""}
+                            >
+                            {num}
+                            </button>
+                        ))}
+
+                        {/* 다음 블록 */}
+                        {pageHandler.next && (
+                            <button
+                            onClick={() =>
+                                setPage(pageHandler.startPage + pageHandler.pageBlock)
+                            }
+                            >
+                            ▶
+                            </button>
+                        )}
+
+                        {page !== pageHandler.totalPage && (
+                            <button onClick={() => setPage(pageHandler.totalPage)}>
+                                마지막
+                            </button>
+                        )}
+
+                    </div>
                     <div className="search-wrap">
                         <button type="button" className="sportBtn" onClick={writeButton}>문의하기</button>
                         <select name="searchType" onChange={(e) => setSearchType(e.target.value)} style={{ width: "100px", padding: "0 10px", height: "37px" }}>
@@ -717,6 +813,7 @@ export default function HelpCenter(){
                             <option value="b_writer">작성자</option>
                         </select>
                         <input type="text" name="searchKeyword" placeholder="검색어를 입력하세요." onChange={(e) => setSearchKeyword(e.target.value)}
+                         onKeyDown={(e) => { if (e.key === "Enter") { loadList();}}}
                             style={{ height: "37px", width: "300px", padding: "0 10px" }}/>
                         <button type="button" className="btn" onClick={loadList} style={{ width: "100px", height: "43px" }}>검색</button>
                     </div>                    
@@ -764,10 +861,18 @@ export default function HelpCenter(){
                                             )}
                                         </td>
                                     </tr>
+                                    {delState && 
+                                    (<tr height="40">
+                                        <td align="center">* 비밀번호를 입력해주세요</td>
+                                        <td style={{ width: '450px' }}>
+                                            <input type="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                                        </td>
+                                        <input type="button" onClick={deleteSubmit} value="확인" />
+                                    </tr>)}
                                     <tr height="40">
                                         <td align="center" colSpan="2">
                                         <input type="button" onClick={modifyButton} value="수정하기" />&nbsp;&nbsp;
-                                        {/* <input type="button" onClick={deleteButton} value="삭제하기" />&nbsp;&nbsp; */}
+                                        <input type="button" onClick={deleteButton} value="삭제하기" />&nbsp;&nbsp;
                                         <input type="button" onClick={resetBoard} value="전체목록" />
                                         </td>
                                     </tr>
