@@ -10,7 +10,7 @@ import axios from "axios";
 export default function Room(){
     // 가져오는 호텔, 개실 데이터
     const {HotelData,RoomData, hotelInput,hotelMerge,HotelRatingDate,townfilter2, setHotelInput, DayData,RatingAvgData,RatingData,ReviewData, hotelMinPrice,HotelPriceDate, setDayData,countryEn,cityEn,town,townfilter,setTown,
-        serchHandler,dateFilter,setDateFilter,hotelSort,setHotelSort,myhotel,setmyhotel,wish,wishStar,wishArray,wishHandler,} = useContext(ResortDataContext);
+        serchHandler,dateFilter,setDateFilter,hotelSort,setHotelSort,myhotel,setmyhotel,wish,wishStar,wishArray,wishHandler, guestCount, setGuestCount} = useContext(ResortDataContext);
     //const {selectDate,setSelectDate,setSelectday} = useContext(calendarAuth)
 
 
@@ -47,10 +47,10 @@ export default function Room(){
         console.log("cityEn00",cityEn)
         console.log("countryEn00",countryEn)
         if(cityEn===null && countryEn ===null){
-            dateFilterCopy = hotelMerge.filter((f)=>(f.startDate>=DayData[0] && f.startDate<=DayData[1]) || (f.endDate<=DayData[1] && f.endDate>=DayData[0]) || (DayData[0]>=f.startDate && DayData[1]<=f.endDate))
+            dateFilterCopy = hotelMerge.filter((f)=>(f.startDate>=DayData[0] && f.startDate<=DayData[1]) || (f.endDate<=DayData[1] && f.endDate>=DayData[0]) || (DayData[0]>=f.startDate && DayData[1]<=f.endDate && f.hotelMaxOccupancy >= guestCount))
             imsi = HotelData.filter((f)=>(f.startDate>=DayData[0] && f.startDate<=DayData[1]) || (f.endDate<=DayData[1] && f.endDate>=DayData[0]) || (DayData[0]>=f.startDate && DayData[1]<=f.endDate))
         }else{
-            dateFilterCopy = townfilter.filter((f)=>(f.startDate>=DayData[0] && f.startDate<=DayData[1]) || (f.endDate<=DayData[1] && f.endDate>=DayData[0]) || (DayData[0]>=f.startDate && DayData[1]<=f.endDate))
+            dateFilterCopy = townfilter.filter((f)=>(f.startDate>=DayData[0] && f.startDate<=DayData[1]) || (f.endDate<=DayData[1] && f.endDate>=DayData[0]) || (DayData[0]>=f.startDate && DayData[1]<=f.endDate && f.hotelMaxOccupancy >= guestCount))
             imsi = townfilter2.filter((f)=>(f.startDate>=DayData[0] && f.startDate<=DayData[1]) || (f.endDate<=DayData[1] && f.endDate>=DayData[0]) || (DayData[0]>=f.startDate && DayData[1]<=f.endDate))
         }
         setmyhotel03(imsi)

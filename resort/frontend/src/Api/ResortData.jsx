@@ -22,12 +22,15 @@ export default function ResortData({children}){
     const [hotelMerge,setHotelMerge] = useState([])
     const [MemberAllData,setMemberAllData] = useState([])
 
+    // 인원 상태변수
+    const [guestCount, setGuestCount] = useState(1)
+
     // axios 사용 - 호텔, 객실
     useEffect(() => {
         // HotelData
         axios.get('/api/hotel/context')
         .then((res) => {
-            // console.log("호텔 데이터 : ", res.data);
+            console.log("호텔 데이터 : ", res.data);
             setHotelData(res.data);
         })
         .catch((error) => {
@@ -47,7 +50,7 @@ export default function ResortData({children}){
         // ReviewData
         axios.get('/api/board/review')
         .then((res) => {
-             console.log("리뷰(평점) 데이터 : ", res.data);
+            //  console.log("리뷰(평점) 데이터 : ", res.data);
             setReviewData(res.data);
         })
         .catch((error) => {
@@ -397,16 +400,15 @@ export default function ResortData({children}){
     //검색 핸들러
     const serchHandler =()=>{
         const dateFilter = hotelMerge.filter((f)=>f.startDate>DayData[0] && f.endDate<DayData[1])
-        console.log('여기서 필터링 확인',dateFilter)
         let overFilter = []
         if(cityEn !== null){
-            overFilter = dateFilter.filter((f)=>f.city===cityEn)
+            overFilter = dateFilter.filter((f)=>f.city===cityEn && f.hotelMaxOccupancy >= guestCount)
         }else if(countryEn !== null){
-            overFilter = dateFilter.filter((f)=>f.country===countryEn)
+            overFilter = dateFilter.filter((f)=>f.country===countryEn && f.hotelMaxOccupancy >= guestCount)
         }else if(town===''){
             overFilter = dateFilter
         }
-        console.log(overFilter)
+        // console.log(overFilter)
         // 필터한 내용 정렬
         if(hotelSort===1){
             overFilter.sort((a,b) => a.id - b.id)
@@ -442,6 +444,7 @@ export default function ResortData({children}){
     if(HotelData.length > 0 && RoomData.length > 0 && ReviewData.length >0 && RatingData.length > 0 && RatingAvgData.length > 0 && hotelMinPrice.length > 0 && hotelMerge.length>0) {
         return(
             <ResortDataContext.Provider value={{
+                guestCount, setGuestCount,
                 setUserEmail,setUserNickName,townfilter2,
                 userEmail,MemberAllData,setHotelMerge,
                 hotelMerge,hotelNum, setHotelNum, 

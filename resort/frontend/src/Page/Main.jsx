@@ -1,7 +1,6 @@
 import '../Page/Main.css';
 import { useContext, useState, useEffect } from 'react';
-import cookie from 'js-cookie';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { ResortDataContext } from '../Api/ResortData';
 import 'leaflet/dist/leaflet.css';
 import Calendar from './Calendar';
@@ -9,9 +8,8 @@ import Calendar from './Calendar';
 export default function Main(){    
     // 2025-12-26 병합2
     // 호텔, 객실데이터 useContext로 가져오는 훅
-    const {selectMonth,setSelectMonth, RoomData, HotelData, hotelRatingAvgData, DayData, setDayData,town,setTown,serchHandler, wish, wishHandler, menuModal, setMenuModal,cityEn,countryEn,dateFilter,setDateFilter,townfilter} = useContext(ResortDataContext);
-    // 호텔 input에 들어가는 지역, 호텔명 상태변수
-    //const [hotelInput, setHotelInput] = useState('');
+    const {setSelectMonth, hotelMerge, HotelData, hotelRatingAvgData, DayData, setDayData,town,setTown,serchHandler, wish, wishHandler,cityEn,countryEn,dateFilter,setDateFilter,townfilter, guestCount, setGuestCount} = useContext(ResortDataContext);
+    
     // 호텔 input 아래 모달 상태변수
     const [isInput, setIsInput] = useState(false);
     // 호텔 input 아래 모달 map 사용할 오브젝트 배열
@@ -28,12 +26,11 @@ export default function Main(){
         {id: 10, localName : '포항'},
     ]
 
-    // 인원 상태변수
-    const [guestCount, setGuestCount] = useState(1)
+    
 
     // 관광지 클릭시 모달
-    const [spotModalOpen, setSpotModalOpen] = useState(null);
-    const [spotModalOpen2, setSpotModalOpen2] = useState(0);
+    const [RatingModalOpen, setRatingModalOpen] = useState(null);
+    const [RatingModalOpen2, setRatingModalOpen2] = useState(0);
     // 도시별 호텔을 담을 변수
     const [cityAndHotel, setCityAndHotel] = useState([]);
 
@@ -42,19 +39,12 @@ export default function Main(){
     const [slideMove1, setSlideMove1] = useState(0)
     // 관광명소 슬라이드
     const [slideMove2, setSlideMove2] = useState(0)
-    // 평점 슬라이드
-    // const [slideMove3, setSlideMove3] = useState(0)
+    
     // 중간 배너 슬라이드
-    const [slideMove4, setSlideMove4] = useState(0)
-
-    // 관광명소 마스크
-    const [citySpotMask, setCitySpotMask] = useState(null)
+    const [slideMove3, setSlideMove3] = useState(0)
 
     // 달력
     const [openC, setOpenC] = useState(false)
-    // const [openC, setOpenC] = useState(1)
-    // 선택한 날짜를 담을 변수
-    // const [DayData,setDayData] = useState([])
 
     // 호텔 타입별 분류 / 마스크
     const [hotelTypeMask, setHotelTypeMask] = useState(null);
@@ -66,7 +56,7 @@ export default function Main(){
     // 해외 호텔 담을 변수
     const [overseasHotel, setOverSeasHotel] = useState([])
     // 해외 호텔 최소값을 찾기위한 변수
-    const [minPrice, setMinPrice] = useState([]);
+    // const [minPrice, setMinPrice] = useState([]);
     // 국내
     const [internalHotel, setInternalHotel] = useState([])
 
@@ -84,7 +74,7 @@ export default function Main(){
     ];
 
     // 관광명소 map돌리기 위한 오브젝트 배열
-    const popularSpot = [
+    const popularRating = [
         {id:1, image:'/mainImg/b-1.jpg', cityNameE:'Seoul', cityName: '서울', cityInfo:'전통 문화유산과 현대적인 도시 문화가 한곳에 공존하는 도시!'},
         {id:2, image:'/mainImg/c-1.jpg', cityNameE:'Jeju', cityName: '제주도', cityInfo:'아름다운 자연경관과 휴양·체험 관광을 동시에 즐길 수 있는 섬!'},
         {id:3, image:'/mainImg/d-1.jpg', cityNameE:'Busan', cityName: '부산', cityInfo:'바다와 도심이 어우러진 해양 관광! 맛있는 먹거리까지!'},
@@ -96,87 +86,72 @@ export default function Main(){
     // 호텔 해외 필터
     useEffect(() => {
         // const overseas = HotelData.filter(item => item.country !== 'Korea' && item.score >= 4);
-        const overseas = HotelData.filter(item => item.country !== 'Korea');
-        // const overseasRate = [...overseas].sort((a,b) => b.score - a.score);
-        // const overseasRate = [...overseas].sort((a,b) => b.score - a.score);
-        setOverSeasHotel(overseas)
+        const overseas = hotelMerge.filter(item => item.country !== 'Korea');
+        const overseasRate = [...overseas].sort((a,b) => b.hotelAvgScore - a.hotelAvgScore);
+        setOverSeasHotel(overseasRate)
     },[])
 
-    useEffect(()=>{
-        const copyminPrice = [...minPrice]
+    // useEffect(()=>{
+    //     const copyminPrice = [...minPrice]
 
-        for(let i=1;i<=HotelData.length;i++){
-            const prices = RoomData.filter((f)=>f.h_code === i)
-            prices.sort((a,b)=> a.price - b.price)
-            copyminPrice.push(prices[0])
-        }
-        setMinPrice(copyminPrice)
-        // console.log("999",copyminPrice)
-    },[])
-
-
-    // console.log(overseas)
+    //     for(let i=1;i<=HotelData.length;i++){
+    //         const prices = RoomData.filter((f)=>f.h_code === i)
+    //         prices.sort((a,b)=> a.price - b.price)
+    //         copyminPrice.push(prices[0])
+    //     }
+    //     setMinPrice(copyminPrice)
+    // },[])
 
     // 호텔 국내 필터
     useEffect(() => {
-        const internal = HotelData.filter(item => item.country === 'Korea');
-        const internalHotelSort =internal.sort((a,b) => b.score - a.score);
+        const internal = hotelMerge.filter(item => item.country === 'Korea');
+        const internalHotelSort =internal.sort((a,b) => b.hotelAvgScore - a.hotelAvgScore);
         setInternalHotel(internalHotelSort)
     },[])
     
 
     // 호텔 타입 모달 - map
     useEffect(() => {
-        const hotel_modal1 = HotelData.filter((item) => 
+        const hotel_modal1 = hotelMerge.filter((item) => 
             (item.type === 'Hotel' ? '호텔' : 
             item.type === 'Resort' ? '리조트' : 
             item.type === 'Condo' ? '콘도' : 
             item.type === 'GuestHouse' ? '게스트 하우스' : 
             item.type === 'Camping' ? '캠핑' : 
             null ) === hotelType[htypeModalOpen2].typeName)
-        setTypeAndHotel(hotel_modal1)
-        // console.log('111111111111111111', hotel_modal1)
+            const hotelTypeRating = hotel_modal1.sort((a,b) => b.hotelAvgScore - a.hotelAvgScore);
+        setTypeAndHotel(hotelTypeRating)
     }, [htypeModalOpen])
 
         
 
     // 지역별 호텔 모달 - map
     useEffect(() => {
-        const hotel_modal2 = HotelData.filter((item) => 
+        const hotel_modal2 = hotelMerge.filter((item) => 
             (item.city === 'Seoul' ? '서울' : 
             item.city === 'Jeju' ? '제주도' : 
             item.city === 'Busan' ? '부산' : 
             item.city === 'Sapporo' ? '삿포로' : 
             item.city === 'New York' ? '뉴욕' : 
             item.city === 'Paris' ? '파리' : 
-            // null ) === popularSpot[spotModalOpen2].cityName && item.score >= 4)
-            null ) === popularSpot[spotModalOpen2].cityName)
-        setCityAndHotel(hotel_modal2)
-        // console.log('ddd1', popularSpot)
-        // console.log('ddd2', hotel_modal2)
-        
-        // console.log('555555555555', cityAndHotel)
-    }, [spotModalOpen])
-
-    // const hotelCityRating = [...cityAndHotel].sort((a,b) => b.score - a.score);
-
-    // 호텔 평점순으로 재배열
-    // const hotelRating = [...HotelData].sort((a,b) => b.score - a.score);
+            null ) === popularRating[RatingModalOpen2].cityName && item.hotelAvgScore >= 2)
+            const hotelCityRating = hotel_modal2.sort((a,b) => b.hotelAvgScore - a.hotelAvgScore);
+        setCityAndHotel(hotelCityRating)
+    }, [RatingModalOpen])
     
     // 버튼을 클릭한 횟수를 저장하는 상태변수
     const [btnCount1, setBtnCount1] = useState(0);
     const [btnCount2, setBtnCount2] = useState(0);
-    // const [btnCount3, setBtnCount3] = useState(0);
-    const [btnCount4, setBtnCount4] = useState(0);
+    const [btnCount3, setBtnCount3] = useState(0);
 
     // 왼쪽, 오른쪽을 클릭했을때 조건을 만족하면 버튼을 없애는 함수
     const handleRightClick = (num) => {
-        if(btnCount1 < 6 && num === 1){
+        if(btnCount1 < 8 && num === 1){
             setBtnCount1(prev => prev + 1)
         }else if(btnCount2 < 3 && num === 2){
             setBtnCount2(prev => prev + 1)
-        }else if(btnCount4 < 9 && num === 4){
-            setBtnCount4(prev => prev + 1)
+        }else if(btnCount3 < 9 && num === 3){
+            setBtnCount3(prev => prev + 1)
         }else{
             null
         }
@@ -187,8 +162,8 @@ export default function Main(){
             setBtnCount1(prev => prev - 1)
         }else if(btnCount2 > 0 && num === 2){
             setBtnCount2(prev => prev - 1)
-        }else if(btnCount4 > 0 && num === 4){
-            setBtnCount4(prev => prev - 1)
+        }else if(btnCount3 > 0 && num === 3){
+            setBtnCount3(prev => prev - 1)
         }else{
             null
         }
@@ -202,19 +177,19 @@ export default function Main(){
             // console.log(slideMove1);
         }else if(slideMove2 < 0 && num === 2){
             setSlideMove2(slideMove2 + 400)
-        }else if(slideMove4 < 0 && num === 4){
-            setSlideMove4(slideMove4 + 635)
+        }else if(slideMove3 < 0 && num === 3){
+            setSlideMove3(slideMove3 + 635)
         }else{
             null
         }
     }
     const rightSlide = (num) => {
-        if(slideMove1 > -1800 && num === 1){
+        if(slideMove1 > -2400 && num === 1){
             setSlideMove1(slideMove1 - 300)
         }else if(slideMove2 > -1200 && num === 2){
             setSlideMove2(slideMove2 - 400)
-        }else if(slideMove4 > -5715 && num === 4){
-            setSlideMove4(slideMove4 - 635)
+        }else if(slideMove3 > -5715 && num === 3){
+            setSlideMove3(slideMove3 - 635)
         }else{
             null
         }
@@ -366,9 +341,7 @@ export default function Main(){
     //날짜에 따른 목록 필터
     useEffect(()=>{
         let dateFilterCopy = [...dateFilter]
-        //const townfilter = HotelData.filter((f)=>f.city===cityEn || f.country===countryEn)
-        // console.log(cityEn)
-        // console.log(countryEn)
+
         if(cityEn===null && countryEn ===null){
             dateFilterCopy = HotelData.filter((f)=>(f.startDate>=DayData[0] && f.startDate<=DayData[1]) || (f.endDate<=DayData[1] && f.endDate>=DayData[0]))
         }else{
@@ -376,21 +349,19 @@ export default function Main(){
         }
         
         setDateFilter(dateFilterCopy)
-        // console.log(dateFilterCopy)
-        // console.log(DayData)
     },[DayData,cityEn,countryEn])
 
     // 모달이 열리면 화면 전체의 스크롤 제거
     useEffect(() => {
-        const isAnyModalOpen = !!spotModalOpen || !!htypeModalOpen;
+        const isAnyModalOpen = !!RatingModalOpen || !!htypeModalOpen;
 
         document.body.style.overflow = isAnyModalOpen ? "hidden" : "auto";
 
-        // ✅ 컴포넌트 언마운트(페이지 이동) 시 무조건 원복
+        // 컴포넌트 언마운트(페이지 이동) 시 무조건 원복
         return () => {
             document.body.style.overflow = "auto";
         };
-    }, [spotModalOpen, htypeModalOpen]);
+    }, [RatingModalOpen, htypeModalOpen]);
 
     return(
         <div className='main_container' onClick={closeUl1}>
@@ -398,7 +369,7 @@ export default function Main(){
             <div className='mainImgBenner'>
                 {/* 메인 베너 이미지 */}
                 <div className='mainBanner'>
-                    <img src={bennerImg[currentImg]} /* style={{width:'1920px', height:'600px'}} */ className='bennerImgs'/>
+                    <img src={bennerImg[currentImg]} className='bennerImgs'/>
                     <div className='bennerMask'></div>
                 </div>
                 <h1 className='searchTitle'>여행을 고민중이라면?</h1>
@@ -490,9 +461,6 @@ export default function Main(){
                     <span className={bennerCircle === 0 ? 'circleMain' : 'circle'}></span>
                     <span className={bennerCircle === 1 ? 'circleMain' : 'circle'}></span>
                     <span className={bennerCircle === 2 ? 'circleMain' : 'circle'}></span>
-                    {/* <span className={bennerCircle === 4 ? 'circleMain' : 'circle'}></span>
-                    <span className={bennerCircle === 5 ? 'circleMain' : 'circle'}></span>
-                    <span className={bennerCircle === 6 ? 'circleMain' : 'circle'}></span> */}
                 </div>
             </div>
 
@@ -528,14 +496,14 @@ export default function Main(){
                                                                 <p className='Modal_hTypeText2'>{item.hotelName}</p>
                                                                 {item.discount === 1 ? (
                                                                     <>
-                                                                        <p className='discount1'><span className='red1'>10% 할인</span> <span className='origin-price1'>{(minPrice[item.h_code-1].price).toLocaleString()}원</span></p>
-                                                                        <p className='final-price1'>{((minPrice[item.h_code-1].price) - ((minPrice[item.h_code-1].price)*0.1)).toLocaleString()}원<span>/1박</span></p>
+                                                                        <p className='discount1'><span className='red1'>10% 할인</span> <span className='origin-price1'>{(hotelMerge[item.h_code-1].hotelPrice).toLocaleString()}원</span></p>
+                                                                        <p className='final-price1'>{((hotelMerge[item.h_code-1].hotelPrice) - ((hotelMerge[item.h_code-1].hotelPrice)*0.1)).toLocaleString()}원<span>/1박</span></p>
                                                                     </>
                                                                 ):(
                                                                     <>
                                                                         <p className='discount1'><span className='red1'>회원가입시 10,000원 할인쿠폰</span></p>
 
-                                                                        <p className='final-price1'>{(minPrice[item.h_code-1].price).toLocaleString()}원<span>/1박</span></p>
+                                                                        <p className='final-price1'>{(hotelMerge[item.h_code-1].hotelPrice).toLocaleString()}원<span>/1박</span></p>
                                                                     </>
                                                                 )}
                                                             </div>
@@ -594,13 +562,13 @@ export default function Main(){
                                             </div>
                                             {item.discount === 1 ? (
                                                 <>
-                                                    <p className='discount'><span className='red'>10% 할인</span> <span className='origin-price'>{(minPrice[item.h_code-1].price).toLocaleString()}원</span></p>
-                                                    <p className='final-price'>{((minPrice[item.h_code-1].price) - ((minPrice[item.h_code-1].price)*0.1)).toLocaleString()}원<span>/1박</span></p>
+                                                    <p className='discount'><span className='red'>10% 할인</span> <span className='origin-price'>{(hotelMerge[item.h_code-1].hotelPrice).toLocaleString()}원</span></p>
+                                                    <p className='final-price'>{((hotelMerge[item.h_code-1].hotelPrice) - ((hotelMerge[item.h_code-1].hotelPrice)*0.1)).toLocaleString()}원<span>/1박</span></p>
                                                 </>
                                             ):(
                                                 <>
                                                     <p className='discount'><span className='red'>회원가입시 10,000원 할인쿠폰</span></p>
-                                                    <p className='final-price'>{(minPrice[item.h_code-1].price).toLocaleString()}원<span>/1박</span></p>
+                                                    <p className='final-price'>{(hotelMerge[item.h_code-1].hotelPrice).toLocaleString()}원<span>/1박</span></p>
                                                 </>
                                             )}
                                         </Link>
@@ -632,13 +600,13 @@ export default function Main(){
                                         </div>
                                         {item.discount === 1 ? (
                                             <>
-                                                <p className='discount'><span className='red'>10% 할인</span> <span className='origin-price'>{(minPrice[item.h_code-1].price).toLocaleString()}원</span></p>
-                                                <p className='final-price'>{((minPrice[item.h_code-1].price) - ((minPrice[item.h_code-1].price)*0.1)).toLocaleString()}원<span>/1박</span></p>
+                                                <p className='discount'><span className='red'>10% 할인</span> <span className='origin-price'>{(hotelMerge[item.h_code-1].hotelPrice).toLocaleString()}원</span></p>
+                                                <p className='final-price'>{((hotelMerge[item.h_code-1].hotelPrice) - ((hotelMerge[item.h_code-1].hotelPrice)*0.1)).toLocaleString()}원<span>/1박</span></p>
                                             </>
                                         ):(
                                             <>
                                                 <p className='discount'><span className='red'>회원가입시 10,000원 할인쿠폰</span></p>
-                                                <p className='final-price'>{(minPrice[item.h_code-1].price).toLocaleString()}원<span>/1박</span></p>
+                                                <p className='final-price'>{(hotelMerge[item.h_code-1].hotelPrice).toLocaleString()}원<span>/1박</span></p>
                                             </>
                                         )}
                                     </Link>
@@ -653,7 +621,7 @@ export default function Main(){
                                     </button>
                                 </li>
                             ))}
-                            {overseasHotel.slice(30,33).map((item) => (
+                            {overseasHotel.slice(30,34).map((item) => (
                                 <li key={item.h_code} style={{cursor:'pointer'}} className='popularAccomSub3'>
                                     <Link to = {`/detail/${item.h_code}`} onClick={() => window.scrollTo(0,0)}>
                                         <div className="popularImgBox">
@@ -670,13 +638,13 @@ export default function Main(){
                                         </div>
                                         {item.discount === 1 ? (
                                             <>
-                                                <p className='discount'><span className='red'>10% 할인</span> <span className='origin-price'>{(minPrice[item.h_code-1].price).toLocaleString()}원</span></p>
-                                                <p className='final-price'>{((minPrice[item.h_code-1].price) - ((minPrice[item.h_code-1].price)*0.1)).toLocaleString()}원<span>/1박</span></p>
+                                                <p className='discount'><span className='red'>10% 할인</span> <span className='origin-price'>{(hotelMerge[item.h_code-1].hotelPrice).toLocaleString()}원</span></p>
+                                                <p className='final-price'>{((hotelMerge[item.h_code-1].hotelPrice) - ((hotelMerge[item.h_code-1].hotelPrice)*0.1)).toLocaleString()}원<span>/1박</span></p>
                                             </>
                                         ):(
                                             <>
                                                 <p className='discount'><span className='red'>회원가입시 10,000원 할인쿠폰</span></p>
-                                                <p className='final-price'>{(minPrice[item.h_code-1].price).toLocaleString()}원<span>/1박</span></p>
+                                                <p className='final-price'>{(hotelMerge[item.h_code-1].hotelPrice).toLocaleString()}원<span>/1박</span></p>
                                             </>
                                         )}
                                     </Link>
@@ -694,7 +662,7 @@ export default function Main(){
                         </ul>
                     </div>
                     {/* 오른쪽 슬라이드 버튼 */}
-                    {btnCount1 < 6 && 
+                    {btnCount1 < 8 && 
                         <button type='button' className='rightBtn1' onClick={() => {rightSlide(1); handleRightClick(1);}}>
                             <i className="fa-solid fa-angle-right"></i>
                         </button>
@@ -725,9 +693,6 @@ export default function Main(){
                                                 <img src='/img/star-one.png' alt="score" />
                                                 <img src='/img/star-half.png' alt="score" />
                                             </span>
-                                            <span className='starScore_main'>
-                                                {/* {(item.score[index] - Math.floor(item.score[index]) === 0) ? item.score[index]+'.0' : item.score[index]} */}
-                                            </span>
                                         </div>
                                         <div className="intro-right_main">
                                             <Link to = {`/detail/${item.h_code}`} onClick={() => window.scrollTo(0,0)}>
@@ -750,12 +715,12 @@ export default function Main(){
                                         <div className="room-pay_main">
                                             {item.discount === 1 ? 
                                                 <>
-                                                    <span className='origin-price_main'>{(minPrice[item.h_code-1].price).toLocaleString()}원</span>
-                                                    <span className='final-price_main'>{((minPrice[item.h_code-1].price) - ((minPrice[item.h_code-1].price)*0.1)).toLocaleString()}원<span>/1박</span></span>
+                                                    <span className='origin-price_main'>{(hotelMerge[item.h_code-1].hotelPrice).toLocaleString()}원</span>
+                                                    <span className='final-price_main'>{((hotelMerge[item.h_code-1].hotelPrice) - ((hotelMerge[item.h_code-1].hotelPrice)*0.1)).toLocaleString()}원<span>/1박</span></span>
                                                 </>                                                    
                                             :                                                    
                                                 <>
-                                                    <span className='final-price_main'>{(minPrice[item.h_code-1].price).toLocaleString()}원<span>/1박</span></span>
+                                                    <span className='final-price_main'>{(hotelMerge[item.h_code-1].hotelPrice).toLocaleString()}원<span>/1박</span></span>
                                                 </>
                                             }
                                         </div>
@@ -768,21 +733,21 @@ export default function Main(){
             </div> 
 
             {/* 평점 - 호텔 평점순 */}
-            <div className='spotsAndStays'>
-                <p className='spotsAndStaysTitle'>지역 평점 TOP!</p>
-                <div className='spotsAndStaysAll'>
+            <div className='hotelRating'>
+                <p className='hotelRatingTitle'>지역 평점 TOP!</p>
+                <div className='hotelRatingAll'>
                     {/* 왼쪽 슬라이드 버튼 */}
                     {btnCount2 > 0 &&
                         <button type='button' className='leftBtn2' onClick={() => {leftSlide(2); handleLeftClick(2)}}>
                             <i className="fa-solid fa-angle-right"></i>
                         </button>
                     }
-                    <div className='citySpotsBox'>
-                        <ul className='citySpots' style={{marginLeft:`${slideMove2}px`}}>
-                            {popularSpot.map((item) => (
-                                <li key={item.id} style={{cursor:'pointer'}} className='SpotsWrap' >
+                    <div className='hotelRatingBox'>
+                        <ul className='hotel_rating_ul' style={{marginLeft:`${slideMove2}px`}}>
+                            {popularRating.map((item) => (
+                                <li key={item.id} style={{cursor:'pointer'}} className='RatingWrap' >
                                     <div className='ratingItemWrapper'>
-                                        <img src={item.image} className='citySpotImg' onClick={() => {setSpotModalOpen(item.id); setSpotModalOpen2(item.id - 1)}}/>
+                                        <img src={item.image} className='hotelRatingImg' onClick={() => {setRatingModalOpen(item.id); setRatingModalOpen2(item.id - 1)}}/>
                                         <div className='ratingLabel'>
                                             <img src='/label.png' alt='label'/>
                                             <span className='hotelRatingScore'>
@@ -796,19 +761,18 @@ export default function Main(){
                                         </div>
                                     </div>
                                     {/* 평점순 클릭 후 모달 */}
-                                    {spotModalOpen === item.id && 
+                                    {RatingModalOpen === item.id && 
                                     <div className='overlay'>
-                                        <div className='spotsModal'>
-                                            <div className='spotsModal_in'>
+                                        <div className='ratingModal'>
+                                            <div className='ratingModal_in'>
                                                 <img src={item.image} alt={item.cityName} className='modalImg'/>
                                                 <div className='ratingImgOverlay'>
                                                     <span className='overlayText overlayText1'>{item.cityNameE}</span> <br/>
                                                     <span className='overlayText overlayText2 '>{item.cityName}</span> <br/>
                                                 </div>
                                             </div>
-                                            <div className='spotsModal_hotel'>
+                                            <div className='ratingModal_hotel'>
                                                 <ul className='Modal_hotel_Ul'>
-                                                    {/* {hotelCityRating.map((item) => ( */}
                                                     {cityAndHotel.map((item) => (
                                                         <li key={item.h_code} className='Modal_hotel_Li'>
                                                             <Link to = {`/detail/${item.h_code}`} className='hotelLink' onClick={() => window.scrollTo(0,0)}>
@@ -820,13 +784,13 @@ export default function Main(){
                                                                 <p className='Modal_hotelText2'>{item.hotelName}</p>
                                                                 {item.discount === 1 ? (
                                                                     <>
-                                                                        <p className='discount2'><span className='red2'>10% 할인</span> <span className='origin-price2'>{(minPrice[item.h_code - 1].price).toLocaleString()}원</span></p>
-                                                                        <p className='final-price2'>{((minPrice[item.h_code - 1].price) - ((minPrice[item.h_code - 1].price)*0.1)).toLocaleString()}원<span>/1박</span></p>
+                                                                        <p className='discount2'><span className='red2'>10% 할인</span> <span className='origin-price2'>{(hotelMerge[item.h_code - 1].hotelPrice).toLocaleString()}원</span></p>
+                                                                        <p className='final-price2'>{((hotelMerge[item.h_code - 1].hotelPrice) - ((hotelMerge[item.h_code - 1].hotelPrice)*0.1)).toLocaleString()}원<span>/1박</span></p>
                                                                     </>
                                                                 ):(
                                                                     <>
                                                                         <p className='discount2'><span className='red2'>회원가입시 10,000원 할인쿠폰</span></p>
-                                                                        <p className='final-price2'>{(minPrice[item.h_code-1].price).toLocaleString()}원<span>/1박</span></p>
+                                                                        <p className='final-price2'>{(hotelMerge[item.h_code-1].hotelPrice).toLocaleString()}원<span>/1박</span></p>
                                                                     </>
                                                                 )}
                                                             </div>
@@ -844,7 +808,7 @@ export default function Main(){
                                                     ))}
                                                 </ul>
                                             </div>
-                                            <button type='button' onClick={()=>{setSpotModalOpen(null)}} className='spotModal_Xbtn'>
+                                            <button type='button' onClick={()=>{setRatingModalOpen(null)}} className='ratingModal_Xbtn'>
                                                 <i className="fa-solid fa-x"></i>
                                             </button>
                                         </div>
@@ -871,13 +835,13 @@ export default function Main(){
                     <p className='EcoMemberInfo-2'>놓치면 끝! 한정 수량 할인 중인 숙소를 모았어요</p>
                 </div>
                 <div className='EcoMemberHotel'>
-                    {btnCount4 > 0 &&
-                        <button type='button' className='leftBtn4' onClick={() => {leftSlide(4); handleLeftClick(4);}}>
+                    {btnCount3 > 0 &&
+                        <button type='button' className='leftBtn3' onClick={() => {leftSlide(3); handleLeftClick(3);}}>
                             <i className="fa-solid fa-angle-right"></i>
                         </button>
                     }
                     <div className='EcoMemberUlBox'>
-                        <ul className='EcoMemberHotelAll' style={{marginLeft:`${slideMove4}px`}}>
+                        <ul className='EcoMemberHotelAll' style={{marginLeft:`${slideMove3}px`}}>
                             {HotelData.slice(60,70).map((item) => (
                             <li key={item.h_code} className='EcoMemberHotelAllLi'>
                                 <Link to = {`/detail/${item.h_code}`} className='EcoMemberA' onClick={() => window.scrollTo(0,0)}>
@@ -888,10 +852,10 @@ export default function Main(){
                                         <span className='bennerHotelName'>{item.hotelName}</span>
                                         <p className='bennerText'>- 가족여행 추천</p>
                                         <p className='bennerText'>- 10% 할인</p>
-                                        {minPrice[item.h_code] && (
+                                        {hotelMerge[item.h_code] && (
                                             <>
-                                                <span className='bennerPrice1'>{((minPrice[item.h_code-1].price) - ((minPrice[item.h_code-1].price)*0.1)).toLocaleString()}</span> <span className='bennerPrice1-1'>원 ~</span>
-                                                <span className='bennerPrice2'>{(minPrice[item.h_code-1].price).toLocaleString()}원</span><span className='bennerPrice2-1'>~</span>
+                                                <span className='bennerPrice1'>{((hotelMerge[item.h_code-1].hotelPrice) - ((hotelMerge[item.h_code-1].hotelPrice)*0.1)).toLocaleString()}</span> <span className='bennerPrice1-1'>원 ~</span>
+                                                <span className='bennerPrice2'>{(hotelMerge[item.h_code-1].hotelPrice).toLocaleString()}원</span><span className='bennerPrice2-1'>~</span>
                                             </>
                                         )}
                                         
@@ -901,8 +865,8 @@ export default function Main(){
                             ))}
                         </ul>
                     </div>
-                    {btnCount4 < 9 &&
-                        <button type='button' className='rightBtn4' onClick={() => {rightSlide(4); handleRightClick(4);}}>
+                    {btnCount3 < 9 &&
+                        <button type='button' className='rightBtn3' onClick={() => {rightSlide(3); handleRightClick(3);}}>
                             <i className="fa-solid fa-angle-right"></i>
                         </button>
                     }

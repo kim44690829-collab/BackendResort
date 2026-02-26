@@ -16,7 +16,7 @@ export default function Detail(){
     const navigate = useNavigate();
 
     //호텔,객실,찜,예약날짜,예약인원,예약객실 데이터  
-    const {RoomData,HotelData,ReviewData, setHotelNum, RatingData, RatingAvgData, setReviewData, WishAvg, DayData,wish,wishStar,wishArray,wishHandler,setPayHead,
+    const {RoomData,HotelData,ReviewData, setHotelNum, RatingData, RatingAvgData, setReviewData, WishAvg, DayData,wish,wishStar,wishArray,wishHandler,setPayHead, guestCount, setGuestCount
         // setPayRoom
     } = useContext(ResortDataContext);
     //모달 프로바이더
@@ -399,29 +399,26 @@ export default function Detail(){
         setCurrent(copyCurrent);
     }
 
-    //객실 인원수 버튼
-    const [head, setHead] = useState(1);
-
     ////플러스 버튼 클릭
     const plusClick = () =>{
-        let copyHead = head;
+        let copyHead = guestCount;
         if(copyHead === 30){
             copyHead = 30;
         }else{
             copyHead++;
         }
-        setHead(copyHead);
+        setGuestCount(copyHead);
     }
 
     //마이너스 버튼 클릭
     const minusClick = () =>{
-        let copyHead = head;
+        let copyHead = guestCount;
         if(copyHead === 1){
             copyHead = 1;
         }else{
             copyHead--;
         }
-        setHead(copyHead);
+        setGuestCount(copyHead);
     }
     
     //필터링후 Room인덱스저장
@@ -565,7 +562,7 @@ export default function Detail(){
 
     useEffect(() => {
         // 날짜/인원 값이 준비된 순간 자동 조회
-        if (Hotel?.h_code && DayData?.[0] && DayData?.[1] && head) {
+        if (Hotel?.h_code && DayData?.[0] && DayData?.[1] && guestCount) {
             searchClick(); // axios로 /api/room/available 호출
             setSearch(true); // "검색한 상태"로 취급
         }
@@ -592,7 +589,7 @@ export default function Detail(){
             const res = await axios.get("/api/room/available", {
                 params: {
                     h_code : Hotel.h_code,
-                    maxOccupancy : head,
+                    maxOccupancy : guestCount,
                     check_in_date : DayData[0],
                     check_out_date : DayData[1],
                 },
@@ -602,7 +599,7 @@ export default function Detail(){
             console.log('availableRooms', availableRooms)
             setResultRooms(availableRooms);
 
-            const headFilter2 = Room.filter((item)=>item.maxOccupancy >= head);
+            const headFilter2 = Room.filter((item)=>item.maxOccupancy >= guestCount);
             setHeadFilter(headFilter2);
             console.log('headFilter2', headFilter2)
 
@@ -899,7 +896,7 @@ export default function Detail(){
                                                     disabled={search && !availableSet.has(item.r_code)}
                                                     style={{ cursor: (search && !availableSet.has(item.r_code)) ? 'not-allowed' : 'pointer' }}
                                                     onClick={() => {
-                                                        payClick(head, item.r_code);
+                                                        payClick(guestCount, item.r_code);
                                                         window.scrollTo(0, 0);
                                                     }}>
                                                     {search && !availableSet.has(item.r_code) ? "예약불가" : "예약하기"}
@@ -1218,9 +1215,9 @@ export default function Detail(){
                             <div className="head-select">
                                 <span className='head-txt'>인원</span>
                                 <div className="btns">
-                                    <button type='button' onClick={minusClick} className={head === 1 ? 'die' : null} ><i className="fa-solid fa-minus"></i></button>
-                                    <span>{head}</span>
-                                    <button type='button' onClick={plusClick} className={head === 30 ? 'die' : null}><i className="fa-solid fa-plus"></i></button>
+                                    <button type='button' onClick={minusClick} className={guestCount === 1 ? 'die' : null} ><i className="fa-solid fa-minus"></i></button>
+                                    <span>{guestCount}</span>
+                                    <button type='button' onClick={plusClick} className={guestCount === 30 ? 'die' : null}><i className="fa-solid fa-plus"></i></button>
                                 </div>
                             </div>
                             <button type='button' className='search' onClick={()=>{searchClick();setCal(false);}}>객실 검색</button>
