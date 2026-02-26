@@ -2,6 +2,9 @@ package resort.board.dto;
 
 import java.util.Date;
 
+import lombok.Data;
+
+@Data
 public class BoardDTO {
 
 	private int b_code; // 게시판코드(PK)
@@ -17,87 +20,5 @@ public class BoardDTO {
 	private int re_level; //댓글 들여쓰기 단계(원글/댓글 구분)
 	private Date b_update; // 수정일자
 	private String b_upload;  // 첨부파일
-	
-	
-	public int getB_code() {
-		return b_code;
-	}
-	public void setB_code(int b_code) {
-		this.b_code = b_code;
-	}
-	public int getM_code() {
-		return m_code;
-	}
-	public void setM_code(int m_code) {
-		this.m_code = m_code;
-	}
-	public String getB_title() {
-		return b_title;
-	}
-	public void setB_title(String b_title) {
-		this.b_title = b_title;
-	}
-	public String getB_writer() {
-		return b_writer;
-	}
-	public void setB_writer(String b_writer) {
-		this.b_writer = b_writer;
-	}
-	public String getB_pw() {
-		return b_pw;
-	}
-	public void setB_pw(String b_pw) {
-		this.b_pw = b_pw;
-	}
-	public Date getB_date() {
-		return b_date;
-	}
-	public void setB_date(Date b_date) {
-		this.b_date = b_date;
-	}
-	public int getReadcount() {
-		return readcount;
-	}
-	public void setReadcount(int readcount) {
-		this.readcount = readcount;
-	}
-	public String getB_content() {
-		return b_content;
-	}
-	public void setB_content(String b_content) {
-		this.b_content = b_content;
-	}
-	public int getRef() {
-		return ref;
-	}
-	public void setRef(int ref) {
-		this.ref = ref;
-	}
-	public int getRe_step() {
-		return re_step;
-	}
-	public void setRe_step(int re_step) {
-		this.re_step = re_step;
-	}
-	public int getRe_level() {
-		return re_level;
-	}
-	public void setRe_level(int re_level) {
-		this.re_level = re_level;
-	}
-	public Date getB_update() {
-		return b_update;
-	}
-	public void setB_update(Date b_update) {
-		this.b_update = b_update;
-	}
-	public String getB_upload() {
-		return b_upload;
-	}
-	public void setB_upload(String b_upload) {
-		this.b_upload = b_upload;
-	}
-	
-	
 	
 }

@@ -2,6 +2,9 @@ package resort.member.dto;
 
 import java.util.Date;
 
+import lombok.Data;
+
+@Data
 public class MemberDTO {
 	// 테이블
 	private int m_code;  //회원코드(PK)
@@ -17,87 +20,5 @@ public class MemberDTO {
 	private String pw_before; //이전 비밀번호
 	private int m_is_deleted; // 탈퇴여부
 	private Date deleted_at; // 탈퇴일
-	
-	public int getM_code() {
-		return m_code;
-	}
-	public void setM_code(int m_code) {
-		this.m_code = m_code;
-	}
-	public String getM_email() {
-		return m_email;
-	}
-	public void setM_email(String m_email) {
-		this.m_email = m_email;
-	}
-	public String getM_pw() {
-		return m_pw;
-	}
-	public void setM_pw(String m_pw) {
-		this.m_pw = m_pw;
-	}
-	public String getM_phone() {
-		return m_phone;
-	}
-	public void setM_phone(String m_phone) {
-		this.m_phone = m_phone;
-	}
-	public Date getM_birth() {
-		return m_birth;
-	}
-	public void setM_birth(Date m_birth) {
-		this.m_birth = m_birth;
-	}
-	public int getM_gender() {
-		return m_gender;
-	}
-	public void setM_gender(int m_gender) {
-		this.m_gender = m_gender;
-	}
-	public String getM_nickName() {
-		return m_nickName;
-	}
-	public void setM_nickName(String m_nickName) {
-		this.m_nickName = m_nickName;
-	}
-	public int getM_coupon() {
-		return m_coupon;
-	}
-	public void setM_coupon(int m_coupon) {
-		this.m_coupon = m_coupon;
-	}
-	public Date getM_regDate() {
-		return m_regDate;
-	}
-	public void setM_regDate(Date m_regDate) {
-		this.m_regDate = m_regDate;
-	}
-	public int getCurrentCoupon() {
-		return currentCoupon;
-	}
-	public void setCurrentCoupon(int currentCoupon) {
-		this.currentCoupon = currentCoupon;
-	}
-	public String getPw_before() {
-		return pw_before;
-	}
-	public void setPw_before(String pw_before) {
-		this.pw_before = pw_before;
-	}
-	public int getM_is_deleted() {
-		return m_is_deleted;
-	}
-	public void setM_is_deleted(int m_is_deleted) {
-		this.m_is_deleted = m_is_deleted;
-	}
-	public Date getDeleted_at() {
-		return deleted_at;
-	}
-	public void setDeleted_at(Date deleted_at) {
-		this.deleted_at = deleted_at;
-	}
-	
-	
-		
-	
+
 }
