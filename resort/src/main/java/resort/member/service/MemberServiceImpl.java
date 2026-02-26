@@ -23,6 +23,11 @@ public class MemberServiceImpl implements MemberService {
 	//회원가입의 실패를 확인하는 상수
 	public final static int user_join_fail = 0;
 	
+	// 비밀번호 찾기를 했을때 회원이 있을때 상수
+	public final static int user_find_success = 1;
+	// 비밀번호 찾기를 했을때 회원이 없을때 상수
+	public final static int user_find_fail = 0;
+	
 	@Autowired
 	MemberMapper membermapper;
 	
@@ -191,6 +196,22 @@ public class MemberServiceImpl implements MemberService {
 	public int adminUpdateMember(MemberDTO mdto) {
 		System.out.println("MemberServiceImpl : getPagelist^(@-@)^ 메서드 확인");
 		return membermapper.adminUpdateMember(mdto);
+	}
+	// 2026-02-26 개인 한 사람의 정보를 검색하는 메소드 - 비밀번호 찾기용
+	@Override
+	public int getPwFind(String m_email, String m_phone) {
+		System.out.println("MemberServiceImpl : getPwFindooooooooo 메서드 확인");
+		
+		MemberDTO findMemberOne = membermapper.getPwFind(m_email, m_phone);
+		int result;
+		if(findMemberOne == null) {
+			result = user_find_fail;
+		}else {
+			result = user_find_success;
+		}
+		
+		
+		return result;
 	}
 
 	

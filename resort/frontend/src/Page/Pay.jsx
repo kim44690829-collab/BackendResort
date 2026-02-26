@@ -8,8 +8,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 export default function Pay(){
-    // 2026-02-20
-    // 2026-02-26
+    
     const {payHead,setPayHead,hotelNum, HotelData,RoomData, userNickName, MemberAllData, DayData,customer,setCustomer} = useContext(ResortDataContext)
     const navigate = useNavigate();
     
@@ -32,29 +31,38 @@ export default function Pay(){
     const [useCouponNum, setUseCouponNum] = useState(0);
     const [couponUse, setCouponUse] = useState(0);
     const [memberSel, setMemberSel] = useState(null); 
-    // 2026-02-25 git
+    const [isLoading, setIsLoading] = useState(false);
 
     // 회원코드
     // const memberNum = MemberAllData.find((item) => item.m_nickName === userNickName);
     
 
     useEffect(() => {
-        if (!userNickName) return;
+        if (!userNickName) {
+            return;
+        }
 
         axios.get("/api/member/onememberSelect", {
             params : {
                 m_nickName : userNickName
             }
         })
-    .then((res) => {
-        console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~', res.data)
-        setMemberSel(res.data);
-    })
-    .catch((err) => {
-        console.error(err)
-    })
+        .then((res) => {
+            setIsLoading(true);
+            console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~', res.data)
+            setMemberSel(res.data);
+        })
+        .catch((err) => {
+            setIsLoading(false);
+            console.error(err)
+        })
+        .finally(() => {
+            setIsLoading(false);
+        })
 
     },[])
+
+    
 
     useEffect(() => {
         console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",memberSel)
@@ -323,6 +331,9 @@ export default function Pay(){
     console.log('4',customer.length)
     // console.log('5', memberNum)
     console.log('6', memberSel)
+    console.log('7', userNickName)
+
+    if(userNickName !== null && memberSel === null && isLoading === false) return <div>로딩중...</div>;
 
     return(
         <div className="pay_wrap" onClick={closeCoupon}>

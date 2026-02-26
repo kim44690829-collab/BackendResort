@@ -205,7 +205,7 @@ export default function MyPage(){
 
     console.log('-------------------------', dateFilter)
     const [dayClick, setDayClick] = useState(false); 
-
+    console.log('dayClick',dayClick)
     //------------------------------------------------------ 회원정보 수정관련
 
     // 마우스 변경
@@ -621,11 +621,13 @@ export default function MyPage(){
                                     <div className="hotel-day" >
                                         <p className='day-wrap'>
                                             <span className='day-tit'>예약일</span>
+                                            {/* <span className='day-txt'>{DayData.length < 2 ? `${year}-${month+1}-${date}` : `${DayData[0]}`}</span> */}
                                             <span className='day-txt'>{dayClick === true ? (DayData.length < 2 ? `${year}-${month+1}-${date}` : `${DayData[0]}`) : ('조회날짜를 설정해주세요.')}</span>
                                         </p>
                                         <p className='day-wrap'>
                                             <span className='day-tit'>예약일</span>
                                             <span className='day-txt'>
+                                                {/* <span className='day-txt'>{DayData.length < 2 ? `${year}-${month+1}-${date + 1}` : `${DayData[1]}`}</span> */}
                                                 {dayClick === true ? (DayData.length < 2 ? `${year}-${month+1}-${date+1}` : `${DayData[1]}`) : ('조회날짜를 설정해주세요.')}
                                             </span>
                                         </p>
@@ -735,11 +737,11 @@ export default function MyPage(){
                                                     )}
 
                                                     {item.check_in_date.slice(0,10) <= new Date().toLocaleDateString('sv-SE') && item.rb_score === 0 && ( 
-                                                        <span className='del' onClick={()=>{}}><i className="fa-solid fa-star" style={{color:'#FCC34B'}}></i> 리뷰작성</span>
+                                                        <span className='del'  onClick={()=>{reviewModalOpen(item)}}><i className="fa-solid fa-star" style={{color:'#FCC34B'}}></i> 리뷰작성</span>
                                                     )}
 
                                                     {item.check_in_date.slice(0,10) <= new Date().toLocaleDateString('sv-SE') && item.rb_score !== 0 && ( 
-                                                        <span className='del' onClick={()=>{}}><i className="fa-solid fa-star" style={{color:'#FCC34B'}}></i> 리뷰수정</span>
+                                                        <span className='del'  onClick={()=>{reviewModalOpen(item)}}><i className="fa-solid fa-star" style={{color:'#FCC34B'}}></i> 리뷰수정</span>
                                                     )}                                                           
                                                     <span className='del detail' onClick={()=>{setListType(1);setListView(true);setDetailView(0);}}>전체목록<i className="fa-solid fa-angle-right"></i></span>
                                                 </div>

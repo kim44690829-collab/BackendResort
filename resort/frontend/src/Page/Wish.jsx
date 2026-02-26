@@ -128,7 +128,7 @@ console.log(WishAvg);
         //날짜검색 범위 안에 드는 배열
         // const dateArray = wishArray.filter(item=>(DayData[1] >= item.endDate && item.startDate >= DayData[0]) || (DayData[0] <= item.endDate && item.endDate <= DayData[1]) ? item :null);
 
-        const dateArray = wishArray.filter((item)=>item.startDate >= DayData[0] && item.endDate <= DayData[1] ? item :null);
+        const dateArray = wishArray.filter((item)=>item.startDate <= DayData[1] && item.endDate >= DayData[0] ? item :null);
 
         console.log(dateArray);
         if(dateArray === null || dateArray.length === 0){

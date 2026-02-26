@@ -32,6 +32,7 @@ import MemberUdate from './Page/admin/memberUpdate'
 import HotelInsert from './Page/admin/HotelInsert'
 import RoomInsert from './Page/admin/RoomInsert'
 import MyPage from './Page/mypage/MyPage'
+import FindPw from './Page/FindPw'
 
 
 function App() {
@@ -68,6 +69,7 @@ function App() {
             <Route path='/roominsert' element={<RoomInsert />} />
             <Route path='/memberUdate/:m_code' element={<MemberUdate />} />
             <Route path='/myPage' element={<MyPage />} />
+            <Route path='/findpw' element={<FindPw />} />
           </Routes>
           <Footer />
         </BrowserRouter>
