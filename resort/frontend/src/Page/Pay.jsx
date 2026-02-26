@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Pay(){
     // 2026-02-20
+    // 2026-02-26
     const {payHead,setPayHead,hotelNum, HotelData,RoomData, userNickName, MemberAllData, DayData,customer,setCustomer} = useContext(ResortDataContext)
     const navigate = useNavigate();
     

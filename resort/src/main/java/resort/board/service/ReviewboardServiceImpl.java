@@ -50,4 +50,10 @@ public class ReviewboardServiceImpl implements ReviewboardService{
 		System.out.println("ReviewboardServiceImpl : reviewAdd() 메서드 확인");
 		return reviewboardmapper.reviewAdd(redto);
 	}
+
+	@Override
+	public int reviewMod(int rb_code, int rb_score) {
+		System.out.println("ReviewboardServiceImpl : reviewMod() 메서드 확인");
+		return reviewboardmapper.reviewMod(rb_code, rb_score);
+	}
 }

@@ -4,9 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -15,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import resort.handler.PageHandler;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import resort.handler.PageHandler;
 import resort.member.dto.MemberDTO;
 import resort.member.service.MemberService;
 
@@ -137,11 +137,18 @@ public class MemberApiController {
 	
 	//로그아웃
 	@GetMapping("/member/logout")
-	public int logout(HttpSession session) {
+	public int logout(HttpSession session, HttpServletResponse response) {
 		System.out.println("MemberApiController : logout 요청됨");
 		session.invalidate();//세션삭제
+		
+		// 2. 브라우저에게 JSESSIONID 쿠키를 삭제하라고 명령
+	    Cookie cookie = new Cookie("JSESSIONID", null);
+	    cookie.setPath("/");
+	    cookie.setMaxAge(0); // 수명을 0으로 설정하여 즉시 삭제
+	    response.addCookie(cookie);
+	    
 		return 1;//성공
-	}	
+	}
 	
 	// ========================== 2026-02-24 수정부분 ==============================
 	// 관리자 페이지에서 회원수정
