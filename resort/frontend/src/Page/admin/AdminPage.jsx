@@ -153,14 +153,28 @@ export default function AdminPage(){
                     </div>
                     <div className="admin_body">
                         <div className="admin_text">회원 정보 조회</div>
+                        <div id="search_wrap">
+                                <form onSubmit={submitHandler}>
+                                    <select className="searchSelect" name="searchType" onChange={(e) => setSearchType(e.target.value)}>
+                                        <option value="phone">전화번호</option>
+                                        <option value="gender">성별</option>
+                                        <option value="nickName">별명</option>
+                                        <option value="mail">이메일</option>
+                                    </select>
+                                    
+                                    <input className="searchbox" type="text" name="searchKeyword" placeholder="검색어를 입력하세요" onChange={(e) => setSerch(e.target.value)}/>
+                                    <input type="submit" value="검색" className="searchBtn" onClick={()=>submitHandler()}/>
+                                    <input type="button" value="전체보기" className="searchBtn" onClick={()=>{setSearchKeyword(""),setSearchType("phone")}}/>
+                                </form>
+					        </div>
                         <div className="admin_list">
-                            <table className="list_table" border="1">
+                            <table className="list_table" >
                                 <thead >
                                     <tr>
-                                        <th width="50px">Num</th>
-                                        <th width="200px">E_mail</th>
-                                        <th width="160px">전화번호</th>
-                                        <th width="160px">생일</th>
+                                        <th width="90px">Num</th>
+                                        <th width="190px">E_mail</th>
+                                        <th width="150px">전화번호</th>
+                                        <th width="150px">생일</th>
                                         <th width="80px">성별</th>
                                         <th>별명</th>
                                         <th width="80px">쿠폰 보유</th>
@@ -185,12 +199,8 @@ export default function AdminPage(){
                                                 <td>{item.m_nickName}</td>
                                                 <td>{item.m_coupon}</td>
                                                 <td>{reg_Date}</td>
-                                                <td><button>
-                                                        <Link to={`/memberUdate/${item.m_code}`}>
-                                                            회원수정
-                                                        </Link>
-                                                    </button></td>
-                                                <td><button type="button" onClick={()=>delHandler(item.m_email)}>회원삭제</button></td>
+                                                <td><Link to={`/memberUdate/${item.m_code}`}><button className="table_btn">회원수정</button> </Link></td>
+                                                <td><button type="button" onClick={()=>delHandler(item.m_email)} className="table_btn">회원삭제</button></td>
                                             </tr>
                                         )
                                     })}
@@ -199,27 +209,14 @@ export default function AdminPage(){
                             <div className="paging">
                                 {/* 페이지가 많을때 좌우 버튼 */}
                                 {ph.prev && (
-                                    <button onClick={() => setPage(ph.startPage - 1)}>◀</button>
+                                    <button className="arrowbtn" onClick={() => setPage(ph.startPage - 1)}> ⇦  Prev</button>
                                 )}
                                 <div className="pages">{pages}</div>
                                 {ph.next && (
-                                    <button onClick={() => setPage(ph.endPage + 1)}>▶</button>
+                                    <button className="arrowbtn" onClick={() => setPage(ph.endPage + 1)}>Next ⇨</button>
                                 )}
                             </div>
-                            <div id="search_wrap">
-                                <form onSubmit={submitHandler}>
-                                    <select name="searchType" onChange={(e) => setSearchType(e.target.value)}>
-                                        <option value="phone">전화번호</option>
-                                        <option value="gender">성별</option>
-                                        <option value="nickName">별명</option>
-                                        <option value="mail">이메일</option>
-                                    </select>
-                                    
-                                    <input type="text" name="searchKeyword" placeholder="검색어를 입력하세요" onChange={(e) => setSerch(e.target.value)}/>
-                                    <input type="submit" value="검색" className="searchBtn" onClick={()=>submitHandler()}/>
-                                    <input type="button" value="전체보기" className="searchBtn" onClick={()=>{setSearchKeyword(""),setSearchType("phone")}}/>
-                                </form>
-					        </div>
+                            
                         </div>
                     </div>
                 </div>

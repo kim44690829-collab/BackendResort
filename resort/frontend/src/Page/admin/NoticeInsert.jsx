@@ -117,19 +117,19 @@ export default function NoticeInsert(){
                         </div>
                     </div>
                     <div className="admin_body">
-                        <div className="admin_text">공지사항 작성</div>
+                        <div className="admin_text" style={{textAlign:"center"}}>공지사항 작성</div>
                         <div className="admin_list">
-                            <table className="list_table" border="1" style={{width:"800px"}}>
+                            <table className="list_table"  style={{width:"800px"}}>
                                 <thead >
                                     <tr>
                                         <th width="200px">n_title</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333"}}>
+                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:"1px solid #ddd"}}>
                                             <input type="text" name="n_title" onChange={(e)=>setNotice(e.target.value)} style={{width:"500px",height:"40px"}}/>
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">n_content</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333",height:"300px"}}>
+                                        <th style={{backgroundColor:"#fff",color:"#333",height:"300px" ,borderBottom:"1px solid #ddd"}}>
                                             {/* <input type="" name="roomName" onChange={handleChange} /> */}
                                             <textarea name="n_content" id="n_content" cols="30" style={{height:"250px",width:"500px"}}
                                                 onChange={(e)=>setTextarea(e.target.value)}
@@ -138,12 +138,12 @@ export default function NoticeInsert(){
                                     </tr>
                                 </thead>
                             </table>
-                                <button type="button">
-                                    <Link to={'/adminpage'}>
+                                <Link to={'/adminpage'}>
+                                    <button type="button" className="insertBtn">
                                         취소하기
-                                    </Link>
-                                </button>
-                                <button type="button" onClick={submitHandler}>추가하기</button>
+                                    </button>
+                                </Link>
+                                <button type="button" className="insertBtn" onClick={submitHandler}>추가하기</button>
                         </div>
                     </div>
                 </div>

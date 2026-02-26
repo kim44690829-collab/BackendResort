@@ -146,8 +146,21 @@ export default function AdminPage7(){
                     </div>
                     <div className="admin_body">
                         <div className="admin_text">리뷰 정보 조회</div>
+                        <div id="search_wrap">
+                                <form onSubmit={submitHandler}>
+                                    <select name="searchType" className="searchSelect" onChange={(e) => setSearchType(e.target.value)}>
+                                        <option value="rb_score">별점</option>
+                                        <option value="r_code">객실코드</option>
+                                        <option value="m_code">작성자코드</option>
+                                    </select>
+                                    
+                                    <input className="searchbox" type="text" name="searchKeyword" placeholder="검색어를 입력하세요" onChange={(e) => setSerch(e.target.value)}/>
+                                    <input type="submit" value="검색" className="searchBtn" onClick={()=>submitHandler()}/>
+                                    <input type="button" value="전체보기" className="searchBtn" onClick={()=>{setSearchKeyword(""),setSearchType("rb_score")}}/>
+                                </form>
+					        </div>
                         <div className="admin_list">
-                            <table className="list_table" border="1">
+                            <table className="list_table">
                                 <thead >
                                     <tr>
                                         <th width="50px">Num</th>
@@ -171,7 +184,7 @@ export default function AdminPage7(){
                                                 <td>{item.rb_date}</td>
                                                 <td>{item.m_code}</td>
                                                 <td>{item.r_code}</td>
-                                                <td><button type="button" onClick={()=>delHandler(item.rb_code)}>리뷰삭제</button></td>
+                                                <td><button type="button" className="table_btn" onClick={()=>delHandler(item.rb_code)}>리뷰삭제</button></td>
                                             </tr>
                                         )
                                     })}
@@ -180,26 +193,14 @@ export default function AdminPage7(){
                             <div className="paging">
                                 {/* 페이지가 많을때 좌우 버튼 */}
                                 {ph.prev && (
-                                    <button onClick={() => setPage(ph.startPage - 1)}>◀</button>
+                                    <button className="arrowbtn" onClick={() => setPage(ph.startPage - 1)}> ⇦  Prev</button>
                                 )}
                                 <div className="pages">{pages}</div>
                                 {ph.next && (
-                                    <button onClick={() => setPage(ph.endPage + 1)}>▶</button>
+                                    <button className="arrowbtn" onClick={() => setPage(ph.endPage + 1)}>Next ⇨</button>
                                 )}
                             </div>
-                            <div id="search_wrap">
-                                <form onSubmit={submitHandler}>
-                                    <select name="searchType" onChange={(e) => setSearchType(e.target.value)}>
-                                        <option value="rb_score">별점</option>
-                                        <option value="r_code">객실코드</option>
-                                        <option value="m_code">작성자코드</option>
-                                    </select>
-                                    
-                                    <input type="text" name="searchKeyword" placeholder="검색어를 입력하세요" onChange={(e) => setSerch(e.target.value)}/>
-                                    <input type="submit" value="검색" className="searchBtn" onClick={()=>submitHandler()}/>
-                                    <input type="button" value="전체보기" className="searchBtn" onClick={()=>{setSearchKeyword(""),setSearchType("rb_score")}}/>
-                                </form>
-					        </div>
+                            
                         </div>
                     </div>
                 </div>

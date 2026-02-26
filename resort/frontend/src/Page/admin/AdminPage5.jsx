@@ -76,6 +76,7 @@ export default function AdminPage5(){
                     <div className="admin_header">
                         <div className="menu_box">
                             <span className="admin_menu">조회</span>
+                            
                             <ul className="admin_submenu">
                                 <li className="a_menus">
                                     <Link to={`/adminPage` } onClick={() => window.scrollTo(0, 0)}>
@@ -142,8 +143,22 @@ export default function AdminPage5(){
                     </div>
                     <div className="admin_body">
                         <div className="admin_text">1대1 문의 게시판 조회</div>
+                        <div id="search_wrap">
+                                <form onSubmit={submitHandler}>
+                                    <select className="searchSelect" name="searchType" onChange={(e) => setSearchType(e.target.value)}>
+                                        <option value="b_title">전화번호</option>
+                                        <option value="gender">성별</option>
+                                        <option value="nickName">별명</option>
+                                        <option value="mail">이메일</option>
+                                    </select>
+                                    
+                                    <input className="searchbox" type="text" name="searchKeyword" placeholder="검색어를 입력하세요" onChange={(e) => setSerch(e.target.value)}/>
+                                    <input type="submit" value="검색" className="searchBtn" onClick={()=>submitHandler()}/>
+                                    <input type="button" value="전체보기" className="searchBtn" onClick={()=>{setSearchKeyword(""),setSearchType("phone")}}/>
+                                </form>
+					        </div>
                         <div className="admin_list">
-                            <table className="list_table" border="1">
+                            <table className="list_table" >
                                 <thead >
                                     <tr>
                                         <th >Num</th>
@@ -185,27 +200,14 @@ export default function AdminPage5(){
                             <div className="paging">
                                 {/* 페이지가 많을때 좌우 버튼 */}
                                 {ph.prev && (
-                                    <button onClick={() => setPage(ph.startPage - 1)}>◀</button>
+                                    <button className="arrowbtn" onClick={() => setPage(ph.startPage - 1)}> ⇦  Prev</button>
                                 )}
                                 <div className="pages">{pages}</div>
                                 {ph.next && (
-                                    <button onClick={() => setPage(ph.endPage + 1)}>▶</button>
+                                    <button className="arrowbtn" onClick={() => setPage(ph.endPage + 1)}>Next ⇨</button>
                                 )}
                             </div>
-                            <div id="search_wrap">
-                                <form onSubmit={submitHandler}>
-                                    <select name="searchType" onChange={(e) => setSearchType(e.target.value)}>
-                                        <option value="b_title">전화번호</option>
-                                        <option value="gender">성별</option>
-                                        <option value="nickName">별명</option>
-                                        <option value="mail">이메일</option>
-                                    </select>
-                                    
-                                    <input type="text" name="searchKeyword" placeholder="검색어를 입력하세요" onChange={(e) => setSerch(e.target.value)}/>
-                                    <input type="submit" value="검색" className="searchBtn" onClick={()=>submitHandler()}/>
-                                    <input type="button" value="전체보기" className="searchBtn" onClick={()=>{setSearchKeyword(""),setSearchType("phone")}}/>
-                                </form>
-					        </div>
+                            
                         </div>
                     </div>
                 </div>

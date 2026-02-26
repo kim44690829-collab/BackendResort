@@ -114,8 +114,20 @@ export default function AdminPage4(){
                     </div>
                     <div className="admin_body">
                         <div className="admin_text">예약 정보 조회</div>
+                        <div id="search_wrap">
+                                <form >
+                                    <select className="searchSelect" name="searchType">
+                                        <option value="booker_name">예약자명</option>
+                                        <option value="reservation_no">예약코드</option>
+                                    </select>
+                                    
+                                    <input className="searchbox" type="text" name="searchKeyword" placeholder="검색어를 입력하세요"/>
+                                    <input  type="submit" value="검색" className="searchBtn"/>
+                                    <input type="button" value="전체보기" className="searchBtn" />
+                                </form>
+					        </div>
                         <div className="admin_list">
-                            <table className="list_table" border="1">
+                            <table className="list_table" >
                                 <thead >
                                     <tr>
                                         <th width="50px">예약번호</th>
@@ -167,25 +179,14 @@ export default function AdminPage4(){
                             <div className="paging">
                                 {/* 페이지가 많을때 좌우 버튼 */}
                                 {ph.prev && (
-                                    <button onClick={() => setPage(ph.startPage - 1)}>◀</button>
+                                    <button className="arrowbtn" onClick={() => setPage(ph.startPage - 1)}> ⇦  Prev</button>
                                 )}
                                 <div className="pages">{pages}</div>
                                 {ph.next && (
-                                    <button onClick={() => setPage(ph.endPage + 1)}>▶</button>
+                                    <button className="arrowbtn" onClick={() => setPage(ph.endPage + 1)}>Next ⇨</button>
                                 )}
                             </div>
-                            <div id="search_wrap">
-                                <form >
-                                    <select name="searchType">
-                                        <option value="booker_name">예약자명</option>
-                                        <option value="reservation_no">예약코드</option>
-                                    </select>
-                                    
-                                    <input type="text" name="searchKeyword" placeholder="검색어를 입력하세요"/>
-                                    <input type="submit" value="검색" className="searchBtn"/>
-                                    <input type="button" value="전체보기" className="searchBtn" />
-                                </form>
-					        </div>
+                            
                         </div>
                     </div>
                 </div>

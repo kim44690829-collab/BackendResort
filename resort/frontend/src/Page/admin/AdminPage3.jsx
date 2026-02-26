@@ -128,6 +128,7 @@ export default function AdminPage3(){
                         </div>
                         <div className="menu_box">
                             <span className="admin_menu">게시판</span>
+                            
                             <ul className="admin_submenu">
                                 <li className="a_menus">
                                     <Link to={`/adminPage5` } onClick={() => window.scrollTo(0, 0)}>
@@ -149,8 +150,20 @@ export default function AdminPage3(){
                     </div>
                     <div className="admin_body">
                         <div className="admin_text">객실 정보 조회</div>
+                        <div id="search_wrap">
+                                <form onSubmit={submitHandler}>
+                                    <select className="searchSelect" name="searchType" onChange={(e) => setSearchType(e.target.value)}>
+                                        <option value="roomName">객실명</option>
+                                        <option value="maxOccupancy">최대인원</option>
+                                    </select>
+                                    
+                                    <input className="searchbox" type="text" name="searchKeyword" placeholder="검색어를 입력하세요" onChange={(e) => setSerch(e.target.value)}/>
+                                    <input type="submit" value="검색" className="searchBtn" onClick={()=>submitHandler()}/>
+                                    <input type="button" value="전체보기" className="searchBtn" onClick={()=>{setSearchKeyword(""),setSearchType("hotelName")}}/>
+                                </form>
+					        </div>
                         <div className="admin_list">
-                            <table className="list_table" border="1">
+                            <table className="list_table" >
                                 <thead >
                                     <tr>
                                         <th width="50px">Num</th>
@@ -171,7 +184,7 @@ export default function AdminPage3(){
                                                     <td>{item.roomName}</td>
                                                     <td>{item.price}</td>
                                                     <td>{item.maxOccupancy}</td>
-                                                    <td><button onClick={()=>{setIsinfo(!isInfo),setNum(index)}}>상세정보</button></td>
+                                                    <td><button className="table_btn" onClick={()=>{setIsinfo(!isInfo),setNum(index)}}>상세정보</button></td>
                                                 </tr>
                                     ))}
                                 </tbody>
@@ -201,35 +214,24 @@ export default function AdminPage3(){
                                             </li>
                                         </ul>
                                     </div>
-                                    <button className="updateBtn">
-                                        <Link to={`/roomUpdate/${room[num].r_code}`}>
+                                    <Link to={`/roomUpdate/${room[num].r_code}`}>
+                                        <button className="updateBtn" style={{color:"#fff",fontWeight:600,marginTop:"30px"}}>
                                             내용 수정하기
-                                        </Link>
-                                    </button>
+                                        </button>
+                                    </Link>
                                 </div>
                             }
                             <div className="paging">
                                 {/* 페이지가 많을때 좌우 버튼 */}
                                 {ph.prev && (
-                                    <button onClick={() => setPage(ph.startPage - 1)}>◀</button>
+                                    <button className="arrowbtn" onClick={() => setPage(ph.startPage - 1)}> ⇦  Prev</button>
                                 )}
                                 <div className="pages">{pages}</div>
                                 {ph.next && (
-                                    <button onClick={() => setPage(ph.endPage + 1)}>▶</button>
+                                    <button className="arrowbtn" onClick={() => setPage(ph.endPage + 1)}>Next ⇨</button>
                                 )}
                             </div>
-                            <div id="search_wrap">
-                                <form onSubmit={submitHandler}>
-                                    <select name="searchType" onChange={(e) => setSearchType(e.target.value)}>
-                                        <option value="roomName">객실명</option>
-                                        <option value="maxOccupancy">최대인원</option>
-                                    </select>
-                                    
-                                    <input type="text" name="searchKeyword" placeholder="검색어를 입력하세요" onChange={(e) => setSerch(e.target.value)}/>
-                                    <input type="submit" value="검색" className="searchBtn" onClick={()=>submitHandler()}/>
-                                    <input type="button" value="전체보기" className="searchBtn" onClick={()=>{setSearchKeyword(""),setSearchType("hotelName")}}/>
-                                </form>
-					        </div>
+                            
                         </div>
                     </div>
                 </div>

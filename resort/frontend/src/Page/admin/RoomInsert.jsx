@@ -141,7 +141,7 @@ export default function RoomInsert(){
                             </ul>
                         </div>
                         <div className="menu_box">
-                            <span className="admin_menu">게시판</span>
+                            <span className="admin_menu" style={{textAlign:"center"}}>게시판</span>
                             <ul className="admin_submenu">
                                 <li className="a_menus">
                                     <Link to={`/adminPage5` } onClick={() => window.scrollTo(0, 0)}>
@@ -164,40 +164,40 @@ export default function RoomInsert(){
                     <div className="admin_body">
                         <div className="admin_text">객실 상품 추가</div>
                         <div className="admin_list">
-                            <table className="list_table" border="1" style={{width:"800px"}}>
+                            <table className="list_table" style={{width:"800px"}}>
                                 <thead >
                                     <tr>
                                         <th width="200px">h_code</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333"}}>
+                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:"1px solid #ddd"}}>
                                             <input type="text" name="h_code" onChange={handleChange} />
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">roomName</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333"}}>
+                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:"1px solid #ddd"}}>
                                             <input type="text" name="roomName" onChange={handleChange} />
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">price</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333"}}>
+                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:"1px solid #ddd"}}>
                                             <input type="text" name="price" onChange={handleChange} />
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">maxOccupancy</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333"}}>
+                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:"1px solid #ddd"}}>
                                             <input type="text" name="maxOccupancy" onChange={handleChange} />
                                         </th>
                                     </tr>
                                 </thead>
                             </table>
-                                <button type="button">
-                                    <Link to={'/adminpage'}>
+                                <Link to={'/adminpage'}>
+                                    <button type="button" className="insertBtn">
                                         취소하기
-                                    </Link>
-                                </button>
-                                <button type="button" onClick={submitHandler}>추가하기</button>
+                                    </button>
+                                </Link>
+                                <button type="button" className="insertBtn" onClick={submitHandler}>추가하기</button>
                         </div>
                     </div>
                 </div>

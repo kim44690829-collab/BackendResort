@@ -221,93 +221,93 @@ export default function HotelInsert(){
                         </div>
                     </div>
                     <div className="admin_body">
-                        <div className="admin_text">호텔 상품 추가</div>
+                        <div className="admin_text" style={{textAlign:"center"}}>호텔 상품 추가</div>
                         <div className="admin_list">
-                            <table className="list_table" border="1" style={{width:"800px"}}>
+                            <table className="list_table" style={{width:"800px"}}>
                                 <thead >
                                     <tr>
                                         <th width="200px">hotelName</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333"}}>
+                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:"1px solid #ddd"}}>
                                             <input type="text" name="hotelName" onChange={handleChange} />
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">country</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333"}}>
+                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:"1px solid #ddd"}}>
                                             <input type="text" name="country" onChange={handleChange} />
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">city</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333"}}>
+                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:"1px solid #ddd"}}>
                                             <input type="text" name="city" onChange={handleChange} />
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">type</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333"}}>
+                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:"1px solid #ddd"}}>
                                             <input type="text" name="type" onChange={handleChange} />
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">h_address</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333"}}>
+                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:"1px solid #ddd"}}>
                                             <input type="text" name="h_address" onChange={handleChange} />
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">discount</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333"}}>
+                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:"1px solid #ddd"}}>
                                             <input type="text" name="discount" onChange={handleChange} />
                                         </th>
 
                                     </tr>
                                     <tr>
                                         <th width="200px">startDate</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333"}}>
+                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:"1px solid #ddd"}}>
                                             <input type="text" name="startDate" onChange={handleChange} />
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">endDate</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333"}}>
+                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:"1px solid #ddd"}}>
                                             <input type="text" name="endDate" onChange={handleChange} />
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">h_Img</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333"}}>
+                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:"1px solid #ddd"}}>
                                             <input type="file" name="h_Img" onChange={handleChange} />
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">h_s_Img1</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333"}}>
+                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:"1px solid #ddd"}}>
                                             <input type="file" name="h_s_Img1" onChange={handleChange} />
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">h_s_Img2</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333"}}>
+                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:"1px solid #ddd"}}>
                                             <input type="file" name="h_s_Img2" onChange={handleChange} />
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">h_s_Img3</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333"}}>
+                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:"1px solid #ddd"}}>
                                             <input type="file" name="h_s_Img3" onChange={handleChange} />
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">h_s_Img4</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333"}}>
+                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:"1px solid #ddd"}}>
                                             <input type="file" name="h_s_Img4" onChange={handleChange} />
                                         </th>
                                     </tr>
                                     
                                     <tr>
                                         <th width="200px">roomservice{`(최대 8개)`}</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333"}}>
+                                        <th style={{backgroundColor:"#fff",color:"#333" ,borderBottom:"1px solid #ddd"}} className="cheakboxgr">
                                             {/* <input type="text" name="roomservice" onChange={handleChange} /> */}
                                             <input type="checkbox" name="roomservice" id="roomservice1" onChange={()=>addroomServiceHandler("무선인터넷")}/>
                                             <label htmlFor="roomservice1">무선인터넷</label>
@@ -317,6 +317,7 @@ export default function HotelInsert(){
                                             <label htmlFor="roomservice3">실내수영장</label>
                                             <input type="checkbox" name="roomservice" id="roomservice4" onChange={()=>addroomServiceHandler("TV")}/>
                                             <label htmlFor="roomservice4">TV</label>
+                                            <br/>
                                             <input type="checkbox" name="roomservice" id="roomservice5" onChange={()=>addroomServiceHandler("샤워실")}/>
                                             <label htmlFor="roomservice5">샤워실</label>
                                             <input type="checkbox" name="roomservice" id="roomservice6" onChange={()=>addroomServiceHandler("욕조")}/>
@@ -325,6 +326,7 @@ export default function HotelInsert(){
                                             <label htmlFor="roomservice7">객실내취사</label>
                                             <input type="checkbox" name="roomservice" id="roomservice8" onChange={()=>addroomServiceHandler("금연")}/>
                                             <label htmlFor="roomservice8">금연</label>
+                                            <br/>
                                             <input type="checkbox" name="roomservice" id="roomservice9" onChange={()=>addroomServiceHandler("에어컨")}/>
                                             <label htmlFor="roomservice9">에어컨</label>
                                             <input type="checkbox" name="roomservice" id="roomservice10" onChange={()=>addroomServiceHandler("드라이기")}/>
@@ -339,7 +341,7 @@ export default function HotelInsert(){
                                     </tr>
                                     <tr>
                                         <th width="200px">publicservice{`(최대 8개)`}</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333"}}>
+                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:"1px solid #ddd"}} className="cheakboxgr">
                                             {/* <input type="text" name="publicservice" onChange={handleChange} /> */}
                                             <input type="checkbox" name="publicservice" id="publicservice1" onChange={()=>addpublicServiceHandler("피트니스")}/>
                                             <label htmlFor="publicservice1">피트니스</label>
@@ -349,6 +351,7 @@ export default function HotelInsert(){
                                             <label htmlFor="publicservice3">사우나</label>
                                             <input type="checkbox" name="publicservice" id="publicservice4" onChange={()=>addpublicServiceHandler("실내수영장")}/>
                                             <label htmlFor="publicservice4">실내수영장</label>
+                                            <br/>
                                             <input type="checkbox" name="publicservice" id="publicservice5" onChange={()=>addpublicServiceHandler("야외수영장")}/>
                                             <label htmlFor="publicservice5">야외수영장</label>
                                             <input type="checkbox" name="publicservice" id="publicservice6" onChange={()=>addpublicServiceHandler("편의점")}/>
@@ -357,6 +360,7 @@ export default function HotelInsert(){
                                             <label htmlFor="publicservice7">바</label>
                                             <input type="checkbox" name="publicservice" id="publicservice8" onChange={()=>addpublicServiceHandler("라운지")}/>
                                             <label htmlFor="publicservice8">라운지</label>
+                                            <br/>
                                             <input type="checkbox" name="publicservice" id="publicservice9" onChange={()=>addpublicServiceHandler("엘리베이터")}/>
                                             <label htmlFor="publicservice9">엘리베이터</label>
                                             <input type="checkbox" name="publicservice" id="publicservice10" onChange={()=>addpublicServiceHandler("비즈니스센터")}/>
@@ -371,7 +375,7 @@ export default function HotelInsert(){
                                     </tr>
                                     <tr>
                                         <th width="200px">otherservice{`(최대 3개)`}</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333"}}>
+                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:"1px solid #ddd"}} className="cheakboxgr">
                                             {/* <input type="text" name="otherservice" onChange={handleChange} /> */}
                                             <input type="checkbox" name="otherservice" id="otherservice1" onChange={()=>addotherServiceHandler("스프링클러")}/>
                                             <label htmlFor="otherservice1">스프링클러</label>
@@ -381,6 +385,7 @@ export default function HotelInsert(){
                                             <label htmlFor="otherservice3">카드결제</label>
                                             <input type="checkbox" name="otherservice" id="otherservice4" onChange={()=>addotherServiceHandler("짐보관가능")}/>
                                             <label htmlFor="otherservice4">짐보관가능</label>
+                                            <br/>
                                             <input type="checkbox" name="otherservice" id="otherservice5" onChange={()=>addotherServiceHandler("개인사물함")}/>
                                             <label htmlFor="otherservice5">개인사물함</label>
                                             <input type="checkbox" name="otherservice" id="otherservice6" onChange={()=>addotherServiceHandler("픽업서비스")}/>
@@ -389,18 +394,19 @@ export default function HotelInsert(){
                                             <label htmlFor="otherservice7">캠프파이어</label>
                                             <input type="checkbox" name="otherservice" id="otherservice8" onChange={()=>addotherServiceHandler("무료주차")}/>
                                             <label htmlFor="otherservice8">무료주차</label>
+                                            
                                             <input type="checkbox" name="otherservice" id="otherservice9" onChange={()=>addotherServiceHandler("조식제공")}/>
                                             <label htmlFor="otherservice9">조식제공</label>
                                         </th>
                                     </tr>
                                 </thead>
                             </table>
-                                <button type="button">
-                                    <Link to={'/adminpage'}>
-                                        취소하기
-                                    </Link>
-                                </button>
-                                <button type="button" onClick={submitHandler}>추가하기</button>
+                                <Link to={'/adminpage'}>
+                                    <button type="button" className="insertBtn">
+                                            취소하기
+                                    </button>
+                                </Link>
+                                <button className="insertBtn" type="button" onClick={submitHandler}>추가하기</button>
                         </div>
                     </div>
                 </div>

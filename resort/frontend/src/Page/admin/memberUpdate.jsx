@@ -111,40 +111,40 @@ export default function MemberUdate(){
                         </div>
                     </div>
                     <div className="admin_body">
-                        <div className="admin_text">회원 정보 수정</div>
+                        <div className="admin_text" style={{textAlign:'center'}}>회원 정보 수정</div>
                         <div className="admin_list">
-                            <table className="list_table" border="1" style={{width:"600px"}}>
+                            <table className="list_table" style={{width:"600px"}}>
                                 <thead >
                                     <tr>
                                         <th width="200px">Num</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333"}}>{MemberAllData[m_code-1].m_code}</th>
+                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>{MemberAllData[m_code-1].m_code}</th>
                                     </tr>
                                     <tr>
                                         <th width="200px">E_mail</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333"}}>{MemberAllData[m_code-1].m_email}</th>
+                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>{MemberAllData[m_code-1].m_email}</th>
                                     </tr>
                                     <tr>
                                         <th width="200px">전화번호</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333"}}>
+                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>
                                             <input type="text" value={newph} name="m_phone" onChange={(e)=>setNewph(e.target.value)} maxLength={11}/>
                                             <p style={{color:"#999"}}>{`ex) 01012345678`}</p>
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">생일</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333"}}>
+                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>
                                             {MemberAllData[m_code-1].m_birth}
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">성별</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333"}}>
+                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>
                                             {MemberAllData[m_code-1].m_gender==0?"남성":"여성"}
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">별명</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333"}}>
+                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>
                                             <input type="text" name="m_birth" onChange={(e)=>setNewNick(e.target.value)} maxLength={15} 
                                             value={newNick} />
                                         </th>
@@ -152,20 +152,20 @@ export default function MemberUdate(){
                                     </tr>
                                     <tr>
                                         <th width="200px">쿠폰 보유</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333"}}>{MemberAllData[m_code-1].m_coupon}</th>
+                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>{MemberAllData[m_code-1].m_coupon}</th>
                                     </tr>
                                     <tr>
                                         <th width="200px">가입일</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333"}}>{MemberAllData[m_code-1].m_regDate}</th>
+                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>{MemberAllData[m_code-1].m_regDate}</th>
                                     </tr>
                                 </thead>
                             </table>
-                                <button type="button">
-                                    <Link to={'/adminpage'}>
+                                <Link to={'/adminpage'}>
+                                    <button className="insertBtn" type="button">
                                         취소하기
-                                    </Link>
-                                </button>
-                                <button type="button" onClick={handleChange}>수정하기</button>
+                                    </button>
+                                </Link>
+                                <button className="insertBtn" type="button" onClick={handleChange}>수정하기</button>
                         </div>
                     </div>
                 </div>

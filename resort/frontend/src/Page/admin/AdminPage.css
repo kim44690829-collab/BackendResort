@@ -8,18 +8,20 @@
     margin-bottom: 30px;
 }
 .admin_wrap .admin_header {
-    background-color: #42799b;
     display: flex;
-    justify-content: center;
-    
+    justify-content: left;
+    width: 1400px;
+    margin: 0 auto;
+    color: #fff;
 }
 .admin_wrap .admin_header .menu_box{
     position: relative;
     width: 150px;
-    background-color: #fff;
+    background-color: #42799b;
     text-align: center;
-    margin-right: 20px;
+    margin-right: 8px;
     padding: 20px 0;
+    border-radius: 20px 20px 0 0;
 }
 
 .admin_wrap .admin_header .menu_box .admin_menu{
@@ -28,7 +30,7 @@
     cursor: pointer;
 }
 .admin_wrap .admin_header .menu_box:hover .admin_submenu{
-    max-height: 150px;
+    max-height: 170px;
 }
 
 .admin_wrap .admin_header .menu_box .admin_submenu{
@@ -44,32 +46,100 @@
 }
 .admin_wrap .admin_header .menu_box .admin_submenu .a_menus{
     margin: 15px 0;
+    padding-bottom: 5px;
 }
-.admin_wrap .admin_header .menu_box .admin_submenu .a_menus:hover{
+.admin_wrap .admin_header .menu_box .admin_submenu .a_menus:hover>a>span{
     cursor: pointer;
+    font-weight: 600;
+    border-bottom: 2px solid #3775ff;
 }
 .admin_wrap .admin_body{
-    background-color: #f0f4f8;;
+    background-color: #f2f5fa;;
     padding: 100px 0;
 }
 .admin_wrap .admin_body .admin_text{
-
+    width: 1400px;
+    margin: 0 auto;
+    text-align: right;
+    font-size: 30px;
+    font-weight: 600;
+    margin-bottom: 40px;
 }
-.admin_wrap .admin_body .admin_list{
-
+.admin_wrap .admin_body #search_wrap{
+    display: flex;
+    justify-content: right;
+    width: 1400px;
+    margin: 0 auto;
+    height: 61px;
+    overflow: hidden;
+}
+.admin_wrap .admin_body #search_wrap .searchbox{
+    border: 2px solid #67b2de46;
+    border-radius: 20px;
+    height: 60px;
+    padding: 0 25px;
+    margin-left: 10px;
+    background-color: #fff;
+}
+.admin_wrap .admin_body #search_wrap .searchbox:focus{
+    border: 2px solid #3775ff;
+}
+.admin_wrap .admin_body #search_wrap .searchSelect{
+    border: 2px solid #67b2de46;
+    border-radius: 20px;
+    height: 60px;
+    padding: 0 40px 0 0;;
+    background-color: #fff;
+    width: 200px;
 }
 
+.admin_wrap .admin_body #search_wrap .searchBtn{
+    border: none;
+    height: 50px;
+    padding: 0 10px;
+    margin-left: 10px;
+    width: 120px;
+    cursor: pointer;
+    font-weight: 500;
+    line-height: 50px;
+    border-radius: 10px;
+    border: 2px solid #0155ff;
+    background-color: #fff;
+    color: #0155ff;
+}
+
+.admin_wrap .admin_body #search_wrap .searchBtn:hover{
+    font-weight: 700;
+    background-color: #0155ff;
+    color: #fff;
+}
 /* 테이블 */
 .admin_wrap .admin_body .admin_list .list_table{
     margin: 30px auto;
     width: 1400px;
+    box-shadow: 1px 1px 3px #67b2de46;
+    border-radius: 5px;
+}
+.admin_wrap .admin_body .admin_list .list_table .table_btn{
+    background-color: #e0eafd;
+    border: none;
+    color: #3775ff;
+    padding: 15px 20px;
+    border-radius: 15px;
+}
+
+.admin_wrap .admin_body .admin_list .list_table .table_btn:hover{
+    font-weight: 700;
+    box-shadow: 1px 1px 5px #67b2de6e;
 }
 .admin_wrap .admin_body .admin_list .list_table th{
-    background-color: #333;
-    color: #fff
+    font-weight: 600;
+    background-color: #e0eafd;
+    color: #1a2867
 }
 .admin_wrap .admin_body .admin_list .list_table td{
-    background-color: #fff;
+   border-bottom: 1px solid #d0d0d0;
+   background-color: #ffffff53;
 }
 .admin_wrap .admin_body .admin_list .list_table th,
 .admin_wrap .admin_body .admin_list .list_table td{
@@ -137,17 +207,67 @@
 }
 .paging{
     display: flex;
-    justify-content: center;
+    justify-content: right;
+    width: 1400px;
+    margin: 0 auto;
 }
 .paging .pages .pageBtn{
     width: 30px;
     height:30px;
-    background-color: #fff;
-    border: 2px solid #333;
+    background-color: #ffffff00;
+    border: none;
     margin-right:10px;
-    border-radius: 50%; 
 }
 .paging .pages .pageBtn.active{
-    border: 2px solid #42799b;
+    background-color: #67b2de9f;
+    color: #fff;
 }
 
+.paging .arrowbtn{
+    font-weight: 600px;
+    border: none;
+    font-size: 20px;
+    padding: 0 10px;
+    background-color: #ffffff00;
+}
+.paging .arrowbtn:hover{
+    color: #0155ff;
+}
+
+.cheakboxgr>input{
+    display: none;
+}
+.cheakboxgr>label{
+    display: inline-block;
+    margin: 1px 3px;
+    border: 2px solid #ddd;
+    margin-bottom: 5px;
+    padding: 5px 10px;
+    border-radius: 20px;
+}
+
+.cheakboxgr>input[type="checkbox"]:checked + label {
+  color: #3775ff;
+  border: 2px solid #3775ff;
+  font-weight: bold;
+}
+
+.insertBtn{
+    border: none;
+    height: 50px;
+    padding: 0 10px;
+    margin-left: 10px;
+    width: 120px;
+    cursor: pointer;
+    font-weight: 500;
+    line-height: 40px;
+    border-radius: 10px;
+    border: 2px solid #0155ff;
+    background-color: #fff;
+    color: #0155ff;
+}
+
+.insertBtn:hover{font-weight: 700;
+    background-color: #0155ff;
+    color: #fff;
+}

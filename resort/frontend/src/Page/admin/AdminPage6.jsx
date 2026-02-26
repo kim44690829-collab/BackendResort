@@ -142,8 +142,20 @@ export default function AdminPage6(){
                     </div>
                     <div className="admin_body">
                         <div className="admin_text">공지사항 조회</div>
+                        <div id="search_wrap">
+                                <form onSubmit={submitHandler}>
+                                    <select name="searchType" className="searchbox" onChange={(e) => setSearchType(e.target.value)}>
+                                        <option value="n_title">제목</option>
+                                        <option value="n_content">내용</option>
+                                    </select>
+                                    
+                                    <input type="text" className="searchbox" name="searchKeyword" placeholder="검색어를 입력하세요" onChange={(e) => setSerch(e.target.value)}/>
+                                    <input type="submit" value="검색" className="searchBtn" onClick={()=>submitHandler()}/>
+                                    <input type="button" value="전체보기" className="searchBtn" onClick={()=>{setSearchKeyword(""),setSearchType("n_title")}}/>
+                                </form>
+					        </div>
                         <div className="admin_list">
-                            <table className="list_table" border="1">
+                            <table className="list_table">
                                 <thead >
                                     <tr>
                                         <th style={{width:"50px"}}>Num</th>
@@ -152,8 +164,8 @@ export default function AdminPage6(){
                                         <th width="550px">내용</th>
                                         <th width="60px">수정일자</th>
                                         {/* <th width="50px">자세히보기</th> */}
-                                        <th width="60px">수정하기</th>
-                                        <th width="60px">삭제하기</th>
+                                        <th width="100px">수정하기</th>
+                                        <th width="100px">삭제하기</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -171,12 +183,13 @@ export default function AdminPage6(){
                                                 <td>{item.n_update}</td>
                                                 
                                                 {/* <td><button type="button" onClick={()=>delHandler(item.n_code)}>자세히</button></td> */}
-                                                <td><button>
-                                                        <Link to={`/memberUdate/${item.n_code}`}>
+                                                <td><Link to={`/memberUdate/${item.n_code}`}><button className="table_btn">
+                                                        
                                                             공지수정
+                                                    </button>
                                                         </Link>
-                                                    </button></td>
-                                                <td><button type="button" onClick={()=>delHandler(item.n_code)}>공지삭제</button></td>
+                                                    </td>
+                                                <td><button type="button" className="table_btn" onClick={()=>delHandler(item.n_code)}>공지삭제</button></td>
                                             </tr>
                                         )
                                     })}
@@ -185,25 +198,14 @@ export default function AdminPage6(){
                             <div className="paging">
                                 {/* 페이지가 많을때 좌우 버튼 */}
                                 {ph.prev && (
-                                    <button onClick={() => setPage(ph.startPage - 1)}>◀</button>
+                                    <button className="arrowbtn" onClick={() => setPage(ph.startPage - 1)}> ⇦  Prev</button>
                                 )}
                                 <div className="pages">{pages}</div>
                                 {ph.next && (
-                                    <button onClick={() => setPage(ph.endPage + 1)}>▶</button>
+                                    <button className="arrowbtn" onClick={() => setPage(ph.endPage + 1)}>Next ⇨</button>
                                 )}
                             </div>
-                            <div id="search_wrap">
-                                <form onSubmit={submitHandler}>
-                                    <select name="searchType" onChange={(e) => setSearchType(e.target.value)}>
-                                        <option value="n_title">제목</option>
-                                        <option value="n_content">내용</option>
-                                    </select>
-                                    
-                                    <input type="text" name="searchKeyword" placeholder="검색어를 입력하세요" onChange={(e) => setSerch(e.target.value)}/>
-                                    <input type="submit" value="검색" className="searchBtn" onClick={()=>submitHandler()}/>
-                                    <input type="button" value="전체보기" className="searchBtn" onClick={()=>{setSearchKeyword(""),setSearchType("n_title")}}/>
-                                </form>
-					        </div>
+                            
                         </div>
                     </div>
                 </div>

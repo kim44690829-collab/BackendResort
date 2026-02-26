@@ -124,13 +124,13 @@ export default function RoomUpdate(){
                         </div>
                     </div>
                     <div className="admin_body">
-                        <div className="admin_text">{r_code}번 객실 상품 수정</div>
+                        <div className="admin_text" style={{textAlign:'center'}}>{r_code}번 객실 상품 수정</div>
                         <div className="admin_list">
-                            <table className="list_table" border="1" style={{width:"800px"}}>
+                            <table className="list_table"  style={{width:"800px"}}>
                                 <thead >
                                     <tr>
                                         <th width="200px">h_code</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333"}}>
+                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>
                                             <input type="text" name="h_code" onChange={(e)=>{setH_code(e.target.value),setR_img(`["/img/${h_code}-1.jpg","/img/${h_code}-2.jpg","/img/${h_code}-3.jpg","/img/${h_code}-4.jpg","/img/${h_code}-5.jpg"]`)}} 
                                                 value={h_code === null? RoomData[r_code-1].h_code:h_code}
                                             />
@@ -138,7 +138,7 @@ export default function RoomUpdate(){
                                     </tr>
                                     <tr>
                                         <th width="200px">roomName</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333"}}>
+                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>
                                             <input type="text" name="roomName" onChange={(e)=>setRoomName(e.target.value)} 
                                                 value={roomName === null? RoomData[r_code-1].roomName:roomName}
                                             />
@@ -146,7 +146,7 @@ export default function RoomUpdate(){
                                     </tr>
                                     <tr>
                                         <th width="200px">price</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333"}}>
+                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>
                                             <input type="text" name="price" onChange={(e)=>setPrice(e.target.value)} 
                                                 value={price === null? RoomData[r_code-1].price:price}
                                             />
@@ -154,7 +154,7 @@ export default function RoomUpdate(){
                                     </tr>
                                     <tr>
                                         <th width="200px">maxOccupancy</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333"}}>
+                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>
                                             <input type="text" name="maxOccupancy" onChange={(e)=>setMaxOccupancy(e.target.value)} 
                                                 value={maxOccupancy === null? RoomData[r_code-1].maxOccupancy:maxOccupancy}
                                             />
@@ -162,12 +162,12 @@ export default function RoomUpdate(){
                                     </tr>
                                 </thead>
                             </table>
-                                <button type="button">
-                                    <Link to={'/adminpage'}>
+                                <Link to={'/adminpage'}>
+                                    <button type="button" className="insertBtn">
                                         취소하기
-                                    </Link>
-                                </button>
-                                <button type="button" onClick={submitHandler}>수정하기</button>
+                                    </button>
+                                </Link>
+                                <button className="insertBtn" type="button" onClick={submitHandler}>수정하기</button>
                         </div>
                     </div>
                 </div>
