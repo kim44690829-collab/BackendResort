@@ -25,7 +25,7 @@
 
 <!-- 하나의 게시글 상세정보보기 -->
 <select id="getOneBoard" resultType="BoardDTO" parameterType="BoardDTO">
-	SELECT * FROM board WHERE b_code=#{b_code} AND m_code=#{m_code}
+	SELECT * FROM board WHERE b_code=#{b_code}
 </select>
 
 <!-- 하나의 게시글을 수정하는 메소드 -->

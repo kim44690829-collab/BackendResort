@@ -56,21 +56,24 @@ public class BoardServiceImpl implements BoardService {
 			return null;
 		}
 		
-		//로그인시 작성자 이메일 저장
-		bdto.setM_code(loginedMember.getM_code());
-		
-		BoardDTO result = boardmapper.getOneBoard(bdto);
-		
-		if(result == null) {
-			System.out.println("본인이 작성한 글만 볼 수 있습니다.");
-			return null;
-		}else {
-			System.out.println("게시글 출력 성공");
-			// 조회수 증가 메소드 추가
-			boardmapper.upReadCount(bdto);
-			//조회수 증가 + 하나게시글 검색
-			return boardmapper.getOneBoard(bdto);
+		BoardDTO board = boardmapper.getOneBoard(bdto);
+
+		if(board == null) {
+			System.out.println("게시글 없음");
+		    return null;
 		}
+
+		if(board.getM_code() != loginedMember.getM_code()) {
+			System.out.println("작성자만 조회 가능");
+			return null;
+		}		
+		
+		System.out.println("게시글 출력 성공");
+		// 조회수 증가 메소드 추가
+		boardmapper.upReadCount(bdto);
+		//조회수 증가 + 하나게시글 검색
+		return boardmapper.getOneBoard(bdto);
+		
 	}
 
 	//하나의 게시글을 수정하는 메소드
