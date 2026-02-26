@@ -400,7 +400,7 @@ export default function Room(){
                                                 <span className="coupon">회원가입시 10,000원 할인쿠폰</span>
                                                 }
                                             </p>
-                                            <p className="menu_price">{item.discount===1?(hotelMinPrice[item.h_code-1].hotelPrice*0.9).toLocaleString():hotelMinPrice[item.h_code-1].hotelPrice.toLocaleString()}원</p>
+                                            <p className="menu_price">{item.discount===1?Math.floor(hotelMinPrice[item.h_code-1].hotelPrice*0.9).toLocaleString():(Math.floor(hotelMinPrice[item.h_code-1].hotelPrice)).toLocaleString()}원</p>
                                             
                                             
                                         </div>
