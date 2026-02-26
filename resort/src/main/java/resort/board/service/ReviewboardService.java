@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import resort.board.dto.HotelAvgDTO;
 import resort.board.dto.RatingDTO;
@@ -49,4 +50,6 @@ public interface ReviewboardService {
 	);
 	
 	public int deleteReview(int rb_code);
+	// 리뷰 update
+	public int reviewMod(int rb_code, int rb_score);
 }

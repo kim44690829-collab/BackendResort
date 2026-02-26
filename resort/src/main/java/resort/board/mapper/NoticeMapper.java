@@ -30,4 +30,6 @@ public interface NoticeMapper {
 		@Param("startRow") int startRow,
 		@Param("pageSize") int pageSize
 	);
+	
+	public void insertNotice(NoticeDTO ndto);
 }

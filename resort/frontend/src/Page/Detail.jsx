@@ -16,7 +16,7 @@ export default function Detail(){
     const navigate = useNavigate();
 
     //호텔,객실,찜,예약날짜,예약인원,예약객실 데이터  
-    const {RoomData, HotelData,ReviewData, setHotelNum, RatingData, RatingAvgData, setReviewData, WishAvg, DayData,wish,wishStar,wishArray,wishHandler,setPayHead,
+    const {RoomData,HotelData,ReviewData, setHotelNum, RatingData, RatingAvgData, setReviewData, WishAvg, DayData,wish,wishStar,wishArray,wishHandler,setPayHead,
         // setPayRoom
     } = useContext(ResortDataContext);
     //모달 프로바이더
@@ -68,6 +68,21 @@ export default function Detail(){
     // 최종 날짜
     const [resultRooms, setResultRooms] = useState([]);
 
+    useEffect(() => {
+        searchClick();
+    },[h_code])
+
+    
+    // const [Room, setRoom] = useState([]);
+
+    //  useEffect(() => {
+    
+    //     const Room = RoomData.filter((item)=>item.h_code === Hotel.h_code);
+    //     setRoom(Room);
+      
+    // },[Hotel]);
+    
+
 
     //아이디값 비교
     const Hotel = HotelData.find((item)=>item.h_code === Number(h_code));
@@ -80,16 +95,25 @@ export default function Detail(){
     if (Room.length === 0) return <p>객실 정보가 없습니다.</p>;
     console.log(Room)
     //객실 전체 리뷰 데이터
-    
-    const RoomReview = ReviewData.filter((item)=>item.r_code === Room[0].r_code || item.r_code === Room[1].r_code || item.r_code === Room[2].r_code);
+    let RoomReview;
+    for(let i = 0; i < ReviewData.length; i++){
+        if(i === 0){
+           RoomReview = ReviewData.filter((item)=>item.r_code === Room[0].r_code);
+        }else if(Room[1] !== undefined && i === 1){
+            RoomReview = ReviewData.filter((item)=>item.r_code === Room[0].r_code || item.r_code === Room[1].r_code);
+        }else if(Room[1] !== undefined && Room[2] !== undefined && i === 2){
+            RoomReview = ReviewData.filter((item)=>item.r_code === Room[0].r_code || item.r_code === Room[1].r_code || item.r_code === Room[2].r_code);
+        }
+    }
+
     //예외처리
     //if(RoomReview.length === 0) return <p>객실 정보가 없습니다.</p>;
     //1번 객실 리뷰 데이터
     const RoomReview01 = ReviewData.filter((item)=>item.r_code === Room[0].r_code);
     //2번 객실 리뷰 데이터
-    const RoomReview02 = ReviewData.filter((item)=>item.r_code === Room[1].r_code);
+    const RoomReview02 = Room[1] === undefined ? null : ReviewData.filter((item)=>item.r_code === Room[1].r_code);
     //3번 객실 리뷰 데이터
-    const RoomReview03 = ReviewData.filter((item)=>item.r_code === Room[2].r_code);
+    const RoomReview03 = Room[2] === undefined ? null : ReviewData.filter((item)=>item.r_code === Room[2].r_code);
     //각 리뷰 데이터 배열화
     const RoomReviewArr = [RoomReview01,RoomReview02,RoomReview03];
 
@@ -268,11 +292,11 @@ export default function Detail(){
             roomStar[i] = [];
 
             //별점 정수
-            const scoreInt = Math.floor(RatingAvg[i].scoreAvg);
+            const scoreInt = RatingAvg[i] === undefined ? 0 : Math.floor(RatingAvg[i].scoreAvg);
             //별점 소수
-            const scoreFloat = Math.floor(RatingAvg[i].scoreAvg*10)/10 - scoreInt;
+            const scoreFloat = RatingAvg[i] === undefined ? 0 : Math.floor(RatingAvg[i].scoreAvg*10)/10 - scoreInt;
             //별점 빈칸
-            const scoreZero = Math.floor(starTotal - scoreInt - scoreFloat);
+            const scoreZero = RatingAvg[i] === undefined ? 0 : Math.floor(starTotal - scoreInt - scoreFloat);
 
             for(let k=0; k<scoreInt; k++){
                 roomStar[i].push(['/img/star-one.png']);
@@ -329,7 +353,17 @@ export default function Detail(){
 
     //객실 평점별 갯수저장
     const starCount = {star1:0,star2:0,star3:0,star4:0,star5:0};    
-    const RoomReviewCount = ReviewData.filter((item)=>item.r_code === Room[0].r_code || item.r_code === Room[1].r_code || item.r_code === Room[2].r_code);
+    let RoomReviewCount;
+
+    for(let i = 0; i < ReviewData.length; i++){
+        if(i === 0){
+           RoomReviewCount = ReviewData.filter((item)=>item.r_code === Room[0].r_code);
+        }else if(Room[1] !== undefined && i === 1){
+            RoomReviewCount = ReviewData.filter((item)=>item.r_code === Room[0].r_code || item.r_code === Room[1].r_code);
+        }else if(Room[1] !== undefined && Room[2] !== undefined && i === 2){
+            RoomReviewCount = ReviewData.filter((item)=>item.r_code === Room[0].r_code || item.r_code === Room[1].r_code || item.r_code === Room[2].r_code);
+        }
+    }
 
     for(let i=0; i<RoomReviewCount.length; i++){
         RoomReviewCount[i].rb_score === 1 ? starCount.star1++ : RoomReviewCount[i].rb_score === 2 ? starCount.star2++ : RoomReviewCount[i].rb_score === 3 ? starCount.star3++ : RoomReviewCount[i].rb_score === 4 ? starCount.star4++ : starCount.star5++
@@ -535,7 +569,7 @@ export default function Detail(){
             searchClick(); // axios로 /api/room/available 호출
             setSearch(true); // "검색한 상태"로 취급
         }
-        }, []);
+    }, []);
         // [Hotel?.h_code, DayData?.[0], DayData?.[1], head]
 
         // 객실 검색
@@ -591,10 +625,13 @@ export default function Detail(){
     const roomsToShow =
     search ? 
     (resultRooms.length > 0 ? resultRooms : Room) : Room;
+    console.log('roomsToShow', roomsToShow)
+    console.log('search', search)
+    console.log('resultRooms', resultRooms)
 
-    // set => 
+
+    // set => 중복 제거 배열
     const availableSet = new Set(resultRooms.map(r => r.r_code));
-    
 
     return(
         <div className="detail" onClick={()=>setCal(false)}>
@@ -647,24 +684,43 @@ export default function Detail(){
                                     {starImg.map((star,index)=>(
                                         <img src={star} alt="score" key={index} />
                                     ))}
-                                    <span className='starScore'>{(hotelScore - Math.floor(hotelScore) === 0) ? hotelScore+'.0' : Math.trunc(hotelScore * 10) / 10}</span>
-                                    <span className='scoreCount'>{(RoomReview.length).toLocaleString()}명 평가</span>
+                                    {RoomReview.length === 0 ? 
+                                    (
+                                        <>
+                                            <span className='starScore'>
+                                                <img alt="score" class="star" src="/img/star-zero.png" />
+                                                <img alt="score" class="star" src="/img/star-zero.png" />
+                                                <img alt="score" class="star" src="/img/star-zero.png" />
+                                                <img alt="score" class="star" src="/img/star-zero.png" />
+                                                <img alt="score" class="star" src="/img/star-zero.png" />
+                                            </span>
+                                            <span className='scoreCount'>{(RoomReview.length).toLocaleString()}명 평가</span>
+                                        </>
+                                    ) 
+                                    : 
+                                    (
+                                        <>
+                                            <span className='starScore'>{(hotelScore - Math.floor(hotelScore) === 0) ? hotelScore+'.0' : Math.trunc(hotelScore * 10) / 10}</span>
+                                            <span className='scoreCount'>{(RoomReview.length).toLocaleString()}명 평가</span>
+                                        </>
+                                    )}
+                                    
                                 </div>
                                 <div className="title-right">
                                     {Hotel.discount === 1 ? (
                                         <>
                                             <p className='discount'><span className='red'>10% 할인</span> <span className='origin-price'>
-                                                {Room[0].price.toLocaleString()}
+                                                {Hotel.minPrice.toLocaleString()}
                                                 원</span></p>
                                             <p className='final-price'>
-                                                {(Room[0].price - (Room[0].price*0.1)).toLocaleString()}
+                                                {Math.floor(Hotel.minPrice - (Hotel.minPrice*0.1)).toLocaleString()}
                                                 원<span>/1박</span></p>
                                         </>
                                     ):(
                                         <>
                                             <p className='discount'><span className='red'>회원가입시 10,000원 할인쿠폰</span></p>
                                             <p className='final-price'>
-                                                {(Room[0].price).toLocaleString()}
+                                                {Math.floor(Hotel.minPrice).toLocaleString()}
                                                 원<span>/1박</span></p>
                                         </>
                                     )}
@@ -749,7 +805,22 @@ export default function Detail(){
                                 {roomsToShow.map((item,index)=>(
                                     <li key={item.r_code ?? index}>
                                         <div className="room-left">
-                                            <img src={`/img/${Hotel.h_code}-${index+2}.jpg`} alt={Hotel.hotelName} />
+                                            {/* <img src={`/img/${Hotel.h_code}-${index+2}.jpg`} alt={Hotel.hotelName} /> */}
+                                            {index === 0 ? 
+                                                <img src={`/img/${Hotel.h_s_Img1}`} alt={Hotel.hotelName} /> 
+                                                : 
+                                                index === 1 ? 
+                                                <img src={`/img/${Hotel.h_s_Img2}`} alt={Hotel.hotelName} />
+                                                :
+                                                index === 2 ? 
+                                                <img src={`/img/${Hotel.h_s_Img3}`} alt={Hotel.hotelName} />
+                                                :
+                                                index === 3 ? 
+                                                <img src={`/img/${Hotel.h_s_Img4}`} alt={Hotel.hotelName} />
+                                                :
+                                                ""
+                                                }
+                                            
                                         </div>
                                         <div className="room-right">
                                             <h2>{item.roomName}</h2>
@@ -853,6 +924,14 @@ export default function Detail(){
                         </div>
                         <div className="hotel-score">
                             <p className="score-title">이용자 평점</p>
+                            {RoomReview.length === 0 ? 
+                            (<>
+                                <div className='score-wrap'>
+                                    <p className='score-noReview'>아직 작성된 리뷰가 없습니다.</p>
+                                </div>
+                            </>) 
+                            : 
+                            (<>
                             <div className="score-wrap">
                                 <div className="score-left">
                                     <p className='tit'>이용자 평균 평점</p>
@@ -922,11 +1001,25 @@ export default function Detail(){
                                         {Room.map((item,index)=>(
                                             <div className='room-div' key={index}>
                                                 <div className="hotel-img-wrap">
-                                                    <img src={`/img/${Hotel.h_code}-${index+2}.jpg`} alt={Hotel.hotelName} className='hotel-img'/>
+                                                    {index === 0 ? 
+                                                        <img src={`/img/${Hotel.h_s_Img1}`} className='hotel-img' alt={Hotel.hotelName} /> 
+                                                        : 
+                                                        index === 1 ? 
+                                                        <img src={`/img/${Hotel.h_s_Img2}`} className='hotel-img' alt={Hotel.hotelName} />
+                                                        :
+                                                        index === 2 ? 
+                                                        <img src={`/img/${Hotel.h_s_Img3}`} className='hotel-img' alt={Hotel.hotelName} />
+                                                        :
+                                                        index === 3 ? 
+                                                        <img src={`/img/${Hotel.h_s_Img4}`} className='hotel-img' alt={Hotel.hotelName} />
+                                                        :
+                                                        ""
+                                                    }
                                                 </div>
 
                                                 <div className="review-txt-wrap">
-                                                    {RoomReviewArr[index]?.map((review,ind)=>(
+                                                    {RoomReviewArr[index].length != 0 ? (
+                                                    RoomReviewArr[index]?.map((review,ind)=>(
                                                         //여기서는 객실별 후기 3개씩만 보여지게
                                                         ind <= 2 ?
                                                             <p key={ind}>
@@ -957,7 +1050,12 @@ export default function Detail(){
                                                             </p>
                                                         :
                                                             null
-                                                    ))}
+                                                    ))
+                                                    ):(
+                                                        <p style={{textAlign: 'center',marginTop: '36px',fontSize: '14px',fontWeight: '600',marginLeft: '86px'}}>
+                                                            현재 작성된 리뷰가 없습니다.
+                                                        </p>
+                                                    )}
                                                 </div>
                                                 <div className="more">
                                                     <p className='more-txt'>더보기</p>
@@ -1009,6 +1107,7 @@ export default function Detail(){
                                     </div>
                                 </div>
                             </div>
+                            </>)}
                         </div>
                         <div className="hotel-info" >
                             <div className="info-wrap" style={{height: more === false ? '500px' : '100%'}}>
@@ -1205,9 +1304,10 @@ export default function Detail(){
                             <ul style={{transform: `translateX(-${307 * current02}px)`}}>
                                 {wishArray.map((hotel,index)=>(
                                     <li key={index}>
-                                        <Link to={`/detail/${hotel.h_code}`} onClick={() => window.scrollTo(0,0)}>
+                                        {/* <Link to={`/detail/${hotel.h_code}`} onClick={() => window.scrollTo(0,0)}> */}
+                                        <div onClick={() => {window.scrollTo(0,0); navigate(`/detail/${hotel.h_code}`);}}>
                                             <div className="hotel-img-wrap">
-                                                <img src={`/img/${Number(hotel.h_code)}-1.jpg`} alt={hotel.hotelName} className='hotel-img'/>
+                                                <img src={`/img/${hotel.h_Img}`} alt={hotel.hotelName} className='hotel-img'/>
                                             </div>
                                             <div className="hotel-txt">
                                                 <p className='hotel-type'>{hotel.type==='Hotel'?'호텔':hotel.type==='Resort'?'리조트':hotel.type==='GuestHouse'?'게스트하우스/비앤비':hotel.type==='Condo'?'콘도':'캠핑장'}</p>
@@ -1225,23 +1325,23 @@ export default function Detail(){
                                                     {hotel.discount === 1 ? (
                                                         <>
                                                             <p className='discount'><span className='red'>10% 할인</span> <span className='origin-price'>
-                                                                {WishAvg[index].minPrice.toLocaleString()}
+                                                                {hotel.minPrice.toLocaleString()}
                                                                 원</span></p>
                                                             <p className='final-price'>
-                                                                {(WishAvg[index].minPrice - (WishAvg[index].minPrice*0.1)).toLocaleString()}
+                                                                {(hotel.minPrice - (hotel.minPrice*0.1)).toLocaleString()}
                                                                 원<span>/1박</span></p>
                                                         </>
                                                     ):(
                                                         <>
                                                             <p className='discount'><span className='red'>회원가입시 10,000원 할인쿠폰</span></p>
                                                             <p className='final-price'>
-                                                                {(WishAvg[index].minPrice).toLocaleString()}
+                                                                {(hotel.minPrice).toLocaleString()}
                                                                 원<span>/1박</span></p>
                                                         </>
                                                     )}
                                                 </div>
                                             </div>
-                                        </Link>
+                                        </div>
                                         <button type='button' onClick={()=>wishHandler(hotel.h_code)}>
                                             <i className="fa-solid fa-heart" style={
                                             wish.find((item) => item.h_code === Number(hotel.h_code)) ?

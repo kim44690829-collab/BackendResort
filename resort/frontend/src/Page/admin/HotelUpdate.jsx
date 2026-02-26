@@ -136,6 +136,14 @@ export default function HotelUpdate(){
     setRoomservice(nnn);
     setPublicservice(bbb);
     setOtherservice(ncccnn);
+    setHotelName(currentHotel.hotelName)
+    setCountry(currentHotel.country)
+    setCity(currentHotel.city)
+    setType(currentHotel.type)
+    setH_address(currentHotel.h_address)
+    setDiscount(currentHotel.discount)
+    setStartDate(currentHotel.startDate)
+    setEndDate(currentHotel.endDate)
 
     console.log(nnn);
 }, [hotel, h_code]);

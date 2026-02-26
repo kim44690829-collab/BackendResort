@@ -2,6 +2,9 @@ package resort.board.dto;
 
 import java.util.Date;
 
+import lombok.Data;
+
+@Data
 public class ReviewboardDTO{
 	// 리뷰보드 DTO
 	private int rb_code ; //리뷰보드코드
@@ -12,56 +15,6 @@ public class ReviewboardDTO{
 	private int reviewCount; //리뷰수
 	private double scoreAvg;
 	private int minPrice;
-	
-	
-	public int getRb_code() {
-		return rb_code;
-	}
-	public void setRb_code(int rb_code) {
-		this.rb_code = rb_code;
-	}
-	public int getRb_score() {
-		return rb_score;
-	}
-	public void setRb_score(int rb_score) {
-		this.rb_score = rb_score;
-	}
-	public Date getRb_date() {
-		return rb_date;
-	}
-	public void setRb_date(Date rb_date) {
-		this.rb_date = rb_date;
-	}
-	public int getM_code() {
-		return m_code;
-	}
-	public void setM_code(int m_code) {
-		this.m_code = m_code;
-	}
-	public int getR_code() {
-		return r_code;
-	}
-	public void setR_code(int r_code) {
-		this.r_code = r_code;
-	}
-	public int getReviewCount() {
-		return reviewCount;
-	}
-	public void setReviewCount(int reviewCount) {
-		this.reviewCount = reviewCount;
-	}
-	public double getScoreAvg() {
-		return scoreAvg;
-	}
-	public void setScoreAvg(double scoreAvg) {
-		this.scoreAvg = scoreAvg;
-	}
-	public int getMinPrice() {
-		return minPrice;
-	}
-	public void setMinPrice(int minPrice) {
-		this.minPrice = minPrice;
-	}	
 	
 	
 }

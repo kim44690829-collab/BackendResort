@@ -39,4 +39,10 @@ public class NoticeServiceImpl implements NoticeService{
 		return noticeMapper.getSearchPageNoticeList(searchType, searchKeyword, startRow, pageSize);
 	}
 
+	@Override
+	public void insertNotice(NoticeDTO ndto) {
+		noticeMapper.insertNotice(ndto);
+		
+	}
+
 }

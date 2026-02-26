@@ -6,14 +6,18 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import resort.board.dto.NoticeDTO;
 import resort.board.service.NoticeService;
 import resort.handler.PageHandler;
 import resort.product.dto.HotelDTO;
+import resort.product.dto.RoomDTO;
 
 @RestController
 @RequestMapping("/api")
@@ -62,4 +66,22 @@ public class NoticeApiController {
 		result.put("searchKeyword",searchKeyword);
 		return result;
 	}
+	
+	
+	@PostMapping("/board/noticeinsert")
+	public int insertNotice(@RequestParam("noticeData") String noticeData)throws Exception {
+		System.out.println("자동차 등록 요청");
+		
+		// JSON 문자열 → TestImgDTO 변환
+        ObjectMapper mapper = new ObjectMapper();
+        NoticeDTO ndto = mapper.readValue(noticeData, NoticeDTO.class);
+        
+        noticeService.insertNotice(ndto);
+        
+        return 1;
+	}
+	
+	
+	
+	
 }

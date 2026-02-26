@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 export default function RoomUpdate(){
     const {r_code} = useParams();
     const {RoomData} = useContext(ResortDataContext)
-
+    const [relode,setRelode] = useState(false)
     const [h_code,setH_code] = useState(null)
     const [roomName,setRoomName] = useState(null)
     const [price,setPrice] = useState(null)
@@ -45,6 +45,10 @@ export default function RoomUpdate(){
         console.log(RoomData)
         console.log(RoomData[r_code-1])
         console.log(RoomData[r_code-1].h_code)
+        setH_code(RoomData[r_code-1].h_code)
+        setRoomName(RoomData[r_code-1].roomName)
+        setPrice(RoomData[r_code-1].price)
+        setMaxOccupancy(RoomData[r_code-1].maxOccupancy)
     },[])
     
     return(
@@ -127,7 +131,7 @@ export default function RoomUpdate(){
                                     <tr>
                                         <th width="200px">h_code</th>
                                         <th style={{backgroundColor:"#fff",color:"#333"}}>
-                                            <input type="text" name="h_code" onChange={(e)=>{setH_code(e.target.value),setR_img(`["/img/${room.h_code}-1.jpg","/img/${room.h_code}-2.jpg","/img/${room.h_code}-3.jpg","/img/${room.h_code}-4.jpg","/img/${room.h_code}-5.jpg"]`)}} 
+                                            <input type="text" name="h_code" onChange={(e)=>{setH_code(e.target.value),setR_img(`["/img/${h_code}-1.jpg","/img/${h_code}-2.jpg","/img/${h_code}-3.jpg","/img/${h_code}-4.jpg","/img/${h_code}-5.jpg"]`)}} 
                                                 value={h_code === null? RoomData[r_code-1].h_code:h_code}
                                             />
                                         </th>

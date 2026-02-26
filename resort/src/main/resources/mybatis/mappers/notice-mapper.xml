@@ -45,4 +45,18 @@
 		ORDER BY n_code DESC
 		LIMIT #{startRow}, #{pageSize}
 	</select>
+	
+	<insert id="insertNotice" parameterType="NoticeDTO">
+		INSERT INTO notice(n_title,n_content) VALUES(#{n_title},#{n_content})
+	</insert>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 </mapper>

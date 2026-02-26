@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -139,4 +140,10 @@ public class ReviewboardApiController {
 	
 	
 	
+	// 리뷰  UPDATE
+	@PutMapping("/board/reviewMod")
+	public int reviewMod(@RequestParam("rb_code") int rb_code, @RequestParam("rb_score") int rb_score ) {
+		System.out.println("ReviewboardServiceImpl : reviewAdd() 메서드 확인");
+		return reviewboardservice.reviewMod(rb_code, rb_score);
+	}
 }

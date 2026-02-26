@@ -47,7 +47,7 @@ export default function ResortData({children}){
         // ReviewData
         axios.get('/api/board/review')
         .then((res) => {
-            // console.log("리뷰(평점) 데이터 : ", res.data);
+             console.log("리뷰(평점) 데이터 : ", res.data);
             setReviewData(res.data);
         })
         .catch((error) => {
@@ -295,7 +295,8 @@ export default function ResortData({children}){
             }));
 
             setWishAvg(avgList);
-            console.log(avgList)
+            console.log("-----------------------------------");
+            console.log(responses.data)
         })
         .catch(error => {
             console.error("error", error);
@@ -441,7 +442,7 @@ export default function ResortData({children}){
     if(HotelData.length > 0 && RoomData.length > 0 && ReviewData.length >0 && RatingData.length > 0 && RatingAvgData.length > 0 && hotelMinPrice.length > 0 && hotelMerge.length>0) {
         return(
             <ResortDataContext.Provider value={{
-                townfilter2,
+                setUserEmail,setUserNickName,townfilter2,
                 userEmail,MemberAllData,setHotelMerge,
                 hotelMerge,hotelNum, setHotelNum, 
                 WishAvg, hotelMinPrice,HotelRatingDate,

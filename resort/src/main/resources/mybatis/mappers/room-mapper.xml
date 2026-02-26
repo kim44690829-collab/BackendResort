@@ -75,8 +75,9 @@
 		AND re.check_in_date &lt; #{check_out_date}
 		AND re.check_out_date &gt; #{check_in_date}
 		WHERE r.h_code = #{h_code}
-		AND r.maxOccupancy &gt;= #{maxOccupancy}
+		AND (r.maxOccupancy &gt;= #{maxOccupancy}
 		AND re.r_code IS NULL
+		OR re.cancel = 1)
 	</select>
 	
 	<!-- ===========2026-02-26 수정부분 JHJ ================ -->

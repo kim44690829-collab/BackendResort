@@ -164,7 +164,7 @@ public class MemberServiceImpl implements MemberService {
 	// ============= 2026-02-23 수정 ===============
 	@Override
 	public int getSearchCount(String searchType, String searchKeyword) {
-		System.out.println("MemberServiceImpl : getPagelist(@-@) 메서드 확인");
+		System.out.println("MemberServiceImpl : getSearchCount(@-@) 메서드 확인");
 		return membermapper.getSearchCount(searchType, searchKeyword);
 	}
 	
@@ -194,6 +194,4 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	
-
-
 }

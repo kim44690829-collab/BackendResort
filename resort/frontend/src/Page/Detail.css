@@ -581,6 +581,12 @@ button{
     background: #f5f7fa;
     padding: 30px 0px;
 }
+.detail-wrap .detail-content .detail-left .hotel-score .score-wrap .score-noReview{
+    margin: 0 auto;
+    font-weight: bold;
+    font-size: 20px;
+    padding: 30px;
+}
 .hotel-score .score-wrap .score-left,
 .hotel-score .score-wrap .score-middle,
 .hotel-score .score-wrap .score-right{

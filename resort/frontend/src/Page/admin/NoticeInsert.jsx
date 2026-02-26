@@ -8,90 +8,42 @@ import { useNavigate } from "react-router-dom";
 
 export default function NoticeInsert(){
 
-    const [textarea,setTextarea] = useState("")
+    const [textarea,setTextarea] = useState('')
+    const [notice,setNotice] = useState('')
 
 
-    const [room,setRoom] = useState({
-        h_code:'',
-        roomName:'',
-        price:'',
-        maxOccupancy:'',
-        r_img:'',
-    })
-    const [r_img,setR_img] = useState('')
     const navigate = useNavigate();
     //상품 들록하는 submit 함수
     const submitHandler=()=>{
         // React에서 이미지 업로드시 반드시 formData 객체를 생성한다.
         const formData = new FormData();
 
-        // 자바의 확장 for문과 비슷한 
-        // 리액트의 for ~ in 구문
-        // 객체의 key를 하나씩 꺼내는 구문
-        /* for(let key in hotel){
-            // key중 img 확인
-            if(key === 'h_Img' || key === 'h_s_Img1' || key === 'h_s_Img2' || key === 'h_s_Img3' || key === 'h_s_Img4'){
-                formData.append('uploadFile', hotel[key]);
-            }else if(key === 'discount'){
-                formData.append(key,Number(hotel[key]));
-            }else if(key === 'startDate' || key === 'endDate'){
-                formData.append(key,Date(hotel[key]));
-            }else{
-                formData.append(key,hotel[key]);
-            }
-        } */
-         /// 파일만 별도로 추가
-        /* formData.append('h_Img', hotel.h_Img);
-        formData.append('h_s_Img1', hotel.h_s_Img1);
-        formData.append('h_s_Img2', hotel.h_s_Img2);
-        formData.append('h_s_Img3', hotel.h_s_Img3);
-        formData.append('h_s_Img4', hotel.h_s_Img4); */
-        // 나머지 텍스트 필드들을 JSON 하나로 묶어서 추가
+        
         const textData = {
-            h_code:Number(room.h_code),
-            roomName:room.roomName,
-            price:Number(room.price),
-            maxOccupancy:Number(room.maxOccupancy),
-            r_img:r_img
+            n_title:textarea,
+            n_content:notice
         };
 
 
         // JSON 문자열로 변환해서 testData 하나로 묶기
-        formData.append('roomData', JSON.stringify(textData));
+        formData.append('noticeData', JSON.stringify(textData));
 
 
 
-        axios.post('/api/room/insert',formData)
+        axios.post('/api/board/noticeinsert',formData)
         .then((res)=>{
             if(res.data === 1){
                 alert("상품등록 성공")
-                navigate("/adminpage3")
+                navigate("/adminpage6")
             }
         })
         .catch((error)=>{
             console.log("등록실패")
         })
     }
-    // 공통 임력 처리 함수
-    const handleChange=(e)=>{
-        // input의 name 값을 가져오기
-        const inputName = e.target.name;
-        if(e.target.type === 'file'){
-            // ...car를 반드시 얕은 복사해야함
-            // 얕은 복사 하지 않으면 랜더링이 안됨
-            //
-            setRoom({...room,[inputName]:e.target.files[0]})
-        }else{
-            // file를 제외한 모든 숫자, 문자, 의 input value저장
-            setRoom({...room,[inputName]:e.target.value}) // 스프레드구문 -> 펼쳐진 상테로 원하는 값
-            setR_img(`["/img/${room.h_code}-1.jpg","/img/${room.h_code}-2.jpg","/img/${room.h_code}-3.jpg","/img/${room.h_code}-4.jpg","/img/${room.h_code}-5.jpg"]`)
-        }
-    }
-
-    // 추가된 요소 텍스트로 변환된값
-    useEffect(()=>{
-       
-    },[])
+    
+    
+    
     return(
         <>
             <div className="admin_wrap">
@@ -165,20 +117,23 @@ export default function NoticeInsert(){
                         </div>
                     </div>
                     <div className="admin_body">
-                        <div className="admin_text">객실 상품 추가</div>
+                        <div className="admin_text">공지사항 작성</div>
                         <div className="admin_list">
                             <table className="list_table" border="1" style={{width:"800px"}}>
                                 <thead >
                                     <tr>
                                         <th width="200px">n_title</th>
                                         <th style={{backgroundColor:"#fff",color:"#333"}}>
-                                            <input type="text" name="h_code" onChange={handleChange} />
+                                            <input type="text" name="n_title" onChange={(e)=>setNotice(e.target.value)} style={{width:"500px",height:"40px"}}/>
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">n_content</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333"}}>
-                                            <input type="" name="roomName" onChange={handleChange} />
+                                        <th style={{backgroundColor:"#fff",color:"#333",height:"300px"}}>
+                                            {/* <input type="" name="roomName" onChange={handleChange} /> */}
+                                            <textarea name="n_content" id="n_content" cols="30" style={{height:"250px",width:"500px"}}
+                                                onChange={(e)=>setTextarea(e.target.value)}
+                                            ></textarea>
                                         </th>
                                     </tr>
                                 </thead>

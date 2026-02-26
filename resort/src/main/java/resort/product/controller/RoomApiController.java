@@ -89,7 +89,7 @@ public class RoomApiController {
 				//@ModelAttribute HotelDTO hdto ,
 				@RequestParam("roomData") String roomData
 				) throws Exception{
-			System.out.println("자동차 등록 요청");
+			System.out.println("객실 등록 요청");
 			
 			// JSON 문자열 → TestImgDTO 변환
 	        ObjectMapper mapper = new ObjectMapper();

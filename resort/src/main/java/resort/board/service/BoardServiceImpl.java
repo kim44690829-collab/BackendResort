@@ -74,34 +74,35 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	//하나의 게시글을 수정하는 메소드
-//	@Override
-//	public boolean updateBoard(BoardDTO bdto) {
-//		System.out.println("BoardServiceImpl updateBoard() 메소드호출");
-//		int result = boardmapper.updateBoard(bdto);
-//		
-//		if(result > 0) {
-//			System.out.println("게시글 수정 성공");
-//			return true; //수정이 된 경우
-//		}else {
-//			System.out.println("게시글 수정 실패(비밀번호 불일치)");
-//			return false;
-//		}
-//	}
+	@Override
+	public boolean updateBoard(BoardDTO bdto) {
+		System.out.println("BoardServiceImpl updateBoard() 메소드호출");
+		
+		int result = boardmapper.updateBoard(bdto);
+		
+		if(result > 0) {
+			System.out.println("게시글 수정 성공");
+			return true; //수정이 된 경우
+		}else {
+			System.out.println("게시글 수정 실패(비밀번호 불일치)");
+			return false;
+		}
+	}
 
 	//게시글 하나를 삭제하는 메소드
-//	@Override
-//	public boolean deleteBoard(int b_code, String b_pw) {
-//		System.out.println("BoardServiceImpl deleteBoard() 메소드호출");
-//		int result = boardmapper.deleteBoard(b_code, b_pw);
-//		
-//		if(result > 0) {
-//			System.out.println("게시글 삭제 성공");
-//			return true;
-//		}else {
-//			System.out.println("게시글 삭제 실패(비밀번호 불일치)");
-//			return false;
-//		}
-//	}
+	@Override
+	public boolean deleteBoard(BoardDTO bdto) {
+		System.out.println("BoardServiceImpl deleteBoard() 메소드호출");
+		int result = boardmapper.deleteBoard(bdto);
+		
+		if(result > 0) {
+			System.out.println("게시글 삭제 성공");
+			return true;
+		}else {
+			System.out.println("게시글 삭제 실패(비밀번호 불일치)");
+			return false;
+		}
+	}
 
 	//게시글 검색 메소드
 //	@Override

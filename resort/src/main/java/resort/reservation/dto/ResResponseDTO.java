@@ -1,5 +1,8 @@
 package resort.reservation.dto;
 
+import lombok.Data;
+
+@Data
 public class ResResponseDTO {
 	
 	private boolean success;
@@ -11,31 +14,6 @@ public class ResResponseDTO {
     	this.result = result;
     	this.reservation_no = reservation_no;
     }
-
-	public boolean isSuccess() {
-		return success;
-	}
-
-	public void setSuccess(boolean success) {
-		this.success = success;
-	}
-
-	public int getResult() {
-		return result;
-	}
-
-	public void setResult(int result) {
-		this.result = result;
-	}
-
-	public String getReservation_no() {
-		return reservation_no;
-	}
-
-	public void setReservation_no(String reservation_no) {
-		this.reservation_no = reservation_no;
-	};
-    
     
     
 }

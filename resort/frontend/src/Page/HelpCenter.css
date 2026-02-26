@@ -45,6 +45,7 @@
     border-bottom: 1px solid gray;
     align-items: center;
 }
+
 .helpCenter_text .helpCenter_texts .textDownBtn{
     border: none;
     background-color: transparent;
@@ -90,6 +91,9 @@
     color: #333;
     background-color: transparent;
 }
+
+
+
 /* 1대1 문의 */
 .support-1on1{
     height: 500px;
