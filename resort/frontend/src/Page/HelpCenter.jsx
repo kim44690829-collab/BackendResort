@@ -162,9 +162,9 @@ export default function HelpCenter(){
 
     //게시글 상세보기
     const detailView = (num) => {
-        if(!userNickName || !userEmail){
-            return alert("로그인이 필요합니다");
-        }
+        // if(!userNickName || !userEmail){
+        //     return alert("로그인이 필요합니다");
+        // }
         
         axios.get('/api/board/boardInfo', {
 	        params: {
@@ -204,7 +204,13 @@ export default function HelpCenter(){
         }else{
             alert("로그인시 수정가능합니다.");
         }
-    }    
+    }
+    //게시글 수정 취소 클릭
+    const cancelButton = () => {
+        setWriteBoard(false);
+        setDetailBoard(true);
+        setModifyBoard(false);
+    }
 
     //게시글 수정 컨펌
     const detailModify = () => {
@@ -761,6 +767,7 @@ export default function HelpCenter(){
                                     <tr height="40">
                                         <td align="center" colSpan="2">
                                         <input type="button" onClick={modifyButton} value="수정하기" />&nbsp;&nbsp;
+                                        {/* <input type="button" onClick={deleteButton} value="삭제하기" />&nbsp;&nbsp; */}
                                         <input type="button" onClick={resetBoard} value="전체목록" />
                                         </td>
                                     </tr>
@@ -789,7 +796,7 @@ export default function HelpCenter(){
                                         <td style={{ width: '450px' }}><input type="text" name="subject" className="b_subject" value={title} onChange={(e) => setTitle(e.target.value)} /></td>
                                     </tr>
                                     <tr height="40">
-                                        <td align="center" style={{ width: '150px' }}>비밀번호</td>
+                                        <td align="center" style={{ width: '150px' }}>비밀번호 <span style={{color:'red'}}>* 필수입력</span></td>
                                         <td style={{ width: '450px' }}><input type="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} /></td>
                                     </tr>
                                     <tr height="40">
@@ -821,7 +828,7 @@ export default function HelpCenter(){
                                     <tr height="40">
                                         <td align="center" colSpan="2">
                                         <input type="button" onClick={detailModify} value="수정" />&nbsp;&nbsp;
-                                        <input type="button" onClick={resetBoard} value="취소" />
+                                        <input type="button" onClick={cancelButton} value="취소" />
                                         </td>
                                     </tr>
                                 </tbody>

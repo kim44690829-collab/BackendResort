@@ -23,9 +23,9 @@ public interface BoardMapper {
 	//하나의 게시글을 수정하는 메소드
 	public int updateBoard(BoardDTO bdto);
 	
-	// 게시글 작성시 비밀번호 입력하였기 때문에 => 삭제시에도 비밀번호와 번호가 일치하는지 체크
+	// 게시글 삭제
 	// 매개변수가 2개이상인 경우는 @Param("변수" 데이터타입 필드명)이용해 작성한다.
-	public int deleteBoard(@Param("b_code") int b_code,@Param("b_pw") String b_pw);
+	public int deleteBoard(BoardDTO bdto);
 	
 	//내용 또는 제목으로 게시글 검색하는 메소드
 	//검색메소드 반드시, searchType, searchKeyword 매개변수 필요

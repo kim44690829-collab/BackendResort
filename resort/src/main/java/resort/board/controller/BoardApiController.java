@@ -216,25 +216,16 @@ public class BoardApiController {
 		return isSuccess;
 	}
 	
-	// 7. 하나의 게시글을 삭제하는 컨트롤러
-//	@DeleteMapping("/board/delete")
-//	public String boardDeletePro(
-//			@RequestParam("num") int num,
-//			@RequestParam("writerPw") String writerPw
-//			) {
-//		System.out.println("1)BoardController boardDeletePro() 메소드호출");
-//
-//		// boardService removeBoard()메소드 삭제: true, 실패:false
-//		boolean isSuccess = boardservice.removeBoard(num, writerPw);
-//		
-//		if(isSuccess){
-//			return "redirect:/board/list";
-//		}else {
-//			//삭제 실패 시 상세페이지 그대로 
-//			return "redirect:/board/boardInfo?num="+num;
-//		}
-//		
-//	}
+	// 하나의 게시글을 삭제하는 컨트롤러
+	@DeleteMapping("/board/delete")
+	public boolean boardDelete(BoardDTO bdto) {
+		System.out.println("BoardApiController boardDelete() 메소드호출");
+
+		// boardService removeBoard()메소드 삭제: true, 실패:false
+		boolean isSuccess = boardservice.deleteBoard(bdto);
+		
+		return isSuccess;
+	}
 	
 	//로그인된 나의 게시글 목록을 검색하는 핸들러
 //	@GetMapping("/board/mypage")
