@@ -317,7 +317,7 @@ export default function HelpCenter(){
             console.error("error", error)
         })
         console.log(page)
-    },[page,searchType,searchKeyword])
+    },[page])
     //삭제클릭 상태
     const [delState, setDelState] = useState(false);
 
@@ -452,7 +452,7 @@ export default function HelpCenter(){
         setSearchKeyword(serch)
         setPage(1);
     }
-    const [noticeNum,setNoticeNum] = useState(0)
+    const [noticeNum,setNoticeNum] = useState(0);
     
     return(
         <div className="helpCenter_container">
@@ -799,7 +799,7 @@ export default function HelpCenter(){
                                     <td>
                                         {pageHandler.totalCnt - ((page - 1) * pageSize) - index}
                                     </td>
-                                    <td>
+                                    <td className='boardTitle'> 
                                         <button onClick={()=>{detailView(item.b_code)}}>
                                             {/* 답글인 경우 */}
                                             {item.re_level > 1 ? (
@@ -888,7 +888,7 @@ export default function HelpCenter(){
                             {/* <option value="b_content">내용</option> */}
                             <option value="b_writer">작성자</option>
                         </select>
-                        <input type="text" name="searchKeyword" placeholder="검색어를 입력하세요." value={searchKeyword} onChange={(e) => setSearchKeyword(e.target.value)}
+                        <input type="text" name="searchKeyword" placeholder="검색어를 입력하세요." value={searchKeyword} onChange={(e) => {e.preventDefault();setSearchKeyword(e.target.value)}}
                          onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault();handleSearch();}}}
                             style={{ height: "37px", width: "300px", padding: "0 10px" }}/>
                         <button type="button" className="btn" onClick={handleSearch} style={{ width: "100px", height: "43px" }}>검색</button>
@@ -909,7 +909,7 @@ export default function HelpCenter(){
                                     <tr height="40">
                                         <td align="center" style={{ width: '150px' }}>제목</td>
                                         <td style={{ width: '450px' }}>{detail.b_title}</td>
-                                        <td style={{ width: '450px' }}>{detail.b_date}</td>
+                                        <td style={{ width: '450px' }}>{formatDateTime(detail.b_date)}</td>
                                     </tr>
                                     <tr height="40">
                                         <td align="center" style={{ width: '150px' }}>작성자 : </td>
@@ -962,8 +962,18 @@ export default function HelpCenter(){
                                         {userEmail === "admin@resort.com" ? (
                                             <input type="button" onClick={()=>replyClick(detail.ref,detail.re_step,detail.re_level)} value="댓글작성" />
                                         ):null}
-                                        <input type="button" onClick={()=>{resetBoard();setPage(page);}} value="이전으로" />
-                                        <input type="button" onClick={resetBoard} value="전체목록" />
+                                        {!isMyList &&
+                                            <>
+                                                <input type="button" onClick={()=>{resetBoard();setPage(page);}} value="이전으로" />
+                                                <input type="button" onClick={resetBoard} value="전체목록" />
+                                            </>
+                                        }
+                                        {isMyList &&
+                                            <>
+                                                <input type="button" onClick={()=>{resetBoard();setIsMyList(true);setPage(page);}} value="이전으로" />
+                                                <input type="button" onClick={resetBoard} value="전체목록" />
+                                            </>
+                                        }
                                         </td>
                                     </tr>
                                 </tbody>

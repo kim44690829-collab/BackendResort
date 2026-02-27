@@ -211,6 +211,10 @@
     border-collapse: collapse;
     font-size: 13px;
 }
+#board table .boardTitle button{
+    font-size: 15px;
+    line-height: 20px;
+}
 
 /* 헤더 */
 #board table tr:first-child {
@@ -224,6 +228,7 @@
     padding: 10px 6px;
     border-bottom: 1px solid #eee;
     word-break: break-word;
+    line-height: 21px;
 }
 
 /* 번호 */

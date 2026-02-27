@@ -23,7 +23,7 @@
     FROM board b
     JOIN member m ON b.m_code = m.m_code
     WHERE b.ref = #{ref}
-      AND b.re_level > 1
+      AND b.re_level &gt; 1
       AND m.m_email = 'admin@resort.com'
 </select>
 
