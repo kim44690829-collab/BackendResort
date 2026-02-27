@@ -37,7 +37,7 @@ public class MyPageDTO {
 	
 	private int rb_code; // 리뷰보드코드
 	private int rb_score; // 별점
-	
+	private int rb_chk; // 리뷰 작성 이전(0), 완료(1), 불가(2)
 
 	
 }

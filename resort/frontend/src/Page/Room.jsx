@@ -10,7 +10,7 @@ import axios from "axios";
 export default function Room(){
     // 가져오는 호텔, 개실 데이터
     const {HotelData,RoomData, hotelInput,hotelMerge,HotelRatingDate,townfilter2, setHotelInput, DayData,RatingAvgData,RatingData,ReviewData, hotelMinPrice,HotelPriceDate, setDayData,countryEn,cityEn,town,townfilter,setTown,
-        serchHandler,dateFilter,setDateFilter,hotelSort,setHotelSort,myhotel,setmyhotel,wish,wishStar,wishArray,wishHandler,} = useContext(ResortDataContext);
+        serchHandler,dateFilter,setDateFilter,hotelSort,setHotelSort,myhotel,setmyhotel,wish,wishStar,wishArray,wishHandler, guestCount, setGuestCount} = useContext(ResortDataContext);
     //const {selectDate,setSelectDate,setSelectday} = useContext(calendarAuth)
 
 
@@ -59,7 +59,6 @@ export default function Room(){
         console.log("DayData",DayData)
     },[DayData,cityEn,countryEn])
     
-    
     useEffect(()=>{
         //console.log(myFilter,'현재 마이필터')
         //console.log(myhotel,'현재 마이호텔')
@@ -78,8 +77,8 @@ export default function Room(){
 
             return match ? { ...hotel03, ...match } : hotel03
         })
-
-        const filterHotel = hotelmap.filter((data)=>{ // 각 항목별로 만족하는것 필터링
+        const personfilter = hotelmap.filter((f)=> f.hotelMaxOccupancy >= guestCount);
+        const filterHotel = personfilter.filter((data)=>{ // 각 항목별로 만족하는것 필터링
             const f1 = selectfilter02.every((filter)=>data.roomservice.includes(filter.name)); 
             const f2 = selectfilter01.every((filter)=>data.publicservice.includes(filter.name)); 
             const f3 = selectfilter03.every((filter)=>data.otherservice.includes(filter.name));
@@ -400,7 +399,7 @@ export default function Room(){
                                                 <span className="coupon">회원가입시 10,000원 할인쿠폰</span>
                                                 }
                                             </p>
-                                            <p className="menu_price">{item.discount===1?(hotelMinPrice[index].hotelPrice*0.9).toLocaleString():(hotelMinPrice[index]?.hotelPrice.toLocaleString())}원</p>
+                                            <p className="menu_price">{item.discount===1?Math.floor(hotelMinPrice[item.h_code-1].hotelPrice*0.9).toLocaleString():(Math.floor(hotelMinPrice[item.h_code-1].hotelPrice)).toLocaleString()}원</p>
                                             
                                             
                                         </div>

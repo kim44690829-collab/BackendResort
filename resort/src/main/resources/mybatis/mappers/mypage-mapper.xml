@@ -36,8 +36,8 @@
 	        m.m_regDate,      
 	        
 	        rb.rb_code,
-	        rb.rb_score
-	         
+	        rb.rb_score,
+	        rb.rb_chk
 	
 	    FROM reservation re
 	    INNER JOIN member m ON re.m_code = m.m_code

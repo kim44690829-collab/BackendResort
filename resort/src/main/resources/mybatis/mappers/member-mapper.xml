@@ -43,6 +43,9 @@
 	SELECT * FROM member WHERE m_nickName=#{m_nickName}
 </select>
 
+<!-- //개인 한 사람의 정보를 검색하는 메소드 - 비밀번호 찾기용 public MemberDTO getPwFind(@Param("m_email") String m_email, @Param("m_phone") String m_phone); -->
+<select id="getPwFind" resultType="MemberDTO">
+	SELECT * FROM member WHERE m_email = #{m_email} AND m_phone = #{m_phone}
 
 <!-- //개인 한 사람의 정보를 검색하는 메소드 -->
 <select id="getOneMember"  resultType="MemberDTO">

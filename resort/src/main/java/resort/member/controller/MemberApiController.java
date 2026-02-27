@@ -47,13 +47,25 @@ public class MemberApiController {
 		System.out.println("MemberApiController : oneSelectMember() 메서드 확인");
 		return memberservice.oneSelectMember(m_email);
 	}	
-	//개인 한 사람의 정보를 검색
+	//개인 한 사람의 정보를 검색 - 예약 페이지용
 	@GetMapping("/member/onememberSelect")
 	public MemberDTO getOneSelectMember(@RequestParam("m_nickName") String m_nickName){
 		System.out.println("MemberApiController : oneSelectMember() 메서드 확인");
 		return memberservice.getOneSelectMember(m_nickName);
 	}	
-
+	// 개인 한 사람의 정보를 검색하는 메소드 - 비밀번호 찾기용
+	@GetMapping("/member/selectMember")
+	public int getPwFind(@RequestParam("m_email") String m_email, @RequestParam("m_phone") String m_phone) {
+		System.out.println("MemberApiController : getPwFind() 메서드 확인");
+		return memberservice.getPwFind(m_email, m_phone);
+	}
+	// 개인 한 사람의 정보를 수정하는 메소드 - 비밀번호 찾기용
+	@PutMapping("/member/memberPwMod")
+	public int pwMod(@RequestParam("m_email") String m_email, @RequestParam("m_phone") String m_phone) {
+		System.out.println("MemberApiController : pwMod() 메서드 확인!!!!!!!!!!!!!!!");
+		return 0;
+	}
+	
 	//개인 한사람의 정보를 수정
 	@PutMapping("/member/updatemember")
 	public boolean updateMember(@RequestBody MemberDTO mdto){			
@@ -66,7 +78,6 @@ public class MemberApiController {
 	public boolean deleteMember(@RequestBody MemberDTO mdto){
 		System.out.println("MemberApiController : deleteMember() 메서드 확인");
 		return memberservice.deleteMember(mdto);
-		
 	}
 	
 	// ============= 2026-02-20 수정 부분 ==============

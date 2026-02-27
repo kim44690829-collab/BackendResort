@@ -21,4 +21,5 @@ public class BoardDTO {
 	private Date b_update; // 수정일자
 	private String b_upload;  // 첨부파일
 	
+	
 }

@@ -1128,6 +1128,7 @@ button{
 .detail-wrap .recommend .recommend-slider,
 .detail-wrap .wish .wish-slider{
     overflow: hidden;
+    border-radius: 10px;
 }
 .detail-wrap .recommend .recommend-slider ul,
 .detail-wrap .wish .wish-slider ul{

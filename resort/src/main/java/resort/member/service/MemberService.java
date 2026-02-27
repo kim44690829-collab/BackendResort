@@ -14,8 +14,10 @@ public interface MemberService {
 	public List<MemberDTO> allSelectMember();
 	//개인 한 사람의 정보를 검색하는 메소드
 	public MemberDTO oneSelectMember(String m_email);
-	//개인 한 사람의 정보를 검색하는 메소드
+	//개인 한 사람의 정보를 검색하는 메소드 - 예약 페이지용
 	public MemberDTO getOneSelectMember(String m_nickName);
+	//개인 한 사람의 정보를 검색하는 메소드 - 비밀번호 찾기용
+	public int getPwFind(@Param("m_email") String m_email, @Param("m_phone") String m_phone);
 	//개인 한 사람의 정보를 검색하는 메소드
 	public MemberDTO getOneMember(int m_code);
 	//개인 한사람의 정보를 수정하는 쿼리

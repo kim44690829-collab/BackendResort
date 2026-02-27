@@ -64,3 +64,64 @@
     cursor: pointer;
     text-decoration: underline;
 }
+
+/* 비밀번호찾기 -------------------------------------------------------------------------------- */
+.findPw_overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 998;
+}
+.findPw_overlay .findPw_wrap{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 270px;
+    background-color: #fff;
+    z-index: 999;
+    border-radius: 10px;
+}
+.findPw_overlay .findPw_wrap .findPw_Xbtn{
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    border: none;
+    background-color: transparent;
+}
+.findPw_overlay .findPw_wrap .findPwTitle{
+    margin: 30px 0 20px 0;
+    text-align: center;
+    font-size: 25px;
+}
+.findPwInput{
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    margin: 0 auto;
+}
+.findInput{
+    padding: 15px 10px 15px 10px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    background-color: #f0f0f0;
+}
+.findPw_wrap button[type="button"].comBtn{
+    width: 200px;
+    height: 40px;
+    display: block;
+    margin: 0 auto;
+    border-radius: 10px;
+    border: none;
+    background: #42799b;
+    color: #fff;
+    font-size: 17px;
+    font-weight: 700;
+    cursor: pointer;
+}

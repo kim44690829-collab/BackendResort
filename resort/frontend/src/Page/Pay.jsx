@@ -8,8 +8,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 export default function Pay(){
-    // 2026-02-20
-    // 2026-02-26
+    
     const {payHead,setPayHead,hotelNum, HotelData,RoomData, userNickName, MemberAllData, DayData,customer,setCustomer} = useContext(ResortDataContext)
     const navigate = useNavigate();
     
@@ -31,30 +30,40 @@ export default function Pay(){
     const [useCoupon, setUseCoupon] = useState("쿠폰 사용 안함");
     const [useCouponNum, setUseCouponNum] = useState(0);
     const [couponUse, setCouponUse] = useState(0);
-    const [memberSel, setMemberSel] = useState(null); 
-    // 2026-02-25 git
+    const [memberSel, setMemberSel] = useState(undefined); 
+    const [isLoading, setIsLoading] = useState(false);
 
     // 회원코드
     // const memberNum = MemberAllData.find((item) => item.m_nickName === userNickName);
     
 
     useEffect(() => {
-        if (!userNickName) return;
+        if (!userNickName) {
+            return;
+        }
+
+        setIsLoading(true);
 
         axios.get("/api/member/onememberSelect", {
             params : {
                 m_nickName : userNickName
             }
         })
-    .then((res) => {
-        console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~', res.data)
-        setMemberSel(res.data);
-    })
-    .catch((err) => {
-        console.error(err)
-    })
+        .then((res) => {
+            console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~', res.data)
+            setMemberSel(res.data);
+        })
+        .catch((err) => {
+            console.error(err);
+            setMemberSel(null);
+        })
+        .finally(() => {
+            setIsLoading(false);
+        })
 
     },[])
+
+    
 
     useEffect(() => {
         console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",memberSel)
@@ -323,6 +332,15 @@ export default function Pay(){
     console.log('4',customer.length)
     // console.log('5', memberNum)
     console.log('6', memberSel)
+    console.log('7', userNickName)
+
+    // ! 혹은 !!는 값을 boolean 타입으로 변환해서 true 혹은 false로 표시함
+    // ! => 값의 반전 = !true === false
+    // !! => 반전의 반전 = !!true === true
+    const isMember = !!userNickName;
+
+    if (isMember && (isLoading || memberSel === undefined))
+    return <div>로딩중...</div>;
 
     return(
         <div className="pay_wrap" onClick={closeCoupon}>

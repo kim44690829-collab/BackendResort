@@ -55,4 +55,5 @@ public interface ReviewboardMapper {
 	public int deleteReview(int rb_code);
 	// 리뷰 update
 	public int reviewMod(@Param("rb_code") int rb_code, @Param("rb_score") int rb_score);
+	
 }
