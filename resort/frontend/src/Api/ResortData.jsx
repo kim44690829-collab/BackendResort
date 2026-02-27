@@ -108,7 +108,7 @@ export default function ResortData({children}){
             // hotelMinPrice
         axios.get('/api/hotel/price')
         .then((res) => {
-            // console.log("호텔 가격(최저가) 데이터 : ", res.data);
+             console.log("호텔 가격(최저가) 데이터 : ", res.data);
             setHotelMinPrice(res.data);
         })
         .catch((error) => {
