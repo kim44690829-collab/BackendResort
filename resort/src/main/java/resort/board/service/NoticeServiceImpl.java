@@ -41,8 +41,30 @@ public class NoticeServiceImpl implements NoticeService{
 
 	@Override
 	public void insertNotice(NoticeDTO ndto) {
+		System.out.println("NoticeServiceImpl : insertNotice(A o A) 메서드확인");
+		System.out.println(ndto.getN_title());
+		System.out.println(ndto.getN_content());
+		System.out.println("여기까지 확인");
 		noticeMapper.insertNotice(ndto);
 		
+	}
+
+	@Override
+	public int deleteNotice(int n_code) {
+		System.out.println("NoticeServiceImpl : deleteNotice(A o A) 메서드확인");
+		return noticeMapper.deleteNotice(n_code);
+	}
+
+	@Override
+	public NoticeDTO oneSelectNotice(int n_code) {
+		System.out.println("NoticeServiceImpl : oneSelectNotice(A o A) 메서드확인");
+		return noticeMapper.oneSelectNotice(n_code);
+	}
+
+	@Override
+	public int adminUpdateNotice(NoticeDTO ndto) {
+		System.out.println("NoticeServiceImpl : oneSelectNotice(A o A) 메서드확인");
+		return noticeMapper.adminUpdateNotice(ndto);
 	}
 
 }

@@ -229,7 +229,7 @@ export default function AdminPage2(){
                                                 </ul>
                                             </div>
                                             <Link to={`/hotelUpdate/${hotel[num].h_code}`}>
-                                                <button className="updateBtn" style={{color:"#fff",fontWeight:600,marginTop:"30px"}}>
+                                                <button className="updateBtn" style={{color:"#fff",fontWeight:600,marginTop:"20px"}}>
                                                     내용 수정하기
                                                 </button>
                                             </Link>

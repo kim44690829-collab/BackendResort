@@ -229,42 +229,42 @@ export default function HotelUpdate(){
                                         <th width="200px">hotelName</th>
                                         <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>
                                             <input type="text" name="hotelName" onChange={(e)=>setHotelName(e.target.value)} 
-                                            value={hotelName ?? currentHotel?.hotelName ?? ""} />
+                                            value={hotelName ?? currentHotel?.hotelName ?? ""} style={{width:"400px",height:"30px"}}/>
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">country</th>
                                         <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>
                                             <input type="text" name="country" onChange={(e)=>setCountry(e.target.value)} 
-                                            value={country ?? currentHotel?.country ?? ""}  />
+                                            value={country ?? currentHotel?.country ?? ""} style={{width:"400px",height:"30px"}} />
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">city</th>
                                         <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>
                                             <input type="text" name="city" onChange={(e)=>setCity(e.target.value)} 
-                                            value={city ?? currentHotel?.city??""} />
+                                            value={city ?? currentHotel?.city??""} style={{width:"400px",height:"30px"}}/>
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">type</th>
                                         <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>
                                             <input type="text" name="type" onChange={(e)=>setType(e.target.value)} 
-                                            value={type ?? currentHotel?.type ?? ""} />
+                                            value={type ?? currentHotel?.type ?? ""} style={{width:"400px",height:"30px"}}/>
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">h_address</th>
                                         <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>
                                             <input type="text" name="h_address" onChange={(e)=>setH_address(e.target.value)}
-                                            value={h_address ?? currentHotel?.h_address ?? ""} />
+                                            value={h_address ?? currentHotel?.h_address ?? ""} style={{width:"400px",height:"30px"}}/>
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">discount</th>
                                         <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>
                                             <input type="text" name="discount" onChange={(e)=>setDiscount(e.target.value)} 
-                                            value={discount ?? currentHotel?.discount ?? ""} />
+                                            value={discount ?? currentHotel?.discount ?? ""} style={{width:"400px",height:"30px"}}/>
                                         </th>
 
                                     </tr>
@@ -272,14 +272,14 @@ export default function HotelUpdate(){
                                         <th width="200px">startDate</th>
                                         <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>
                                             <input type="text" name="startDate" onChange={(e)=>setStartDate(e.target.value)} 
-                                            value={startDate ?? currentHotel?.startDate ?? ""} />
+                                            value={startDate ?? currentHotel?.startDate ?? ""} style={{width:"400px",height:"30px"}}/>
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">endDate</th>
                                         <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>
                                             <input type="text" name="endDate" onChange={(e)=>setEndDate(e.target.value)} 
-                                            value={endDate ?? currentHotel?.endDate ?? ""} />
+                                            value={endDate ?? currentHotel?.endDate ?? ""} style={{width:"400px",height:"30px"}}/>
                                         </th>
                                     </tr>
                                     
@@ -287,33 +287,46 @@ export default function HotelUpdate(){
                                         <th width="200px">roomservice{`(최대 8개)`}</th>
                                         <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}} className="cheakboxgr">
                                             {/* <input type="text" name="roomservice" onChange={handleChange} /> */}
-                                            <input type="checkbox" name="roomservice" id="roomservice1" onChange={()=>addroomServiceHandler("무선인터넷")} checked={roomservice.includes("무선인터넷")}/>
+                                            <input type="checkbox" name="roomservice" id="roomservice1" onChange={()=>addroomServiceHandler("무선인터넷")} checked={roomservice.includes("무선인터넷")}
+                                            disabled={!roomservice.includes("피트니스") && roomservice.length >= 8}/>
                                             <label htmlFor="roomservice1">무선인터넷</label>
-                                            <input type="checkbox" name="roomservice" id="roomservice2" onChange={()=>addroomServiceHandler("욕실용품")}  checked={roomservice.includes("욕실용품")}/>
+                                            <input type="checkbox" name="roomservice" id="roomservice2" onChange={()=>addroomServiceHandler("욕실용품")}  checked={roomservice.includes("욕실용품")}
+                                            disabled={!roomservice.includes("욕실용품") && roomservice.length >= 8}/>
                                             <label htmlFor="roomservice2">욕실용품</label>
-                                            <input type="checkbox" name="roomservice" id="roomservice3" onChange={()=>addroomServiceHandler("실내수영장")}  checked={roomservice.includes("실내수영장")}/>
+                                            <input type="checkbox" name="roomservice" id="roomservice3" onChange={()=>addroomServiceHandler("실내수영장")}  checked={roomservice.includes("실내수영장")}
+                                            disabled={!roomservice.includes("실내수영장") && roomservice.length >= 8}/>
                                             <label htmlFor="roomservice3">실내수영장</label>
-                                            <input type="checkbox" name="roomservice" id="roomservice4" onChange={()=>addroomServiceHandler("TV")}  checked={roomservice.includes("TV")}/>
+                                            <input type="checkbox" name="roomservice" id="roomservice4" onChange={()=>addroomServiceHandler("TV")}  checked={roomservice.includes("TV")}
+                                            disabled={!roomservice.includes("TV") && roomservice.length >= 8}/>
                                             <label htmlFor="roomservice4">TV</label>
                                             <br/>
-                                            <input type="checkbox" name="roomservice" id="roomservice5" onChange={()=>addroomServiceHandler("샤워실")}  checked={roomservice.includes("샤워실")}/>
+                                            <input type="checkbox" name="roomservice" id="roomservice5" onChange={()=>addroomServiceHandler("샤워실")}  checked={roomservice.includes("샤워실")}
+                                            disabled={!roomservice.includes("샤워실") && roomservice.length >= 8}/>
                                             <label htmlFor="roomservice5">샤워실</label>
-                                            <input type="checkbox" name="roomservice" id="roomservice6" onChange={()=>addroomServiceHandler("욕조")}  checked={roomservice.includes("욕조")}/>
+                                            <input type="checkbox" name="roomservice" id="roomservice6" onChange={()=>addroomServiceHandler("욕조")}  checked={roomservice.includes("욕조")}
+                                            disabled={!roomservice.includes("욕조") && roomservice.length >= 8}/>
                                             <label htmlFor="roomservice6">욕조</label>
-                                            <input type="checkbox" name="roomservice" id="roomservice7" onChange={()=>addroomServiceHandler("객실내취사")}  checked={roomservice.includes("객실내취사")}/>
+                                            <input type="checkbox" name="roomservice" id="roomservice7" onChange={()=>addroomServiceHandler("객실내취사")}  checked={roomservice.includes("객실내취사")}
+                                            disabled={!roomservice.includes("객실내취사") && roomservice.length >= 8}/>
                                             <label htmlFor="roomservice7">객실내취사</label>
-                                            <input type="checkbox" name="roomservice" id="roomservice8" onChange={()=>addroomServiceHandler("금연")}  checked={roomservice.includes("금연")}/>
+                                            <input type="checkbox" name="roomservice" id="roomservice8" onChange={()=>addroomServiceHandler("금연")}  checked={roomservice.includes("금연")}
+                                            disabled={!roomservice.includes("금연") && roomservice.length >= 8}/>
                                             <label htmlFor="roomservice8">금연</label>
                                             <br/>
-                                            <input type="checkbox" name="roomservice" id="roomservice9" onChange={()=>addroomServiceHandler("에어컨")}  checked={roomservice.includes("에어컨")}/>
+                                            <input type="checkbox" name="roomservice" id="roomservice9" onChange={()=>addroomServiceHandler("에어컨")}  checked={roomservice.includes("에어컨")}
+                                            disabled={!roomservice.includes("에어컨") && roomservice.length >= 8}/>
                                             <label htmlFor="roomservice9">에어컨</label>
-                                            <input type="checkbox" name="roomservice" id="roomservice10" onChange={()=>addroomServiceHandler("드라이기")}  checked={roomservice.includes("드라이기")}/>
+                                            <input type="checkbox" name="roomservice" id="roomservice10" onChange={()=>addroomServiceHandler("드라이기")}  checked={roomservice.includes("드라이기")}
+                                            disabled={!roomservice.includes("드라이기") && roomservice.length >= 8}/>
                                             <label htmlFor="roomservice10">드라이기</label>
-                                            <input type="checkbox" name="roomservice" id="roomservice11" onChange={()=>addroomServiceHandler("냉장고")}  checked={roomservice.includes("냉장고")}/>
+                                            <input type="checkbox" name="roomservice" id="roomservice11" onChange={()=>addroomServiceHandler("냉장고")}  checked={roomservice.includes("냉장고")}
+                                            disabled={!roomservice.includes("냉장고") && roomservice.length >= 8}/>
                                             <label htmlFor="roomservice11">냉장고</label>
-                                            <input type="checkbox" name="roomservice" id="roomservice12" onChange={()=>addroomServiceHandler("전기주전자")}  checked={roomservice.includes("전기주전자")}/>
+                                            <input type="checkbox" name="roomservice" id="roomservice12" onChange={()=>addroomServiceHandler("전기주전자")}  checked={roomservice.includes("전기주전자")}
+                                            disabled={!roomservice.includes("전기주전자") && roomservice.length >= 8}/>
                                             <label htmlFor="roomservice12">전기주전자</label>
-                                            <input type="checkbox" name="roomservice" id="roomservice13" onChange={()=>addroomServiceHandler("개인콘센트")}  checked={roomservice.includes("개인콘센트")}/>
+                                            <input type="checkbox" name="roomservice" id="roomservice13" onChange={()=>addroomServiceHandler("개인콘센트")}  checked={roomservice.includes("개인콘센트")}
+                                            disabled={!roomservice.includes("개인콘센트") && roomservice.length >= 8}/>
                                             <label htmlFor="roomservice13">개인콘센트</label>
                                         </th>
                                     </tr>
@@ -321,33 +334,46 @@ export default function HotelUpdate(){
                                         <th width="200px">publicservice{`(최대 8개)`}</th>
                                         <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}} className="cheakboxgr">
                                             {/* <input type="text" name="publicservice" onChange={handleChange} /> */}
-                                            <input type="checkbox" name="publicservice" id="publicservice1" onChange={()=>addpublicServiceHandler("피트니스")} checked={publicservice.includes("피트니스")}/>
+                                            <input type="checkbox" name="publicservice" id="publicservice1" onChange={()=>addpublicServiceHandler("피트니스")} checked={publicservice.includes("피트니스")}
+                                            disabled={!publicservice.includes("피트니스") && publicservice.length >= 8}/>
                                             <label htmlFor="publicservice1">피트니스</label>
-                                            <input type="checkbox" name="publicservice" id="publicservice2" onChange={()=>addpublicServiceHandler("레스토랑")} checked={publicservice.includes("레스토랑")}/>
+                                            <input type="checkbox" name="publicservice" id="publicservice2" onChange={()=>addpublicServiceHandler("레스토랑")} checked={publicservice.includes("레스토랑")}
+                                            disabled={!publicservice.includes("레스토랑") && publicservice.length >= 8}/>
                                             <label htmlFor="publicservice2">레스토랑</label>
-                                            <input type="checkbox" name="publicservice" id="publicservice3" onChange={()=>addpublicServiceHandler("사우나")} checked={publicservice.includes("사우나")}/>
+                                            <input type="checkbox" name="publicservice" id="publicservice3" onChange={()=>addpublicServiceHandler("사우나")} checked={publicservice.includes("사우나")}
+                                            disabled={!publicservice.includes("사우나") && publicservice.length >= 8}/>
                                             <label htmlFor="publicservice3">사우나</label>
-                                            <input type="checkbox" name="publicservice" id="publicservice4" onChange={()=>addpublicServiceHandler("실내수영장")} checked={publicservice.includes("실내수영장")}/>
+                                            <input type="checkbox" name="publicservice" id="publicservice4" onChange={()=>addpublicServiceHandler("실내수영장")} checked={publicservice.includes("실내수영장")}
+                                            disabled={!publicservice.includes("실내수영장") && publicservice.length >= 8}/>
                                             <label htmlFor="publicservice4">실내수영장</label>
                                             <br/>
-                                            <input type="checkbox" name="publicservice" id="publicservice5" onChange={()=>addpublicServiceHandler("야외수영장")} checked={publicservice.includes("야외수영장")}/>
+                                            <input type="checkbox" name="publicservice" id="publicservice5" onChange={()=>addpublicServiceHandler("야외수영장")} checked={publicservice.includes("야외수영장")}
+                                            disabled={!publicservice.includes("야외수영장") && publicservice.length >= 8}/>
                                             <label htmlFor="publicservice5">야외수영장</label>
-                                            <input type="checkbox" name="publicservice" id="publicservice6" onChange={()=>addpublicServiceHandler("편의점")} checked={publicservice.includes("편의점")}/>
+                                            <input type="checkbox" name="publicservice" id="publicservice6" onChange={()=>addpublicServiceHandler("편의점")} checked={publicservice.includes("편의점")}
+                                            disabled={!publicservice.includes("편의점") && publicservice.length >= 8}/>
                                             <label htmlFor="publicservice6">편의점</label>
-                                            <input type="checkbox" name="publicservice" id="publicservice7" onChange={()=>addpublicServiceHandler("바")} checked={publicservice.includes("바")}/>
+                                            <input type="checkbox" name="publicservice" id="publicservice7" onChange={()=>addpublicServiceHandler("바")} checked={publicservice.includes("바")}
+                                            disabled={!publicservice.includes("바") && publicservice.length >= 8}/>
                                             <label htmlFor="publicservice7">바</label>
-                                            <input type="checkbox" name="publicservice" id="publicservice8" onChange={()=>addpublicServiceHandler("라운지")} checked={publicservice.includes("라운지")}/>
+                                            <input type="checkbox" name="publicservice" id="publicservice8" onChange={()=>addpublicServiceHandler("라운지")} checked={publicservice.includes("라운지")}
+                                            disabled={!publicservice.includes("라운지") && publicservice.length >= 8}/>
                                             <label htmlFor="publicservice8">라운지</label>
                                             <br/>
-                                            <input type="checkbox" name="publicservice" id="publicservice9" onChange={()=>addpublicServiceHandler("엘리베이터")} checked={publicservice.includes("엘리베이터")}/>
+                                            <input type="checkbox" name="publicservice" id="publicservice9" onChange={()=>addpublicServiceHandler("엘리베이터")} checked={publicservice.includes("엘리베이터")}
+                                            disabled={!publicservice.includes("엘리베이터") && publicservice.length >= 8}/>
                                             <label htmlFor="publicservice9">엘리베이터</label>
-                                            <input type="checkbox" name="publicservice" id="publicservice10" onChange={()=>addpublicServiceHandler("비즈니스센터")} checked={publicservice.includes("비즈니스센터")}/>
+                                            <input type="checkbox" name="publicservice" id="publicservice10" onChange={()=>addpublicServiceHandler("비즈니스센터")} checked={publicservice.includes("비즈니스센터")}
+                                            disabled={!publicservice.includes("비즈니스센터") && publicservice.length >= 8}/>
                                             <label htmlFor="publicservice10">비즈니스센터</label>
-                                            <input type="checkbox" name="publicservice" id="publicservice11" onChange={()=>addpublicServiceHandler("건조기")} checked={publicservice.includes("건조기")}/>
+                                            <input type="checkbox" name="publicservice" id="publicservice11" onChange={()=>addpublicServiceHandler("건조기")} checked={publicservice.includes("건조기")}
+                                            disabled={!publicservice.includes("건조기") && publicservice.length >= 8}/>
                                             <label htmlFor="publicservice11">건조기</label>
-                                            <input type="checkbox" name="publicservice" id="publicservice12" onChange={()=>addpublicServiceHandler("탈수기")} checked={publicservice.includes("탈수기")}/>
+                                            <input type="checkbox" name="publicservice" id="publicservice12" onChange={()=>addpublicServiceHandler("탈수기")} checked={publicservice.includes("탈수기")}
+                                            disabled={!publicservice.includes("탈수기") && publicservice.length >= 8}/>
                                             <label htmlFor="publicservice12">탈수기</label>
-                                            <input type="checkbox" name="publicservice" id="publicservice13" onChange={()=>addpublicServiceHandler("바베큐")} checked={publicservice.includes("바베큐")}/>
+                                            <input type="checkbox" name="publicservice" id="publicservice13" onChange={()=>addpublicServiceHandler("바베큐")} checked={publicservice.includes("바베큐")}
+                                            disabled={!publicservice.includes("바베큐") && publicservice.length >= 8}/>
                                             <label htmlFor="publicservice13">바베큐</label>
                                         </th>
                                     </tr>
@@ -355,25 +381,34 @@ export default function HotelUpdate(){
                                         <th width="200px">otherservice{`(최대 3개)`}</th>
                                         <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}} className="cheakboxgr">
                                             {/* <input type="text" name="otherservice" onChange={handleChange} /> */}
-                                            <input type="checkbox" name="otherservice" id="otherservice1" onChange={()=>addotherServiceHandler("스프링클러")} checked={otherservice.includes("스프링클러")}/>
+                                            <input type="checkbox" name="otherservice" id="otherservice1" onChange={()=>addotherServiceHandler("스프링클러")} checked={otherservice.includes("스프링클러")}
+                                            disabled={!otherservice.includes("스프링클러") && otherservice.length >= 3}/>
                                             <label htmlFor="otherservice1">스프링클러</label>
-                                            <input type="checkbox" name="otherservice" id="otherservice2" onChange={()=>addotherServiceHandler("반려견동반")} checked={otherservice.includes("반려견동반")}/>
+                                            <input type="checkbox" name="otherservice" id="otherservice2" onChange={()=>addotherServiceHandler("반려견동반")} checked={otherservice.includes("반려견동반")}
+                                            disabled={!otherservice.includes("반려견동반") && otherservice.length >= 3}/>
                                             <label htmlFor="otherservice2">반려견동반</label>
-                                            <input type="checkbox" name="otherservice" id="otherservice3" onChange={()=>addotherServiceHandler("카드결제")} checked={otherservice.includes("카드결제")}/>
+                                            <input type="checkbox" name="otherservice" id="otherservice3" onChange={()=>addotherServiceHandler("카드결제")} checked={otherservice.includes("카드결제")}
+                                            disabled={!otherservice.includes("카드결제") && otherservice.length >= 3}/>
                                             <label htmlFor="otherservice3">카드결제</label>
-                                            <input type="checkbox" name="otherservice" id="otherservice4" onChange={()=>addotherServiceHandler("짐보관가능")} checked={otherservice.includes("짐보관가능")}/>
+                                            <input type="checkbox" name="otherservice" id="otherservice4" onChange={()=>addotherServiceHandler("짐보관가능")} checked={otherservice.includes("짐보관가능")}
+                                            disabled={!otherservice.includes("짐보관가능") && otherservice.length >= 3}/>
                                             <label htmlFor="otherservice4">짐보관가능</label>
                                             <br/>
-                                            <input type="checkbox" name="otherservice" id="otherservice5" onChange={()=>addotherServiceHandler("개인사물함")} checked={otherservice.includes("개인사물함")}/>
+                                            <input type="checkbox" name="otherservice" id="otherservice5" onChange={()=>addotherServiceHandler("개인사물함")} checked={otherservice.includes("개인사물함")}
+                                            disabled={!otherservice.includes("개인사물함") && otherservice.length >= 3}/>
                                             <label htmlFor="otherservice5">개인사물함</label>
-                                            <input type="checkbox" name="otherservice" id="otherservice6" onChange={()=>addotherServiceHandler("픽업서비스")} checked={otherservice.includes("픽업서비스")}/>
+                                            <input type="checkbox" name="otherservice" id="otherservice6" onChange={()=>addotherServiceHandler("픽업서비스")} checked={otherservice.includes("픽업서비스")}
+                                            disabled={!otherservice.includes("픽업서비스") && otherservice.length >= 3}/>
                                             <label htmlFor="otherservice6">픽업서비스</label>
-                                            <input type="checkbox" name="otherservice" id="otherservice7" onChange={()=>addotherServiceHandler("캠프파이어")} checked={otherservice.includes("캠프파이어")}/>
+                                            <input type="checkbox" name="otherservice" id="otherservice7" onChange={()=>addotherServiceHandler("캠프파이어")} checked={otherservice.includes("캠프파이어")}
+                                            disabled={!otherservice.includes("캠프파이어") && otherservice.length >= 3}/>
                                             <label htmlFor="otherservice7">캠프파이어</label>
-                                            <input type="checkbox" name="otherservice" id="otherservice8" onChange={()=>addotherServiceHandler("무료주차")} checked={otherservice.includes("무료주차")}/>
+                                            <input type="checkbox" name="otherservice" id="otherservice8" onChange={()=>addotherServiceHandler("무료주차")} checked={otherservice.includes("무료주차")}
+                                            disabled={!otherservice.includes("무료주차") && otherservice.length >= 3}/>
                                             <label htmlFor="otherservice8">무료주차</label>
                                         
-                                            <input type="checkbox" name="otherservice" id="otherservice9" onChange={()=>addotherServiceHandler("조식제공")} checked={otherservice.includes("조식제공")}/>
+                                            <input type="checkbox" name="otherservice" id="otherservice9" onChange={()=>addotherServiceHandler("조식제공")} checked={otherservice.includes("조식제공")}
+                                            disabled={!otherservice.includes("조식제공") && otherservice.length >= 3}/>
                                             <label htmlFor="otherservice9">조식제공</label>
                                         </th>
                                     </tr>

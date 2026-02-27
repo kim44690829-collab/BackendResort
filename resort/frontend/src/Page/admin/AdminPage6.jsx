@@ -13,6 +13,9 @@ export default function AdminPage6(){
     const [searchType, setSearchType] = useState("phone");
     const [searchKeyword, setSearchKeyword] = useState("");
     const [serch,setSerch] = useState("")
+    const [r,setR] = useState(false) // 삭제후 바로 렌더링을 위한 변수
+    const [isInfo,setIsinfo] = useState(false)
+    const [num,setNum] = useState(0)
     useEffect(()=>{
         axios.get('/api/board/noticelist',{
             params: {
@@ -34,7 +37,8 @@ export default function AdminPage6(){
             console.error("error", error)
         })
         console.log(page)
-    },[page,searchType,searchKeyword])
+        console.log(r,"rr")
+    },[page,searchType,searchKeyword,r])
 
     const pages = [];
 
@@ -51,21 +55,24 @@ export default function AdminPage6(){
         setSearchKeyword(serch)
         setPage(1);
     }
-
+    
     // 삭제를 위한 useEffect
-    const delHandler=(email)=>{
-        axios.delete('/api/member/deletemember',{
+    const delHandler=(n_code)=>{
+        axios.delete('/api/board/deletenotice',{
             params: {
-                m_email: email
+                n_code: n_code
             }
         })
         .then((res) => {
-            console.log("회원정보 삭제 성공 : ");
-            alert("회원정보 삭제 성공 : ")
+            console.log("공지사항 삭제 성공 : ");
+            alert("공지사항 삭제 성공 : ")
+            setR(!r)
+            console.log(r)
         })
         .catch((error) => {
             console.error("error", error)
         })
+        
     }
 
     return(
@@ -160,9 +167,9 @@ export default function AdminPage6(){
                                     <tr>
                                         <th style={{width:"50px"}}>Num</th>
                                         <th width="200px">제목</th>
-                                        <th width="60px">작성일자</th>
-                                        <th width="550px">내용</th>
-                                        <th width="60px">수정일자</th>
+                                        <th width="260px">작성일자</th>
+                                        <th width="250px">내용</th>
+                                        <th width="260px">수정일자</th>
                                         {/* <th width="50px">자세히보기</th> */}
                                         <th width="100px">수정하기</th>
                                         <th width="100px">삭제하기</th>
@@ -170,31 +177,50 @@ export default function AdminPage6(){
                                 </thead>
                                 <tbody>
                                     {noticelist.map((item,index)=>{
-                                        const member_birth = new Date(item.m_birth)
-                                        const birth_Date = member_birth.toLocaleDateString('ko-KR')
-                                        const member_reg = new Date(item.m_regDate)
-                                        const reg_Date = member_reg.toLocaleString('ko-KR')
                                         return(
                                             <tr key={index}>
                                                 <td>{item.n_code}</td>
                                                 <td>{item.n_title}</td>
                                                 <td>{item.n_date}</td>
-                                                <td>{item.n_content}</td>
+                                                <td><button className="table_btn" onClick={()=>{setIsinfo(!isInfo),setNum(index)}}>상세정보</button></td>
                                                 <td>{item.n_update}</td>
                                                 
                                                 {/* <td><button type="button" onClick={()=>delHandler(item.n_code)}>자세히</button></td> */}
-                                                <td><Link to={`/memberUdate/${item.n_code}`}><button className="table_btn">
-                                                        
+                                                <td>
+                                                    <Link to={`/noticeUpdate/${item.n_code}`}>
+                                                        <button className="table_btn">
                                                             공지수정
-                                                    </button>
-                                                        </Link>
-                                                    </td>
+                                                        </button>
+                                                    </Link>
+                                                </td>
                                                 <td><button type="button" className="table_btn" onClick={()=>delHandler(item.n_code)}>공지삭제</button></td>
                                             </tr>
                                         )
                                     })}
                                 </tbody>
                             </table>
+                            {isInfo && <div className="admin_modal">
+                                        
+                                            <button type="button" onClick={()=>setIsinfo(!isInfo)} className="closeBtn">✖</button>
+                                            
+                                            <div className="service_box">
+                                                <ul>
+                                                    
+                                                    <li>
+                                                        <p style={{fontSize:"30px",fontWeight:600,marginBottom:"40px"}}>제목 : {noticelist[num].n_title}</p>
+                                                    </li>
+                                                    <li>
+                                                        <p style={{marginBottom:"40px",paddingBottom:"40px",borderBottom:"2px solid #333"}}>작성일자 : {noticelist[num].n_date.slice(0,10)}</p>
+                                                    </li>
+                                                    <li>
+                                                        
+                                                        <p style={{height:"350px", whiteSpace:"pre-wrap"}}>내용 : {noticelist[num].n_content}</p>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            
+                                        </div>
+                                    }
                             <div className="paging">
                                 {/* 페이지가 많을때 좌우 버튼 */}
                                 {ph.prev && (

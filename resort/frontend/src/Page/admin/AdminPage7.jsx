@@ -62,14 +62,14 @@ export default function AdminPage7(){
             }
         })
         .then((res) => {
-            console.log("회원정보 삭제 성공 : ");
+            console.log("리뷰정보 삭제 성공 : ");
             alert("리뷰정보 삭제 성공 : ")
-            navigate("/adminpage7")
+            setG(!g)
         })
         .catch((error) => {
             console.error("error", error)
         })
-        setG(!g)
+        
     }
 
     return(

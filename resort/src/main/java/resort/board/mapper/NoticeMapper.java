@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import resort.board.dto.NoticeDTO;
+import resort.member.dto.MemberDTO;
 import resort.product.dto.HotelDTO;
 
 @Mapper
@@ -31,5 +32,15 @@ public interface NoticeMapper {
 		@Param("pageSize") int pageSize
 	);
 	
+	// 공지 추가를 위한 
 	public void insertNotice(NoticeDTO ndto);
+	
+	//공지 삭제를 위한
+	public int deleteNotice(@Param("n_code") int n_code);
+	
+	//수정할 한 공지의 정보를 검색하는 메소드
+	public NoticeDTO oneSelectNotice(@Param("n_code") int n_code);
+	
+	// 공지사항 수정 메서드
+	public int adminUpdateNotice(NoticeDTO ndto);
 }

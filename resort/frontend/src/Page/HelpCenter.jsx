@@ -514,24 +514,44 @@ export default function HelpCenter(){
             {listType === 2 &&
                 (<div className='helpCenter_text'>
                     <h1 className='text_title'>공지사항</h1>
-                    {noticeNum ===0 && noticelist.map((item,index)=>(
-                        <div key={index} className='helpCenter_texts notice' style={index===0?{borderTop:'2px solid black'}:{}} onClick={()=>setNoticeNum(index+1)}>
-                            <p>{item.n_title}</p>
-                        </div>
-                    ))  
+                    {noticeNum ===0 && 
+                        noticelist.map((item,index)=>(
+                            <div key={index} className='helpCenter_texts notice' style={index===0?{borderTop:'2px solid black'}:{}} onClick={()=>setNoticeNum(index+1)}>
+                                <p>{item.n_title}</p>
+                            </div>
+                        )) 
+                             
+                    }
+                    {noticeNum ===0 && 
+                        <div className="paging" style={{width:"600px",marginTop:"10px"}}>
+                                {/* 페이지가 많을때 좌우 버튼 */}
+                                {ph.prev && (
+                                    <button className="arrowbtn" onClick={() => setPage(ph.startPage - 1)}> ⇦  Prev</button>
+                                )}
+                                <div className="pages">{pages}</div>
+                                {ph.next && (
+                                    <button className="arrowbtn" onClick={() => setPage(ph.endPage + 1)}>Next ⇨</button>
+                                )}
+                            </div>
                     }
                     {noticeNum !==0 ?
-                        (<div className='helpCenter_text' style={{width:"564px",borderTop:'2px solid black' }}>
-                            <div className='helpCenter_texts'>
-                                <p>{noticelist[noticeNum-1].n_title}</p>
-                                <p className='notice-date'>작성일 : {noticelist[noticeNum-1].n_date.slice(0,10)}</p>
+                        (
+                        <>
+                            <div className='helpCenter_text' style={{width:"564px",borderTop:'2px solid black' }}>
+                                <div className='helpCenter_texts'>
+                                    <p>{noticelist[noticeNum-1].n_title}</p>
+                                    <p className='notice-date'>작성일 : {noticelist[noticeNum-1].n_date.slice(0,10)}</p>
+                                </div>
+                                <div className='notice-contents' style={{whiteSpace:"pre-wrap"}}>
+                                    {noticelist[noticeNum-1].n_content}
+                                </div>
+                                <button type='button' className='noticeContentsBtn' onClick={()=>setNoticeNum(0)}>목록 보기</button>
+                                
                             </div>
-                            <div className='notice-contents'>
-                                {noticelist[noticeNum-1].n_content}
-                            </div>
-                            <button type='button' className='noticeContentsBtn' onClick={()=>setNoticeNum(0)}>목록 보기</button>
                             
-                        </div>)
+                        </>
+                        
+                        )
                         :
                         null
                     }

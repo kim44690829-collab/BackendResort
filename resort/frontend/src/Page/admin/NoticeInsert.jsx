@@ -20,8 +20,8 @@ export default function NoticeInsert(){
 
         
         const textData = {
-            n_title:textarea,
-            n_content:notice
+            n_title:notice,
+            n_content:textarea
         };
 
 

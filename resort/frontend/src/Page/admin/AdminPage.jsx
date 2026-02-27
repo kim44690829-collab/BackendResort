@@ -199,7 +199,7 @@ export default function AdminPage(){
                                                 <td>{item.m_nickName}</td>
                                                 <td>{item.m_coupon}</td>
                                                 <td>{reg_Date}</td>
-                                                <td><Link to={`/memberUdate/${item.m_code}`}><button className="table_btn">회원수정</button> </Link></td>
+                                                <td><Link to={`/memberUpdate/${item.m_code}`}><button className="table_btn">회원수정</button> </Link></td>
                                                 <td><button type="button" onClick={()=>delHandler(item.m_email)} className="table_btn">회원삭제</button></td>
                                             </tr>
                                         )

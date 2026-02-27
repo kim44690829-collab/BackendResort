@@ -52,11 +52,21 @@
 	
 	
 	
+	<!-- 공지 삭제를 위한 -->
+	<delete id="deleteNotice" parameterType="int">
+		DELETE FROM notice WHERE n_code=#{n_code} 
+	</delete>
 	
 	
+	<!-- 수정을 위한 선택한 공지사항 출력 public NoticeDTO oneSelectNotice(int n_code); -->
+	<select id="oneSelectNotice" parameterType="int" resultType="NoticeDTO">
+		SELECT * FROM notice WHERE n_code = ${n_code}
+	</select>
 	
-	
-	
-	
+	<!-- 공지사항 수정 쿼리문 -->
+	<update id="adminUpdateNotice" parameterType="NoticeDTO">
+		UPDATE notice SET n_title = #{n_title},n_content = #{n_content} WHERE n_code = #{n_code}
+		UPDATE room SET h_code = #{h_code},roomName = #{roomName},price = #{price},maxOccupancy = #{maxOccupancy},r_img = #{r_img} WHERE r_code =#{r_code}
+	</update>
 	
 </mapper>

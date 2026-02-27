@@ -27,5 +27,16 @@ public interface NoticeService {
 			@Param("pageSize") int pageSize
 		);
 		
+		// 공지사항 추가 메서드
 		public void insertNotice(NoticeDTO ndto);
+		
+		// 공지사항 삭제 메서드
+		public int deleteNotice(@Param("n_code") int n_code);
+		
+		// 공지사항 한개 선택
+		public NoticeDTO oneSelectNotice(@Param("n_code") int n_code);
+		
+		// 공지사항 수정 메서드
+		public int adminUpdateNotice(NoticeDTO ndto);
+		
 }

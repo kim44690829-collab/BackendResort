@@ -126,7 +126,7 @@ export default function MemberUdate(){
                                     <tr>
                                         <th width="200px">전화번호</th>
                                         <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>
-                                            <input type="text" value={newph} name="m_phone" onChange={(e)=>setNewph(e.target.value)} maxLength={11}/>
+                                            <input type="text" value={newph} name="m_phone" onChange={(e)=>setNewph(e.target.value)} maxLength={11} style={{width:"300px",height:"30px"}}/>
                                             <p style={{color:"#999"}}>{`ex) 01012345678`}</p>
                                         </th>
                                     </tr>
@@ -146,7 +146,7 @@ export default function MemberUdate(){
                                         <th width="200px">별명</th>
                                         <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>
                                             <input type="text" name="m_birth" onChange={(e)=>setNewNick(e.target.value)} maxLength={15} 
-                                            value={newNick} />
+                                            value={newNick} style={{width:"300px",height:"30px"}}/>
                                         </th>
 
                                     </tr>

@@ -31,7 +31,7 @@ export default function RoomUpdate(){
         .then((res) => {
             console.log("수정 성공");
             alert("객실정보 수정이 완료되었습니다")
-            navigate('/adminpage3'); 
+            navigate('/adminPage3'); 
         })
         .catch((error) => {
             console.error(error);
@@ -132,7 +132,7 @@ export default function RoomUpdate(){
                                         <th width="200px">h_code</th>
                                         <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>
                                             <input type="text" name="h_code" onChange={(e)=>{setH_code(e.target.value),setR_img(`["/img/${h_code}-1.jpg","/img/${h_code}-2.jpg","/img/${h_code}-3.jpg","/img/${h_code}-4.jpg","/img/${h_code}-5.jpg"]`)}} 
-                                                value={h_code === null? RoomData[r_code-1].h_code:h_code}
+                                                value={h_code === null? RoomData[r_code-1].h_code:h_code} style={{width:"400px",height:"30px"}}
                                             />
                                         </th>
                                     </tr>
@@ -140,7 +140,7 @@ export default function RoomUpdate(){
                                         <th width="200px">roomName</th>
                                         <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>
                                             <input type="text" name="roomName" onChange={(e)=>setRoomName(e.target.value)} 
-                                                value={roomName === null? RoomData[r_code-1].roomName:roomName}
+                                                value={roomName === null? RoomData[r_code-1].roomName:roomName} style={{width:"400px",height:"30px"}}
                                             />
                                         </th>
                                     </tr>
@@ -148,7 +148,7 @@ export default function RoomUpdate(){
                                         <th width="200px">price</th>
                                         <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>
                                             <input type="text" name="price" onChange={(e)=>setPrice(e.target.value)} 
-                                                value={price === null? RoomData[r_code-1].price:price}
+                                                value={price === null? RoomData[r_code-1].price:price} style={{width:"400px",height:"30px"}}
                                             />
                                         </th>
                                     </tr>
@@ -156,7 +156,7 @@ export default function RoomUpdate(){
                                         <th width="200px">maxOccupancy</th>
                                         <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>
                                             <input type="text" name="maxOccupancy" onChange={(e)=>setMaxOccupancy(e.target.value)} 
-                                                value={maxOccupancy === null? RoomData[r_code-1].maxOccupancy:maxOccupancy}
+                                                value={maxOccupancy === null? RoomData[r_code-1].maxOccupancy:maxOccupancy} style={{width:"400px",height:"30px"}}
                                             />
                                         </th>
                                     </tr>
