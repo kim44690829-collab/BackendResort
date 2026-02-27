@@ -47,10 +47,10 @@ export default function Room(){
         console.log("cityEn00",cityEn)
         console.log("countryEn00",countryEn)
         if(cityEn===null && countryEn ===null){
-            dateFilterCopy = hotelMerge.filter((f)=>(f.startDate>=DayData[0] && f.startDate<=DayData[1]) || (f.endDate<=DayData[1] && f.endDate>=DayData[0]) || (DayData[0]>=f.startDate && DayData[1]<=f.endDate && f.hotelMaxOccupancy >= guestCount))
+            dateFilterCopy = hotelMerge.filter((f)=>(f.startDate>=DayData[0] && f.startDate<=DayData[1]) || (f.endDate<=DayData[1] && f.endDate>=DayData[0]) || (DayData[0]>=f.startDate && DayData[1]<=f.endDate))
             imsi = HotelData.filter((f)=>(f.startDate>=DayData[0] && f.startDate<=DayData[1]) || (f.endDate<=DayData[1] && f.endDate>=DayData[0]) || (DayData[0]>=f.startDate && DayData[1]<=f.endDate))
         }else{
-            dateFilterCopy = townfilter.filter((f)=>(f.startDate>=DayData[0] && f.startDate<=DayData[1]) || (f.endDate<=DayData[1] && f.endDate>=DayData[0]) || (DayData[0]>=f.startDate && DayData[1]<=f.endDate && f.hotelMaxOccupancy >= guestCount))
+            dateFilterCopy = townfilter.filter((f)=>(f.startDate>=DayData[0] && f.startDate<=DayData[1]) || (f.endDate<=DayData[1] && f.endDate>=DayData[0]) || (DayData[0]>=f.startDate && DayData[1]<=f.endDate))
             imsi = townfilter2.filter((f)=>(f.startDate>=DayData[0] && f.startDate<=DayData[1]) || (f.endDate<=DayData[1] && f.endDate>=DayData[0]) || (DayData[0]>=f.startDate && DayData[1]<=f.endDate))
         }
         setmyhotel03(imsi)
@@ -58,7 +58,6 @@ export default function Room(){
         console.log("dateFilterCopy",dateFilterCopy)
         console.log("DayData",DayData)
     },[DayData,cityEn,countryEn])
-    
     
     useEffect(()=>{
         //console.log(myFilter,'현재 마이필터')
@@ -78,8 +77,8 @@ export default function Room(){
 
             return match ? { ...hotel03, ...match } : hotel03
         })
-
-        const filterHotel = hotelmap.filter((data)=>{ // 각 항목별로 만족하는것 필터링
+        const personfilter = hotelmap.filter((f)=> f.hotelMaxOccupancy >= guestCount);
+        const filterHotel = personfilter.filter((data)=>{ // 각 항목별로 만족하는것 필터링
             const f1 = selectfilter02.every((filter)=>data.roomservice.includes(filter.name)); 
             const f2 = selectfilter01.every((filter)=>data.publicservice.includes(filter.name)); 
             const f3 = selectfilter03.every((filter)=>data.otherservice.includes(filter.name));

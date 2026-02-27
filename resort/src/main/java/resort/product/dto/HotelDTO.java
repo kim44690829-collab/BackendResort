@@ -23,6 +23,6 @@ public class HotelDTO {
     private String publicservice; // 공용시설
     private String otherservice; // 기타시설
     private int minPrice;  //객실최저가격
-    
+    private int hotelMaxOccupancy; // 호텔별 최대 인원수
 	
 }

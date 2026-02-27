@@ -205,10 +205,11 @@ export default function Detail(){
             for(let j=0; j<starZero; j++){
                 recommStarImg[i].push('/img/star-zero.png');                    
             }
+            console.log('????????????????????',recommStarImg[i])
         }
         setRecommStar(recommStarImg);           
 
-    }, [RecommAvg]); 
+    }, [RecommAvg]);
 
     useEffect(()=>{
 
@@ -224,6 +225,7 @@ export default function Detail(){
         //해당호텔 별점 가져오기
         const score = HotelScore/RoomReview.length;
         setHotelScore(score);
+        
 
         //별점 정수
         const scoreInt = Math.floor(score);
@@ -313,6 +315,8 @@ export default function Detail(){
         setAvgRoom(roomStar);       
             
     },[Hotel]);
+
+    console.log('해당호텔 별점 가져오기', hotelScore)
   
 // console.log(starRoom);
 // console.log(recommStar);

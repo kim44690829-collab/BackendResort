@@ -69,4 +69,5 @@ public class ReviewboardApiController {
 		System.out.println("ReviewboardServiceImpl : reviewAdd() 메서드 확인");
 		return reviewboardservice.reviewMod(rb_code, rb_score);
 	}
+	
 }

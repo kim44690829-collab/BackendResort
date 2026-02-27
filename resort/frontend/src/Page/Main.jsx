@@ -60,6 +60,10 @@ export default function Main(){
     // 국내
     const [internalHotel, setInternalHotel] = useState([])
 
+    //호텔별점 이미지
+    const [hotelStar, setHotelStar] = useState({});
+    const [isLoading, setIsLoading] = useState(false);
+
     useEffect(()=>{
         setSelectMonth(new Date('2026-03-01'))
     },[])
@@ -91,24 +95,13 @@ export default function Main(){
         setOverSeasHotel(overseasRate)
     },[])
 
-    // useEffect(()=>{
-    //     const copyminPrice = [...minPrice]
-
-    //     for(let i=1;i<=HotelData.length;i++){
-    //         const prices = RoomData.filter((f)=>f.h_code === i)
-    //         prices.sort((a,b)=> a.price - b.price)
-    //         copyminPrice.push(prices[0])
-    //     }
-    //     setMinPrice(copyminPrice)
-    // },[])
-
     // 호텔 국내 필터
     useEffect(() => {
         const internal = hotelMerge.filter(item => item.country === 'Korea');
         const internalHotelSort =internal.sort((a,b) => b.hotelAvgScore - a.hotelAvgScore);
         setInternalHotel(internalHotelSort)
+        
     },[])
-    
 
     // 호텔 타입 모달 - map
     useEffect(() => {
@@ -174,7 +167,6 @@ export default function Main(){
     const leftSlide = (num) => {
         if(slideMove1 < 0 && num === 1){
             setSlideMove1(slideMove1 + 300)
-            // console.log(slideMove1);
         }else if(slideMove2 < 0 && num === 2){
             setSlideMove2(slideMove2 + 400)
         }else if(slideMove3 < 0 && num === 3){
@@ -194,8 +186,6 @@ export default function Main(){
             null
         }
     }
-
-    
 
     // num에 해당하는 번호를 누르면 그에 해당하는 지역이 input에 들어가는 함수
     const inputHandeler = (num) => {
@@ -253,10 +243,10 @@ export default function Main(){
         }
     }
 
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = today.getMonth() + 1;
-    const date = today.getDate();
+    // const today = new Date();
+    // const year = today.getFullYear();
+    // const month = today.getMonth() + 1;
+    // const date = today.getDate();
 
     // 이미지 배너
     const [currentImg, setCurrent] = useState(0);
@@ -362,6 +352,50 @@ export default function Main(){
             document.body.style.overflow = "auto";
         };
     }, [RatingModalOpen, htypeModalOpen]);
+
+    useEffect(() => {
+        setHotelStar(internalHotel.slice(0,4).map(item => item.hotelAvgScore));
+    }, [internalHotel]);
+    
+    //추천호텔 별점 이미지
+    const [recommStar, setRecommStar] = useState(null);
+    useEffect(() => {
+
+        if (!internalHotel) return;
+        if (!Array.isArray(hotelStar)) return;
+
+       //추천호텔 별점
+        const recommStarImg = [];
+
+        for(let i=0; i<hotelStar.length; i++){
+
+            recommStarImg[i] = [];
+                        
+            //별점 정수
+            const starInt = Math.floor(hotelStar[i]);
+            //별점 소수
+            const starFloat = Math.floor(hotelStar[i]*10)/10 - starInt;
+            //별점 빈칸
+            const starZero = Math.floor(5 - starInt - starFloat);
+            
+            for(let k=0; k<starInt; k++){
+                recommStarImg[i].push('/img/star-one.png');                  
+            }
+            if(starFloat>=0.5){
+                recommStarImg[i].push('/img/star-half.png');                    
+            }else if(starFloat>0 && starFloat<0.5){
+                recommStarImg[i].push('/img/star-zero.png');
+            }
+            for(let j=0; j<starZero; j++){
+                recommStarImg[i].push('/img/star-zero.png');                    
+            }
+        }
+        setRecommStar(recommStarImg);
+        setIsLoading(true);     
+
+    }, [hotelStar, internalHotel]);
+
+    if(!isLoading || !internalHotel || recommStar.length === 0) return <div>로딩중...</div>;
 
     return(
         <div className='main_container' onClick={closeUl1}>
@@ -675,59 +709,61 @@ export default function Main(){
                 <div className="room-select_main" style={{borderTop:'0px'}}>
                     <p className='room-title_main'>국내 인기 스테이 PICK!</p>
                     <ul className='roomUl'>
-                        {internalHotel.slice(0,4).map((item,index)=>(
-                            <li key={index} style={{display:'flex'}}>
-                                <div className="room-left_main">
-                                    <Link to={`/detail/${item.h_code}`} onClick={() => window.scrollTo(0,0)}>
-                                        <img src={`/img/${item.h_Img}`} alt={item.hotelName} />
-                                    </Link>
-                                </div>
-                                <div className="room-right_main">
-                                    <h2><Link to={`/detail/${item.h_code}`} onClick={() => window.scrollTo(0,0)}>{item.hotelName}</Link></h2>
-                                    <div className="room-intro_main">
-                                        <div className="intro-left_main">
-                                            <span>
-                                                <img src='/img/star-one.png' alt="score" />
-                                                <img src='/img/star-one.png' alt="score" />
-                                                <img src='/img/star-one.png' alt="score" />
-                                                <img src='/img/star-one.png' alt="score" />
-                                                <img src='/img/star-half.png' alt="score" />
-                                            </span>
-                                        </div>
-                                        <div className="intro-right_main">
-                                            <Link to = {`/detail/${item.h_code}`} onClick={() => window.scrollTo(0,0)}>
-                                                <button type='button'>상세정보 <i className="fa-solid fa-angle-right"></i></button>
-                                            </Link>
-                                        </div>
+                        {internalHotel.slice(0,4).map((item,index)=>{
+
+                            return(
+                                <li key={index} style={{display:'flex'}}>
+                                    <div className="room-left_main">
+                                        <Link to={`/detail/${item.h_code}`} onClick={() => window.scrollTo(0,0)}>
+                                            <img src={`/img/${item.h_Img}`} alt={item.hotelName} />
+                                        </Link>
                                     </div>
-                                    <div className="room-info_main">
-                                        <p><i className="fa-regular fa-clock"></i> 체크인 <span className='bold_main'>15:00</span> ~ 체크아웃 <span className='bold_main'>11:00</span></p>
-                                        <p><i className="fa-solid fa-user-group"></i> 최대 투숙객 수 : 2 ~ 4명</p>
-                                        <p><i className="fa-solid fa-tag"></i> <span className='bold_main'>할인혜택 :</span>
-                                            <span className='red_main'>
+                                    <div className="room-right_main">
+                                        <h2><Link to={`/detail/${item.h_code}`} onClick={() => window.scrollTo(0,0)}>{item.hotelName}</Link></h2>
+                                        <div className="room-intro_main">
+                                            <div className="intro-left_main">
+                                                <span>
+                                                    {recommStar[index].map((star,ind)=>(
+                                                        <img src={star} alt="score" key={ind} className='star' />
+                                                    ))}
+                                                </span>
+                                            </div>
+                                            <div className="intro-right_main">
+                                                <Link to = {`/detail/${item.h_code}`} onClick={() => window.scrollTo(0,0)}>
+                                                    <button type='button'>상세정보 <i className="fa-solid fa-angle-right"></i></button>
+                                                </Link>
+                                            </div>
+                                        </div>
+                                        <div className="room-info_main">
+                                            <p><i className="fa-regular fa-clock"></i> 체크인 <span className='bold_main'>15:00</span> ~ 체크아웃 <span className='bold_main'>11:00</span></p>
+                                            <p><i className="fa-solid fa-user-group"></i> 최대 투숙객 수 : 2 ~ 4명</p>
+                                            <p><i className="fa-solid fa-tag"></i> <span className='bold_main'>할인혜택 :</span>
+                                                <span className='red_main'>
+                                                    {item.discount === 1 ? 
+                                                        '10%할인 이벤트 중'
+                                                    :
+                                                        '회원가입시 10,000원 할인쿠폰'
+                                                    }
+                                                </span>
+                                            </p>
+                                            <div className="room-pay_main">
                                                 {item.discount === 1 ? 
-                                                    '10%할인 이벤트 중'
-                                                :
-                                                    '회원가입시 10,000원 할인쿠폰'
+                                                    <>
+                                                        <span className='origin-price_main'>{(hotelMerge[item.h_code-1].hotelPrice).toLocaleString()}원</span>
+                                                        <span className='final-price_main'>{((hotelMerge[item.h_code-1].hotelPrice) - ((hotelMerge[item.h_code-1].hotelPrice)*0.1)).toLocaleString()}원<span>/1박</span></span>
+                                                    </>                                                    
+                                                :                                                    
+                                                    <>
+                                                        <span className='final-price_main'>{(hotelMerge[item.h_code-1].hotelPrice).toLocaleString()}원<span>/1박</span></span>
+                                                    </>
                                                 }
-                                            </span>
-                                        </p>
-                                        <div className="room-pay_main">
-                                            {item.discount === 1 ? 
-                                                <>
-                                                    <span className='origin-price_main'>{(hotelMerge[item.h_code-1].hotelPrice).toLocaleString()}원</span>
-                                                    <span className='final-price_main'>{((hotelMerge[item.h_code-1].hotelPrice) - ((hotelMerge[item.h_code-1].hotelPrice)*0.1)).toLocaleString()}원<span>/1박</span></span>
-                                                </>                                                    
-                                            :                                                    
-                                                <>
-                                                    <span className='final-price_main'>{(hotelMerge[item.h_code-1].hotelPrice).toLocaleString()}원<span>/1박</span></span>
-                                                </>
-                                            }
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </li>
-                        ))}
+                                </li>
+                                )
+                            }
+                        )}
                     </ul>
                 </div>
             </div> 

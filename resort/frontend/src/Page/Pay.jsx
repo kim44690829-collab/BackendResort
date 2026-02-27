@@ -30,7 +30,7 @@ export default function Pay(){
     const [useCoupon, setUseCoupon] = useState("쿠폰 사용 안함");
     const [useCouponNum, setUseCouponNum] = useState(0);
     const [couponUse, setCouponUse] = useState(0);
-    const [memberSel, setMemberSel] = useState(null); 
+    const [memberSel, setMemberSel] = useState(undefined); 
     const [isLoading, setIsLoading] = useState(false);
 
     // 회원코드
@@ -42,19 +42,20 @@ export default function Pay(){
             return;
         }
 
+        setIsLoading(true);
+
         axios.get("/api/member/onememberSelect", {
             params : {
                 m_nickName : userNickName
             }
         })
         .then((res) => {
-            setIsLoading(true);
             console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~', res.data)
             setMemberSel(res.data);
         })
         .catch((err) => {
-            setIsLoading(false);
-            console.error(err)
+            console.error(err);
+            setMemberSel(null);
         })
         .finally(() => {
             setIsLoading(false);
@@ -333,7 +334,13 @@ export default function Pay(){
     console.log('6', memberSel)
     console.log('7', userNickName)
 
-    if(userNickName !== null && memberSel === null && isLoading === false) return <div>로딩중...</div>;
+    // ! 혹은 !!는 값을 boolean 타입으로 변환해서 true 혹은 false로 표시함
+    // ! => 값의 반전 = !true === false
+    // !! => 반전의 반전 = !!true === true
+    const isMember = !!userNickName;
+
+    if (isMember && (isLoading || memberSel === undefined))
+    return <div>로딩중...</div>;
 
     return(
         <div className="pay_wrap" onClick={closeCoupon}>
