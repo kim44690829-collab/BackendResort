@@ -93,7 +93,7 @@ export default function Detail(){
     // console.log('rooooooooooooooooooom', Room);
     //예외처리
     if (Room.length === 0) return <p>객실 정보가 없습니다.</p>;
-
+    console.log(Room)
     //객실 전체 리뷰 데이터
     let RoomReview;
     for(let i = 0; i < ReviewData.length; i++){

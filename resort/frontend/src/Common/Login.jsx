@@ -39,6 +39,7 @@ export default function Login(){
          .then((res) => {
             if(res.data && res.data.m_nickName){
                 loginSave(res.data.m_nickName,res.data.m_email);
+                console.log("$$$$$$$$$" ,res.data);
                 if(res.data.m_email !== 'admin@resort.com'){
                     alert(`${res.data.m_nickName}님 환영합니다.`);
                 }

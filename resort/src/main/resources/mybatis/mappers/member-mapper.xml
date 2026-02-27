@@ -46,6 +46,10 @@
 <!-- //개인 한 사람의 정보를 검색하는 메소드 - 비밀번호 찾기용 public MemberDTO getPwFind(@Param("m_email") String m_email, @Param("m_phone") String m_phone); -->
 <select id="getPwFind" resultType="MemberDTO">
 	SELECT * FROM member WHERE m_email = #{m_email} AND m_phone = #{m_phone}
+
+<!-- //개인 한 사람의 정보를 검색하는 메소드 -->
+<select id="getOneMember"  resultType="MemberDTO">
+	SELECT * FROM member WHERE m_code=#{m_code}
 </select>
 
 <!-- 개인 한사람의 패스워드 리턴하는 쿼리 -->
@@ -126,10 +130,10 @@
 	<update id="adminUpdateMember" parameterType="MemberDTO">
 		UPDATE member SET m_phone=#{m_phone},m_nickName=#{m_nickName} WHERE m_code=#{m_code}
 	</update>
-<!-- // 쿠폰 사용한 회원 쿠폰수량 업데이트 public int couponMod(@Param("m_code") Integer m_code ); -->
-<update id="couponMod">
-	UPDATE member m INNER JOIN reservation re ON m.m_code = re.m_code
-	SET m.m_coupon = 0 WHERE m.m_code = #{m_code} AND re.coupon_used = 1 
-</update>
+	<!-- // 쿠폰 사용한 회원 쿠폰수량 업데이트 public int couponMod(@Param("m_code") Integer m_code ); -->
+	<update id="couponMod">
+		UPDATE member m INNER JOIN reservation re ON m.m_code = re.m_code
+		SET m.m_coupon = 0 WHERE m.m_code = #{m_code} AND re.coupon_used = 1 
+	</update>
 
 </mapper>

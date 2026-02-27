@@ -7,11 +7,11 @@ import { Link } from "react-router-dom";
 export default function AdminPage4(){
     
 
-    const [members,setMembers] = useState([]);
+    const [reservation,setReservation] = useState([]);
     const [ph,setPh] = useState({});
     const [page, setPage] = useState(1);
     useEffect(()=>{
-        axios.get('/api/member/list',{
+        axios.get('/api/reservation/list',{
             params: {
                 page: page,
                 pageSize: 10
@@ -20,7 +20,7 @@ export default function AdminPage4(){
         .then((res) => {
             console.log("회원정보 데이터 : ", res.data.list);
             console.log("회원정보 데이터 : ", res.data.ph);
-            setMembers(res.data.list);
+            setReservation(res.data.list);
             setPh(res.data.ph);
         })
         .catch((error) => {
@@ -84,6 +84,11 @@ export default function AdminPage4(){
                                         <span>객실 정보 등록</span> 
                                     </Link>
                                 </li>
+                                <li className="a_menus">
+                                    <Link to={`/noticeinsert`} onClick={() => window.scrollTo(0, 0)}>
+                                        <span>공지사항 작성</span> 
+                                    </Link>
+                                </li>
                             </ul>
                         </div>
                         <div className="menu_box">
@@ -109,38 +114,63 @@ export default function AdminPage4(){
                     </div>
                     <div className="admin_body">
                         <div className="admin_text">예약 정보 조회</div>
+                        <div id="search_wrap">
+                                <form >
+                                    <select className="searchSelect" name="searchType">
+                                        <option value="booker_name">예약자명</option>
+                                        <option value="reservation_no">예약코드</option>
+                                    </select>
+                                    
+                                    <input className="searchbox" type="text" name="searchKeyword" placeholder="검색어를 입력하세요"/>
+                                    <input  type="submit" value="검색" className="searchBtn"/>
+                                    <input type="button" value="전체보기" className="searchBtn" />
+                                </form>
+					        </div>
                         <div className="admin_list">
-                            <table className="list_table" border="1">
+                            <table className="list_table" >
                                 <thead >
                                     <tr>
-                                        <th width="50px">Num</th>
-                                        <th width="200px">E_mail</th>
-                                        <th width="160px">전화번호</th>
-                                        <th width="160px">생일</th>
-                                        <th width="80px">성별</th>
-                                        <th>별명</th>
-                                        <th width="80px">쿠폰 보유</th>
-                                        <th width="230px">가입일</th>
-                                        <th width="120px">탈퇴처리</th>
+                                        <th width="50px">예약번호</th>
+                                        <th width="50px">회원번호</th>
+                                        <th width="50px">비회원번호</th>
+                                        <th width="50px">예약코드</th>
+                                        <th width="50px">방코드</th>
+                                        <th width="50px">예약자명</th>
+                                        <th width="50px">예약시간</th>
+                                        <th width="50px">체크인 날짜</th>
+                                        <th width="50px">체크아웃 날짜</th>
+                                        <th width="50px">원가격</th>
+                                        <th width="50px">할인율</th>
+                                        <th width="50px">쿠폰사용여부</th>
+                                        <th width="50px">최종가격</th>
+                                        <th width="50px">취소여부</th>
+                                        <th width="50px">취소시간</th>
+                                        
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {members.map((item,index)=>{
+                                    {reservation.map((item,index)=>{
                                         const member_birth = new Date(item.m_birth)
                                         const birth_Date = member_birth.toLocaleDateString('ko-KR')
                                         const member_reg = new Date(item.m_regDate)
                                         const reg_Date = member_reg.toLocaleString('ko-KR')
                                         return(
                                             <tr key={index}>
+                                                <td>{item.re_code}</td>
                                                 <td>{item.m_code}</td>
-                                                <td>{item.m_email}</td>
-                                                <td>{item.m_phone}</td>
-                                                <td>{birth_Date}</td>
-                                                <td>{item.m_gender === 0? "남":"여"}</td>
-                                                <td>{item.m_nickName}</td>
-                                                <td>{item.m_coupon}</td>
-                                                <td>{reg_Date}</td>
-                                                <td><button>회원삭제</button></td>
+                                                <td>{item.g_code}</td>
+                                                <td>{item.reservation_no}</td>
+                                                <td>{item.r_code}</td>
+                                                <td>{item.booker_name}</td>
+                                                <td>{item.reserved_at}</td>
+                                                <td>{item.check_in_date}</td>
+                                                <td>{item.check_out_date}</td>
+                                                <td>{item.original_price.toLocaleString()}</td>
+                                                <td>{item.discount_rate}</td>
+                                                <td>{item.coupon_used}</td>
+                                                <td>{item.final_price.toLocaleString()}</td>
+                                                <td>{item.cancel}</td>
+                                                <td>{item.cancel_date}</td>
                                             </tr>
                                         )
                                     })}
@@ -149,27 +179,14 @@ export default function AdminPage4(){
                             <div className="paging">
                                 {/* 페이지가 많을때 좌우 버튼 */}
                                 {ph.prev && (
-                                    <button onClick={() => setPage(ph.startPage - 1)}>◀</button>
+                                    <button className="arrowbtn" onClick={() => setPage(ph.startPage - 1)}> ⇦  Prev</button>
                                 )}
                                 <div className="pages">{pages}</div>
                                 {ph.next && (
-                                    <button onClick={() => setPage(ph.endPage + 1)}>▶</button>
+                                    <button className="arrowbtn" onClick={() => setPage(ph.endPage + 1)}>Next ⇨</button>
                                 )}
                             </div>
-                            <div id="search_wrap">
-                                <form >
-                                    <select name="searchType">
-                                        <option value="phone">전화번호</option>
-                                        <option value="gender">성별</option>
-                                        <option value="nickName">별명</option>
-                                        <option value="mail">이메일</option>
-                                    </select>
-                                    
-                                    <input type="text" name="searchKeyword" placeholder="검색어를 입력하세요"/>
-                                    <input type="submit" value="검색" className="searchBtn"/>
-                                    <input type="button" value="전체보기" className="searchBtn" />
-                                </form>
-					        </div>
+                            
                         </div>
                     </div>
                 </div>

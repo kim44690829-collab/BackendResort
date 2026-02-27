@@ -1,5 +1,8 @@
 package resort.handler;
 
+import lombok.Data;
+
+@Data
 public class PageHandler {
 	// =================== 1. 기본 입력값 =================
 			private int totalCnt; // 전체 게시글의 수
@@ -30,72 +33,7 @@ public class PageHandler {
 				// 계산함수 콜할 예정
 				calcPageing();
 			}
-			public int getTotalCnt() {
-				return totalCnt;
-			}
-			public void setTotalCnt(int totalCnt) {
-				this.totalCnt = totalCnt;
-			}
-			public int getPageNum() {
-				return pageNum;
-			}
-			public void setPageNum(int pageNum) {
-				this.pageNum = pageNum;
-			}
-			public int getPageSize() {
-				return pageSize;
-			}
-			public void setPageSize(int pageSize) {
-				this.pageSize = pageSize;
-			}
-			public int getPageBlock() {
-				return pageBlock;
-			}
-			public void setPageBlock(int pageBlock) {
-				this.pageBlock = pageBlock;
-			}
-			public int getStartRow() {
-				return startRow;
-			}
-			public void setStartRow(int startRow) {
-				this.startRow = startRow;
-			}
-			public int getEndRow() {
-				return endRow;
-			}
-			public void setEndRow(int endRow) {
-				this.endRow = endRow;
-			}
-			public int getTotalPage() {
-				return totalPage;
-			}
-			public void setTotalPage(int totalPage) {
-				this.totalPage = totalPage;
-			}
-			public int getStartPage() {
-				return startPage;
-			}
-			public void setStartPage(int startPage) {
-				this.startPage = startPage;
-			}
-			public int getEndPage() {
-				return endPage;
-			}
-			public void setEndPage(int endPage) {
-				this.endPage = endPage;
-			}
-			public boolean isPrev() {
-				return prev;
-			}
-			public void setPrev(boolean prev) {
-				this.prev = prev;
-			}
-			public boolean isNext() {
-				return next;
-			}
-			public void setNext(boolean next) {
-				this.next = next;
-			}
+			
 			public void calcPageing() {
 				// totalPage : 전체 페이지수 계산
 				// [1][2][3], [4][5][6]

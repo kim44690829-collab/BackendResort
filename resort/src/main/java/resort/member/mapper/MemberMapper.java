@@ -25,6 +25,8 @@ public interface MemberMapper {
 	public MemberDTO getOneSelectMember(String m_nickName);
 	//개인 한 사람의 정보를 검색하는 메소드 - 비밀번호 찾기용
 	public MemberDTO getPwFind(@Param("m_email") String m_email, @Param("m_phone") String m_phone);
+	//개인 한 사람의 정보를 검색하는 메소드
+	public MemberDTO getOneMember(int m_code);
 	//개인 한사람의 패스워드 리턴하는 쿼리
 	public String getPass(String m_email);
 	//개인 한사람의 정보를 수정하는 쿼리

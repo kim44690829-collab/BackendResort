@@ -18,6 +18,8 @@ public interface MemberService {
 	public MemberDTO getOneSelectMember(String m_nickName);
 	//개인 한 사람의 정보를 검색하는 메소드 - 비밀번호 찾기용
 	public int getPwFind(@Param("m_email") String m_email, @Param("m_phone") String m_phone);
+	//개인 한 사람의 정보를 검색하는 메소드
+	public MemberDTO getOneMember(int m_code);
 	//개인 한사람의 정보를 수정하는 쿼리
 	public boolean updateMember(MemberDTO mdto);
 	// 한사람 개인의 정보를 삭제하는 메소드 작성

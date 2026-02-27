@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -78,7 +79,7 @@ public class MemberApiController {
 		System.out.println("MemberApiController : deleteMember() 메서드 확인");
 		return memberservice.deleteMember(mdto);
 	}
-
+	
 	// ============= 2026-02-20 수정 부분 ==============
 	@GetMapping("member/list")
 	public Map<String, Object> memberList(
@@ -119,7 +120,6 @@ public class MemberApiController {
 		}
 		
 		
-		
 		Map<String, Object> result = new HashMap<>();
 		
 		result.put("list", list);
@@ -129,6 +129,8 @@ public class MemberApiController {
 		return result;
 	}
 	
+	
+	
 	//로그인 메소드
 	@PostMapping("/member/login")
 	public MemberDTO login(@RequestBody MemberDTO mdto,HttpSession session) {
@@ -136,10 +138,13 @@ public class MemberApiController {
 		
 		MemberDTO loginUser = memberservice.loginConfirm(mdto);
 		
+		System.out.println(loginUser);
+		
 		if(loginUser != null) {
 			//세션에 로그인 정보담기
 			//session.setAttribute("loginUser", loginUser.getM_email());
 			session.setAttribute("loginUser", loginUser);
+			System.out.println("################로그인성공"+session.getAttribute("loginUser"));
 		}
 		
 		//React로 JSON 변환
@@ -148,17 +153,24 @@ public class MemberApiController {
 	
 	//로그아웃
 	@GetMapping("/member/logout")
-	public int logout(HttpSession session, HttpServletResponse response) {
+	public int logout(HttpSession session) {
+		//, HttpServletResponse response
 		System.out.println("MemberApiController : logout 요청됨");
-		session.invalidate();//세션삭제
 		
+		if(session.getAttribute("loginUser") != null) {
+			session.invalidate();//세션삭제
+			System.out.println("logout 성공");
+			
+			return 1;//성공	
+		}else {
+			System.out.println("logout 실패");
+			return 0;//실패			
+		}		
 		// 2. 브라우저에게 JSESSIONID 쿠키를 삭제하라고 명령
-	    Cookie cookie = new Cookie("JSESSIONID", null);
-	    cookie.setPath("/");
-	    cookie.setMaxAge(0); // 수명을 0으로 설정하여 즉시 삭제
-	    response.addCookie(cookie);
-	    
-		return 1;//성공
+//	    Cookie cookie = new Cookie("JSESSIONID", null);
+//	    cookie.setPath("/");
+//	    cookie.setMaxAge(0); // 수명을 0으로 설정하여 즉시 삭제
+//	    response.addCookie(cookie);  
 	}
 	
 	// ========================== 2026-02-24 수정부분 ==============================

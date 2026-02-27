@@ -31,6 +31,11 @@ import AdminPage7 from './Page/admin/AdminPage7'
 import MemberUdate from './Page/admin/memberUpdate'
 import HotelInsert from './Page/admin/HotelInsert'
 import RoomInsert from './Page/admin/RoomInsert'
+import RoomUpdate from './Page/admin/RoomUpdate'
+import HotelUpdate from './Page/admin/HotelUpdate'
+import NoticeInsert from './Page/admin/NoticeInsert'
+import NoticeUpdate from './Page/admin/NoticeUpdate'
+
 import MyPage from './Page/mypage/MyPage'
 
 
@@ -66,7 +71,11 @@ function App() {
             <Route path='/adminPage7' element={<AdminPage7 />} />
             <Route path='/hotelinsert' element={<HotelInsert />} />
             <Route path='/roominsert' element={<RoomInsert />} />
-            <Route path='/memberUdate/:m_code' element={<MemberUdate />} />
+            <Route path='/noticeinsert' element={<NoticeInsert />} />
+            <Route path='/roomUpdate/:r_code' element={<RoomUpdate />} />
+            <Route path='/hotelUpdate/:h_code' element={<HotelUpdate />} />
+            <Route path='/memberUpdate/:m_code' element={<MemberUdate />} />
+            <Route path='/noticeUpdate/:n_code' element={<NoticeUpdate />} />
             <Route path='/myPage' element={<MyPage />} />
           </Routes>
           <Footer />
