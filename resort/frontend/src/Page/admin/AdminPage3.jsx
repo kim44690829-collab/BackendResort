@@ -5,18 +5,17 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 
 export default function AdminPage3(){
-    const {HotelData} = useContext(ResortDataContext)
+    const {} = useContext(ResortDataContext)
 
+    const [hotel,setHotel] = useState([])
     const [room,setRoom] = useState([]);
     const [ph,setPh] = useState({});
     const [page, setPage] = useState(1);
-    
+    const [num,setNum] = useState(0)
     const [searchType, setSearchType] = useState("roomName");
     const [searchKeyword, setSearchKeyword] = useState("");
     const [serch,setSerch] = useState("")
-    const [isInfo,setIsinfo] = useState(
-        new Array(10).fill(false)
-    )
+    const [isInfo,setIsinfo] = useState(false)
     useEffect(()=>{
         axios.get('/api/room/list',{
             params: {
@@ -37,6 +36,16 @@ export default function AdminPage3(){
         .catch((error) => {
             console.error("error", error)
         })
+
+        axios.get('/api/hotel/onlyhotel')
+        .then((res) => {
+            // console.log("호텔 데이터 : ", res.data);
+            setHotel(res.data);
+        })
+        .catch((error) => {
+            console.error("error", error)
+        })
+        
         console.log(page)
     },[page,searchType,searchKeyword])
 
@@ -56,13 +65,13 @@ export default function AdminPage3(){
         setPage(1);
     }
 
-    const setTrue =(index)=>{
+    /* const setTrue =(index)=>{
         setIsinfo((state)=>{
             const statecopy = [...state]
             statecopy[index] = !statecopy[index]
             return statecopy
         })
-    }
+    } */
 
     
 
@@ -110,10 +119,16 @@ export default function AdminPage3(){
                                         <span>객실 정보 등록</span> 
                                     </Link>
                                 </li>
+                                <li className="a_menus">
+                                    <Link to={`/noticeinsert`} onClick={() => window.scrollTo(0, 0)}>
+                                        <span>공지사항 작성</span> 
+                                    </Link>
+                                </li>
                             </ul>
                         </div>
                         <div className="menu_box">
                             <span className="admin_menu">게시판</span>
+                            
                             <ul className="admin_submenu">
                                 <li className="a_menus">
                                     <Link to={`/adminPage5` } onClick={() => window.scrollTo(0, 0)}>
@@ -135,8 +150,20 @@ export default function AdminPage3(){
                     </div>
                     <div className="admin_body">
                         <div className="admin_text">객실 정보 조회</div>
+                        <div id="search_wrap">
+                                <form onSubmit={submitHandler}>
+                                    <select className="searchSelect" name="searchType" onChange={(e) => setSearchType(e.target.value)}>
+                                        <option value="roomName">객실명</option>
+                                        <option value="maxOccupancy">최대인원</option>
+                                    </select>
+                                    
+                                    <input className="searchbox" type="text" name="searchKeyword" placeholder="검색어를 입력하세요" onChange={(e) => setSerch(e.target.value)}/>
+                                    <input type="submit" value="검색" className="searchBtn" onClick={()=>submitHandler()}/>
+                                    <input type="button" value="전체보기" className="searchBtn" onClick={()=>{setSearchKeyword(""),setSearchType("hotelName")}}/>
+                                </form>
+					        </div>
                         <div className="admin_list">
-                            <table className="list_table" border="1">
+                            <table className="list_table" >
                                 <thead >
                                     <tr>
                                         <th width="50px">Num</th>
@@ -149,74 +176,62 @@ export default function AdminPage3(){
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {room.map((item,index)=>{
-                                        return(
-                                            <>
+                                    {room.map((item,index)=>(
+                                        
                                                 <tr key={index}>
                                                     <td>{item.r_code}</td>
-                                                    <td>{HotelData[item.h_code-1].hotelName}</td>
+                                                    <td>{hotel[item.h_code-1]?.hotelName}</td>
                                                     <td>{item.roomName}</td>
                                                     <td>{item.price}</td>
                                                     <td>{item.maxOccupancy}</td>
-                                                    <td><button onClick={()=>setTrue(index)}>상세정보</button></td>
+                                                    <td><button className="table_btn" onClick={()=>{setIsinfo(!isInfo),setNum(index)}}>상세정보</button></td>
                                                 </tr>
-                                                {isInfo[index] && 
-                                                 <div className="admin_modal">
-                                                    
-                                                        <button type="button" onClick={()=>setTrue(index)} className="closeBtn">✖</button>
-                                                        <div className="img_box" >
-                                                            <img  src={item.r_code%3===0?`/img/${HotelData[item.h_code-1].h_s_Img1}`
-                                                            :item.r_code%3===1?`/img/${HotelData[item.h_code-1].h_s_Img2}`
-                                                            :`/img/${HotelData[item.h_code-1].h_s_Img3}`} alt="img" className="roomImg"/>
-                                                        </div>
-                                                        <div className="service_box">
-                                                            <ul>
-                                                                
-                                                                <li>
-                                                                    <p>호텔명 : {HotelData[item.h_code-1].hotelName}</p>
-                                                                </li>
-                                                                <li>
-                                                                    <p>방이름 : {item.roomName}</p>
-                                                                </li>
-                                                                <li>
-                                                                    <p>방가격 : {item.price.toLocaleString()}</p>
-                                                                </li>
-                                                                <li>
-                                                                    <p>최대인원 : {item.maxOccupancy}</p>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                        <button className="updateBtn">내용 수정하기</button>
-                                                 </div>
-                                                }
-                                            </>
-
-                                        )
-                                    })}
+                                    ))}
                                 </tbody>
                             </table>
+                            {isInfo && <div className="admin_modal">
+                                
+                                    <button type="button" onClick={()=>setIsinfo(!isInfo)} className="closeBtn">✖</button>
+                                    <div className="img_box" >
+                                        <img  src={room[num].r_code%3===0?`/img/${hotel[room[num].h_code-1]?.h_s_Img1}`
+                                        :room[num].r_code%3===1?`/img/${hotel[room[num].h_code-1].h_s_Img2}`
+                                        :`/img/${hotel[room[num].h_code-1].h_s_Img3}`} alt="img" className="roomImg"/>
+                                    </div>
+                                    <div className="service_box">
+                                        <ul>
+                                            
+                                            <li>
+                                                <p>호텔명 : {hotel[room[num].h_code-1]?.hotelName}</p>
+                                            </li>
+                                            <li>
+                                                <p>방이름 : {room[num].roomName}</p>
+                                            </li>
+                                            <li>
+                                                <p>방가격 : {room[num].price.toLocaleString()}</p>
+                                            </li>
+                                            <li>
+                                                <p>최대인원 : {room[num].maxOccupancy}</p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <Link to={`/roomUpdate/${room[num].r_code}`}>
+                                        <button className="updateBtn" style={{color:"#fff",fontWeight:600,marginTop:"30px"}}>
+                                            내용 수정하기
+                                        </button>
+                                    </Link>
+                                </div>
+                            }
                             <div className="paging">
                                 {/* 페이지가 많을때 좌우 버튼 */}
                                 {ph.prev && (
-                                    <button onClick={() => setPage(ph.startPage - 1)}>◀</button>
+                                    <button className="arrowbtn" onClick={() => setPage(ph.startPage - 1)}> ⇦  Prev</button>
                                 )}
                                 <div className="pages">{pages}</div>
                                 {ph.next && (
-                                    <button onClick={() => setPage(ph.endPage + 1)}>▶</button>
+                                    <button className="arrowbtn" onClick={() => setPage(ph.endPage + 1)}>Next ⇨</button>
                                 )}
                             </div>
-                            <div id="search_wrap">
-                                <form onSubmit={submitHandler}>
-                                    <select name="searchType" onChange={(e) => setSearchType(e.target.value)}>
-                                        <option value="roomName">객실명</option>
-                                        <option value="maxOccupancy">최대인원</option>
-                                    </select>
-                                    
-                                    <input type="text" name="searchKeyword" placeholder="검색어를 입력하세요" onChange={(e) => setSerch(e.target.value)}/>
-                                    <input type="submit" value="검색" className="searchBtn" onClick={()=>submitHandler()}/>
-                                    <input type="button" value="전체보기" className="searchBtn" onClick={()=>{setSearchKeyword(""),setSearchType("hotelName")}}/>
-                                </form>
-					        </div>
+                            
                         </div>
                     </div>
                 </div>

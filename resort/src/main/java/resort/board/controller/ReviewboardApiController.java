@@ -1,8 +1,11 @@
 package resort.board.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -15,6 +18,8 @@ import resort.board.dto.HotelAvgDTO;
 import resort.board.dto.RatingDTO;
 import resort.board.dto.ReviewboardDTO;
 import resort.board.service.ReviewboardService;
+import resort.handler.PageHandler;
+import resort.product.dto.HotelDTO;
 
 @RestController
 @RequestMapping("/api")
@@ -62,6 +67,78 @@ public class ReviewboardApiController {
 		System.out.println("ReviewboardServiceImpl : reviewAdd() 메서드 확인");
 		return reviewboardservice.reviewAdd(redto);
 	}
+	
+	
+	// =========== 2026-02-26 수정부분 JHJ ==============
+	
+	@GetMapping("/board/reviewlist")
+	public Map<String, Object> reviewList(
+			@RequestParam(value="searchType", required = false ) String searchType,
+			@RequestParam(value="searchKeyword", required = false) String searchKeyword,
+			@RequestParam(value="page",defaultValue="1") int page, // 초기 페이지
+			@RequestParam(value="pageSize",defaultValue="10") int pageSize // 한 페이지당 보여줄 목록의 수
+			){
+		System.out.println("ReviewboardApiController : reviewList(@-@) 메서드 확인");
+		
+		int totalCnt ;
+		
+		if(searchType != null && !searchKeyword.trim().isEmpty()) {
+			totalCnt=reviewboardservice.getReviewSearchCount(searchType, searchKeyword);
+		}else {
+			totalCnt=reviewboardservice.getAllReviewcount();
+		}
+		
+		
+		// 페이지 핸들러 인스터스화
+		PageHandler ph = new PageHandler(totalCnt, page, pageSize);
+		
+		//List<MemberDTO>list = memberservice.getPagelist(ph.getStartRow(), pageSize);
+		List<ReviewboardDTO>list;
+		
+		if(searchType != null && !searchKeyword.trim().isEmpty()) {
+			// service 에서 SearchBoard
+			list = reviewboardservice.getSearchPageReviewList(searchType, searchKeyword, ph.getStartRow(), pageSize);
+		}else {
+			list = reviewboardservice.getPageReviewlist(ph.getStartRow(), pageSize);
+		}
+		
+		
+		
+		Map<String, Object> result = new HashMap<>();
+		
+		result.put("list", list);
+		result.put("ph", ph);
+		result.put("searchType",searchType);
+		result.put("searchKeyword",searchKeyword);
+		return result;
+	}
+	
+	
+	
+	@DeleteMapping("/board/deletereview")
+	public int deleteReview(@RequestParam("rb_code") int rb_code) {
+		System.out.println("ReviewboardApiController : deleteReview(@-@) 메서드 확인");
+		return reviewboardservice.deleteReview(rb_code);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	// 리뷰  UPDATE
 	@PutMapping("/board/reviewMod")

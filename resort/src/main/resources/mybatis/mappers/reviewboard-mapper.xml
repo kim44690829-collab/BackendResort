@@ -51,6 +51,84 @@
 		INSERT INTO reviewboard(rb_score, m_code, r_code) VALUES(#{rb_score}, #{m_code}, #{r_code})
 	</insert>
 	
+	<!-- ============2026-02-26 수정부분 JHJ ========== -->
+	
+	<!-- 회원정보 개수  -->
+	<select id="getAllReviewcount" resultType="int">
+		SELECT COUNT(*) FROM reviewboard
+	</select>
+	
+	<!-- 회원정보 보이는 개수 -->
+	<select id="getPageReviewlist" resultType="ReviewboardDTO">
+		SELECT *FROM reviewboard ORDER BY rb_code DESC
+		LIMIT #{startRow}, #{pageSize}
+	</select>
+	
+	
+	
+	<select id="getReviewSearchCount" resultType="int">
+		SELECT COUNT(*) FROM reviewboard
+		<where>
+			<choose>
+				<when test="searchType == 'm_code'">
+					m_code LIKE CONCAT("%",#{searchKeyword},"%")
+				</when>
+				<when test="searchType == 'r_code'">
+					r_code LIKE CONCAT("%",#{searchKeyword},"%")
+				</when>
+				<otherwise>
+					rb_score LIKE CONCAT("%",#{searchKeyword},"%")				
+				</otherwise>
+			</choose>
+		</where>
+	</select>
+
+	<select id="getSearchPageReviewList" resultType="ReviewboardDTO">
+		SELECT * FROM reviewboard 
+		<where>
+			<choose>
+				<when test="searchType == 'm_code'">
+					m_code LIKE CONCAT("%",#{searchKeyword},"%")
+				</when>
+				<when test="searchType == 'r_code'">
+					r_code LIKE CONCAT("%",#{searchKeyword},"%")
+				</when>
+				<otherwise>
+					rb_score LIKE CONCAT("%",#{searchKeyword},"%")				
+				</otherwise>
+			</choose>
+		</where>
+		ORDER BY rb_code DESC
+		LIMIT #{startRow}, #{pageSize}
+	</select>
+	
+	<delete id="deleteReview" parameterType="int">
+		DELETE FROM reviewboard WHERE rb_code=#{rb_code} 
+	</delete>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	<!-- // 리뷰 update public int reviewMod(@Param("rb_code") int rb_code, @Param("rb_score") int rb_score); -->
 	<update id="reviewMod" parameterType="ReviewboardDTO">
 		UPDATE reviewboard SET rb_score = #{rb_score} WHERE rb_code = #{rb_code}

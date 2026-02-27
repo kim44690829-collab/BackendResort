@@ -44,4 +44,6 @@ public interface RoomMapper {
 	public void insertRoom(RoomDTO rdto);
 	// 예약된 객실 제외한 객실을 찾는 select
 	public List<RoomDTO> reservateRoom(ReservateRoomDTO resRdto);
+	
+	public int updateRoom(RoomDTO rdto);
 }

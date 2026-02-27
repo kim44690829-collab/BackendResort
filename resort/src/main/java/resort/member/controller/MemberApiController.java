@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -67,7 +68,7 @@ public class MemberApiController {
 		return memberservice.deleteMember(mdto);
 		
 	}
-
+	
 	// ============= 2026-02-20 수정 부분 ==============
 	@GetMapping("member/list")
 	public Map<String, Object> memberList(
@@ -108,7 +109,6 @@ public class MemberApiController {
 		}
 		
 		
-		
 		Map<String, Object> result = new HashMap<>();
 		
 		result.put("list", list);
@@ -117,6 +117,8 @@ public class MemberApiController {
 		result.put("searchKeyword",searchKeyword);
 		return result;
 	}
+	
+	
 	
 	//로그인 메소드
 	@PostMapping("/member/login")

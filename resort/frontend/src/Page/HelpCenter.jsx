@@ -293,6 +293,31 @@ export default function HelpCenter(){
         })
     }
 
+    const [noticelist,setNoticelist] = useState([]);
+    const [ph,setPh] = useState({});
+    const [serch,setSerch] = useState("")
+    useEffect(()=>{
+        axios.get('/api/board/noticelist',{
+            params: {
+                page: page,
+                pageSize: 10,
+                searchType: searchType,
+                searchKeyword: searchKeyword
+            }
+        })
+        .then((res) => {
+            console.log("회원정보 데이터 : ", res.data.list);
+            console.log("회원정보 데이터 : ", res.data.ph);
+            setNoticelist(res.data.list);
+            setPh(res.data.ph);
+            setSearchType(res.data.searchType);
+            setSearchKeyword(res.data.searchKeyword);
+        })
+        .catch((error) => {
+            console.error("error", error)
+        })
+        console.log(page)
+    },[page,searchType,searchKeyword])
     //삭제클릭 상태
     const [delState, setDelState] = useState(false);
 
@@ -412,6 +437,23 @@ export default function HelpCenter(){
         return `${year}-${month}-${day} ${hours}:${minutes}`;
     };
 
+    const pages = [];
+
+    for (let i = ph.startPage; i <= ph.endPage; i++) {
+        pages.push(
+            <button key={i} onClick={() => {setPage(i), window.scrollTo(0,0)}} className={i === ph.pageNum ? "pageBtn active" : "pageBtn"}>
+            {i}
+            </button>
+        );
+    }
+
+    const submitHandler=(e)=>{
+        e.preventDefault()
+        setSearchKeyword(serch)
+        setPage(1);
+    }
+    const [noticeNum,setNoticeNum] = useState(0)
+    
     return(
         <div className="helpCenter_container">
             {/* 왼쪽 메뉴 */}
@@ -627,145 +669,54 @@ export default function HelpCenter(){
             </div>)
             }
             {/* 공지사항 메인 */}
-            {listType === 2 && 
-            (<div className='helpCenter_text'>
-                <h1 className='text_title'>공지사항</h1>
-                <div className='helpCenter_texts notice' style={{borderTop:'2px solid black'}} onClick={() => setListType(3)}>
-                    <p>[신규 가입 이벤트] 지금 가입하면 10,000원 할인 쿠폰 지급!</p>
+            
+            {listType === 2 &&
+                (<div className='helpCenter_text'>
+                    <h1 className='text_title'>공지사항</h1>
+                    {noticeNum ===0 && 
+                        noticelist.map((item,index)=>(
+                            <div key={index} className='helpCenter_texts notice' style={index===0?{borderTop:'2px solid black'}:{}} onClick={()=>setNoticeNum(index+1)}>
+                                <p>{item.n_title}</p>
+                            </div>
+                        )) 
+                             
+                    }
+                    {noticeNum ===0 && 
+                        <div className="paging" style={{width:"600px",marginTop:"10px"}}>
+                                {/* 페이지가 많을때 좌우 버튼 */}
+                                {ph.prev && (
+                                    <button className="arrowbtn" onClick={() => setPage(ph.startPage - 1)}> ⇦  Prev</button>
+                                )}
+                                <div className="pages">{pages}</div>
+                                {ph.next && (
+                                    <button className="arrowbtn" onClick={() => setPage(ph.endPage + 1)}>Next ⇨</button>
+                                )}
+                            </div>
+                    }
+                    {noticeNum !==0 ?
+                        (
+                        <>
+                            <div className='helpCenter_text' style={{width:"564px",borderTop:'2px solid black' }}>
+                                <div className='helpCenter_texts'>
+                                    <p>{noticelist[noticeNum-1].n_title}</p>
+                                    <p className='notice-date'>작성일 : {noticelist[noticeNum-1].n_date.slice(0,10)}</p>
+                                </div>
+                                <div className='notice-contents' style={{whiteSpace:"pre-wrap"}}>
+                                    {noticelist[noticeNum-1].n_content}
+                                </div>
+                                <button type='button' className='noticeContentsBtn' onClick={()=>setNoticeNum(0)}>목록 보기</button>
+                                
+                            </div>
+                            
+                        </>
+                        
+                        )
+                        :
+                        null
+                    }
                 </div>
-                <div className='helpCenter_texts notice' onClick={() => setListType(4)}>
-                    <p>[기간 한정] 전 숙소 10% 할인 이벤트 진행 중</p>
-                </div>
-                <div className='helpCenter_texts notice' onClick={() => setListType(5)}>
-                    <p>[포인트 혜택] 숙소 예약 시 5,000포인트 적립</p>
-                </div>
-                <div className='helpCenter_texts notice' onClick={() => setListType(6)}>
-                    <p>[후기 이벤트] 리얼 후기 작성하고 1,000포인트 받으세요</p>
-                </div>
-                <div className='helpCenter_texts notice' onClick={() => setListType(7)}>
-                    <p>[결제 혜택] 삼성카드 12월 무이자 할부 안내</p>
-                </div>
-            </div>)
-            }
-            {/* 공지 1번 */}
-            {listType === 3 &&
-            (<div className='helpCenter_text'>
-                <h1 className='text_title'>공지사항</h1>
-                <div className='helpCenter_texts' style={{borderTop:'2px solid black'}}>
-                    <p>[신규 가입 이벤트] 지금 가입하면 10,000원 할인 쿠폰 지급!</p>
-                    <p className='notice-date'>작성일 : 2025-12-25</p>
-                </div>
-                <div className='notice-contents'>
-                    EcoStay에 새로 가입하신 회원님께 <br/>
-                    10,000원 즉시 사용 가능한 할인 쿠폰을 드립니다.<br/><br/>
-
-                    지급 대상 : EcoStay 신규 회원<br/><br/>
-
-                    지급 혜택 : 10,000원 할인 쿠폰 1매<br/><br/>
-
-                    사용 조건 : 숙소 예약 시 사용 가능<br/><br/>
-
-                    지급 시점 : 회원가입 완료 즉시<br/><br/>
-
-                    ※ 일부 특가 상품에는 사용이 제한될 수 있습니다.
-                </div>
-                <button type='button' className='noticeContentsBtn' onClick={noticeBtnHandeler}>목록 보기</button>
-                
-            </div>)
-            }
-            {/* 공지 2번 */}
-            {listType === 4 &&
-            (<div className='helpCenter_text'>
-                <h1 className='text_title'>공지사항</h1>
-                <div className='helpCenter_texts' style={{borderTop:'2px solid black'}}>
-                    <p>[기간 한정] 전 숙소 10% 할인 이벤트 진행 중</p>
-                    <p className='notice-date'>작성일 : 2025-12-22</p>
-                </div>
-                <div className='notice-contents'>
-                    지금 EcoStay에서<br/>
-                    한 달간 숙소 예약 시 10% 할인 혜택을 받아보세요.<br/><br/>
-
-                    이벤트 기간 : 한 달간 진행<br/><br/>
-
-                    할인 내용 : 결제 금액의 10% 할인<br/><br/>
-
-                    적용 대상 : 국내 · 해외 숙소 전체<br/><br/>
-
-                    ※ 다른 할인 쿠폰과 중복 사용이 제한될 수 있습니다.
-                </div>
-                <button type='button' className='noticeContentsBtn' onClick={noticeBtnHandeler}>목록 보기</button>
-                
-            </div>)
-            }
-            {/* 공지 3번 */}
-            {listType === 5 &&
-            (<div className='helpCenter_text'>
-                <h1 className='text_title'>공지사항</h1>
-                <div className='helpCenter_texts' style={{borderTop:'2px solid black'}}>
-                    <p>[포인트 혜택] 숙소 예약 시 5,000포인트 적립</p>
-                    <p className='notice-date'>작성일 : 2025-12-21</p>
-                </div>
-                <div className='notice-contents'>
-                    EcoStay에서 숙소를 예약하면 <br/>
-                    5,000포인트를 자동 적립해 드립니다.<br/><br/>
-
-                    적립 대상 : 숙소 예약 완료 고객<br/><br/>
-
-                    적립 포인트 : 5,000P<br/><br/>
-
-                    사용 방법 : 다음 예약 시 현금처럼 사용 가능<br/><br/>
-
-                    ※ 포인트는 숙박 완료 후 지급됩니다.<br/><br/>
-                </div>
-                <button type='button' className='noticeContentsBtn' onClick={noticeBtnHandeler}>목록 보기</button>
-            </div>)
-            }
-            {/* 공지 4번 */}
-            {listType === 6 &&
-            (<div className='helpCenter_text'>
-                <h1 className='text_title'>공지사항</h1>
-                <div className='helpCenter_texts' style={{borderTop:'2px solid black'}}>
-                    <p>[후기 이벤트] 리얼 후기 작성하고 1,000포인트 받으세요</p>
-                    <p className='notice-date'>작성일 : 2025-12-19</p>
-                </div>
-                <div className='notice-contents'>
-                    숙박 후 리얼 후기를 작성해주시면 1,000포인트를 적립해 드립니다.<br/><br/>
-
-                    참여 방법 : 숙박 완료 후 후기 작성<br/><br/>
-
-                    혜택 : 1,000포인트 지급<br/><br/>
-
-                    지급 시점 : 후기 승인 후 자동 적립<br/><br/>
-
-                    ※ 부적절한 내용의 후기는 지급 대상에서 제외될 수 있습니다.
-                </div>
-                <button type='button' className='noticeContentsBtn' onClick={noticeBtnHandeler}>목록 보기</button>
-            </div>)
-            }
-            {/* 공지 5번 */}
-            {listType === 7 &&
-            (<div className='helpCenter_text'>
-                <h1 className='text_title'>공지사항</h1>
-                <div className='helpCenter_texts' style={{borderTop:'2px solid black'}}>
-                    <p>[결제 혜택] 삼성카드 12월 무이자 할부 안내</p>
-                    <p className='notice-date'>작성일 : 2025-12-15</p>
-                </div>
-                <div className='notice-contents'>
-                    12월 한 달간<br/>
-                    삼성카드 결제 시 최대 무이자 할부 혜택을 제공합니다.<br/><br/>
-
-                    대상 카드 : 삼성카드<br/><br/>
-
-                    혜택 내용 : 무이자 할부 제공<br/><br/>
-
-                    적용 기간 : 12월 한정<br/><br/>
-
-                    ※ 카드사 정책에 따라 일부 조건이 변경될 수 있습니다.<br/><br/>
-                </div>
-                <button type='button' className='noticeContentsBtn' onClick={noticeBtnHandeler}>목록 보기</button>
-            </div>)
-            }
-            {/* 1대1 문의 게시글&댓글 작성*/}
+            )}    
+            {/* 1대1 문의 게시글 작성*/}
             {listType === 8 && writeBoard === true && detailBoard === false && modifyBoard === false &&(
                 <div className="helpCenter_text">
                     <h1 className="text_title">1 대 1 문의</h1>

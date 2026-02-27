@@ -157,6 +157,24 @@ public class BoardServiceImpl implements BoardService {
 		return boardmapper.getSearchPageList(searchType, searchKeyword, startRow, pageSize);
 	}
 
+	@Override
+	public List<BoardDTO> getAdminPagelist(int startRow, int pageSize) {
+		System.out.println("BoardServiceImpl getAdminPagelist() 메소드호출");
+		return boardmapper.getAdminPagelist(startRow, pageSize);
+	}
+
+	@Override
+	public List<BoardDTO> getAdminSearchPageList(String searchType, String searchKeyword, int startRow, int pageSize) {
+		System.out.println("BoardServiceImpl getAdminSearchPageList() 메소드호출");
+		return boardmapper.getAdminSearchPageList(searchType, searchKeyword, startRow, pageSize);
+	}
+
+	//로그인된 상태의 나만의 게시글을 출력
+//	@Override
+//	public List<BoardDTO> getMyBoardList(String m_email, int startRow, int pageSize) {
+//		System.out.println("BoardServiceImpl getMyBoardList() 메소드호출");
+//		return boardmapper.getMyBoardList(m_email, startRow, pageSize);
+//	}
 
 	//답글 작성하여 추가하는 메소드
 	@Override

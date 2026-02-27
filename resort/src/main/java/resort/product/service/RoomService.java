@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import resort.product.dto.HotelDTO;
 import resort.product.dto.ReservateRoomDTO;
 import resort.product.dto.RoomDTO;
 
@@ -37,5 +38,8 @@ public interface RoomService {
 	public void insertRoom(RoomDTO rdto);
 	// 예약된 객실 제외한 객실을 찾는 select
 	public List<RoomDTO> reservateRoom(ReservateRoomDTO resRdto);
+	
+	// =============== 2026-02-25 수정부분 JHJ =====================
+	public int updateRoom(RoomDTO rdto);
 	
 }

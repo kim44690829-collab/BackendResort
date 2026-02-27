@@ -42,6 +42,7 @@
     <!-- LIMIT #{startRow}, #{pageSize} -->
 </select>
 
+
 <!-- Readcount 누적하여 조회수를 증가하는 메소드 -->
 <update id="upReadCount" parameterType="BoardDTO">
 	UPDATE board SET readcount = readcount+1 WHERE b_code=#{b_code}
@@ -165,5 +166,30 @@
 </select>
 	
 
-	
+
+<!-- startRow ~ 한 페이지에 보여줄 레코드(=행의) 개수(pageSize)만큼 보여주는 메소드 -->
+<select id="getAdminPagelist" resultType="BoardDTO">
+	SELECT * FROM board ORDER BY ref DESC LIMIT #{startRow}, #{pageSize}
+</select>
+
+<!-- 검색결과 노출 -->
+<select id="getAdminSearchPageList" resultType="BoardDTO">
+	SELECT * FROM board
+		<where>
+		    <if test="searchKeyword != null and searchKeyword != ''">
+		        <choose>
+		            <when test="searchType == 'b_title'">
+		                b_title LIKE CONCAT('%', #{searchKeyword}, '%')
+		            </when>
+		            <when test="searchType == 'b_content'">
+		                b_content LIKE CONCAT('%', #{searchKeyword}, '%')
+		            </when>
+		            <otherwise>
+		                b_writer LIKE CONCAT('%', #{searchKeyword}, '%')
+		            </otherwise>
+		        </choose>
+		    </if>
+		</where>
+	ORDER BY ref DESC LIMIT #{startRow}, #{pageSize}
+</select>
 </mapper>

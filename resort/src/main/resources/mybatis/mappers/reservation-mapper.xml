@@ -38,4 +38,47 @@
 		WHERE TRIM(re.reservation_no) = TRIM(#{reservation_no}) AND TRIM(g.g_phone) = TRIM(#{g_phone}) AND g.g_check = 0 
 	</select>
 	
+	<!-- // 모든 예약 내역 출력	public List<ReservationDTO> getAllReservation(); -->
+	<select id="getAllRescount" resultType="int">
+		SELECT COUNT(*) FROM reservation
+	</select>
+	
+	<!-- 예약정보 보이는 개수 -->
+	<select id="getResPagelist" resultType="ReservationDTO">
+		SELECT *FROM reservation ORDER BY re_code DESC
+		LIMIT #{startRow}, #{pageSize}
+	</select>
+	
+	
+	
+	<select id="getSearchResCount" resultType="int">
+			SELECT COUNT(*) FROM reservation 
+			<where>
+				<choose>
+					<when test="searchType == 'booker_name'">
+						booker_name LIKE CONCAT("%",#{searchKeyword},"%")
+					</when>
+					<otherwise>
+						reservation_no LIKE CONCAT("%",#{searchKeyword},"%")				
+					</otherwise>
+				</choose>
+			</where>
+		</select>
+	
+		<select id="getSearchResPageList" resultType="ReservationDTO">
+			SELECT * FROM reservation 
+			<where>
+				<choose>
+					<when test="searchType == 'booker_name'">
+						booker_name LIKE CONCAT("%",#{searchKeyword},"%")
+					</when>
+					<otherwise>
+						reservation_no LIKE CONCAT("%",#{searchKeyword},"%")				
+					</otherwise>
+				</choose>
+			</where>
+			ORDER BY re_code DESC
+			LIMIT #{startRow}, #{pageSize}
+		</select>
+	
 </mapper>

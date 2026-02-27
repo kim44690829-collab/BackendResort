@@ -57,6 +57,21 @@ public interface BoardMapper {
 	//내가 작성한 게시글에 달린 관리자 댓글수 체크
 	public int existsAdminReply(int ref);
 
+	// 로그인된 나만의 게시글의 개수
+	// 매개변수가 2개이상이면 Param으로 받고 1개면 그냥 받아도됨
+	//public int getMyBoardCount(String m_email);
+	
+	
+	public List<BoardDTO> getAdminPagelist(
+			@Param("startRow") int startRow,
+			@Param("pageSize") int pageSize);
+	
+	public List<BoardDTO> getAdminSearchPageList(
+			@Param("searchType") String searchType,
+			@Param("searchKeyword") String searchKeyword,
+			@Param("startRow") int startRow,
+			@Param("pageSize") int pageSize			
+			);
 		
 	//답글 작성하여 추가하는 메소드
 	public void reWriteInsert(BoardDTO bdto);

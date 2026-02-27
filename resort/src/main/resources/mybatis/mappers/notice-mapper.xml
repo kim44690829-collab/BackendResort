@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="resort.board.mapper.NoticeMapper">
+	<!-- 회원정보 개수  -->
+	<select id="getAllNoticecount" resultType="int">
+		SELECT COUNT(*) FROM notice
+	</select>
+	
+	<!-- 회원정보 보이는 개수 -->
+	<select id="getPageNoticelist" resultType="NoticeDTO">
+		SELECT *FROM notice ORDER BY n_code DESC
+		LIMIT #{startRow}, #{pageSize}
+	</select>
+	
+	
+	
+	<select id="getNoticeSearchCount" resultType="int">
+		SELECT COUNT(*) FROM notice
+		<where>
+			<choose>
+				<when test="searchType == 'n_title'">
+					n_title LIKE CONCAT("%",#{searchKeyword},"%")
+				</when>
+				<otherwise>
+					n_content LIKE CONCAT("%",#{searchKeyword},"%")				
+				</otherwise>
+			</choose>
+		</where>
+	</select>
+
+	<select id="getSearchPageNoticeList" resultType="NoticeDTO">
+		SELECT * FROM notice 
+		<where>
+			<choose>
+				<when test="searchType == 'n_title'">
+					n_title LIKE CONCAT("%",#{searchKeyword},"%")
+				</when>
+				<otherwise>
+					n_content LIKE CONCAT("%",#{searchKeyword},"%")				
+				</otherwise>
+			</choose>
+		</where>
+		ORDER BY n_code DESC
+		LIMIT #{startRow}, #{pageSize}
+	</select>
+	
+	<insert id="insertNotice" parameterType="NoticeDTO">
+		INSERT INTO notice(n_title,n_content) VALUES(#{n_title},#{n_content})
+	</insert>
+	
+	
+	
+	<!-- 공지 삭제를 위한 -->
+	<delete id="deleteNotice" parameterType="int">
+		DELETE FROM notice WHERE n_code=#{n_code} 
+	</delete>
+	
+	
+	<!-- 수정을 위한 선택한 공지사항 출력 public NoticeDTO oneSelectNotice(int n_code); -->
+	<select id="oneSelectNotice" parameterType="int" resultType="NoticeDTO">
+		SELECT * FROM notice WHERE n_code = ${n_code}
+	</select>
+	
+	<!-- 공지사항 수정 쿼리문 -->
+	<update id="adminUpdateNotice" parameterType="NoticeDTO">
+		UPDATE notice SET n_title = #{n_title},n_content = #{n_content} WHERE n_code = #{n_code}
+		UPDATE room SET h_code = #{h_code},roomName = #{roomName},price = #{price},maxOccupancy = #{maxOccupancy},r_img = #{r_img} WHERE r_code =#{r_code}
+	</update>
+	
+</mapper>
