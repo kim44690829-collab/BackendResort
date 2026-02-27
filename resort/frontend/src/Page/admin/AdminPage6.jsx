@@ -164,7 +164,7 @@ export default function AdminPage6(){
                         <div className="admin_list">
                             <table className="list_table">
                                 <thead >
-                                    <tr>
+                                    <tr className="table_head">
                                         <th style={{width:"50px"}}>Num</th>
                                         <th width="200px">제목</th>
                                         <th width="260px">작성일자</th>
@@ -178,7 +178,7 @@ export default function AdminPage6(){
                                 <tbody>
                                     {noticelist.map((item,index)=>{
                                         return(
-                                            <tr key={index}>
+                                            <tr key={index} className="table_head">
                                                 <td>{item.n_code}</td>
                                                 <td>{item.n_title}</td>
                                                 <td>{item.n_date}</td>

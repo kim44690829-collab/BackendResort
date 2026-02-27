@@ -155,22 +155,22 @@ export default function AdminPage(){
                         <div className="admin_text">회원 정보 조회</div>
                         <div id="search_wrap">
                                 <form onSubmit={submitHandler}>
-                                    <select className="searchSelect" name="searchType" onChange={(e) => setSearchType(e.target.value)}>
+                                    <select className="searchSelect" name="searchType" value={searchType} onChange={(e) => setSearchType(e.target.value)}>
                                         <option value="phone">전화번호</option>
                                         <option value="gender">성별</option>
                                         <option value="nickName">별명</option>
                                         <option value="mail">이메일</option>
                                     </select>
                                     
-                                    <input className="searchbox" type="text" name="searchKeyword" placeholder="검색어를 입력하세요" onChange={(e) => setSerch(e.target.value)}/>
+                                    <input className="searchbox" type="text" name="searchKeyword" placeholder="검색어를 입력하세요" value={serch} onChange={(e) => setSerch(e.target.value)}/>
                                     <input type="submit" value="검색" className="searchBtn" onClick={()=>submitHandler()}/>
-                                    <input type="button" value="전체보기" className="searchBtn" onClick={()=>{setSearchKeyword(""),setSearchType("phone")}}/>
+                                    <input type="button" value="전체보기" className="searchBtn" onClick={()=>{setSearchKeyword(""),setSearchType("phone"),setSerch("")}}/>
                                 </form>
 					        </div>
                         <div className="admin_list">
                             <table className="list_table" >
                                 <thead >
-                                    <tr>
+                                    <tr className="table_head">
                                         <th width="90px">Num</th>
                                         <th width="190px">E_mail</th>
                                         <th width="150px">전화번호</th>
@@ -190,7 +190,7 @@ export default function AdminPage(){
                                         const member_reg = new Date(item.m_regDate)
                                         const reg_Date = member_reg.toLocaleString('ko-KR')
                                         return(
-                                            <tr key={index}>
+                                            <tr key={index} className="table_head">
                                                 <td>{item.m_code}</td>
                                                 <td>{item.m_email}</td>
                                                 <td>{item.m_phone}</td>

@@ -164,8 +164,8 @@ export default function AdminPage3(){
 					        </div>
                         <div className="admin_list">
                             <table className="list_table" >
-                                <thead >
-                                    <tr>
+                                <thead className="table_head">
+                                    <tr className="table_head">
                                         <th width="50px">Num</th>
                                         <th width="200px">호텔명</th>
                                         <th width="100px">객실명</th>
@@ -175,10 +175,10 @@ export default function AdminPage3(){
                                         
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody >
                                     {room.map((item,index)=>(
                                         
-                                                <tr key={index}>
+                                                <tr key={index} className="table_head">
                                                     <td>{item.r_code}</td>
                                                     <td>{hotel[item.h_code-1]?.hotelName}</td>
                                                     <td>{item.roomName}</td>

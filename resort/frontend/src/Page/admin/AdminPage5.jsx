@@ -160,17 +160,17 @@ export default function AdminPage5(){
                         <div className="admin_list">
                             <table className="list_table" >
                                 <thead >
-                                    <tr>
+                                    <tr className="table_head">
                                         <th >Num</th>
-                                        <th style={{width:"100px"}}>회원번호</th>
+                                        <th style={{width:"60px"}}>회원번호</th>
                                         <th style={{width:"250px"}}>제목</th>
                                         <th style={{width:"150px"}}>작성자명</th>
                                         <th style={{width:"100px"}}>문의비밀번호</th>
                                         <th style={{width:"80px"}}>조회수</th>
-                                        <th style={{width:"300px"}}>작성일자</th>
+                                        <th style={{width:"120px"}}>작성일자</th>
                                         <th style={{width:"160px"}}>문의내용</th>
-                                        <th style={{width:"160px"}}>수정일자</th>
-                                        <th style={{width:"100px",overflow:"hidden"}}>문의 이미지</th>
+                                        <th style={{width:"120px"}}>수정일자</th>
+                                        <th style={{width:"300px",overflow:"hidden"}}>문의 이미지</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -180,17 +180,17 @@ export default function AdminPage5(){
                                         const member_reg = new Date(item.m_regDate)
                                         const reg_Date = member_reg.toLocaleString('ko-KR')
                                         return(
-                                            <tr key={index}>
+                                            <tr key={index} className="table_head">
                                                 <td>{item.re_step === 2?`${item.ref}번 답글`:item.ref}</td>
                                                 <td>{item.m_code}</td>
                                                 <td>{item.b_title}</td>
                                                 <td>{item.b_writer}</td>
                                                 <td>{item.b_pw}</td>
                                                 <td>{item.readcount}</td>
-                                                <td>{item.b_date}</td>
+                                                <td>{item.b_date.slice(0,10)}</td>
                                                 <td>{item.b_content}</td>
-                                                <td>{item.b_update}</td>
-                                                <td style={{width:"100px",overflow:"hidden"}}>{item.b_upload}</td>
+                                                <td>{item.b_update.slice(0,10)}</td>
+                                                <td style={{width:"100px",overflow:"hidden"}}>{/* {item.b_upload} */}</td>
                                                 
                                             </tr>
                                         )

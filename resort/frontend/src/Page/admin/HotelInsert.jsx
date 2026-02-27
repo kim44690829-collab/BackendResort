@@ -239,33 +239,33 @@ export default function HotelInsert(){
                         </div>
                     </div>
                     <div className="admin_body">
-                        <div className="admin_text" style={{textAlign:"center"}}>호텔 상품 추가</div>
+                        <div className="admin_text" style={{textAlign:"left",width:"800px"}}>호텔 상품 추가</div>
                         <div className="admin_list">
                             <table className="list_table" style={{width:"800px"}}>
                                 <thead >
                                     <tr>
                                         <th width="200px">hotelName</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:"1px solid #ddd"}}>
-                                            <input type="text" name="hotelName" onChange={handleChange}  style={{width:"400px",height:"30px"}}/>
+                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:"1px solid #ddd"}}>
+                                            <input type="text" name="hotelName" onChange={handleChange}  style={{width:"500px",height:"30px"}}/>
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">country</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:"1px solid #ddd"}}>
-                                            <input type="text" name="country" onChange={handleChange} style={{width:"400px",height:"30px"}}/>
+                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:"1px solid #ddd"}}>
+                                            <input type="text" name="country" onChange={handleChange} style={{width:"500px",height:"30px"}}/>
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">city</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:"1px solid #ddd"}}>
-                                            <input type="text" name="city" onChange={handleChange} style={{width:"400px",height:"30px"}}/>
+                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:"1px solid #ddd"}}>
+                                            <input type="text" name="city" onChange={handleChange} style={{width:"500px",height:"30px"}}/>
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">type</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:"1px solid #ddd"}}>
+                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:"1px solid #ddd"}}>
                                             {/* <input type="text" name="type" onChange={handleChange} style={{width:"400px",height:"30px"}}/> */}
-                                            <select  className="type" name="type" onChange={(e) => setHotel({...hotel,[e.target.name]:e.target.value})}>
+                                            <select  className="select" name="type" onChange={(e) => setHotel({...hotel,[e.target.name]:e.target.value})}>
                                                 <option value="Hotel">Hotel</option>
                                                 <option value="Resort">Resort</option>
                                                 <option value="GuestHouse">GuestHouse</option>
@@ -276,16 +276,16 @@ export default function HotelInsert(){
                                     </tr>
                                     <tr>
                                         <th width="200px">h_address</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:"1px solid #ddd"}}>
-                                            <input type="text" name="h_address" onChange={handleChange} style={{width:"400px",height:"30px"}}/>
+                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:"1px solid #ddd"}}>
+                                            <input type="text" name="h_address" onChange={handleChange} style={{width:"500px",height:"30px"}}/>
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">discount</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:"1px solid #ddd"}}>
+                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:"1px solid #ddd"}}>
                                             {/* <input type="text" name="discount" onChange={handleChange} style={{width:"400px",height:"30px"}}/> */}
                                             {/* <select  className="discount" name="discount" onChange={(e) => setSearchType(e.target.value)}> */}
-                                            <select  className="discount" name="discount" onChange={(e) => setHotel({...hotel,[e.target.name]:e.target.value})}>
+                                            <select  className="select" name="discount" onChange={(e) => setHotel({...hotel,[e.target.name]:e.target.value})}>
                                                 {/* setHotel({...hotel,[inputName]:e.target.value}) */}
                                                 <option value="0">0</option>
                                                 <option value="1">1</option>
@@ -295,50 +295,50 @@ export default function HotelInsert(){
                                     </tr>
                                     <tr>
                                         <th width="200px">startDate</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:"1px solid #ddd"}}>
-                                            <input type="text" name="startDate" onChange={handleChange} style={{width:"400px",height:"30px"}}/>
+                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:"1px solid #ddd"}}>
+                                            <input type="text" name="startDate" onChange={handleChange} style={{width:"500px",height:"30px"}}/>
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">endDate</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:"1px solid #ddd"}}>
-                                            <input type="text" name="endDate" onChange={handleChange} style={{width:"400px",height:"30px"}}/>
+                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:"1px solid #ddd"}}>
+                                            <input type="text" name="endDate" onChange={handleChange} style={{width:"500px",height:"30px"}}/>
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">h_Img</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:"1px solid #ddd"}}>
+                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:"1px solid #ddd"}}>
                                             <input type="file" name="h_Img" onChange={handleChange} />
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">h_s_Img1</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:"1px solid #ddd"}}>
+                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:"1px solid #ddd"}}>
                                             <input type="file" name="h_s_Img1" onChange={handleChange} />
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">h_s_Img2</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:"1px solid #ddd"}}>
+                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:"1px solid #ddd"}}>
                                             <input type="file" name="h_s_Img2" onChange={handleChange} />
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">h_s_Img3</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:"1px solid #ddd"}}>
+                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:"1px solid #ddd"}}>
                                             <input type="file" name="h_s_Img3" onChange={handleChange} />
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">h_s_Img4</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:"1px solid #ddd"}}>
+                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:"1px solid #ddd"}}>
                                             <input type="file" name="h_s_Img4" onChange={handleChange} />
                                         </th>
                                     </tr>
                                     
                                     <tr>
                                         <th width="200px">roomservice{`(최대 8개)`}</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333" ,borderBottom:"1px solid #ddd"}} className="cheakboxgr">
+                                        <th style={{backgroundColor:"#ffffff53",color:"#333" ,borderBottom:"1px solid #ddd"}} className="cheakboxgr">
                                             {/* <input type="text" name="roomservice" onChange={handleChange} /> */}
                                             <input type="checkbox" name="roomservice" id="roomservice1" onChange={()=>{addroomServiceHandler("무선인터넷")}} 
                                             disabled={!roomservice.includes("무선인터넷") && roomservice.length >= 8}/>
@@ -349,10 +349,10 @@ export default function HotelInsert(){
                                             <input type="checkbox" name="roomservice" id="roomservice3" onChange={()=>{addroomServiceHandler("실내수영장")}}
                                             disabled={!roomservice.includes("실내수영장") && roomservice.length >= 8}/>
                                             <label htmlFor="roomservice3">실내수영장</label>
+                                            <br/>
                                             <input type="checkbox" name="roomservice" id="roomservice4" onChange={()=>{addroomServiceHandler("TV")}}
                                             disabled={!roomservice.includes("TV") && roomservice.length >= 8}/>
                                             <label htmlFor="roomservice4">TV</label>
-                                            <br/>
                                             <input type="checkbox" name="roomservice" id="roomservice5" onChange={()=>{addroomServiceHandler("샤워실")}}
                                             disabled={!roomservice.includes("샤워실") && roomservice.length >= 8}/>
                                             <label htmlFor="roomservice5">샤워실</label>
@@ -385,7 +385,7 @@ export default function HotelInsert(){
                                     </tr>
                                     <tr>
                                         <th width="200px">publicservice{`(최대 8개)`}</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:"1px solid #ddd"}} className="cheakboxgr">
+                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:"1px solid #ddd"}} className="cheakboxgr">
                                             {/* <input type="text" name="publicservice" onChange={handleChange} /> */}
                                             <input type="checkbox" name="publicservice" id="publicservice1" onChange={()=>{addpublicServiceHandler("피트니스")}}
                                             disabled={!publicservice.includes("피트니스") && publicservice.length >= 8}/>
@@ -396,10 +396,10 @@ export default function HotelInsert(){
                                             <input type="checkbox" name="publicservice" id="publicservice3" onChange={()=>{addpublicServiceHandler("사우나")}}
                                             disabled={!publicservice.includes("사우나") && publicservice.length >= 8}/>
                                             <label htmlFor="publicservice3">사우나</label>
+                                            <br/>
                                             <input type="checkbox" name="publicservice" id="publicservice4" onChange={()=>{addpublicServiceHandler("실내수영장")}}
                                             disabled={!publicservice.includes("실내수영장") && publicservice.length >= 8}/>
                                             <label htmlFor="publicservice4">실내수영장</label>
-                                            <br/>
                                             <input type="checkbox" name="publicservice" id="publicservice5" onChange={()=>{addpublicServiceHandler("야외수영장")}}
                                             disabled={!publicservice.includes("야외수영장") && publicservice.length >= 8}/>
                                             <label htmlFor="publicservice5">야외수영장</label>
@@ -432,7 +432,7 @@ export default function HotelInsert(){
                                     </tr>
                                     <tr>
                                         <th width="200px">otherservice{`(최대 3개)`}</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:"1px solid #ddd"}} className="cheakboxgr">
+                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:"1px solid #ddd"}} className="cheakboxgr">
                                             {/* <input type="text" name="otherservice" onChange={handleChange} /> */}
                                             <input type="checkbox" name="otherservice" id="otherservice1" onChange={()=>{addotherServiceHandler("스프링클러")}}
                                             disabled={!otherservice.includes("스프링클러") && otherservice.length >= 3}/>

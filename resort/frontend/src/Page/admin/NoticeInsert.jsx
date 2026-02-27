@@ -117,7 +117,7 @@ export default function NoticeInsert(){
                         </div>
                     </div>
                     <div className="admin_body">
-                        <div className="admin_text" style={{textAlign:"center"}}>공지사항 작성</div>
+                        <div className="admin_text" style={{textAlign:"left",width:"800px"}}>공지사항 작성</div>
                         <div className="admin_list">
                             <table className="list_table"  style={{width:"800px"}}>
                                 <thead >

@@ -141,7 +141,7 @@ export default function RoomInsert(){
                             </ul>
                         </div>
                         <div className="menu_box">
-                            <span className="admin_menu" style={{textAlign:"center"}}>게시판</span>
+                            <span className="admin_menu" style={{textAlign:"left",width:"800px"}}>게시판</span>
                             <ul className="admin_submenu">
                                 <li className="a_menus">
                                     <Link to={`/adminPage5` } onClick={() => window.scrollTo(0, 0)}>
@@ -162,7 +162,7 @@ export default function RoomInsert(){
                         </div>
                     </div>
                     <div className="admin_body">
-                        <div className="admin_text">객실 상품 추가</div>
+                        <div className="admin_text" style={{textAlign:"left",width:"800px"}}>객실 상품 추가</div>
                         <div className="admin_list">
                             <table className="list_table" style={{width:"800px"}}>
                                 <thead >

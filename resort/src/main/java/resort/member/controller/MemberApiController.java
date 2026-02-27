@@ -89,11 +89,15 @@ public class MemberApiController {
 			@RequestParam(value="pageSize",defaultValue="10") int pageSize // 한 페이지당 보여줄 목록의 수
 			){
 		System.out.println("MemberApiController : memberList(@-@) 메서드 확인");
-		
+		System.out.println(searchKeyword);
 		int totalCnt ;
 		
 		if(searchType != null && !searchKeyword.trim().isEmpty()) {
 			totalCnt=memberservice.getSearchCount(searchType, searchKeyword);
+		}else if(searchType == "gender" && searchKeyword=="남"){
+			totalCnt=memberservice.getSearchCount(searchType, "0");
+		}else if(searchType == "gender" && searchKeyword=="여"){
+			totalCnt=memberservice.getSearchCount(searchType, "1");
 		}else {
 			totalCnt=memberservice.getAllcount();
 		}

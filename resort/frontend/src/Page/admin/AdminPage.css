@@ -75,9 +75,10 @@
 }
 .admin_wrap .admin_body #search_wrap .searchbox{
     border: 2px solid #67b2de46;
-    border-radius: 20px;
-    height: 60px;
-    padding: 0 25px;
+    border-radius: 10px;
+    height: 50px;
+    padding: 0 15px;
+    box-sizing: border-box;
     margin-left: 10px;
     background-color: #fff;
 }
@@ -86,8 +87,8 @@
 }
 .admin_wrap .admin_body #search_wrap .searchSelect{
     border: 2px solid #67b2de46;
-    border-radius: 20px;
-    height: 60px;
+    border-radius: 5px;
+    height: 50px;
     padding: 0 40px 0 0;;
     background-color: #fff;
     width: 200px;
@@ -117,20 +118,33 @@
 .admin_wrap .admin_body .admin_list .list_table{
     margin: 30px auto;
     width: 1400px;
-    box-shadow: 1px 1px 3px #67b2de46;
+    box-shadow: 1px 1px 10px #c0c0c0;
     border-radius: 5px;
 }
+
+.admin_wrap .admin_body .admin_list .list_table .select{
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    min-width: 100px;
+    padding: 5px;
+}
 .admin_wrap .admin_body .admin_list .list_table .table_btn{
-    background-color: #e0eafd;
-    border: none;
+    background-color: #ffffff53;
+    border: 1px solid #3775ff;
     color: #3775ff;
-    padding: 15px 20px;
+    padding: 7px 10px;
     border-radius: 15px;
+    width: 85px;
+    height: 32px;
+    box-sizing: border-box;
 }
 
 .admin_wrap .admin_body .admin_list .list_table .table_btn:hover{
     font-weight: 700;
-    box-shadow: 1px 1px 5px #67b2de6e;
+    border: 2px solid #3775ff;
+    box-sizing: border-box;
+    
+
 }
 .admin_wrap .admin_body .admin_list .list_table th{
     font-weight: 600;
@@ -143,8 +157,17 @@
 }
 .admin_wrap .admin_body .admin_list .list_table th,
 .admin_wrap .admin_body .admin_list .list_table td{
-    text-align: center;
-    padding: 10px 0;
+    text-align: left;
+    padding: 10px 0px 10px 20px;
+    height: 60px;
+}
+.admin_wrap .admin_body .admin_list .list_table th>input[type = "text"],
+.admin_wrap .admin_body .admin_list .list_table td>input[type = "text"],
+.admin_wrap .admin_body .admin_list .list_table td>textarea{
+   border: 1px solid #ddd;
+   border-radius: 3px;
+   padding: 5px 10px;
+   width: 600px;
 }
 .admin_wrap .admin_body .admin_list .admin_modal{
     position: fixed;
@@ -271,4 +294,10 @@
 .insertBtn:hover{font-weight: 700;
     background-color: #0155ff;
     color: #fff;
+}
+
+.admin_wrap .admin_body .admin_list .list_table .table_head >th,
+.admin_wrap .admin_body .admin_list .list_table .table_head >td{
+    text-align: center;
+    padding: 0;
 }

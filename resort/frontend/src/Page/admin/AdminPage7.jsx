@@ -162,7 +162,7 @@ export default function AdminPage7(){
                         <div className="admin_list">
                             <table className="list_table">
                                 <thead >
-                                    <tr>
+                                    <tr className="table_head">
                                         <th width="50px">Num</th>
                                         <th width="50px">별점</th>
                                         <th width="50px">작성일자</th>
@@ -178,7 +178,7 @@ export default function AdminPage7(){
                                         const member_reg = new Date(item.m_regDate)
                                         const reg_Date = member_reg.toLocaleString('ko-KR')
                                         return(
-                                            <tr key={index}>
+                                            <tr key={index} className="table_head">
                                                 <td>{item.rb_code}</td>
                                                 <td>{item.rb_score}</td>
                                                 <td>{item.rb_date}</td>

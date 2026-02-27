@@ -151,9 +151,9 @@ export default function AdminPage2(){
                                 </form>
 					        </div>
                         <div className="admin_list">
-                            <table className="list_table">
+                            <table className="list_table" >
                                 <thead >
-                                    <tr>
+                                    <tr className="table_head">
                                         <th width="50px">Num</th>
                                         <th width="200px">호텔명</th>
                                         <th width="100px">국가</th>
@@ -168,7 +168,7 @@ export default function AdminPage2(){
                                 </thead>
                                 <tbody>
                                     {hotel.map((item,index)=>(
-                                        <tr key={index}>
+                                        <tr key={index} className="table_head">
                                             <td>{item.h_code}</td>
                                             <td>{item.hotelName}</td>
                                             <td>{item.country}</td>

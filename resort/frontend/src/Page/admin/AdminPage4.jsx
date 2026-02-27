@@ -129,7 +129,7 @@ export default function AdminPage4(){
                         <div className="admin_list">
                             <table className="list_table" >
                                 <thead >
-                                    <tr>
+                                    <tr className="table_head">
                                         <th width="50px">예약번호</th>
                                         <th width="50px">회원번호</th>
                                         <th width="50px">비회원번호</th>
@@ -155,14 +155,14 @@ export default function AdminPage4(){
                                         const member_reg = new Date(item.m_regDate)
                                         const reg_Date = member_reg.toLocaleString('ko-KR')
                                         return(
-                                            <tr key={index}>
+                                            <tr key={index} className="table_head">
                                                 <td>{item.re_code}</td>
                                                 <td>{item.m_code}</td>
                                                 <td>{item.g_code}</td>
                                                 <td>{item.reservation_no}</td>
                                                 <td>{item.r_code}</td>
                                                 <td>{item.booker_name}</td>
-                                                <td>{item.reserved_at}</td>
+                                                <td>{item.reserved_at.slice(0,10)}</td>
                                                 <td>{item.check_in_date}</td>
                                                 <td>{item.check_out_date}</td>
                                                 <td>{item.original_price.toLocaleString()}</td>
