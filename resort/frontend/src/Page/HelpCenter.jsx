@@ -88,15 +88,18 @@ export default function HelpCenter(){
     //업로드파일
     const [file, setFile] = useState(null);
 
+    const [isMyList, setIsMyList] = useState(false);
+
 
     useEffect(() => {
         loadList();
-    },[page,appliedKeyword,appliedSearchType]);
+    },[page,appliedKeyword,appliedSearchType,isMyList]);
 
     //전체 게시글 리스트 불러오기
     const loadList = () => {
         axios.get('/api/board/list', {
 	        params: {
+                my: isMyList ? true : null,
 	            searchType: appliedSearchType,
 	            searchKeyword: appliedKeyword,
                 page: page,
@@ -114,17 +117,22 @@ export default function HelpCenter(){
     }
 
     //나의 문의글 리스트 불러오기
+    // const myloadList = () => {
+    //     axios.get('/api/board/mylist')
+    //     .then((res) => {
+    //         console.log("1:1문의게시글 데이터 : ", res.data);
+    //         setBoardList(res.data.boardList || []);
+    //         // setPageHandler(res.data.ph);
+    //         // console.log(res.data.ph);
+    //     })
+    //     .catch((error) => {
+    //         console.error("error", error)
+    //     })
+    // }
+
     const myloadList = () => {
-        axios.get('/api/board/mylist')
-        .then((res) => {
-            console.log("1:1문의게시글 데이터 : ", res.data);
-            setBoardList(res.data.boardList || []);
-            // setPageHandler(res.data.ph);
-            // console.log(res.data.ph);
-        })
-        .catch((error) => {
-            console.error("error", error)
-        })
+        setIsMyList(true);
+        setPage(1);
     }
 
     //문의글 작성 버튼 클릭
@@ -180,7 +188,7 @@ export default function HelpCenter(){
 
     //문의게시판 리셋(새로고침)후 전체목록 돌아가기
     const resetBoard = () =>{
-        setListType(8); setWriteBoard(false); setDetailBoard(false);setModifyBoard(false);setReplStatus(false);
+        setListType(8); setIsMyList(false);  setWriteBoard(false); setDetailBoard(false);setModifyBoard(false);setReplStatus(false);
         setSearchType('b_title'); setSearchKeyword(''); setAppliedKeyword(''); setAppliedSearchType('b_title');
         setPage(1); setWriter(userNickName);setTitle(''); setPassword(''); setBoardText(''); setFile(null); setDelState(false);loadList();
         setReRef(0);setReRestep(0);setReLevel(0);
@@ -295,7 +303,7 @@ export default function HelpCenter(){
 
     //게시글 삭제하기
     const deleteSubmit = () => {
-        if(password === ""){
+        if(userEmail !== "admin@resort.com" && password === ""){
             alert("비밀번호를 입력해주세요.")
             return;
         }
@@ -307,7 +315,7 @@ export default function HelpCenter(){
         axios.delete('/api/board/delete', {
 	        params: {
 	            b_code: detail.b_code,
-                b_pw: password
+                b_pw: (userEmail === "admin@resort.com" ? detail.b_pw : password)
 	        },
             withCredentials: true
 	    }).then((res) => {        
@@ -921,12 +929,12 @@ export default function HelpCenter(){
                     </div>
                     <div className="search-wrap">
                         <button type="button" className="sportBtn" onClick={writeButton}>문의하기</button>
-                        {(userEmail !== "" || userEmail === null) &&
-                            <button type="button" className="sportBtn" onClick={myloadList}>나의 문의글</button>
+                        {(userEmail !== "" || userEmail !== null) &&
+                            <button type="button" className="sportBtn" onClick={()=>{myloadList();}}>나의 문의글</button>
                         }
                         <select name="searchType" value={searchType} onChange={(e) => setSearchType(e.target.value)} style={{ width: "100px", padding: "0 10px", height: "37px" }}>
                             <option value="b_title">제목</option>
-                            <option value="b_content">내용</option>
+                            {/* <option value="b_content">내용</option> */}
                             <option value="b_writer">작성자</option>
                         </select>
                         <input type="text" name="searchKeyword" placeholder="검색어를 입력하세요." value={searchKeyword} onChange={(e) => setSearchKeyword(e.target.value)}
@@ -992,12 +1000,18 @@ export default function HelpCenter(){
                                         {userEmail !== "admin@resort.com" ? (
                                         <input type="button" onClick={modifyButton} value="수정하기" />
                                         ):null}
-                                        {!delState && 
-                                        <input type="button" onClick={deleteButton} value="삭제하기" />
+                                        {/* 삭제하기 눌렀을때 관리자가 아니면 비밀번호 입력 */}
+                                        {!delState && userEmail !== "admin@resort.com" &&
+                                            <input type="button" onClick={deleteButton} value="삭제하기" />
+                                        }
+                                        {/* 삭제하기 눌렀을때 관리자면 비밀번호 입력안해도 삭제 */}
+                                        {!delState && userEmail === "admin@resort.com" &&
+                                            <input type="button" onClick={deleteSubmit} value="삭제하기" />
                                         }
                                         {userEmail === "admin@resort.com" ? (
                                             <input type="button" onClick={()=>replyClick(detail.ref,detail.re_step,detail.re_level)} value="댓글작성" />
                                         ):null}
+                                        <input type="button" onClick={()=>{resetBoard();setPage(page);}} value="이전으로" />
                                         <input type="button" onClick={resetBoard} value="전체목록" />
                                         </td>
                                     </tr>

@@ -84,39 +84,58 @@ public class BoardApiController {
 			//1. 페이지 번호 => 1부터 시작이므로 초기값 1로 정의한다.
 			@RequestParam(value="page",defaultValue = "1") int page,
 			//2. 페이지 사이즈 => 한 화면에 보여지는 게시글의 개수를 5로 초기화한다.
-			@RequestParam(value="pageSize",defaultValue = "5") int pageSize
+			@RequestParam(value="pageSize",defaultValue = "5") int pageSize,
+			//나의 문의글 조회용으로 추가
+			@RequestParam(value="my",required=false) Boolean my,
+	        HttpSession session
 			) {
 		System.out.println("BoardApiController boardList() 메소드호출");
 		
-		//3. 전체 게시글의 개수인 totalCnt 메소드 가져오기
-		int totalCnt;
-		
-		if(searchType != null && searchKeyword != null && !searchKeyword.trim().isEmpty()) {
-			//검색을 성공한 경우 검색한 결과에 해당되는 개수 반환
-			totalCnt = boardservice.getSearchCount(searchType, searchKeyword);
-		}else {
-			//검색을 하지 않은 경우 전체 게시글의 개수 반환
-			totalCnt = boardservice.getAllcount();
+		MemberDTO loginedMember = (MemberDTO)session.getAttribute("loginUser");
+		Integer m_code = null;
+
+		if(Boolean.TRUE.equals(my)) {
+		    if(loginedMember == null) {
+		        throw new RuntimeException("로그인이 필요합니다.");
+		    }
+		    m_code = loginedMember.getM_code();
 		}
 		
-		//4. PageHandler 클래스 접근하기위해 인스턴스화 한다.	
-		PageHandler ph = new PageHandler(totalCnt,page,pageSize);
-		
+		//3. 전체 게시글의 개수인 totalCnt 메소드 가져오기
+		int totalCnt;
 		List<BoardDTO> listboard;
-		
-		//검색 종료 후 => 검색내용이 list나오기
-		if(searchType != null && searchKeyword != null && !searchKeyword.trim().isEmpty()) {
-			//서비스에서 searchBoard() 메소드호출
-			//검색이 성공했을때 검색된 리스트를 반환하는 메소드
-			listboard = boardservice.getSearchPageList
-					(searchType, searchKeyword, ph.getStartRow(), pageSize);
-		}else {
-			//검색하지 않고 전체보기 list나오기
-			//boardservice.allBoard() => 사용못하는 이유는?
-			//=>페이징이 안된 모든 레코드가 출력되는 메소드이므로
-			
-			//검색하지 않은 게시글 전체에 대한 리스트
-			listboard = boardservice.getPagelist(ph.getStartRow(),pageSize);			
+
+		PageHandler ph;
+
+		if(Boolean.TRUE.equals(my)) {
+
+		    totalCnt = boardservice.getMyBoardCount(m_code, searchType, searchKeyword);
+		    ph = new PageHandler(totalCnt,page,pageSize);
+
+		    listboard = boardservice.getMyBoardPageList(
+		            m_code,
+		            searchType,
+		            searchKeyword,
+		            ph.getStartRow(),
+		            pageSize
+		    );
+
+		}else{
+
+		    if(searchType != null && searchKeyword != null && !searchKeyword.trim().isEmpty()) {
+		        totalCnt = boardservice.getSearchCount(searchType, searchKeyword);
+		    }else {
+		        totalCnt = boardservice.getAllcount();
+		    }
+
+		    ph = new PageHandler(totalCnt,page,pageSize);
+
+		    if(searchType != null && searchKeyword != null && !searchKeyword.trim().isEmpty()) {
+		        listboard = boardservice.getSearchPageList(
+		                searchType, searchKeyword, ph.getStartRow(), pageSize);
+		    }else {
+		        listboard = boardservice.getPagelist(ph.getStartRow(),pageSize);
+		    }
 		}
 
 		Map<String, Object> result = new HashMap<>();
@@ -158,8 +177,7 @@ public class BoardApiController {
 		System.out.println("BoardApiController boardInfo() 메소드호출");
 		
 		MemberDTO loginedMember = (MemberDTO)session.getAttribute("loginUser");	
-		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~"+loginedMember);	
-		System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%"+bdto);	
+			
 		BoardDTO result = boardservice.getOneBoard(bdto,loginedMember);
 
 		return result;		
@@ -243,43 +261,6 @@ public class BoardApiController {
 		
 		return isSuccess;
 	}
-	
-	//로그인된 나의 게시글 목록을 검색하는 핸들러
-//	@GetMapping("/board/mypage")
-//	public String myBoardList(Model model,HttpSession session,
-//			@RequestParam(value="page",defaultValue = "1") int page) {
-//		
-//		//세션 키 이름을 loginmember로 가져오기
-//		//세션 키 값 가져오는 메소드 : getAttribute("loginmember")
-//		//id = "kkk" 해당하는 행전체를 가져오려면 MemberDTO 필요
-//		//MemberDTO로 다운캐스팅 한다.
-//		
-//		//현재 loginId => MemberDTO의 멤버변수 모두 저장됨을 주의하자
-//		MemberDTO loginId = (MemberDTO)session.getAttribute("loginmember");
-//		
-//		//로그인 실패또는 로그인이 안된 상태이면 => member/login로 이동
-//		if(loginId == null) {
-//			System.out.println("로그인 정보가 없으니 로그인 페이지로 이동합니다.");
-//			return "redirect:/member/login";
-//		}
-//		
-//		int pageSize = 5;
-//		// 로그인된 내 게시글의 개수 조회
-//		int totalCnt = boardservice.getMyBoardCount(loginId.getId());
-//		
-//		//pageHandler 클래스 인스턴스화 한다.
-//		PageHandler ph = new PageHandler(totalCnt, page, pageSize);
-//		
-//		//로그인된 내 게시글의 목록을 가져오기
-//		List<BoardDTO> mylist = boardservice.getMyBoardList
-//				(loginId.getId(), ph.getStartRow(), pageSize);
-//		
-//		model.addAttribute("list", mylist);
-//		model.addAttribute("ph", ph);
-//		
-//
-//		return "/board/mypage";
-//	}
 	
 	
 	//답글 작성을 처리하는 컨트롤러

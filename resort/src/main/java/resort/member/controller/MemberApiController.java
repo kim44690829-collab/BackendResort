@@ -143,7 +143,6 @@ public class MemberApiController {
 	public int logout(HttpSession session) {
 		//, HttpServletResponse response
 		System.out.println("MemberApiController : logout 요청됨");
-		System.out.println("###############################");
 		
 		if(session.getAttribute("loginUser") != null) {
 			session.invalidate();//세션삭제
@@ -152,7 +151,6 @@ public class MemberApiController {
 			return 1;//성공	
 		}else {
 			System.out.println("logout 실패");
-			System.out.println("################실패");
 			return 0;//실패			
 		}		
 		// 2. 브라우저에게 JSESSIONID 쿠키를 삭제하라고 명령

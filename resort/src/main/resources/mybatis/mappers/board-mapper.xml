@@ -17,6 +17,17 @@
 	SELECT * FROM board ORDER BY ref DESC, re_step ASC
 </select>
 
+<!-- 내가 작성한 게시글에 달린 관리자 댓글수 체크 -->
+<select id="existsAdminReply" parameterType="int" resultType="int">
+    SELECT COUNT(*)
+    FROM board b
+    JOIN member m ON b.m_code = m.m_code
+    WHERE b.ref = #{ref}
+      AND b.re_level > 1
+      AND m.m_email = 'admin@resort.com'
+</select>
+
+
 <!-- 나의 게시글 목록을 출력하는 쿼리문 -->
 <select id="getMyBoard" resultType="BoardDTO">
     SELECT *
@@ -107,28 +118,6 @@
     LIMIT #{startRow}, #{pageSize}
 </select>
 
-<!-- getMyBoardCount 메소드 생성 -->
-<!-- <select id="getMyBoardCount" resultType="int" parameterType="String">
-	SELECT COUNT(*) FROM board WHERE m_email=#{m_email}
-</select> -->
-
-<!-- getMyBoardList 메소드 생성 -->
-<!-- user_member의 id와 board의 id같은 게시글의 목록만 검색 -->
-<!-- 두테이블의 JOIN을 진행한다. -->
-<!-- <select id="getMyBoardList" resultType="BoardDTO">
-	SELECT
-		b.b_code,
-		b.b_title,
-		b.b_date,
-		b.readcount,
-		m.m_code as writer
-	FROM board b
-	INNER JOIN user_member m
-	ON b.m_email = m.m_email
-	WHERE b.m_email = #{m_email}
-	ORDER BY b.b_code DESC
-	LIMIT #{startRow}, #{pageSize}
-</select> -->
 
 <!-- 댓글 작성하여 추가하는 메소드 -->
 <insert id="reWriteInsert" parameterType="BoardDTO">
@@ -147,6 +136,33 @@
 	WHERE ref = #{ref} AND re_step > #{re_step}
 	<!-- ref(원글번호)가 같고, re_step(댓글번호)가 1(기본값)보다 큰게 있으면 +1시킴 (1은 원글)  --> 
 </update>
+
+
+<!-- 나의 문의글 수 -->
+<select id="getMyBoardCount" resultType="int">
+    SELECT COUNT(*)
+	FROM board
+	WHERE ref IN (
+	    SELECT ref
+	    FROM board
+	    WHERE m_code = #{m_code}
+	    AND re_level = 1
+	)
+</select>
+
+<!-- 나의 문의글 리스트 -->
+<select id="getMyBoardPageList" resultType="BoardDTO">
+    SELECT *
+	FROM board
+	WHERE ref IN (
+	    SELECT ref
+	    FROM board
+	    WHERE m_code = #{m_code}
+	    AND re_level = 1
+	)
+	ORDER BY ref DESC, re_step ASC
+	LIMIT #{startRow}, #{pageSize}
+</select>
 	
 
 	

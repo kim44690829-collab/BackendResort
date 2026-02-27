@@ -54,18 +54,10 @@ public interface BoardMapper {
 			@Param("pageSize") int pageSize			
 			);
 	
-	
-	// ----- 로그인된 상태의 나만의 게시글을 mypage.html에 출력
-//	public List<BoardDTO> getMyBoardList(
-//			@Param("loginId") String m_email,
-//			@Param("startRow") int startRow,
-//			@Param("pageSize") int pageSize
-//			);
+	//내가 작성한 게시글에 달린 관리자 댓글수 체크
+	public int existsAdminReply(int ref);
 
-	// 로그인된 나만의 게시글의 개수
-	// 매개변수가 2개이상이면 Param으로 받고 1개면 그냥 받아도됨
-	//public int getMyBoardCount(String m_email);
-	
+		
 	//답글 작성하여 추가하는 메소드
 	public void reWriteInsert(BoardDTO bdto);
 		
@@ -77,4 +69,19 @@ public interface BoardMapper {
 	
 	//답글 추가시 reSqUpdate() 메소드가 먼저 실행 되도록 묶음으로 만든 메소드
 	public void replyProcess(BoardDTO bdto);
+	
+	
+	//나의 문의글 수
+	public int getMyBoardCount(
+			@Param("m_code") int m_code,
+			@Param("searchType") String searchType,
+			@Param("searchKeyword") String searchKeyword);
+
+	//나의 문의글 리스트
+	public List<BoardDTO> getMyBoardPageList(
+			@Param("m_code") int m_code,
+			@Param("searchType") String searchType,
+			@Param("searchKeyword") String searchKeyword,
+			@Param("startRow") int startRow,
+			@Param("pageSize") int pageSize	);
 }

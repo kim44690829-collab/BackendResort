@@ -31,6 +31,9 @@ public interface BoardService {
 	//전체 게시글의 개수를 구하는 메소드
 	public int getAllcount();
 	
+	//내가 작성한 게시글에 달린 관리자 댓글수 체크
+	public int existsAdminReply(int ref);
+	
 	//Limit 1(startRow), 5(PageSize) => 1부터 시작해서 5개만 출력
 	//startRow ~ 한 페이지에 보여줄 레코드(=행의) 개수(pageSize)만큼 보여주는 메소드
 	public List<BoardDTO> getPagelist(
@@ -68,18 +71,20 @@ public interface BoardService {
 	//부분이 필요하므로 반드시 reSqUpdate() 먼저실행, reWriteInsert()를 그다음에 실행
 	public boolean replyProcess(BoardDTO bdto);
 	
-	
-	// 로그인된 상태의 나만의 게시글을 출력
-//	public List<BoardDTO> getMyBoardList(
-//			@Param("loginId") String m_email,
-//			@Param("startRow") int startRow,
-//			@Param("pageSize") int pageSize
-//			);
 
-	// 로그인된 나만의 게시글의 개수
-	// 매개변수가 2개이상이면 Param으로 받고 1개면 그냥 받아도됨
-	//public int getMyBoardCount(String m_email);
-	
+	//나의 문의글 수
+	public int getMyBoardCount(
+			@Param("m_code") int m_code,
+			@Param("searchType") String searchType,
+			@Param("searchKeyword") String searchKeyword);
+
+	//나의 문의글 리스트
+	public List<BoardDTO> getMyBoardPageList(
+			@Param("m_code") int m_code,
+			@Param("searchType") String searchType,
+			@Param("searchKeyword") String searchKeyword,
+			@Param("startRow") int startRow,
+			@Param("pageSize") int pageSize	);
 	
 	
 }
