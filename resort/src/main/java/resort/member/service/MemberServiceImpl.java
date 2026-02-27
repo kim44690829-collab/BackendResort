@@ -81,6 +81,13 @@ public class MemberServiceImpl implements MemberService {
 		System.out.println("MemberServiceImpl : oneSelectMember() 메서드 확인");
 		return membermapper.oneSelectMember(m_email);
 	}
+	
+	@Override
+	public MemberDTO getOneMember(int m_code) {
+		System.out.println("MemberServiceImpl : getOneMember() 메서드 확인");
+		return membermapper.getOneMember(m_code);
+	}
+
 
 	
 	//개인 한사람의 정보를 수정
@@ -193,5 +200,6 @@ public class MemberServiceImpl implements MemberService {
 		return membermapper.adminUpdateMember(mdto);
 	}
 
+	
 	
 }

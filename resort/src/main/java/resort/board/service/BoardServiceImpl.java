@@ -45,6 +45,13 @@ public class BoardServiceImpl implements BoardService {
 		System.out.println("BoardServiceImpl insertBoard() 메소드호출");
 		return boardmapper.getAllBoard();
 	}
+	
+	//나의 게시글 목록을 출력하는 메소드
+	@Override
+	public List<BoardDTO> getMyBoard(int m_code) {
+		System.out.println("BoardServiceImpl getMyBoard() 메소드호출");
+		return boardmapper.getMyBoard(m_code);
+	}
 
 	//하나의 게시글을 출력하는 메소드
 	@Override
@@ -56,21 +63,39 @@ public class BoardServiceImpl implements BoardService {
 			return null;
 		}
 		
-		//로그인시 작성자 이메일 저장
-		bdto.setM_code(loginedMember.getM_code());
-		
-		BoardDTO result = boardmapper.getOneBoard(bdto);
-		
-		if(result == null) {
-			System.out.println("본인이 작성한 글만 볼 수 있습니다.");
-			return null;
-		}else {
-			System.out.println("게시글 출력 성공");
-			// 조회수 증가 메소드 추가
-			boardmapper.upReadCount(bdto);
-			//조회수 증가 + 하나게시글 검색
-			return boardmapper.getOneBoard(bdto);
+		BoardDTO board = boardmapper.getOneBoard(bdto);
+
+		if(board == null) {
+			System.out.println("게시글 없음");
+		    return null;
 		}
+		
+		//게시판 멤버조회
+		MemberDTO boardMem = memberservice.getOneMember(board.getM_code());
+		//로그인 멤버조회
+		MemberDTO loginMem = memberservice.getOneMember(loginedMember.getM_code());
+		
+		boolean isWriter = boardMem.getM_email().equals(loginMem.getM_email());
+	    boolean isAdmin = loginMem.getM_email().equals("admin@resort.com");
+
+	    // 관리자 댓글 존재 여부 체크(갯수)
+	    int adminReplyCount = boardmapper.existsAdminReply(board.getRef());
+	    boolean hasAdminReply = adminReplyCount > 0;
+		
+		//게시판 작성회원 아이디와 세션에 로그인된 회원 아이디를 비교해서 다르거나,
+		//회원아이디가 관리자가 아니거나
+	    //관리자가 단 댓글이 존재하지 않는다면 조회불가능(존재시에는 조회가능)
+	    if(!isWriter && !isAdmin && !hasAdminReply) {
+			System.out.println("작성자만 조회 가능");
+			return null;
+		}		
+		
+		System.out.println("게시글 출력 성공");
+		// 조회수 증가 메소드 추가
+		boardmapper.upReadCount(bdto);
+		//조회수 증가 + 하나게시글 검색
+		return boardmapper.getOneBoard(bdto);
+		
 	}
 
 	//하나의 게시글을 수정하는 메소드
@@ -104,15 +129,6 @@ public class BoardServiceImpl implements BoardService {
 		}
 	}
 
-	//게시글 검색 메소드
-//	@Override
-//	public List<BoardDTO> getSearchBoard(String searchType, String searchKeyword) {
-//		System.out.println("BoardServiceImpl getSearchBoard() 메소드호출");
-//		System.out.println("searchType :"+searchType);
-//		System.out.println("searchKeyword :"+searchKeyword);
-//		return boardmapper.getSearchBoard(searchType,searchKeyword);
-//	}
-
 	//전체 게시글수 검색하는 메소드
 	@Override
 	public int getAllcount() {
@@ -141,18 +157,71 @@ public class BoardServiceImpl implements BoardService {
 		return boardmapper.getSearchPageList(searchType, searchKeyword, startRow, pageSize);
 	}
 
-	//로그인된 상태의 나만의 게시글을 출력
-//	@Override
-//	public List<BoardDTO> getMyBoardList(String m_email, int startRow, int pageSize) {
-//		System.out.println("BoardServiceImpl getMyBoardList() 메소드호출");
-//		return boardmapper.getMyBoardList(m_email, startRow, pageSize);
-//	}
 
-	// 로그인된 나만의 게시글의 개수
-//	@Override
-//	public int getMyBoardCount(String m_email) {
-//		System.out.println("BoardServiceImpl getMyBoardCount() 메소드호출");
-//		return boardmapper.getMyBoardCount(m_email);
-//	} 
-//	
+	//답글 작성하여 추가하는 메소드
+	@Override
+	public void reWriteInsert(BoardDTO bdto) {
+		System.out.println("BoardServiceImpl reWriteInsert() 호출");	
+		boardmapper.reWriteInsert(bdto);
+	}
+	//답글작성시 부모글의 re_level보다 큰 값들을 모두 1씩 증가시키는 메소드
+	@Override
+	public void reSqUpdate(BoardDTO bdto) {
+		System.out.println("BoardServiceImpl reSqUpdate() 호출");
+		boardmapper.reSqUpdate(bdto);
+	}
+	//답글 추가시 reSqUpdate() 메소드가 먼저 실행 되도록 묶음으로 만든 메소드
+	@Override
+	public boolean replyProcess(BoardDTO bdto) {
+		//반드시 update메소드를 먼저 실행해야 함
+		System.out.println("BoardServiceImpl replyProcess() 호출");		
+		//로그인 멤버조회
+		MemberDTO loginMem = memberservice.getOneMember(bdto.getM_code());
+				
+		//관리자면 댓글성공
+		if(loginMem.getM_email().equals("admin@resort.com")) {
+			
+			boardmapper.reSqUpdate(bdto);
+			
+			// 댓글 위치 계산 (여기서 증가시킴)
+	        bdto.setRe_step(bdto.getRe_step() + 1);
+	        bdto.setRe_level(bdto.getRe_level() + 1);
+	        
+			//답글 insert 메소드
+			boardmapper.reWriteInsert(bdto);
+			
+			System.out.println("ref: " + bdto.getRef());
+			System.out.println("re_step: " + bdto.getRe_step());
+			System.out.println("re_level: " + bdto.getRe_level());
+			
+			System.out.println("댓글추가 성공");
+			
+			return true;
+		}else {
+			System.out.println("댓글추가 실패. 문의게시판은 관리자만 댓글작성 가능합니다.");
+			return false;
+		}
+	}
+
+	//내가 작성한 게시글에 달린 관리자 댓글수 체크
+	@Override
+	public int existsAdminReply(int ref) {
+		System.out.println("BoardServiceImpl existsAdminReply() 호출");	
+		return boardmapper.existsAdminReply(ref);
+	}
+
+	@Override
+	public int getMyBoardCount(int m_code, String searchType, String searchKeyword) {
+		System.out.println("BoardServiceImpl getMyBoardCount() 호출");	
+		return boardmapper.getMyBoardCount(m_code, searchType, searchKeyword);
+	}
+
+	@Override
+	public List<BoardDTO> getMyBoardPageList(int m_code, String searchType, String searchKeyword, int startRow,
+			int pageSize) {
+		System.out.println("BoardServiceImpl getMyBoardPageList() 호출");	
+		return boardmapper.getMyBoardPageList(m_code, searchType, searchKeyword, startRow, pageSize);
+	}
+
+	
 }
