@@ -22,7 +22,7 @@ export default function Footer(){
                 <div className="footer_link">
                     {/* 메인로고 */}
                     <div className="footer_logo">
-                        <img src="/footerLogo.png" alt="EcoStay 홈으로 바로가기" style={{width:'100px', height:'50px', cursor:'pointer'}} className="mainLogo" onClick={footerLogoBtn} />
+                        <img src="/footerLogo2.png" alt="EcoStay 홈으로 바로가기" style={{width:'auto', height:'50px', cursor:'pointer'}} className="mainLogo" onClick={footerLogoBtn} />
                     </div>
                     {/* sns */}
                     <div className="footer_sns">

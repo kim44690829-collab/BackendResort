@@ -149,26 +149,6 @@ public class BoardApiController {
 	    return result;
 	}
 	
-	// DB에서 나의 게시글 목록 select로 검색하여 추출
-	@GetMapping("/board/mylist")
-	public Map<String, Object> myList(HttpSession session) {
-
-	    MemberDTO loginedMember = (MemberDTO) session.getAttribute("loginUser");
-
-	    if (loginedMember == null) {
-	        throw new RuntimeException("로그인이 필요합니다.");
-	    }
-
-	    int m_code = loginedMember.getM_code();
-
-	    List<BoardDTO> boardList = boardservice.getMyBoard(m_code);
-
-	    Map<String, Object> result = new HashMap<>();
-	    result.put("boardList", boardList);
-
-	    return result;
-	}
-	
 	// 하나의 게시글 상세정보 확인 핸들러
 	//num 글번호 받아 -> 해당 게시글 DB에서 조회하고, 그 상세정보를 
 	//boardInfo 전달하는 컨트롤러
@@ -234,7 +214,7 @@ public class BoardApiController {
 			
 	        // 새 파일 저장
 			String originalName = upload.getOriginalFilename();
-			String saveName = UUID.randomUUID().toString().subSequence(0, 6) + "_" + originalName;//파일명에 랜덤 문자 섞고 싶으면 pdf 16강 - 13페이지(random.UUID) 추가하면됨.
+			String saveName = UUID.randomUUID().toString().subSequence(0, 6) + "_" + originalName;
 			
 			File newFile  = new File(savePath + "/" + saveName);
 			
@@ -253,51 +233,14 @@ public class BoardApiController {
 	
 	// 하나의 게시글을 삭제하는 컨트롤러
 	@DeleteMapping("/board/delete")
-	public boolean boardDelete(BoardDTO bdto) {
+	public int boardDelete(BoardDTO bdto) {
 		System.out.println("BoardApiController boardDelete() 메소드호출");
-
-		// boardService removeBoard()메소드 삭제: true, 실패:false
-		boolean isSuccess = boardservice.deleteBoard(bdto);
+		//삭제된 갯수(댓글포함) 반환
+		int isSuccess = boardservice.deleteBoard(bdto);
 		
 		return isSuccess;
 	}
 	
-	//로그인된 나의 게시글 목록을 검색하는 핸들러
-//	@GetMapping("/board/mypage")
-//	public String myBoardList(Model model,HttpSession session,
-//			@RequestParam(value="page",defaultValue = "1") int page) {
-//		
-//		//세션 키 이름을 loginmember로 가져오기
-//		//세션 키 값 가져오는 메소드 : getAttribute("loginmember")
-//		//id = "kkk" 해당하는 행전체를 가져오려면 MemberDTO 필요
-//		//MemberDTO로 다운캐스팅 한다.
-//		
-//		//현재 loginId => MemberDTO의 멤버변수 모두 저장됨을 주의하자
-//		MemberDTO loginId = (MemberDTO)session.getAttribute("loginmember");
-//		
-//		//로그인 실패또는 로그인이 안된 상태이면 => member/login로 이동
-//		if(loginId == null) {
-//			System.out.println("로그인 정보가 없으니 로그인 페이지로 이동합니다.");
-//			return "redirect:/member/login";
-//		}
-//		
-//		int pageSize = 5;
-//		// 로그인된 내 게시글의 개수 조회
-//		int totalCnt = boardservice.getMyBoardCount(loginId.getId());
-//		
-//		//pageHandler 클래스 인스턴스화 한다.
-//		PageHandler ph = new PageHandler(totalCnt, page, pageSize);
-//		
-//		//로그인된 내 게시글의 목록을 가져오기
-//		List<BoardDTO> mylist = boardservice.getMyBoardList
-//				(loginId.getId(), ph.getStartRow(), pageSize);
-//		
-//		model.addAttribute("list", mylist);
-//		model.addAttribute("ph", ph);
-//		
-//
-//		return "/board/mypage";
-//	}
 	
 	// 관리자 페이지 에서 사용하는 리스트 
 	@GetMapping("/board/adminlist")

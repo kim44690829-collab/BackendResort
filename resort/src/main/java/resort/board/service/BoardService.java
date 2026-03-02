@@ -26,13 +26,18 @@ public interface BoardService {
 	
 	// 게시글 작성시 비밀번호 입력하였기 때문에 => 삭제시에도 비밀번호와 번호가 일치하는지 체크
 	// 매개변수가 2개이상인 경우는 @Param("변수" 데이터타입 필드명)이용해 작성한다.
-	public boolean deleteBoard(BoardDTO bdto);
+	//public boolean deleteBoard(BoardDTO bdto);
+	
+	// 삭제를 위한 ref 먼저 구하는 쿼리
+	public Integer getRefByBcode(BoardDTO bdto);
+	// 글을 삭제하는 메소드 : ref 전체 삭제
+	public int deleteBoardByRef(int ref);
+	//삭제실행 통합 메소드
+	public int deleteBoard(BoardDTO bdto);
+
 
 	//전체 게시글의 개수를 구하는 메소드
 	public int getAllcount();
-	
-	//내가 작성한 게시글에 달린 관리자 댓글수 체크
-	public int existsAdminReply(int ref);
 	
 	//Limit 1(startRow), 5(PageSize) => 1부터 시작해서 5개만 출력
 	//startRow ~ 한 페이지에 보여줄 레코드(=행의) 개수(pageSize)만큼 보여주는 메소드
@@ -100,6 +105,7 @@ public interface BoardService {
 			@Param("searchKeyword") String searchKeyword,
 			@Param("startRow") int startRow,
 			@Param("pageSize") int pageSize	);
-	
-	
+
+	//ref값 추출
+	public BoardDTO getParentByRef(int ref);
 }

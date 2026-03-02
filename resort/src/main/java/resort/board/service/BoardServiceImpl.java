@@ -56,46 +56,40 @@ public class BoardServiceImpl implements BoardService {
 	//하나의 게시글을 출력하는 메소드
 	@Override
 	public BoardDTO getOneBoard(BoardDTO bdto, MemberDTO loginedMember) {
-		System.out.println("BoardServiceImpl getOneBoard() 메소드호출");
-		
-		if(loginedMember == null) {
-			System.out.println("로그인 해주세요");
-			return null;
-		}
-		
-		BoardDTO board = boardmapper.getOneBoard(bdto);
 
-		if(board == null) {
-			System.out.println("게시글 없음");
-		    return null;
-		}
-		
-		//게시판 멤버조회
-		MemberDTO boardMem = memberservice.getOneMember(board.getM_code());
-		//로그인 멤버조회
-		MemberDTO loginMem = memberservice.getOneMember(loginedMember.getM_code());
-		
-		boolean isWriter = boardMem.getM_email().equals(loginMem.getM_email());
+	    if(loginedMember == null) {
+	        return null;
+	    }
+
+	    BoardDTO board = boardmapper.getOneBoard(bdto);
+	    if(board == null) {
+	        return null;
+	    }
+
+	    // 로그인한 사람 정보
+	    MemberDTO loginMem = memberservice.getOneMember(loginedMember.getM_code());
+
+	    // 이 글(ref)의 원글 작성자 찾기
+	    // ref가 같고 re_step = 1 인 사람이 원글 작성자
+	    BoardDTO parent = boardmapper.getParentByRef(board.getRef());
+
+	    if(parent == null) {
+	        return null;
+	    }
+
+	    MemberDTO parentWriter = memberservice.getOneMember(parent.getM_code());
+
 	    boolean isAdmin = loginMem.getM_email().equals("admin@resort.com");
+	    boolean isOriginalWriter = loginMem.getM_email().equals(parentWriter.getM_email());
 
-	    // 관리자 댓글 존재 여부 체크(갯수)
-	    int adminReplyCount = boardmapper.existsAdminReply(board.getRef());
-	    boolean hasAdminReply = adminReplyCount > 0;
-		
-		//게시판 작성회원 아이디와 세션에 로그인된 회원 아이디를 비교해서 다르거나,
-		//회원아이디가 관리자가 아니거나
-	    //관리자가 단 댓글이 존재하지 않는다면 조회불가능(존재시에는 조회가능)
-	    if(!isWriter && !isAdmin && !hasAdminReply) {
-			System.out.println("작성자만 조회 가능");
-			return null;
-		}		
-		
-		System.out.println("게시글 출력 성공");
-		// 조회수 증가 메소드 추가
-		boardmapper.upReadCount(bdto);
-		//조회수 증가 + 하나게시글 검색
-		return boardmapper.getOneBoard(bdto);
-		
+	    if(!isAdmin && !isOriginalWriter) {
+	        return null;
+	    }
+
+	    // 조회수 증가
+	    boardmapper.upReadCount(bdto);
+
+	    return boardmapper.getOneBoard(bdto);
 	}
 
 	//하나의 게시글을 수정하는 메소드
@@ -114,19 +108,21 @@ public class BoardServiceImpl implements BoardService {
 		}
 	}
 
-	//게시글 하나를 삭제하는 메소드
-	@Override
-	public boolean deleteBoard(BoardDTO bdto) {
+	//게시글 삭제하는 메소드	
+	public int deleteBoard(BoardDTO bdto) {
 		System.out.println("BoardServiceImpl deleteBoard() 메소드호출");
-		int result = boardmapper.deleteBoard(bdto);
-		
-		if(result > 0) {
-			System.out.println("게시글 삭제 성공");
-			return true;
-		}else {
+
+	    // 비밀번호 확인 + ref 조회
+	    Integer ref = boardmapper.getRefByBcode(bdto);
+
+	    if(ref == null) {
 			System.out.println("게시글 삭제 실패(비밀번호 불일치)");
-			return false;
-		}
+	        return 0; // 비번 틀림
+	    }
+
+	    // 같은 ref 전체 삭제	    
+	    System.out.println("게시글 삭제 성공");
+	    return boardmapper.deleteBoardByRef(ref);
 	}
 
 	//전체 게시글수 검색하는 메소드
@@ -169,12 +165,6 @@ public class BoardServiceImpl implements BoardService {
 		return boardmapper.getAdminSearchPageList(searchType, searchKeyword, startRow, pageSize);
 	}
 
-	//로그인된 상태의 나만의 게시글을 출력
-//	@Override
-//	public List<BoardDTO> getMyBoardList(String m_email, int startRow, int pageSize) {
-//		System.out.println("BoardServiceImpl getMyBoardList() 메소드호출");
-//		return boardmapper.getMyBoardList(m_email, startRow, pageSize);
-//	}
 
 	//답글 작성하여 추가하는 메소드
 	@Override
@@ -221,24 +211,38 @@ public class BoardServiceImpl implements BoardService {
 		}
 	}
 
-	//내가 작성한 게시글에 달린 관리자 댓글수 체크
-	@Override
-	public int existsAdminReply(int ref) {
-		System.out.println("BoardServiceImpl existsAdminReply() 호출");	
-		return boardmapper.existsAdminReply(ref);
-	}
-
+	//나의 문의글 수
 	@Override
 	public int getMyBoardCount(int m_code, String searchType, String searchKeyword) {
 		System.out.println("BoardServiceImpl getMyBoardCount() 호출");	
 		return boardmapper.getMyBoardCount(m_code, searchType, searchKeyword);
 	}
 
+	//나의문의글 리스트
 	@Override
 	public List<BoardDTO> getMyBoardPageList(int m_code, String searchType, String searchKeyword, int startRow,
 			int pageSize) {
 		System.out.println("BoardServiceImpl getMyBoardPageList() 호출");	
 		return boardmapper.getMyBoardPageList(m_code, searchType, searchKeyword, startRow, pageSize);
+	}
+
+	//ref값 추출
+	@Override
+	public BoardDTO getParentByRef(int ref) {
+		System.out.println("BoardServiceImpl getParentByRef() 호출");	
+		return boardmapper.getParentByRef(ref);
+	}
+
+	@Override
+	public Integer getRefByBcode(BoardDTO bdto) {
+		System.out.println("BoardServiceImpl getRefByBcode() 호출");	
+		return boardmapper.getRefByBcode(bdto);
+	}
+
+	@Override
+	public int deleteBoardByRef(int ref) {
+		System.out.println("BoardServiceImpl deleteBoardByRef() 호출");	
+		return boardmapper.deleteBoardByRef(ref);
 	}
 
 	

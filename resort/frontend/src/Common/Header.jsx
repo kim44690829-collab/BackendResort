@@ -152,7 +152,7 @@ export default function Header(){
     return(
         <div className="Header_container">
             {/* 누르면 메인 페이지로 이동하는 로고 */}
-                <img src="/mainlogo.png" alt="EcoStay 홈으로 바로가기" style={{width:'100px', height:'50px', cursor:'pointer'}} className="mainLogo" onClick={() => headChangeHandeler(1)} />
+                <img src="/mainlogo2.jpg" alt="EcoStay 홈으로 바로가기" style={{width:'auto', height:'50px', cursor:'pointer'}} className="mainLogo" onClick={() => headChangeHandeler(1)} />
             {/* 로그인 전 헤더 */}
             {!userNickName ? 
             <ul className="Header_right">
