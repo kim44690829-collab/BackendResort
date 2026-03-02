@@ -584,6 +584,7 @@ export default function Detail(){
         if (!hotelOk) {
             setDateFilter(false);
             setHeadFilter([]);
+            setResultRooms([]);
             return;
         }
 

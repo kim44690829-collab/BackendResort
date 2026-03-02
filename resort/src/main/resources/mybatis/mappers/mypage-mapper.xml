@@ -18,6 +18,7 @@
 	        re.final_price,
 	        re.cancel,
 	        re.cancel_date,
+	        re.review_status,
 	
 	        h.h_code,
 	        h.hotelName,
@@ -43,9 +44,10 @@
 	    INNER JOIN room r ON r.r_code = re.r_code
 	    INNER JOIN hotel h ON h.h_code = r.h_code
 	    LEFT JOIN reviewboard rb 
-        ON rb.r_code = re.r_code 
+        ON rb.re_code = re.re_code
         AND rb.m_code = re.m_code 
 	    WHERE m.m_email = #{m_email}
+	    ORDER BY re.check_out_date DESC
 	</select>
 	
 	<!-- 예약취소 -->

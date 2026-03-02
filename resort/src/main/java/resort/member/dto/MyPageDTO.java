@@ -18,6 +18,7 @@ public class MyPageDTO {
 	private int final_price; //할인 후 가격
 	private int cancel; //취소여부
 	private Date cancel_date; //취소일자
+	private int review_status; // 예약 작성 여부
 	
 	private int h_code; // 호텔코드(PK)
   	private String hotelName; // 호텔이름
@@ -37,7 +38,7 @@ public class MyPageDTO {
 	
 	private int rb_code; // 리뷰보드코드
 	private int rb_score; // 별점
-	private int rb_chk; // 리뷰 작성 이전(0), 완료(1), 불가(2)
+	
 
 	
 }

@@ -40,4 +40,7 @@ public interface ReservationService {
 		@Param("startRow") int startRow,
 		@Param("pageSize") int pageSize
 	);
+	
+	// 리뷰 상태 업데이트 함수
+	public int reviewStatusMod();
 }

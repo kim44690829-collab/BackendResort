@@ -22,5 +22,5 @@ public class ReservationDTO{
 	private int final_price; //할인 후 가격
 	private int cancel; //취소여부
 	private Date cancel_date; //취소일자
-	
+	private int review_status; // 예약 작성 여부
 }	

@@ -11,6 +11,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -119,6 +120,13 @@ public class ReservationApiController {
 		result.put("searchType",searchType);
 		result.put("searchKeyword",searchKeyword);
 		return result;
+	}
+	
+	// 리뷰 상태 업데이트
+	@PutMapping("/reservation/reviewStatusMod")
+	public int reviewStatusMod() {
+		System.out.println("MemberApiController : reviewStatusMod!!!!!!!!!! 메서드 확인");
+		return reservationservice.reviewStatusMod();
 	}
 	
 	
