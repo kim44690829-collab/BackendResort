@@ -172,6 +172,7 @@
    padding: 5px 10px;
    width: 600px;
 }
+/* 주석 */
 .admin_wrap .admin_body .admin_list .admin_modal{
     position: fixed;
     top: 50%;
