@@ -23,8 +23,6 @@ public interface MemberMapper {
 	public MemberDTO oneSelectMember(String m_email);
 	//개인 한 사람의 정보를 검색하는 메소드 - 예약 페이지용
 	public MemberDTO getOneSelectMember(String m_nickName);
-	//개인 한 사람의 정보를 검색하는 메소드 - 비밀번호 찾기용
-	public MemberDTO getPwFind(@Param("m_email") String m_email, @Param("m_phone") String m_phone);
 	//개인 한 사람의 정보를 검색하는 메소드
 	public MemberDTO getOneMember(int m_code);
 	//개인 한사람의 패스워드 리턴하는 쿼리
@@ -67,4 +65,7 @@ public interface MemberMapper {
 	// 쿠폰 사용한 회원 쿠폰수량 업데이트
 	public int couponMod(@Param("m_code") Integer m_code );
 	// 회원 정보 검색
+	
+	// 비밀번호 찾기
+	public int pwFind(MemberDTO mdto);
 }

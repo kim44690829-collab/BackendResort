@@ -58,18 +58,19 @@ CREATE TABLE reservation(
 	re_code int primary key auto_increment, -- 예약코드(PK)
 	m_code int, -- 회원코드(FK)
 	g_code int, -- 비회원코드(FK)
-    reservation_no VARCHAR(36), -- 예약 번호
-    r_code int not null, -- 객실코드(FK)
+  reservation_no VARCHAR(36), -- 예약 번호
+  r_code int not null, -- 객실코드(FK)
 	booker_name varchar(50) not null, -- 예약자명
-    reserved_at datetime default now(), -- 예약신청일
-    check_in_date date not null, -- 예약시작일
-    check_out_date date not null, -- 예약종료일
-    original_price int not null, -- 원가격
-    discount_rate tinyint unsigned, -- 할인율
-    coupon_used tinyint DEFAULT 0, -- 쿠폰 사용 여부
-    final_price int not null, -- 할인 후 가격
-    cancel tinyint default 0, -- 취소여부
-    cancel_date datetime default null -- 취소일
+  reserved_at datetime default now(), -- 예약신청일
+  check_in_date date not null, -- 예약시작일
+  check_out_date date not null, -- 예약종료일
+  original_price int not null, -- 원가격
+  discount_rate tinyint unsigned, -- 할인율
+  coupon_used tinyint DEFAULT 0, -- 쿠폰 사용 여부
+  final_price int not null, -- 할인 후 가격
+  cancel tinyint default 0, -- 취소여부
+  cancel_date datetime default null, -- 취소일
+  review_status tinyInt default 0 -- 예약 작성 여부 (0작성가능/1작성완료/2작성불가)
 );
 
 -- 1대1 문의 테이블
@@ -104,5 +105,6 @@ CREATE TABLE reviewboard(
     rb_score tinyInt not null, -- 별점
     rb_date datetime default now(), -- 작성일자
     m_code int not null, -- 회원코드(FK)
-    r_code int not null -- 객실코드(FK)
+    r_code int not null, -- 객실코드(FK)
+    re_code int not null unique -- 예약코드(PK)
 );
