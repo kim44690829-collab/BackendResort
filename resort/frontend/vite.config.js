@@ -5,13 +5,14 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   server: {
+	historyApiFallback: true,
     proxy: {
       // 프론트엔드에서 /api로 시작하는 요청은 스프링부트(8080)로 보냅니다.
       // 스프링부트에서 # Tomcat server.port=8090으로 변경하였기에 아래도 수정해준다.
       '/api': {
         target: 'http://localhost:8090',
         changeOrigin: true,
-      },
+      }
     },
   },
   build: {

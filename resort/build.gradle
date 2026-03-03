@@ -46,8 +46,18 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-thymeleaf-test'
 	testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	
+	// 구글 otp API용
+	// JPA (Entity, @Entity, @Table 해결)
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	// 이메일 전송 (JavaMailSender)
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	// 테스트
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+

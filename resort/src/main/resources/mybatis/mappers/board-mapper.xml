@@ -17,16 +17,6 @@
 	SELECT * FROM board ORDER BY ref DESC, re_step ASC
 </select>
 
-<!-- 내가 작성한 게시글에 달린 관리자 댓글수 체크 -->
-<select id="existsAdminReply" parameterType="int" resultType="int">
-    SELECT COUNT(*)
-    FROM board b
-    JOIN member m ON b.m_code = m.m_code
-    WHERE b.ref = #{ref}
-      AND b.re_level > 1
-      AND m.m_email = 'admin@resort.com'
-</select>
-
 
 <!-- 나의 게시글 목록을 출력하는 쿼리문 -->
 <select id="getMyBoard" resultType="BoardDTO">
@@ -55,14 +45,21 @@
 
 <!-- 하나의 게시글을 수정하는 메소드 -->
 <update id="updateBoard" parameterType="BoardDTO">
-	UPDATE board SET b_writer=#{b_writer}, b_title=#{b_title}, b_content=#{b_content}, b_upload=#{b_upload}
-	WHERE b_code=#{b_code} AND b_pw=#{b_pw}
+	UPDATE board SET b_writer=#{b_writer}, b_title=#{b_title}, b_content=#{b_content}, b_upload=#{b_upload}, b_update=NOW()
+    WHERE b_code=#{b_code} AND b_pw=#{b_pw}
 </update>
 
-<!-- 글을 삭제하는 메소드 -->
-<delete id="deleteBoard">
-	DELETE FROM board WHERE b_code=#{b_code} AND b_pw=#{b_pw}
+<!-- 글을 삭제하는 메소드 : ref 전체 삭제 -->
+<delete id="deleteBoardByRef">
+    DELETE FROM board
+    WHERE ref = #{ref}
 </delete>
+<!-- 삭제를 위한 ref 먼저 구하는 쿼리 -->
+<select id="getRefByBcode" resultType="int">
+    SELECT ref FROM board
+    WHERE b_code = #{b_code}
+    AND b_pw = #{b_pw}
+</select>
 
 <!-- 전체 게시글 수 -->
 <select id="getAllcount" resultType="int">
@@ -141,28 +138,61 @@
 
 <!-- 나의 문의글 수 -->
 <select id="getMyBoardCount" resultType="int">
-    SELECT COUNT(*)
-	FROM board
-	WHERE ref IN (
-	    SELECT ref
-	    FROM board
-	    WHERE m_code = #{m_code}
-	    AND re_level = 1
-	)
+
+    SELECT COUNT(DISTINCT ref)
+    FROM board
+    WHERE ref IN (
+        SELECT ref
+        FROM board
+        WHERE m_code = #{m_code}
+        AND re_level = 1
+    )
+
+    <if test="searchKeyword != null and searchKeyword != ''">
+        <choose>
+            <when test="searchType == 'b_title'">
+                AND b_title LIKE CONCAT('%', #{searchKeyword}, '%')
+            </when>
+            <when test="searchType == 'b_content'">
+                AND b_content LIKE CONCAT('%', #{searchKeyword}, '%')
+            </when>
+            <when test="searchType == 'b_writer'">
+                AND b_writer LIKE CONCAT('%', #{searchKeyword}, '%')
+            </when>
+        </choose>
+    </if>
+
 </select>
 
 <!-- 나의 문의글 리스트 -->
 <select id="getMyBoardPageList" resultType="BoardDTO">
+
     SELECT *
-	FROM board
-	WHERE ref IN (
-	    SELECT ref
-	    FROM board
-	    WHERE m_code = #{m_code}
-	    AND re_level = 1
-	)
-	ORDER BY ref DESC, re_step ASC
-	LIMIT #{startRow}, #{pageSize}
+    FROM board
+    WHERE ref IN (
+        SELECT ref
+        FROM board
+        WHERE m_code = #{m_code}
+        AND re_level = 1
+    )
+
+    <if test="searchKeyword != null and searchKeyword != ''">
+        <choose>
+            <when test="searchType == 'b_title'">
+                AND b_title LIKE CONCAT('%', #{searchKeyword}, '%')
+            </when>
+            <when test="searchType == 'b_content'">
+                AND b_content LIKE CONCAT('%', #{searchKeyword}, '%')
+            </when>
+            <when test="searchType == 'b_writer'">
+                AND b_writer LIKE CONCAT('%', #{searchKeyword}, '%')
+            </when>
+        </choose>
+    </if>
+
+    ORDER BY ref DESC, re_step ASC
+    LIMIT #{startRow}, #{pageSize}
+
 </select>
 	
 
@@ -192,4 +222,12 @@
 		</where>
 	ORDER BY ref DESC LIMIT #{startRow}, #{pageSize}
 </select>
+
+<!-- ref값 추출 -->
+<select id="getParentByRef" resultType="BoardDTO">
+    SELECT * FROM board
+    WHERE ref = #{ref}
+    AND re_step = 1
+</select>
+
 </mapper>
