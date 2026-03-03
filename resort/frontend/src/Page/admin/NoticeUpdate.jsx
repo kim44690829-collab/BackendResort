@@ -7,6 +7,9 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 export default function NoticeUpdate(){
+
+    const {userEmail} = useContext(ResortDataContext)
+
     const {n_code} = useParams();
     const [noticelist,setNoticelist] = useState([]);
     const [n_title,setN_title] = useState("");
