@@ -45,9 +45,33 @@
 
 <!-- 하나의 게시글을 수정하는 메소드 -->
 <update id="updateBoard" parameterType="BoardDTO">
-	UPDATE board SET b_writer=#{b_writer}, b_title=#{b_title}, b_content=#{b_content}, b_upload=#{b_upload}, b_update=NOW()
-    WHERE b_code=#{b_code} AND b_pw=#{b_pw}
+	UPDATE board 
+	SET b_writer=#{b_writer}, 
+        b_title=#{b_title}, 
+        b_content=#{b_content}, 
+        b_upload=#{b_upload}, 
+        b_update=NOW()
+    WHERE b_code=#{b_code} 
+    AND b_pw=#{b_pw}
+    AND m_code=#{m_code}
 </update>
+
+<!-- 관리자의 게시글 수정  -->
+<update id="adminUpdateBoard" parameterType="BoardDTO">
+	UPDATE board 
+	SET b_writer=#{b_writer}, 
+        b_title=#{b_title}, 
+        b_content=#{b_content}, 
+        b_upload=#{b_upload}, 
+        b_update=NOW()
+    WHERE b_code=#{b_code}
+</update>
+
+<!-- 관리자 전용조회 -->
+<select id="getBoardByBcode" resultType="BoardDTO">
+    SELECT * FROM board
+    WHERE b_code = #{b_code}
+</select>
 
 <!-- 글을 삭제하는 메소드 : ref 전체 삭제 -->
 <delete id="deleteBoardByRef">
@@ -59,7 +83,16 @@
     SELECT ref FROM board
     WHERE b_code = #{b_code}
     AND b_pw = #{b_pw}
+    AND m_code = #{m_code}
 </select>
+
+
+<!-- 댓글 하나만 삭제 -->
+<delete id="deleteSingleReply">
+    DELETE FROM board
+    WHERE b_code = #{b_code}
+</delete>
+
 
 <!-- 전체 게시글 수 -->
 <select id="getAllcount" resultType="int">

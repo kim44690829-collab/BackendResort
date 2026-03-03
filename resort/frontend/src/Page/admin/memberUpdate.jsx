@@ -7,6 +7,8 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 export default function MemberUdate(){
+    const {userEmail} = useContext(ResortDataContext)
+    
     const {m_code} = useParams();
     const {MemberAllData} = useContext(ResortDataContext);
     const [newph,setNewph] = useState(MemberAllData[m_code-1].m_phone)

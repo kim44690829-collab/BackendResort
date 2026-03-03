@@ -301,7 +301,7 @@ export default function HelpCenter(){
                 alert("게시글 수정 완료");
                 detailView(detail.b_code);
             }else{
-                alert("게시글 수정 실패. 비밀번호를 다시 확인해주세요");
+                alert("비밀번호가 틀렸거나 본인 글이 아니면 수정할수 없습니다.");
             }
         })
         .catch((error) => {
@@ -366,7 +366,7 @@ export default function HelpCenter(){
                 setPassword('');
                 resetBoard();                 
             }else{
-                alert("게시글 삭제 실패. 비밀번호를 다시 확인해주세요");
+                alert("비밀번호가 틀렸거나 본인 글이 아니면 삭제할수 없습니다.");
             }
         })
         .catch((error) => {
@@ -1008,9 +1008,7 @@ export default function HelpCenter(){
                                     </tr>)}
                                     <tr height="40" className='ans_btn'>
                                         <td align="center" colSpan="2" style={{backgroundColor:'#fff', border:'0'}}>
-                                        {userEmail !== "admin@resort.com" ? (
                                         <input type="button" onClick={modifyButton} value="수정하기" />
-                                        ):null}
                                         {/* 삭제하기 눌렀을때 관리자가 아니면 비밀번호 입력 */}
                                         {!delState && userEmail !== "admin@resort.com" &&
                                             <input type="button" onClick={deleteButton} value="삭제하기" />

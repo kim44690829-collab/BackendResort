@@ -23,6 +23,7 @@ public class MailService {
         String link = frontendUrl + "/reset-password?token=" + token;
 
         SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("bjoj1234@gmail.com"); 
         message.setTo(email);
         message.setSubject("비밀번호 재설정 링크");
         message.setText(

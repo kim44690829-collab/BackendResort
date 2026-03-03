@@ -51,17 +51,6 @@
 		INSERT INTO reviewboard(rb_score, m_code, r_code) VALUES(#{rb_score}, #{m_code}, #{r_code})
 	</insert>
 	
-<<<<<<< HEAD
-=======
-	<!-- // 리뷰 update public int reviewMod(@Param("rb_code") int rb_code, @Param("rb_score") int rb_score); parameterType="ReviewboardDTO" -->
-	<!-- <update id="reviewMod">
-		UPDATE reviewboard SET rb_score = #{rb_score}, rb_chk = 1 WHERE rb_code = #{rb_code}
-	</update>
-		 -->
-	<!-- ============2026-02-26 수정부분 JHJ ========== -->
->>>>>>> main
-	
-	<!-- ============2026-02-26 수정부분 JHJ ========== -->
 
 	<!-- 회원정보 개수  -->
 	<select id="getAllReviewcount" resultType="int">
@@ -115,20 +104,6 @@
 	<delete id="deleteReview" parameterType="int">
 		DELETE FROM reviewboard WHERE rb_code=#{rb_code} 
 	</delete>
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	

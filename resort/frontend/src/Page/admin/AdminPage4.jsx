@@ -5,7 +5,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 
 export default function AdminPage4(){
-    
+    const {userEmail} = useContext(ResortDataContext)
 
     const [reservation,setReservation] = useState([]);
     const [ph,setPh] = useState({});
