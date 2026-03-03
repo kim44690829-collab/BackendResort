@@ -43,7 +43,7 @@ export default function ResetPassword(){
         setMessage("토큰이 만료되었거나 유효하지 않습니다.");
         }
     };
-
+//
     return (
         <div style={{margin:'200px auto 60px',width:'fit-content'}}>
         <h2>새 비밀번호 설정</h2>
