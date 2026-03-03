@@ -10,7 +10,7 @@ export default function AdminPage5(){
     const [board,setBoard] = useState([]);
     const [ph,setPh] = useState({});
     const [page, setPage] = useState(1);
-    const [searchType, setSearchType] = useState("b_title");
+    const [searchType, setSearchType] = useState("m_code");
     const [searchKeyword, setSearchKeyword] = useState("");
     const [serch,setSerch] = useState("")
     useEffect(()=>{
@@ -67,7 +67,16 @@ export default function AdminPage5(){
             console.error("error", error)
         })
     }
+    if(userEmail !== 'admin@resort.com'){
+        return(
+            <>
+                <div style={{margin:"400px auto",textAlign:"center"}}>
+                    <Link to={"/"}>홈으로 돌아가기</Link>
 
+                </div>
+            </>
+        )
+    }
     return(
         <>
             <div className="admin_wrap">
@@ -145,32 +154,32 @@ export default function AdminPage5(){
                         <div className="admin_text">1대1 문의 게시판 조회</div>
                         <div id="search_wrap">
                                 <form onSubmit={submitHandler}>
-                                    <select className="searchSelect" name="searchType" onChange={(e) => setSearchType(e.target.value)}>
-                                        <option value="b_title">전화번호</option>
-                                        <option value="gender">성별</option>
-                                        <option value="nickName">별명</option>
-                                        <option value="mail">이메일</option>
+                                    <select className="searchSelect" name="searchType" value={searchType} onChange={(e) => setSearchType(e.target.value)}>
+                                        <option value="m_code">회원번호</option>
+                                        <option value="b_title">제목</option>
+                                        <option value="b_writer">작성자명</option>
+                                        <option value="b_content">문의내용</option>
                                     </select>
                                     
-                                    <input className="searchbox" type="text" name="searchKeyword" placeholder="검색어를 입력하세요" onChange={(e) => setSerch(e.target.value)}/>
+                                    <input className="searchbox" type="text" name="searchKeyword"  value={serch} placeholder="검색어를 입력하세요" onChange={(e) => setSerch(e.target.value)}/>
                                     <input type="submit" value="검색" className="searchBtn" onClick={()=>submitHandler()}/>
-                                    <input type="button" value="전체보기" className="searchBtn" onClick={()=>{setSearchKeyword(""),setSearchType("phone")}}/>
+                                    <input type="button" value="전체보기" className="searchBtn" onClick={()=>{setSearchKeyword(""),setSearchType("phone"),setSerch("")}}/>
                                 </form>
 					        </div>
                         <div className="admin_list">
                             <table className="list_table" >
                                 <thead >
-                                    <tr>
+                                    <tr className="table_head">
                                         <th >Num</th>
-                                        <th style={{width:"100px"}}>회원번호</th>
+                                        <th style={{width:"60px"}}>회원번호</th>
                                         <th style={{width:"250px"}}>제목</th>
                                         <th style={{width:"150px"}}>작성자명</th>
                                         <th style={{width:"100px"}}>문의비밀번호</th>
                                         <th style={{width:"80px"}}>조회수</th>
-                                        <th style={{width:"300px"}}>작성일자</th>
+                                        <th style={{width:"120px"}}>작성일자</th>
                                         <th style={{width:"160px"}}>문의내용</th>
-                                        <th style={{width:"160px"}}>수정일자</th>
-                                        <th style={{width:"100px",overflow:"hidden"}}>문의 이미지</th>
+                                        <th style={{width:"120px"}}>수정일자</th>
+                                        <th style={{width:"300px",overflow:"hidden"}}>문의 이미지</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -180,17 +189,17 @@ export default function AdminPage5(){
                                         const member_reg = new Date(item.m_regDate)
                                         const reg_Date = member_reg.toLocaleString('ko-KR')
                                         return(
-                                            <tr key={index}>
+                                            <tr key={index} className="table_head">
                                                 <td>{item.re_step === 2?`${item.ref}번 답글`:item.ref}</td>
                                                 <td>{item.m_code}</td>
                                                 <td>{item.b_title}</td>
                                                 <td>{item.b_writer}</td>
                                                 <td>{item.b_pw}</td>
                                                 <td>{item.readcount}</td>
-                                                <td>{item.b_date}</td>
+                                                <td>{item.b_date.slice(0,10)}</td>
                                                 <td>{item.b_content}</td>
-                                                <td>{item.b_update}</td>
-                                                <td style={{width:"100px",overflow:"hidden"}}>{item.b_upload}</td>
+                                                <td>{item.b_update.slice(0,10)}</td>
+                                                <td style={{width:"100px",overflow:"hidden"}}>{/* {item.b_upload} */}</td>
                                                 
                                             </tr>
                                         )

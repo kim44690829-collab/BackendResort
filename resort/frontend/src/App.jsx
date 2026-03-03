@@ -35,8 +35,9 @@ import RoomUpdate from './Page/admin/RoomUpdate'
 import HotelUpdate from './Page/admin/HotelUpdate'
 import NoticeInsert from './Page/admin/NoticeInsert'
 import NoticeUpdate from './Page/admin/NoticeUpdate'
-
 import MyPage from './Page/mypage/MyPage'
+import ForgotPassword from './Page/ForgotPassword'
+import ResetPassword from './Page/ResetPassword'
 
 
 function App() {
@@ -77,6 +78,8 @@ function App() {
             <Route path='/memberUpdate/:m_code' element={<MemberUdate />} />
             <Route path='/noticeUpdate/:n_code' element={<NoticeUpdate />} />
             <Route path='/myPage' element={<MyPage />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
           </Routes>
           <Footer />
         </BrowserRouter>

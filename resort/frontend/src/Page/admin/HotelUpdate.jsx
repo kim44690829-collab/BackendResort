@@ -147,7 +147,16 @@ export default function HotelUpdate(){
 
     console.log(nnn);
 }, [hotel, h_code]);
+    if(userEmail !== 'admin@resort.com'){
+        return(
+            <>
+                <div style={{margin:"400px auto",textAlign:"center"}}>
+                    <Link to={"/"}>홈으로 돌아가기</Link>
 
+                </div>
+            </>
+        )
+    }
     return(
         <>
             <div className="admin_wrap">
@@ -221,7 +230,7 @@ export default function HotelUpdate(){
                         </div>
                     </div>
                     <div className="admin_body">
-                        <div className="admin_text" style={{textAlign:"center"}}>{h_code}번 호텔 상품 수정하기</div>
+                        <div className="admin_text" style={{textAlign:"left",width:"800px"}}>{h_code}번 호텔 상품 수정하기</div>
                         <div className="admin_list">
                             <table className="list_table" style={{width:"800px"}}>
                                 <thead >

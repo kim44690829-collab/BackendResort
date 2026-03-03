@@ -37,7 +37,16 @@ export default function MemberUdate(){
             navigate('/adminpage');
         }
     }
+    if(userEmail !== 'admin@resort.com'){
+        return(
+            <>
+                <div style={{margin:"400px auto",textAlign:"center"}}>
+                    <Link to={"/"}>홈으로 돌아가기</Link>
 
+                </div>
+            </>
+        )
+    }
     return(
         <>
             <div className="admin_wrap">
@@ -111,40 +120,40 @@ export default function MemberUdate(){
                         </div>
                     </div>
                     <div className="admin_body">
-                        <div className="admin_text" style={{textAlign:'center'}}>회원 정보 수정</div>
+                        <div className="admin_text" style={{textAlign:"left",width:"800px"}}>회원 정보 수정</div>
                         <div className="admin_list">
                             <table className="list_table" style={{width:"600px"}}>
                                 <thead >
                                     <tr>
                                         <th width="200px">Num</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>{MemberAllData[m_code-1].m_code}</th>
+                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:'1px solid #ddd'}}>{MemberAllData[m_code-1].m_code}</th>
                                     </tr>
                                     <tr>
                                         <th width="200px">E_mail</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>{MemberAllData[m_code-1].m_email}</th>
+                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:'1px solid #ddd'}}>{MemberAllData[m_code-1].m_email}</th>
                                     </tr>
                                     <tr>
                                         <th width="200px">전화번호</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>
+                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:'1px solid #ddd'}}>
                                             <input type="text" value={newph} name="m_phone" onChange={(e)=>setNewph(e.target.value)} maxLength={11} style={{width:"300px",height:"30px"}}/>
                                             <p style={{color:"#999"}}>{`ex) 01012345678`}</p>
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">생일</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>
+                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:'1px solid #ddd'}}>
                                             {MemberAllData[m_code-1].m_birth}
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">성별</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>
+                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:'1px solid #ddd'}}>
                                             {MemberAllData[m_code-1].m_gender==0?"남성":"여성"}
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">별명</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>
+                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:'1px solid #ddd'}}>
                                             <input type="text" name="m_birth" onChange={(e)=>setNewNick(e.target.value)} maxLength={15} 
                                             value={newNick} style={{width:"300px",height:"30px"}}/>
                                         </th>
@@ -152,11 +161,11 @@ export default function MemberUdate(){
                                     </tr>
                                     <tr>
                                         <th width="200px">쿠폰 보유</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>{MemberAllData[m_code-1].m_coupon}</th>
+                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:'1px solid #ddd'}}>{MemberAllData[m_code-1].m_coupon}</th>
                                     </tr>
                                     <tr>
                                         <th width="200px">가입일</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>{MemberAllData[m_code-1].m_regDate}</th>
+                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:'1px solid #ddd'}}>{MemberAllData[m_code-1].m_regDate}</th>
                                     </tr>
                                 </thead>
                             </table>

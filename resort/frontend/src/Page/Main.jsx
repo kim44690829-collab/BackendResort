@@ -398,7 +398,7 @@ export default function Main(){
     if(!isLoading || !internalHotel || recommStar.length === 0) return <div>로딩중...</div>;
 
     return(
-        <div className='main_container' onClick={closeUl1}>
+        <div className='main_container' onClick={closeUl1} style={{overflowX:'hidden'}}>
             {/* 베너 박스 */}
             <div className='mainImgBenner'>
                 {/* 메인 베너 이미지 */}
@@ -865,7 +865,7 @@ export default function Main(){
 
             {/* EcoStay 회원만의 특별한 혜택 */}
             <div className='EcoMember'>
-                <img src='middleBenner.jpg' alt='middleBenner' />
+                <img src='/middleBenner2.png' alt='middleBenner' />
                 <div className='EcoMemberInfo'>
                     <p className='EcoMemberInfo-1'><span style={{fontSize:'40px', fontWeight:'bold'}}>[EcoStay]</span> 한정! 지금 뜬 호텔 특가!</p>
                     <p className='EcoMemberInfo-2'>놓치면 끝! 한정 수량 할인 중인 숙소를 모았어요</p>

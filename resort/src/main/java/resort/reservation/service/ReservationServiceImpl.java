@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import resort.reservation.dto.ResInfoDTO;
 import resort.reservation.dto.ReservationDTO;
@@ -69,6 +70,17 @@ public class ReservationServiceImpl implements ReservationService {
 	public int reviewStatusMod() {
 		System.out.println("ReservationServiceImpl : reviewStatusMod() 메서드 확인");
 		return reservationmapper.reviewStatusMod();
+	}
+	@Override
+	public int deleteResercation(@RequestParam("re_code") int re_code) {
+		System.out.println("ReservationServiceImpl : deleteResercation(O*O) 메서드 확인");
+		return reservationmapper.deleteResercation(re_code);
+	}
+
+	@Override
+	public int updateResercation(String booker_name, int re_code, String g_phone) {
+		System.out.println("ReservationServiceImpl : updateResercation(O*O) 메서드 확인");
+		return reservationmapper.updateResercation(booker_name, re_code, g_phone);
 	}
 
 	

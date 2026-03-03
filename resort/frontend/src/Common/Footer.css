@@ -8,7 +8,7 @@
 
 .footer_container .footerInfo{
     width: 1200px;
-    margin: 100px auto 0;
+    margin: 0 auto;
     padding: 100px 0 100px 0;
     display: flex;
     gap: 30px;

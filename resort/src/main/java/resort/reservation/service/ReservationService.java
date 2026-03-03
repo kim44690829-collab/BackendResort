@@ -3,6 +3,7 @@ package resort.reservation.service;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import resort.reservation.dto.ResInfoDTO;
 import resort.reservation.dto.ReservationDTO;
@@ -43,4 +44,9 @@ public interface ReservationService {
 	
 	// 리뷰 상태 업데이트 함수
 	public int reviewStatusMod();
+	// 비회원 예약 삭제
+	public int deleteResercation(@RequestParam("re_code") int re_code);
+	
+	// 비회원정보 수정
+	public int updateResercation(@Param("booker_name") String booker_name, @Param("re_code") int re_code, @Param("g_phone") String g_phone);
 }

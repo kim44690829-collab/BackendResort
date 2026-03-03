@@ -73,7 +73,16 @@ export default function AdminPage3(){
         })
     } */
 
-    
+    if(userEmail !== 'admin@resort.com'){
+        return(
+            <>
+                <div style={{margin:"400px auto",textAlign:"center"}}>
+                    <Link to={"/"}>홈으로 돌아가기</Link>
+
+                </div>
+            </>
+        )
+    }
 
     return(
         <>
@@ -152,20 +161,20 @@ export default function AdminPage3(){
                         <div className="admin_text">객실 정보 조회</div>
                         <div id="search_wrap">
                                 <form onSubmit={submitHandler}>
-                                    <select className="searchSelect" name="searchType" onChange={(e) => setSearchType(e.target.value)}>
+                                    <select className="searchSelect" name="searchType" value={searchType} onChange={(e) => setSearchType(e.target.value)}>
                                         <option value="roomName">객실명</option>
                                         <option value="maxOccupancy">최대인원</option>
                                     </select>
                                     
-                                    <input className="searchbox" type="text" name="searchKeyword" placeholder="검색어를 입력하세요" onChange={(e) => setSerch(e.target.value)}/>
+                                    <input className="searchbox" type="text" name="searchKeyword" placeholder="검색어를 입력하세요" value={serch} onChange={(e) => setSerch(e.target.value)}/>
                                     <input type="submit" value="검색" className="searchBtn" onClick={()=>submitHandler()}/>
-                                    <input type="button" value="전체보기" className="searchBtn" onClick={()=>{setSearchKeyword(""),setSearchType("hotelName")}}/>
+                                    <input type="button" value="전체보기" className="searchBtn" onClick={()=>{setSearchKeyword(""),setSearchType("hotelName"),setSerch("")}}/>
                                 </form>
 					        </div>
                         <div className="admin_list">
                             <table className="list_table" >
-                                <thead >
-                                    <tr>
+                                <thead className="table_head">
+                                    <tr className="table_head">
                                         <th width="50px">Num</th>
                                         <th width="200px">호텔명</th>
                                         <th width="100px">객실명</th>
@@ -175,10 +184,10 @@ export default function AdminPage3(){
                                         
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody >
                                     {room.map((item,index)=>(
                                         
-                                                <tr key={index}>
+                                                <tr key={index} className="table_head">
                                                     <td>{item.r_code}</td>
                                                     <td>{hotel[item.h_code-1]?.hotelName}</td>
                                                     <td>{item.roomName}</td>

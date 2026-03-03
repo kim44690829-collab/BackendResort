@@ -27,11 +27,16 @@ public interface BoardMapper {
 	public int updateBoard(BoardDTO bdto);
 	
 	// 게시글 삭제
-	// 매개변수가 2개이상인 경우는 @Param("변수" 데이터타입 필드명)이용해 작성한다.
-	public int deleteBoard(BoardDTO bdto);
+	//public int deleteBoard(BoardDTO bdto);
+	
+	// 삭제를 위한 ref 먼저 구하는 쿼리
+	public Integer getRefByBcode(BoardDTO bdto);
+	// 글을 삭제하는 메소드 : ref 전체 삭제
+	public int deleteBoardByRef(int ref);
 
 	//전체 게시글의 개수를 구하는 메소드
 	public int getAllcount();
+	
 	
 	//Limit 1(startRow), 5(PageSize) => 1부터 시작해서 5개만 출력
 	//startRow ~ 한 페이지에 보여줄 레코드(=행의) 개수(pageSize)만큼 보여주는 메소드
@@ -54,9 +59,6 @@ public interface BoardMapper {
 			@Param("pageSize") int pageSize			
 			);
 	
-	//내가 작성한 게시글에 달린 관리자 댓글수 체크
-	public int existsAdminReply(int ref);
-
 	// 로그인된 나만의 게시글의 개수
 	// 매개변수가 2개이상이면 Param으로 받고 1개면 그냥 받아도됨
 	//public int getMyBoardCount(String m_email);
@@ -99,4 +101,7 @@ public interface BoardMapper {
 			@Param("searchKeyword") String searchKeyword,
 			@Param("startRow") int startRow,
 			@Param("pageSize") int pageSize	);
+	
+	//ref값 추출
+	public BoardDTO getParentByRef(int ref);
 }

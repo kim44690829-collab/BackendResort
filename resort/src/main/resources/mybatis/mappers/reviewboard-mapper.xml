@@ -50,9 +50,7 @@
 	<insert id="reviewAdd" parameterType="ReviewboardDTO">
 		INSERT INTO reviewboard(rb_score, m_code, r_code) VALUES(#{rb_score}, #{m_code}, #{r_code})
 	</insert>
-	
-	<!-- ============2026-02-26 수정부분 JHJ ========== -->
-	
+
 	<!-- 회원정보 개수  -->
 	<select id="getAllReviewcount" resultType="int">
 		SELECT COUNT(*) FROM reviewboard

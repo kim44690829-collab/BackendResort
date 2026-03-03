@@ -23,4 +23,7 @@ public class ReservationDTO{
 	private int cancel; //취소여부
 	private Date cancel_date; //취소일자
 	private int review_status; // 예약 작성 여부
+	private String m_phone; // 회원전화번호
+	private String g_phone; // 비회원전화번호
+	
 }	
