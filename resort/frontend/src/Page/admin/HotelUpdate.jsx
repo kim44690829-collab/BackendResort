@@ -147,7 +147,16 @@ export default function HotelUpdate(){
 
     console.log(nnn);
 }, [hotel, h_code]);
+    if(userEmail !== 'admin@resort.com'){
+        return(
+            <>
+                <div style={{margin:"400px auto",textAlign:"center"}}>
+                    <Link to={"/"}>홈으로 돌아가기</Link>
 
+                </div>
+            </>
+        )
+    }
     return(
         <>
             <div className="admin_wrap">

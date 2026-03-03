@@ -50,7 +50,16 @@ export default function RoomUpdate(){
         setPrice(RoomData[r_code-1].price)
         setMaxOccupancy(RoomData[r_code-1].maxOccupancy)
     },[])
-    
+    if(userEmail !== 'admin@resort.com'){
+        return(
+            <>
+                <div style={{margin:"400px auto",textAlign:"center"}}>
+                    <Link to={"/"}>홈으로 돌아가기</Link>
+
+                </div>
+            </>
+        )
+    }
     return(
         <>
             <div className="admin_wrap">

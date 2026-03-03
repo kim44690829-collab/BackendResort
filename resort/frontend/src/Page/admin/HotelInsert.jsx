@@ -166,6 +166,17 @@ export default function HotelInsert(){
         const text3 = `[${otherservice.map(v => `"${v}"`).join(',')}]`
         setO_value(text3)
     },[roomservice,publicservice,otherservice])
+
+    if(userEmail !== 'admin@resort.com'){
+        return(
+            <>
+                <div style={{margin:"400px auto",textAlign:"center"}}>
+                    <Link to={"/"}>홈으로 돌아가기</Link>
+
+                </div>
+            </>
+        )
+    }
     return(
         <>
             <div className="admin_wrap">

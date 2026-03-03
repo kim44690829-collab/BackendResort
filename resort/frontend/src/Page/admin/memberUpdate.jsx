@@ -37,7 +37,16 @@ export default function MemberUdate(){
             navigate('/adminpage');
         }
     }
+    if(userEmail !== 'admin@resort.com'){
+        return(
+            <>
+                <div style={{margin:"400px auto",textAlign:"center"}}>
+                    <Link to={"/"}>홈으로 돌아가기</Link>
 
+                </div>
+            </>
+        )
+    }
     return(
         <>
             <div className="admin_wrap">

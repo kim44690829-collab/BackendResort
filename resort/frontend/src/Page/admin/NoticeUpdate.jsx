@@ -56,7 +56,16 @@ export default function NoticeUpdate(){
         //setN_title(noticelist.n_title)
         //setN_content(noticelist.n_content)
     },[])
-    
+    if(userEmail !== 'admin@resort.com'){
+        return(
+            <>
+                <div style={{margin:"400px auto",textAlign:"center"}}>
+                    <Link to={"/"}>홈으로 돌아가기</Link>
+
+                </div>
+            </>
+        )
+    }
     return(
         <>
             <div className="admin_wrap">
@@ -136,14 +145,14 @@ export default function NoticeUpdate(){
                                 <thead >
                                     <tr>
                                         <th width="200px">n_title</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:"1px solid #ddd"}}>
+                                        <th style={{backgroundColor:"#f6f8fc",color:"#333",borderBottom:"1px solid #ddd"}}>
                                             <input type="text" name="n_title" onChange={(e)=>setN_title(e.target.value)} style={{width:"500px",height:"40px"}}
                                             value={n_title === null? noticelist.n_title:n_title}/>
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">n_content</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333",height:"300px" ,borderBottom:"1px solid #ddd"}}>
+                                        <th style={{backgroundColor:"#f6f8fc",color:"#333",height:"300px" ,borderBottom:"1px solid #ddd"}}>
                                             {/* <input type="" name="roomName" onChange={handleChange} /> */}
                                             <textarea name="n_content" id="n_content" cols="30" style={{height:"250px",width:"500px"}}
                                                 onChange={(e)=>setN_content(e.target.value) } value={n_content === null? noticelist.n_content:n_content}

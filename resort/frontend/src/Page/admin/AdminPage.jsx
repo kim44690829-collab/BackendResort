@@ -71,7 +71,7 @@ export default function AdminPage(){
     if(userEmail !== 'admin@resort.com'){
         return(
             <>
-                <div>
+                <div style={{margin:"400px auto",textAlign:"center"}}>
                     <Link to={"/"}>홈으로 돌아가기</Link>
 
                 </div>

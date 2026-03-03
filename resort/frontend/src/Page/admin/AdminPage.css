@@ -16,17 +16,20 @@
 }
 .admin_wrap .admin_header .menu_box{
     position: relative;
-    width: 150px;
-    background-color: #42799b;
+    width: 120px;
+    background-color: #ffffff;
+    border: 2px solid #81a6f5;
+    border-bottom: none;
     text-align: center;
-    margin-right: 8px;
-    padding: 20px 0;
+    margin-right: 4px;
+    padding: 10px 0;
     border-radius: 20px 20px 0 0;
+    color: #1a2867;
 }
 
 .admin_wrap .admin_header .menu_box .admin_menu{
-    font-size: 20px;
-    font-weight: 600;
+    font-size: 18px;
+    font-weight: 500;
     cursor: pointer;
 }
 .admin_wrap .admin_header .menu_box:hover .admin_submenu{
@@ -300,4 +303,55 @@
 .admin_wrap .admin_body .admin_list .list_table .table_head >td{
     text-align: center;
     padding: 0;
+}
+.service_box .info_list >li{
+    margin-bottom: 18px;
+}
+.service_box .info_list >li>p>span{
+    display: inline-block;
+    width: 150px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.service_box .guset_table{
+    margin: 120px auto 10px;
+    box-shadow: 1px 1px 10px #c0c0c0;
+}
+.service_box .guset_table tr>th{
+    height: 70px;
+    padding: 15px;
+}
+.service_box .guset_table tr>th>input{
+    padding: 5px;
+    height: 50px;
+}
+.service_box .guset_table tr>th:first-child{
+    background-color: #e0eafd;
+    color: #1a2867;
+    font-weight: 600;
+}
+.service_box .guest_submit_box{
+    width: 490px;
+    margin: 0 auto;
+    text-align: center;
+}
+.service_box .guest_submit{
+    margin: 110px auto 50px;
+    border: none;
+    height: 50px;
+    padding: 0 10px;
+    margin-left: 10px;
+    width: 120px;
+    cursor: pointer;
+    font-weight: 500;
+    line-height: 40px;
+    border-radius: 10px;
+    border: 2px solid #0155ff;
+    background-color: #fff;
+    color: #0155ff;
+}
+
+.service_box .guest_submit:hover{
+    font-weight: 700;
 }

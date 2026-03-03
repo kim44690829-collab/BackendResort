@@ -40,12 +40,15 @@
 	
 	<!-- // 모든 예약 내역 출력	public List<ReservationDTO> getAllReservation(); -->
 	<select id="getAllRescount" resultType="int">
-		SELECT COUNT(*) FROM reservation
+		SELECT COUNT(*) FROM reservation 
 	</select>
 	
-	<!-- 예약정보 보이는 개수 -->
+	<!-- 예약정보 리스트 -->
 	<select id="getResPagelist" resultType="ReservationDTO">
-		SELECT *FROM reservation ORDER BY re_code DESC
+		SELECT *FROM reservation r LEFT JOIN member m 
+			on r.m_code = m.m_code 
+			LEFT JOIN guest g 
+			on r.g_code = g.g_code ORDER BY re_code DESC
 		LIMIT #{startRow}, #{pageSize}
 	</select>
 	
@@ -66,7 +69,10 @@
 		</select>
 	
 		<select id="getSearchResPageList" resultType="ReservationDTO">
-			SELECT * FROM reservation 
+			SELECT * FROM reservation r LEFT JOIN member m 
+			on r.m_code = m.m_code 
+			LEFT JOIN guest g 
+			on r.g_code = g.g_code
 			<where>
 				<choose>
 					<when test="searchType == 'booker_name'">
@@ -80,5 +86,21 @@
 			ORDER BY re_code DESC
 			LIMIT #{startRow}, #{pageSize}
 		</select>
+		
+		<!-- public int updateResercation(ReservationDTO redto); -->
+		<update id="deleteResercation" parameterType="String">
+			UPDATE reservation r LEFT JOIN member m 
+			on r.m_code = m.m_code 
+			LEFT JOIN guest g 
+			on r.g_code = g.g_code SET cancel = 1, cancel_date = now() WHERE re_code=#{re_code}
+		</update>
+		
+		
+		<!-- public int updateResercation(@Param("booker_name") String booker_name, @Param("re_code") int re_code, @Param("g_phone") String g_phone); -->
+		<update id="updateResercation" >
+			UPDATE reservation r 
+			LEFT JOIN guest g 
+			on r.g_code = g.g_code SET booker_name = #{booker_name}, g_phone = #{g_phone} WHERE re_code=#{re_code}
+		</update>
 	
 </mapper>

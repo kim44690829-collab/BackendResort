@@ -10,7 +10,7 @@ export default function AdminPage5(){
     const [board,setBoard] = useState([]);
     const [ph,setPh] = useState({});
     const [page, setPage] = useState(1);
-    const [searchType, setSearchType] = useState("b_title");
+    const [searchType, setSearchType] = useState("m_code");
     const [searchKeyword, setSearchKeyword] = useState("");
     const [serch,setSerch] = useState("")
     useEffect(()=>{
@@ -67,7 +67,16 @@ export default function AdminPage5(){
             console.error("error", error)
         })
     }
+    if(userEmail !== 'admin@resort.com'){
+        return(
+            <>
+                <div style={{margin:"400px auto",textAlign:"center"}}>
+                    <Link to={"/"}>홈으로 돌아가기</Link>
 
+                </div>
+            </>
+        )
+    }
     return(
         <>
             <div className="admin_wrap">
@@ -145,16 +154,16 @@ export default function AdminPage5(){
                         <div className="admin_text">1대1 문의 게시판 조회</div>
                         <div id="search_wrap">
                                 <form onSubmit={submitHandler}>
-                                    <select className="searchSelect" name="searchType" onChange={(e) => setSearchType(e.target.value)}>
-                                        <option value="b_title">전화번호</option>
-                                        <option value="gender">성별</option>
-                                        <option value="nickName">별명</option>
-                                        <option value="mail">이메일</option>
+                                    <select className="searchSelect" name="searchType" value={searchType} onChange={(e) => setSearchType(e.target.value)}>
+                                        <option value="m_code">회원번호</option>
+                                        <option value="b_title">제목</option>
+                                        <option value="b_writer">작성자명</option>
+                                        <option value="b_content">문의내용</option>
                                     </select>
                                     
-                                    <input className="searchbox" type="text" name="searchKeyword" placeholder="검색어를 입력하세요" onChange={(e) => setSerch(e.target.value)}/>
+                                    <input className="searchbox" type="text" name="searchKeyword"  value={serch} placeholder="검색어를 입력하세요" onChange={(e) => setSerch(e.target.value)}/>
                                     <input type="submit" value="검색" className="searchBtn" onClick={()=>submitHandler()}/>
-                                    <input type="button" value="전체보기" className="searchBtn" onClick={()=>{setSearchKeyword(""),setSearchType("phone")}}/>
+                                    <input type="button" value="전체보기" className="searchBtn" onClick={()=>{setSearchKeyword(""),setSearchType("phone"),setSerch("")}}/>
                                 </form>
 					        </div>
                         <div className="admin_list">
