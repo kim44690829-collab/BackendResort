@@ -22,5 +22,7 @@ public class ReservationDTO{
 	private int final_price; //할인 후 가격
 	private int cancel; //취소여부
 	private Date cancel_date; //취소일자
+	private String m_phone; // 회원전화번호
+	private String g_phone; // 비회원전화번호
 	
 }	

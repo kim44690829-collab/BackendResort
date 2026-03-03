@@ -87,7 +87,16 @@ export default function RoomInsert(){
 
     // 추가된 요소 텍스트로 변환된값
     useEffect(()=>{
-       
+       if(userEmail !== 'admin@resort.com'){
+        return(
+            <>
+                <div style={{margin:"400px auto",textAlign:"center"}}>
+                    <Link to={"/"}>홈으로 돌아가기</Link>
+
+                </div>
+            </>
+        )
+    }
     },[])
     return(
         <>
@@ -141,7 +150,7 @@ export default function RoomInsert(){
                             </ul>
                         </div>
                         <div className="menu_box">
-                            <span className="admin_menu" style={{textAlign:"center"}}>게시판</span>
+                            <span className="admin_menu" style={{textAlign:"left",width:"800px"}}>게시판</span>
                             <ul className="admin_submenu">
                                 <li className="a_menus">
                                     <Link to={`/adminPage5` } onClick={() => window.scrollTo(0, 0)}>
@@ -162,31 +171,31 @@ export default function RoomInsert(){
                         </div>
                     </div>
                     <div className="admin_body">
-                        <div className="admin_text">객실 상품 추가</div>
+                        <div className="admin_text" style={{textAlign:"left",width:"800px"}}>객실 상품 추가</div>
                         <div className="admin_list">
                             <table className="list_table" style={{width:"800px"}}>
                                 <thead >
                                     <tr>
                                         <th width="200px">h_code</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:"1px solid #ddd"}}>
+                                        <th style={{backgroundColor:"#f6f8fc",color:"#333",borderBottom:"1px solid #ddd"}}>
                                             <input type="text" name="h_code" onChange={handleChange} style={{width:"400px",height:"30px"}}/>
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">roomName</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:"1px solid #ddd"}}>
+                                        <th style={{backgroundColor:"#f6f8fc",color:"#333",borderBottom:"1px solid #ddd"}}>
                                             <input type="text" name="roomName" onChange={handleChange} style={{width:"400px",height:"30px"}}/>
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">price</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:"1px solid #ddd"}}>
+                                        <th style={{backgroundColor:"#f6f8fc",color:"#333",borderBottom:"1px solid #ddd"}}>
                                             <input type="text" name="price" onChange={handleChange} style={{width:"400px",height:"30px"}}/>
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">maxOccupancy</th>
-                                        <th style={{backgroundColor:"#fff",color:"#333",borderBottom:"1px solid #ddd"}}>
+                                        <th style={{backgroundColor:"#f6f8fc",color:"#333",borderBottom:"1px solid #ddd"}}>
                                             <input type="text" name="maxOccupancy" onChange={handleChange} style={{width:"400px",height:"30px"}}/>
                                         </th>
                                     </tr>

@@ -11,6 +11,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -120,6 +121,26 @@ public class ReservationApiController {
 		result.put("searchKeyword",searchKeyword);
 		return result;
 	}
+	// 비회원 소프트 삭제
+	@PutMapping("/reservation/delete")
+	public int reservationDelete(@RequestParam("re_code") int re_code) {
+		System.out.println("reservationApiController : reservationDelete(@-@) 메서드 확인");
+		reservationservice.deleteResercation(re_code);
+		
+		return 1;
+	}
+	
+	
+	// 비회원 정보 수정
+	@PutMapping("/reservation/update")
+	public int reservationUpdate(@RequestParam("re_code") int re_code,@RequestParam("g_phone") String g_phone,@RequestParam("booker_name") String booker_name) {
+		System.out.println("reservationApiController : reservationDelete(@-@) 메서드 확인");
+		reservationservice.updateResercation(booker_name, re_code, g_phone);
+		
+		return 1;
+	}
+	
+	
 	
 	
 }
