@@ -284,7 +284,7 @@ export default function Main(){
         return(() => {clearInterval(play)})
     },[eventImgS, eventImgE])
 
-    // 이벤트 배너 클릭
+    // 이벤트 배너 버튼 클릭
     const eventBennerRightHandeler = () => {
         if(eventImgS < 3 && eventImgE < 6){
             setEventImgS(eventImgS + 1);

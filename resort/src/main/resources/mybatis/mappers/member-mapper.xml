@@ -136,5 +136,10 @@
 		UPDATE member m INNER JOIN reservation re ON m.m_code = re.m_code
 		SET m.m_coupon = 0 WHERE m.m_code = #{m_code} AND re.coupon_used = 1 
 	</update>
+	
+	<!-- // 비밀번호 찾기 public int pwFind(MemberDTO mdto); -->
+	<update id="pwFind" parameterType="MemberDTO">
+		UPDATE member SET m_pw=#{m_pw} WHERE m_email = #{m_email} AND m_phone = #{m_phone}
+	</update>
 
 </mapper>

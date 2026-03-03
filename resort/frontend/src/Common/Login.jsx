@@ -92,28 +92,6 @@ export default function Login(){
         }
     },[emailInput, pwInput])
 
-    const findPw = async () => {
-
-        const res = await axios.get("/api/member/selectMember", {
-            params : {
-                m_email : findEmail,
-                m_phone : findPhone
-            }
-        })
-        console.log('회원 있어? : ', res.data)
-
-        if(res.data === 0){
-            alert("아이디 혹은 핸드폰 번호를 다시 입력해주세요.")
-            setFindEmail('');
-            setFindPhone('');
-            return;
-        }
-
-        const res02 = await axios.post("/api/member/memberPwMod")
-        console.log(res02.data);
-        setNewPw(res02.data);
-    }
-
     return(
         <div className="Login_container">
             <h2 className='Login_title'>이메일로 시작하기</h2>
@@ -168,26 +146,6 @@ export default function Login(){
                     <button type="button" className='EmailSignUp'>이메일로 회원가입</button>
                 </Link>
             </div>
-            {pwModal && 
-                <div className='findPw_overlay'>
-                    <div className='findPw_wrap'>
-                        <p className="findPwTitle">비밀 번호 찾기</p>
-                        <div className="findPwInput">
-                            <input type='text' value={findEmail} onChange={(e) => setFindEmail(e.target.value)} className='findInput' placeholder='이메일을 입력해주세요.' />    
-                            <input type='text' value={findPhone} onChange={(e) => setFindPhone(e.target.value)} className='findInput' placeholder='핸드폰 번호를 입력해주세요.' />    
-                        </div>
-                        <button type='button' onClick={()=>{setPwModal(false)}} className='findPw_Xbtn'>
-                            <i className="fa-solid fa-x"></i>
-                        </button>
-                        <button type="button" className="comBtn"
-                        style={{
-                            backgroundColor : false ? '#e7e7e7ff' : '#42799b',
-                            color:'#fff', 
-                            cursor:false ? 'not-allowed' : 'pointer'
-                            }}>완료</button>
-                    </div>
-                </div>
-            }
         </div>
     )
 }

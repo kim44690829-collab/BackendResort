@@ -50,19 +50,20 @@ export default function MyPage(){
     
 
     //마이페이지 DB불러오는 함수
-    const fetchMyPage = () => {
+    const fetchMyPage = async () => {
         if (!userEmail) return;
 
-        axios.get('/api/member/mypage', {
-            params: { m_email: userEmail }
-        })
-        .then((res) => {
-            console.log("마이페이지 데이터 : ", res.data);
-            setMyPage(res.data);
-        })
-        .catch((error) => {
+        try{
+            const res = await axios.put('/api/reservation/reviewStatusMod')
+            console.log('리뷰 업데이트 됐나?',res.data)
+            const res02 = await axios.get('/api/member/mypage', {
+                params: { m_email: userEmail }
+            })
+            console.log("마이페이지 데이터 : ", res02.data);
+            setMyPage(res02.data);
+        }catch(error){
             console.error("error", error)
-        })
+        }
     }
 
     //회원정보 DB불러오는 함수
@@ -475,6 +476,8 @@ export default function MyPage(){
             setIsOpen(true);
         }
 
+        const today = new Date().toLocaleDateString('sv-SE');
+
     return(
         <div className="reserVation_container">
             {/* 왼쪽 메뉴 */}
@@ -530,13 +533,41 @@ export default function MyPage(){
                                                         <li style={{padding: '0',background: 'transparent',marginBottom: '10px'}}>
                                                             <p className='room-title wish'>{item.reserved_at?.slice(0, 10)} 예약
                                                                 <span className='del detail' onClick={()=>contentHandeler(item.re_code)}>상세보기 <i className="fa-solid fa-angle-right"></i></span>
-                                                                {item.check_in_date.slice(0,10) > new Date().toLocaleDateString('sv-SE') && ( 
+                                                                {item.check_in_date.slice(0,10) > today && ( 
                                                                     <span className='del' onClick={()=>{reserveCancel(item.re_code)}}><i className="fa-solid fa-ban" style={{color:'#f94239'}}></i> 취소하기</span>
                                                                 )}
-
-                                                                {item.check_in_date.slice(0,10) <= new Date().toLocaleDateString('sv-SE') && ( 
-                                                                    <span className='del' onClick={()=>{reviewModalOpen(item.r_code)}}><i className="fa-solid fa-star" style={{color:'#FCC34B'}}></i> 리뷰작성</span>
-                                                                )}                                                            
+                                                                {item.check_in_date.slice(0,10) <= today && item.check_out_date.slice(0,10) > today && (
+                                                                    <span className='del' style={{
+                                                                        cursor: 'default',
+                                                                        background: '#f1f3f5',
+                                                                        border: '1px solid #e9ecef',
+                                                                        color: '#495057'
+                                                                    }}>
+                                                                        🏨 숙소 이용 중
+                                                                    </span>
+                                                                )}
+                                                                {item.check_out_date.slice(0,10) <= today && item.review_status === 0 &&  ( 
+                                                                    <span className='del' onClick={()=>{reviewModalOpen(item)}}>
+                                                                        <i className="fa-solid fa-star" style={{color:'#FCC34B'}}></i> 리뷰작성
+                                                                    </span>
+                                                                )}   
+                                                                {/* 체크아웃 이후 + 리뷰 작성 완료 */}
+                                                                {item.check_out_date.slice(0,10) <= today && item.review_status === 1 && (
+                                                                <span className='del' onClick={() => reviewModalOpen(item)}>
+                                                                    <i className="fa-solid fa-star" style={{color:'#FCC34B'}}></i> 리뷰수정
+                                                                </span>
+                                                                )}                                                         
+                                                                {/* 체크아웃 이후 + 리뷰 작성기간 만료 */}
+                                                                {item.check_out_date.slice(0,10) <= today && item.review_status === 2 && (
+                                                                <span className='del' style={{
+                                                                    cursor: 'default',
+                                                                    background: '#f1f3f5',
+                                                                    border: '1px solid #e9ecef',
+                                                                    color: '#495057'
+                                                                }}>
+                                                                    <i className="fa-solid fa-star" style={{color:'#FCC34B'}}></i> 리뷰기간만료
+                                                                </span>
+                                                                )}                                                         
                                                             </p>
                                                         </li>
                                                         <li>
@@ -570,16 +601,34 @@ export default function MyPage(){
                                                     <li style={{padding: '0',background: 'transparent',marginBottom: '10px'}}>
                                                         <p className='room-title wish'>{item.reserved_at?.slice(0, 10)} 예약
                                                             <span className='del detail' onClick={()=>contentHandeler(item.re_code)}>상세보기 <i className="fa-solid fa-angle-right"></i></span>
-                                                            {item.check_in_date.slice(0,10) > new Date().toLocaleDateString('sv-SE') && ( 
+                                                            {item.check_in_date.slice(0,10) > today && ( 
                                                                 <span className='del' onClick={()=>{reserveCancel(item.re_code)}}><i className="fa-solid fa-ban" style={{color:'#f94239'}}></i> 취소하기</span>
                                                             )}
 
-                                                            {item.check_in_date.slice(0,10) <= new Date().toLocaleDateString('sv-SE') && item.rb_score === 0 && ( 
+                                                            {item.check_in_date.slice(0,10) <= today && today < item.check_out_date.slice(0,10) && ( 
+                                                                <span className='del' style={{
+                                                                    cursor: 'default',
+                                                                    background: '#f1f3f5',
+                                                                    border: '1px solid #e9ecef',
+                                                                    color: '#495057'
+                                                                }}>
+                                                                    🏨 숙소 이용 중
+                                                                </span>
+                                                            )}
+                                                            {item.check_out_date.slice(0,10) <= today && item.review_status === 0 && ( 
                                                                 <span className='del' onClick={()=>{reviewModalOpen(item)}}><i className="fa-solid fa-star" style={{color:'#FCC34B'}}></i> 리뷰작성</span>
                                                             )}
 
-                                                            {item.check_in_date.slice(0,10) <= new Date().toLocaleDateString('sv-SE') && item.rb_score !== 0 && ( 
+                                                            {item.check_out_date.slice(0,10) <= today &&  item.review_status === 1 && ( 
                                                                 <span className='del' onClick={()=>{reviewModalOpen(item)}}><i className="fa-solid fa-star" style={{color:'#FCC34B'}}></i> 리뷰수정</span>
+                                                            )} 
+                                                            {item.check_out_date.slice(0,10) <= today &&  item.review_status === 2 && ( 
+                                                                <span className='del' style={{
+                                                                    cursor: 'default',
+                                                                    background: '#f1f3f5',
+                                                                    border: '1px solid #e9ecef',
+                                                                    color: '#495057'
+                                                                }}> 리뷰기간만료</span>
                                                             )} 
                                                         </p>
                                                     </li>
@@ -732,16 +781,33 @@ export default function MyPage(){
                                                 </table>
                                                                                               
                                                 <div className="buttons">
-                                                    {item.check_in_date.slice(0,10) > new Date().toLocaleDateString('sv-SE') && ( 
+                                                    {item.check_in_date.slice(0,10) > today && ( 
                                                         <span className='del' onClick={()=>{reserveCancel(item.re_code)}}><i className="fa-solid fa-ban" style={{color:'#f94239'}}></i> 취소하기</span>
                                                     )}
-
-                                                    {item.check_in_date.slice(0,10) <= new Date().toLocaleDateString('sv-SE') && item.rb_score === 0 && ( 
+                                                    {item.check_in_date.slice(0,10) <= today && item.check_out_date.slice(0,10) > today && ( 
+                                                        <span className='del' style={{
+                                                            cursor: 'default',
+                                                            background: '#f1f3f5',
+                                                            border: '1px solid #e9ecef',
+                                                            color: '#495057'
+                                                        }}>
+                                                            🏨 숙소 이용 중
+                                                        </span>
+                                                    )}
+                                                    {item.check_out_date.slice(0,10) <= today && item.review_status === 0 && ( 
                                                         <span className='del'  onClick={()=>{reviewModalOpen(item)}}><i className="fa-solid fa-star" style={{color:'#FCC34B'}}></i> 리뷰작성</span>
                                                     )}
 
-                                                    {item.check_in_date.slice(0,10) <= new Date().toLocaleDateString('sv-SE') && item.rb_score !== 0 && ( 
+                                                    {item.check_out_date.slice(0,10) <= today && item.review_status === 1 && ( 
                                                         <span className='del'  onClick={()=>{reviewModalOpen(item)}}><i className="fa-solid fa-star" style={{color:'#FCC34B'}}></i> 리뷰수정</span>
+                                                    )}                                                           
+                                                    {item.check_out_date.slice(0,10) <= today && item.review_status === 2 && ( 
+                                                        <span className='del' style={{
+                                                            cursor: 'default',
+                                                            background: '#f1f3f5',
+                                                            border: '1px solid #e9ecef',
+                                                            color: '#495057'
+                                                        }}> 리뷰기간만료</span>
                                                     )}                                                           
                                                     <span className='del detail' onClick={()=>{setListType(1);setListView(true);setDetailView(0);}}>전체목록<i className="fa-solid fa-angle-right"></i></span>
                                                 </div>

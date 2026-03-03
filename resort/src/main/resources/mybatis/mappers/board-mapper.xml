@@ -17,6 +17,16 @@
 	SELECT * FROM board ORDER BY ref DESC, re_step ASC
 </select>
 
+<!-- 내가 작성한 게시글에 달린 관리자 댓글수 체크 -->
+<select id="existsAdminReply" parameterType="int" resultType="int">
+    SELECT COUNT(*)
+    FROM board b
+    JOIN member m ON b.m_code = m.m_code
+    WHERE b.ref = #{ref}
+      AND b.re_level &gt; 1
+      AND m.m_email = 'admin@resort.com'
+</select>
+
 
 <!-- 나의 게시글 목록을 출력하는 쿼리문 -->
 <select id="getMyBoard" resultType="BoardDTO">

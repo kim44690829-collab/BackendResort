@@ -65,6 +65,12 @@ public class ReservationServiceImpl implements ReservationService {
 		return reservationmapper.getSearchResPageList(searchType, searchKeyword, startRow, pageSize);
 	}
 
+	// 리뷰 상태 업데이트 함수
+	@Override
+	public int reviewStatusMod() {
+		System.out.println("ReservationServiceImpl : reviewStatusMod() 메서드 확인");
+		return reservationmapper.reviewStatusMod();
+	}
 	@Override
 	public int deleteResercation(@RequestParam("re_code") int re_code) {
 		System.out.println("ReservationServiceImpl : deleteResercation(O*O) 메서드 확인");

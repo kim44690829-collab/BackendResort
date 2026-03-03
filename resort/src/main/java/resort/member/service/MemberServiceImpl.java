@@ -23,10 +23,10 @@ public class MemberServiceImpl implements MemberService {
 	//회원가입의 실패를 확인하는 상수
 	public final static int user_join_fail = 0;
 	
-	// 비밀번호 찾기를 했을때 회원이 있을때 상수
-	public final static int user_find_success = 1;
-	// 비밀번호 찾기를 했을때 회원이 없을때 상수
-	public final static int user_find_fail = 0;
+	// 비밀번호 찾기를 했을때 성공했을 때 상수
+	public final static int user_pwMod_success = 1;
+	// 비밀번호 찾기를 했을때 실패했을때 상수
+	public final static int user_pwMod_fail = 0;
 	
 	@Autowired
 	MemberMapper membermapper;
@@ -204,23 +204,24 @@ public class MemberServiceImpl implements MemberService {
 		System.out.println("MemberServiceImpl : getPagelist^(@-@)^ 메서드 확인");
 		return membermapper.adminUpdateMember(mdto);
 	}
-	// 2026-02-26 개인 한 사람의 정보를 검색하는 메소드 - 비밀번호 찾기용
-	@Override
-	public int getPwFind(String m_email, String m_phone) {
-		System.out.println("MemberServiceImpl : getPwFindooooooooo 메서드 확인");
-		
-		MemberDTO findMemberOne = membermapper.getPwFind(m_email, m_phone);
-		int result;
-		if(findMemberOne == null) {
-			result = user_find_fail;
-		}else {
-			result = user_find_success;
-		}
-		
-		
-		return result;
-	}
 
+	// 비밀번호 찾기 =================================================
+	@Override
+	public int pwFind(MemberDTO mdto) {
+
+	    // 새 비번 암호화 먼저
+	    mdto.setM_pw(passwordEncoder.encode(mdto.getM_pw()));
+	    
+	    System.out.println("이메일=[" + mdto.getM_email() + "]");
+	    System.out.println("전화번호=[" + mdto.getM_phone() + "]");
+
+	    // email+phone 조건으로 update
+	    int updated = membermapper.pwFind(mdto);
+	    System.out.println("updated@@@@@@@@@@@@@@@@@@@@@@@" + updated);
+
+	    return (updated == 1) ? user_pwMod_success : user_pwMod_fail;
+	}
+		
 	
 	
 }

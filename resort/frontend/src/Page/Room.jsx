@@ -13,7 +13,7 @@ export default function Room(){
         serchHandler,dateFilter,setDateFilter,hotelSort,setHotelSort,myhotel,setmyhotel,wish,wishStar,wishArray,wishHandler, guestCount, setGuestCount} = useContext(ResortDataContext);
     //const {selectDate,setSelectDate,setSelectday} = useContext(calendarAuth)
 
-
+        console.log('hotelMinPrice', hotelMinPrice)
     /* console.log(selectDate) */
     /* 필터 목록 */
     const filter_publicService = [{id:1,name:'피트니스'},{id:2,name:'레스토랑'},{id:3,name:'사우나'},{id:4,name:'실내수영장'},{id:5,name:'야외수영장'},{id:6,name:'편의점'},{id:7,name:'바'},{id:8,name:'라운지'},{id:9,name:'엘리베이터'},{id:10,name:'비즈니스센터'},{id:11,name:'건조기'},{id:12,name:'탈수기'},{id:13,name:'바베큐'}]
@@ -400,11 +400,7 @@ export default function Room(){
                                                 <span className="coupon">회원가입시 10,000원 할인쿠폰</span>
                                                 }
                                             </p>
-<<<<<<< HEAD
-                                            <p className="menu_price">{item.discount===1?Math.floor(hotelMinPrice[index].hotelPrice*0.9).toLocaleString():(Math.floor(hotelMinPrice[index].hotelPrice)).toLocaleString()}원</p>
-=======
                                             <p className="menu_price">{item.discount===1?Math.floor(hotelMinPrice[index]?.hotelPrice*0.9).toLocaleString():(Math.floor(hotelMinPrice[index]?.hotelPrice)).toLocaleString()}원</p>
->>>>>>> main
                                             
                                             
                                         </div>

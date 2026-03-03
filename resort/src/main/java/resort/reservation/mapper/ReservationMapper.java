@@ -46,6 +46,8 @@ public interface ReservationMapper {
 		@Param("pageSize") int pageSize
 	);
 	
+	// 리뷰 상태 업데이트 함수
+	public int reviewStatusMod();
 	// 비회원 예약 삭제
 	public int deleteResercation(@RequestParam("re_code") int re_code);
 	

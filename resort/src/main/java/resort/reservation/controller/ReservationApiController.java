@@ -142,5 +142,12 @@ public class ReservationApiController {
 	
 	
 	
+	// 리뷰 상태 업데이트
+	@PutMapping("/reservation/reviewStatusMod")
+	public int reviewStatusMod() {
+		System.out.println("MemberApiController : reviewStatusMod!!!!!!!!!! 메서드 확인");
+		return reservationservice.reviewStatusMod();
+	}
+	
 	
 }

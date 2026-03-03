@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 export default function HotelSection(){
     const navigation = useNavigate();
     // 받아온 데이터
-    const {HotelData, wish, wishHandler, hotelRatingAvgData, hotelMinPrice, Domestic, setDomestic} = useContext(ResortDataContext)
+    const {HotelData, hotelMerge, wish, wishHandler, hotelRatingAvgData, hotelMinPrice, Domestic, setDomestic} = useContext(ResortDataContext)
     const [moreSee1, setMoreSee1] = useState(9);
     const [seeBtn1, setSeeBtn1] = useState(0);
 
@@ -22,8 +22,8 @@ export default function HotelSection(){
     }
     
     // 국내 filter
-    const domesticHotel = HotelData.filter(item => item.country === 'Korea');
-    // const domesticHotelSort = [...domesticHotel].sort((a,b) => b.score - a.score);
+    const domesticHotel = hotelMerge.filter(item => item.country === 'Korea');
+    const domesticHotelSort = [...domesticHotel].sort((a,b) => b.hotelAvgScore - a.hotelAvgScore);
     // console.log('국내', domesticHotelSort)
 
     const clickHandeler = () => {
@@ -50,7 +50,7 @@ export default function HotelSection(){
                 <p className='HotelSection_title'>국내 숙소</p>
                 <div className='HotelSection_wrap'>
                     <ul className='HotelUl' >
-                        {domesticHotel.slice(0,moreSee1).map((item) => (
+                        {domesticHotelSort.slice(0,moreSee1).map((item) => (
                             <li key={item.h_code} style={{cursor:'pointer'}} className='HotelLi'>
                                 <Link to = {`/detail/${item.h_code}`} onClick={() => window.scrollTo(0,0)}>
                                     <img src={`/img/${item.h_Img}`} alt={item.hotelName} className='hotelSectionImg' style={{width:'280px', height:'169px'}} />
