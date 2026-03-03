@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 
 export default function AdminPage5(){
     
+    const {userEmail} = useContext(ResortDataContext)
 
     const [board,setBoard] = useState([]);
     const [ph,setPh] = useState({});
@@ -199,7 +200,7 @@ export default function AdminPage5(){
                                                 <td>{item.b_date.slice(0,10)}</td>
                                                 <td>{item.b_content}</td>
                                                 <td>{item.b_update.slice(0,10)}</td>
-                                                <td style={{width:"100px",overflow:"hidden"}}>{/* {item.b_upload} */}</td>
+                                                <td style={{width:"100px",overflow:"hidden"}}>{item.b_upload!==null?<img style={{height:"100px",width:"100px"}} src={`/boardImg/${item.b_upload}`} alt={`/boardImg/${item.b_upload}`} />:""}</td>
                                                 
                                             </tr>
                                         )

@@ -715,7 +715,7 @@ export default function HelpCenter(){
                              
                     }
                     {noticeNum ===0 && 
-                        <div className="paging" style={{width:"600px",marginTop:"10px"}}>
+                        <div className="paging" style={{width:"564px",marginTop:"10px"}}>
                                 {/* 페이지가 많을때 좌우 버튼 */}
                                 {ph.prev && (
                                     <button className="arrowbtn" onClick={() => setPage(ph.startPage - 1)}> ⇦  Prev</button>
