@@ -147,7 +147,7 @@ export default function Login(){
                             <input type="checkbox" id="rememberMail" name='rememberMail' onChange={emailChkHandeler} />
                             <label htmlFor="rememberMail">이메일 저장</label>
                         </div>
-                        <button type="button" className='remember_right' onClick={() => navigate("/findpw")}>비밀번호 찾기</button>
+                        <button type="button" className='remember_right' onClick={() => navigate("/forgot-password")}>비밀번호 찾기</button>
                     </div>
                     <button type="submit"
                      className='LoginBtn' 
