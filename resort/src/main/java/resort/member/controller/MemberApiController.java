@@ -89,11 +89,20 @@ public class MemberApiController {
 			@RequestParam(value="pageSize",defaultValue="10") int pageSize // 한 페이지당 보여줄 목록의 수
 			){
 		System.out.println("MemberApiController : memberList(@-@) 메서드 확인");
-		
+		System.out.println(searchKeyword);
+		System.out.println(searchType);
 		int totalCnt ;
 		
 		if(searchType != null && !searchKeyword.trim().isEmpty()) {
 			totalCnt=memberservice.getSearchCount(searchType, searchKeyword);
+		}else if(searchType == "gender" && searchKeyword.trim()=="남"){
+			System.out.println("성별 남자 확인용");
+			System.out.println(searchKeyword);
+			totalCnt=memberservice.getSearchCount(searchType, "0");
+		}else if(searchType == "gender" && searchKeyword.trim()=="여"){
+			System.out.println("성별 여자 확인용");
+			System.out.println(searchKeyword);
+			totalCnt=memberservice.getSearchCount(searchType, "1");
 		}else {
 			totalCnt=memberservice.getAllcount();
 		}
@@ -107,9 +116,9 @@ public class MemberApiController {
 		
 		if(searchType != null && !searchKeyword.trim().isEmpty()) {
 			// service 에서 SearchBoard
-			if(searchType == "gender" && searchKeyword == "남") {				
+			if("gender".equals(searchType) && "남".equals(searchKeyword)) {				
 				list = memberservice.getSearchPageList(searchType, "0", ph.getStartRow(), pageSize);				
-			}else if(searchType == "gender" && searchKeyword == "여") {
+			}else if("gender".equals(searchType) && "여".equals(searchKeyword)) {
 				list = memberservice.getSearchPageList(searchType, "1", ph.getStartRow(), pageSize);								
 			}else {
 				list = memberservice.getSearchPageList(searchType, searchKeyword, ph.getStartRow(), pageSize);				

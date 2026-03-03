@@ -62,6 +62,16 @@ export default function AdminPage2(){
         })
     } */
 
+        if(userEmail !== 'admin@resort.com'){
+        return(
+            <>
+                <div style={{margin:"400px auto",textAlign:"center"}}>
+                    <Link to={"/"}>홈으로 돌아가기</Link>
+
+                </div>
+            </>
+        )
+    }
     return(
         <>
             <div className="admin_wrap">
@@ -138,22 +148,22 @@ export default function AdminPage2(){
                         <div className="admin_text">호텔 정보 조회</div>
                         <div id="search_wrap">
                                 <form  onSubmit={submitHandler}>
-                                    <select  className="searchSelect" name="searchType" onChange={(e) => setSearchType(e.target.value)}>
-                                        <option value="hotelName">호텔명</option>
+                                    <select  className="searchSelect" name="searchType" value={searchType} onChange={(e) => setSearchType(e.target.value)}>
+                                        <option value="hotelName" selected>호텔명</option>
                                         <option value="country">국가</option>
                                         <option value="city">도시</option>
                                         <option value="type">숙소유형</option>
                                     </select>
                                     
-                                    <input className="searchbox" type="text" name="searchKeyword" placeholder="검색어를 입력하세요" onChange={(e) => setSerch(e.target.value)}/>
+                                    <input className="searchbox" type="text" name="searchKeyword" value={serch} placeholder="검색어를 입력하세요" onChange={(e) => setSerch(e.target.value)}/>
                                     <input type="submit" value="검색" className="searchBtn" onClick={()=>submitHandler()}/>
-                                    <input type="button" value="전체보기" className="searchBtn" onClick={()=>{setSearchKeyword(""),setSearchType("hotelName")}}/>
+                                    <input type="button" value="전체보기" className="searchBtn" onClick={()=>{setSearchKeyword(""),setSearchType("hotelName"),setSerch("")}}/>
                                 </form>
 					        </div>
                         <div className="admin_list">
-                            <table className="list_table">
+                            <table className="list_table" >
                                 <thead >
-                                    <tr>
+                                    <tr className="table_head">
                                         <th width="50px">Num</th>
                                         <th width="200px">호텔명</th>
                                         <th width="100px">국가</th>
@@ -168,7 +178,7 @@ export default function AdminPage2(){
                                 </thead>
                                 <tbody>
                                     {hotel.map((item,index)=>(
-                                        <tr key={index}>
+                                        <tr key={index} className="table_head">
                                             <td>{item.h_code}</td>
                                             <td>{item.hotelName}</td>
                                             <td>{item.country}</td>

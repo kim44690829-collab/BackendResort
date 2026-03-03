@@ -16,17 +16,20 @@
 }
 .admin_wrap .admin_header .menu_box{
     position: relative;
-    width: 150px;
-    background-color: #42799b;
+    width: 120px;
+    background-color: #ffffff;
+    border: 2px solid #81a6f5;
+    border-bottom: none;
     text-align: center;
-    margin-right: 8px;
-    padding: 20px 0;
+    margin-right: 4px;
+    padding: 10px 0;
     border-radius: 20px 20px 0 0;
+    color: #1a2867;
 }
 
 .admin_wrap .admin_header .menu_box .admin_menu{
-    font-size: 20px;
-    font-weight: 600;
+    font-size: 18px;
+    font-weight: 500;
     cursor: pointer;
 }
 .admin_wrap .admin_header .menu_box:hover .admin_submenu{
@@ -75,9 +78,10 @@
 }
 .admin_wrap .admin_body #search_wrap .searchbox{
     border: 2px solid #67b2de46;
-    border-radius: 20px;
-    height: 60px;
-    padding: 0 25px;
+    border-radius: 10px;
+    height: 50px;
+    padding: 0 15px;
+    box-sizing: border-box;
     margin-left: 10px;
     background-color: #fff;
 }
@@ -86,8 +90,8 @@
 }
 .admin_wrap .admin_body #search_wrap .searchSelect{
     border: 2px solid #67b2de46;
-    border-radius: 20px;
-    height: 60px;
+    border-radius: 5px;
+    height: 50px;
     padding: 0 40px 0 0;;
     background-color: #fff;
     width: 200px;
@@ -117,20 +121,33 @@
 .admin_wrap .admin_body .admin_list .list_table{
     margin: 30px auto;
     width: 1400px;
-    box-shadow: 1px 1px 3px #67b2de46;
+    box-shadow: 1px 1px 10px #c0c0c0;
     border-radius: 5px;
 }
+
+.admin_wrap .admin_body .admin_list .list_table .select{
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    min-width: 100px;
+    padding: 5px;
+}
 .admin_wrap .admin_body .admin_list .list_table .table_btn{
-    background-color: #e0eafd;
-    border: none;
+    background-color: #ffffff53;
+    border: 1px solid #3775ff;
     color: #3775ff;
-    padding: 15px 20px;
+    padding: 7px 10px;
     border-radius: 15px;
+    width: 85px;
+    height: 32px;
+    box-sizing: border-box;
 }
 
 .admin_wrap .admin_body .admin_list .list_table .table_btn:hover{
     font-weight: 700;
-    box-shadow: 1px 1px 5px #67b2de6e;
+    border: 2px solid #3775ff;
+    box-sizing: border-box;
+    
+
 }
 .admin_wrap .admin_body .admin_list .list_table th{
     font-weight: 600;
@@ -143,9 +160,19 @@
 }
 .admin_wrap .admin_body .admin_list .list_table th,
 .admin_wrap .admin_body .admin_list .list_table td{
-    text-align: center;
-    padding: 10px 0;
+    text-align: left;
+    padding: 10px 0px 10px 20px;
+    height: 60px;
 }
+.admin_wrap .admin_body .admin_list .list_table th>input[type = "text"],
+.admin_wrap .admin_body .admin_list .list_table td>input[type = "text"],
+.admin_wrap .admin_body .admin_list .list_table td>textarea{
+   border: 1px solid #ddd;
+   border-radius: 3px;
+   padding: 5px 10px;
+   width: 600px;
+}
+/* 주석 */
 .admin_wrap .admin_body .admin_list .admin_modal{
     position: fixed;
     top: 50%;
@@ -271,4 +298,61 @@
 .insertBtn:hover{font-weight: 700;
     background-color: #0155ff;
     color: #fff;
+}
+
+.admin_wrap .admin_body .admin_list .list_table .table_head >th,
+.admin_wrap .admin_body .admin_list .list_table .table_head >td{
+    text-align: center;
+    padding: 0;
+}
+.service_box .info_list >li{
+    margin-bottom: 18px;
+}
+.service_box .info_list >li>p>span{
+    display: inline-block;
+    width: 150px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.service_box .guset_table{
+    margin: 120px auto 10px;
+    box-shadow: 1px 1px 10px #c0c0c0;
+}
+.service_box .guset_table tr>th{
+    height: 70px;
+    padding: 15px;
+}
+.service_box .guset_table tr>th>input{
+    padding: 5px;
+    height: 50px;
+}
+.service_box .guset_table tr>th:first-child{
+    background-color: #e0eafd;
+    color: #1a2867;
+    font-weight: 600;
+}
+.service_box .guest_submit_box{
+    width: 490px;
+    margin: 0 auto;
+    text-align: center;
+}
+.service_box .guest_submit{
+    margin: 110px auto 50px;
+    border: none;
+    height: 50px;
+    padding: 0 10px;
+    margin-left: 10px;
+    width: 120px;
+    cursor: pointer;
+    font-weight: 500;
+    line-height: 40px;
+    border-radius: 10px;
+    border: 2px solid #0155ff;
+    background-color: #fff;
+    color: #0155ff;
+}
+
+.service_box .guest_submit:hover{
+    font-weight: 700;
 }
