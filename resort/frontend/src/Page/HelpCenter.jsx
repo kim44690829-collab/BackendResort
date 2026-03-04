@@ -95,6 +95,28 @@ export default function HelpCenter(){
         loadList();
     },[page,appliedKeyword,appliedSearchType,isMyList]);
 
+    //뒤로가기 기능추가
+    useEffect(() => {
+        const handlePopState = () => {
+            if(detailBoard || modifyBoard || writeBoard){
+                // 상세, 수정, 작성 화면이면 목록으로 복귀
+                setDetailBoard(false);
+                setModifyBoard(false);
+                setWriteBoard(false);
+                setReplStatus(false);
+                setListType(8);
+            }
+        };
+
+        window.addEventListener("popstate", handlePopState);
+
+        return () => {
+            window.removeEventListener("popstate", handlePopState);
+        };
+    }, [detailBoard, modifyBoard, writeBoard]);
+
+
+
     //전체 게시글 리스트 불러오기
     const loadList = () => {
         axios.get('/api/board/list', {
@@ -171,6 +193,9 @@ export default function HelpCenter(){
 
     //문의하기 클릭
     const writeButton = () => {
+        //뒤로가기 기능 추가        
+        window.history.pushState(null, "", window.location.href);
+        
         if(userEmail !== null){            
             setWriteBoard(true);
             setDetailBoard(false);
@@ -194,14 +219,14 @@ export default function HelpCenter(){
         setListType(8); setIsMyList(false);  setWriteBoard(false); setDetailBoard(false);setModifyBoard(false);setReplStatus(false);
         setSearchType('b_title'); setSearchKeyword(''); setAppliedKeyword(''); setAppliedSearchType('b_title');
         setPage(1); setWriter(userNickName);setTitle(''); setPassword(''); setBoardText(''); setFile(null); setDelState(false);loadList();
-        setReRef(0);setReRestep(0);setReLevel(0);
+        setReRef(0);setReRestep(0);setReLevel(0);setPreviewUrl(null);
     }
 
     //게시글 상세보기
     const detailView = (num) => {
-        // if(!userNickName || !userEmail){
-        //     return alert("로그인이 필요합니다");
-        // }
+        //뒤로가기 기능 추가        
+        window.history.pushState(null, "", window.location.href);
+
         
         axios.get('/api/board/boardInfo', {
 	        params: {
@@ -235,6 +260,9 @@ export default function HelpCenter(){
     }
     //게시글 수정버튼 클릭
     const modifyButton = () => {
+        //뒤로가기 기능 추가        
+        window.history.pushState(null, "", window.location.href);
+        
         if(userEmail !== null){            
             setWriteBoard(false);
             setDetailBoard(false);
@@ -301,7 +329,7 @@ export default function HelpCenter(){
                 alert("게시글 수정 완료");
                 detailView(detail.b_code);
             }else{
-                alert("게시글 수정 실패. 비밀번호를 다시 확인해주세요");
+                alert("비밀번호가 틀렸거나 본인 글이 아니면 수정할수 없습니다.");
             }
         })
         .catch((error) => {
@@ -366,7 +394,7 @@ export default function HelpCenter(){
                 setPassword('');
                 resetBoard();                 
             }else{
-                alert("게시글 삭제 실패. 비밀번호를 다시 확인해주세요");
+                alert("비밀번호가 틀렸거나 본인 글이 아니면 삭제할수 없습니다.");
             }
         })
         .catch((error) => {
@@ -486,6 +514,25 @@ export default function HelpCenter(){
     //글갯수 필터링(댓글제외)
     const parentPosts = boardList.filter(item => item.re_level === 0);
 
+    //다운로드 클릭시
+    const handleDownload = (fileName) => {
+        const link = document.createElement("a");
+        link.href = `/boardImg/${fileName}`;
+        link.download = fileName;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
+    //첨부파일 미리보기 상태
+    const [previewUrl, setPreviewUrl] = useState(null);
+
+    //첨부파일 확장자명 분류
+    const isImageFile = (fileName) => {
+        if (!fileName) return false;
+        const ext = fileName.toLowerCase().split('.').pop();
+        return ext === 'jpg' || ext === 'jpeg' || ext === 'png';
+    };
     
     return(
         <div className="helpCenter_container">
@@ -780,13 +827,30 @@ export default function HelpCenter(){
                                     </tr>
                                     <tr height="40">
                                         <td align="center" style={{ width: '150px' }}>글내용</td>
-                                        <td style={{ width: '450px' }}><textarea rows="10" cols="55" name="content" className="b_contents" value={boardText} onChange={(e) => setBoardText(e.target.value)}></textarea></td>
+                                        <td style={{ width: '561px' }}><textarea rows="10" cols="55" name="content" className="b_contents" value={boardText} onChange={(e) => setBoardText(e.target.value)}></textarea></td>
                                     </tr>
-                                    {/* 이미지 업로드 */}
+                                    {previewUrl && (
+                                        <tr height="40">
+                                            <td align="center" style={{ width: '150px' }}>미리보기</td>
+                                            <td style={{ width: '450px',padding:'10px' }}>
+                                                <img src={previewUrl} alt="미리보기" style={{ maxWidth: "30%"}}/>
+                                            </td>
+                                        </tr>
+                                    )}
+                                    {/* 파일 업로드 */}
                                     <tr height="40">
-                                        <td align="center" style={{ width: '150px',borderBottom:'0' }}>이미지</td>
+                                        <td align="center" style={{ width: '150px',borderBottom:'0' }}>첨부파일</td>
                                         <td style={{ width: '450px',border:'0' }}>
-                                            <input type="file" name="upload" onChange={(e) => setFile(e.target.files[0])} style={{border:'0',lineHeight:'37px',cursor:'pointer'}} />
+                                            <input type="file" name="upload" style={{ border:'0' }} onChange={(e) => {
+                                                    const selectedFile = e.target.files[0];
+                                                    setFile(selectedFile);
+
+                                                    if (selectedFile && selectedFile.type.startsWith("image/")) {
+                                                    setPreviewUrl(URL.createObjectURL(selectedFile));
+                                                    } else {
+                                                    setPreviewUrl(null);
+                                                    }
+                                            }}/>
                                         </td>
                                     </tr>
                                     <tr height="40" className='ans_btn'>
@@ -796,7 +860,7 @@ export default function HelpCenter(){
                                         ):(
                                             <input type="button" onClick={replySubmit} value="확인" />
                                         )}
-                                        <input type="button" onClick={resetBoard} value="전체목록" />
+                                        <input type="button" onClick={resetBoard} value="취소" />
                                         </td>
                                     </tr>
                                 </tbody>
@@ -820,7 +884,7 @@ export default function HelpCenter(){
                             </button>
                             {!(userEmail == "" || userEmail == null) &&
                                 <button type="button" className="sportBtn" onClick={()=>{myloadList();}}>
-                                    <i class="fa-solid fa-list" style={{color:'#42799b'}}></i> 나의 문의글
+                                    <i class="fa-regular fa-user" style={{color:'#42799b'}}></i> 나의 문의글
                                 </button>
                             }                        
                         </div>
@@ -864,7 +928,7 @@ export default function HelpCenter(){
                                         {item.b_writer}
                                     </td>
                                     <td>
-                                        {formatDateTime(item.b_date)}
+                                        {formatDateTime(item.b_date).slice(0, 10)}
                                     </td>
                                     <td>
                                         {item.readcount}
@@ -943,7 +1007,8 @@ export default function HelpCenter(){
                         <button type="button" className="btn searchBtn" onClick={handleSearch} >
                             <i class="fa-solid fa-magnifying-glass" style={{color:'#42799b'}}></i> 검색</button>
                         <button type="button" className="btn searchBtn" onClick={resetBoard} >
-                            <i class="fa-solid fa-arrow-rotate-right" style={{color:'#42799b'}}></i> 초기화</button>
+                            <i class="fa-solid fa-list" style={{color:'#42799b'}}></i> 전체목록
+                        </button>
                     </div>                    
                 </div>
             )}
@@ -982,17 +1047,26 @@ export default function HelpCenter(){
                                         <td align="center" style={{ width: '150px' }}>글내용</td>
                                         <td style={{ width: '100%' }}>{detail.b_content}</td>
                                     </tr>
-                                    {/* 이미지 업로드 */}
+                                                                          
+                                    {/* 첨부파일 업로드시 */}
+                                    {detail.b_upload && isImageFile(detail.b_upload) && (
+                                        <tr height="40">
+                                            <td align="center" style={{ width: '150px' }}>미리보기</td>
+                                            <td style={{ width: '100%',padding:'10px' }}>
+                                                <img src={`/boardImg/${detail.b_upload}`} alt="첨부이미지"
+                                                    style={{ maxWidth: "30%", borderRadius: "6px" }}
+                                                />
+                                            </td>
+                                        </tr>
+                                    )}
+                                    {/* 파일 업로드 */}
                                     <tr height="40">
                                         <td align="center" style={{ width: '150px',borderBottom:'0' }}>첨부파일</td>
                                         <td style={{ width: '100%',borderBottom:'0' }}>
                                             {detail.b_upload ? (
-                                                <a 
-                                                href={`http://localhost:5173/boardImg/${detail.b_upload}`} 
-                                                download
-                                                >
-                                                {detail.b_upload}
-                                                </a>
+                                                <button className='download' onClick={() => handleDownload(detail.b_upload)}>
+                                                    <i class="fa-solid fa-download"></i> {detail.b_upload}
+                                                </button>
                                             ) : (
                                                 "첨부파일 없음"
                                             )}
@@ -1008,9 +1082,7 @@ export default function HelpCenter(){
                                     </tr>)}
                                     <tr height="40" className='ans_btn'>
                                         <td align="center" colSpan="2" style={{backgroundColor:'#fff', border:'0'}}>
-                                        {userEmail !== "admin@resort.com" ? (
                                         <input type="button" onClick={modifyButton} value="수정하기" />
-                                        ):null}
                                         {/* 삭제하기 눌렀을때 관리자가 아니면 비밀번호 입력 */}
                                         {!delState && userEmail !== "admin@resort.com" &&
                                             <input type="button" onClick={deleteButton} value="삭제하기" />
@@ -1025,13 +1097,13 @@ export default function HelpCenter(){
                                         {!isMyList &&
                                             <>
                                                 <input type="button" onClick={()=>{resetBoard();setPage(page);}} value="이전으로" />
-                                                <input type="button" onClick={resetBoard} value="전체목록" />
+                                                {/* <input type="button" onClick={resetBoard} value="전체목록" /> */}
                                             </>
                                         }
                                         {isMyList &&
                                             <>
                                                 <input type="button" onClick={()=>{resetBoard();setIsMyList(true);setPage(page);}} value="이전으로" />
-                                                <input type="button" onClick={resetBoard} value="전체목록" />
+                                                {/* <input type="button" onClick={resetBoard} value="전체목록" /> */}
                                             </>
                                         }
                                         </td>
@@ -1068,19 +1140,28 @@ export default function HelpCenter(){
                                     </tr>
                                     <tr height="40">
                                         <td align="center" style={{ width: '150px' }}>글내용</td>
-                                        <td style={{ width: '450px' }}><textarea rows="10" cols="55" name="content" className="b_contents" value={boardText} onChange={(e) => setBoardText(e.target.value)}></textarea></td>
+                                        <td style={{ width: '561px' }}>
+                                            <textarea rows="10" cols="55" name="content" className="b_contents" value={boardText} onChange={(e) => setBoardText(e.target.value)}></textarea>                                        
+                                        </td>
                                     </tr>
-                                    {/* 이미지 업로드 */}
+                                    
+                                    {previewUrl && (
+                                        <tr height="40">
+                                            <td align="center" style={{ width: '150px' }}>미리보기</td>
+                                            <td style={{ width: '450px',padding:'10px' }}>
+                                                <img src={previewUrl} alt="미리보기" style={{ maxWidth: "30%"}}/>
+                                            </td>
+                                        </tr>
+                                    )}
+
+                                    {/* 파일 업로드 */}
                                     <tr height="40">
                                         <td align="center" style={{ width: '150px' }}>첨부파일</td>
                                         <td style={{ width: '450px' }}>
                                             {detail.b_upload ? (
-                                                <a 
-                                                href={`http://localhost:5173/boardImg/${detail.b_upload}`} 
-                                                download
-                                                >
-                                                {detail.b_upload}
-                                                </a>
+                                                <button className='download' onClick={() => handleDownload(detail.b_upload)}>
+                                                    <i class="fa-solid fa-download"></i> {detail.b_upload}
+                                                </button>
                                             ) : (
                                                 "첨부파일 없음"
                                             )}
@@ -1089,7 +1170,17 @@ export default function HelpCenter(){
                                     <tr height="40">
                                         <td align="center" style={{ width: '150px',borderBottom:'0' }}>변경할 파일</td>
                                         <td style={{ width: '450px',border:'0' }}>
-                                            <input type="file" name="upload" onChange={(e) => setFile(e.target.files[0])} style={{ border:'0' }}/>
+                                            {/* <input type="file" name="upload" onChange={(e) => setFile(e.target.files[0])} style={{ border:'0' }}/> */}
+                                            <input type="file" name="upload" style={{ border:'0' }} onChange={(e) => {
+                                                    const selectedFile = e.target.files[0];
+                                                    setFile(selectedFile);
+
+                                                    if (selectedFile && selectedFile.type.startsWith("image/")) {
+                                                    setPreviewUrl(URL.createObjectURL(selectedFile));
+                                                    } else {
+                                                    setPreviewUrl(null);
+                                                    }
+                                            }}/>
                                         </td>
                                     </tr>
                                     <tr height="40" className='ans_btn'>

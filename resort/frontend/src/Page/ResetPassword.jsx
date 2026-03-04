@@ -1,14 +1,9 @@
-import { useContext, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from "axios";
-import { ResortDataContext } from '../Api/ResortData';
-import { Link } from 'react-router-dom';
 import { useSearchParams,useNavigate } from 'react-router-dom';
+import './ResetPassword.css';
 
 export default function ResetPassword(){
-    //const navigation = useNavigate();
-    // 받아온 데이터
-    //const {HotelData, wish, wishHandler, hotelRatingAvgData, hotelMinPrice, Domestic, setDomestic} = useContext(ResortDataContext);
-
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
 
@@ -45,19 +40,19 @@ export default function ResetPassword(){
     };
 //
     return (
-        <div style={{margin:'200px auto 60px',width:'fit-content'}}>
-        <h2>새 비밀번호 설정</h2>
+        <div className='resetPass'>
+            <h2>새 비밀번호 설정</h2>
 
-        <input
-            type="password"
-            placeholder="새 비밀번호 입력"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-        />
+            <input
+                type="password"
+                placeholder="새 비밀번호 입력"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+            />
 
-        <button onClick={changePassword}>비밀번호 변경</button>
+            <button onClick={changePassword}>비밀번호 변경</button>
 
-        {message && <p>{message}</p>}
+            {message && <p>{message}</p>}
         </div>
     );
 }

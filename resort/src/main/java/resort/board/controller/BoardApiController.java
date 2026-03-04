@@ -166,80 +166,172 @@ public class BoardApiController {
 	// 게시글의 수정
 	@PutMapping("/board/update")
 	public boolean boardUpdate(BoardDTO bdto,
-			@RequestParam(value="upload", required=false) MultipartFile upload,
-			HttpSession session
-			)throws IllegalStateException, IOException {
-		System.out.println("BoardApiController boardUpdate() 메소드호출");	
-		
-		String savePath = "c:/resort2026/resort/frontend/public/boardImg";
+	        @RequestParam(value="upload", required=false) MultipartFile upload,
+	        HttpSession session
+	        ) throws IllegalStateException, IOException {
 
-		File saveDir = new File(savePath);
-		if(!saveDir.exists()) {
-			saveDir.mkdirs(); 
-		}
-		
-		MemberDTO loginedMember = (MemberDTO)session.getAttribute("loginUser");
-		if(loginedMember == null) return false;
-		
-		// bdto에 m_code 세팅
-	    bdto.setM_code(loginedMember.getM_code());
+	    System.out.println("BoardApiController boardUpdate() 메소드호출");    
 
-	    // 기존 게시글 조회 (b_code + m_code)
-	    BoardDTO original = boardservice.getOneBoard(bdto,loginedMember);
-		
+	    String savePath = "c:/resort2026/resort/frontend/public/boardImg";
+
+	    File saveDir = new File(savePath);
+	    if(!saveDir.exists()) {
+	        saveDir.mkdirs(); 
+	    }
+
+	    MemberDTO loginedMember = (MemberDTO)session.getAttribute("loginUser");
+	    if(loginedMember == null) return false;
+
+	    boolean isAdmin = "admin@resort.com".equals(loginedMember.getM_email());
+
+	    BoardDTO original;
+
+	    if(isAdmin) {
+	        // 관리자는 m_code 조건 없이 조회
+	        original = boardservice.getBoardByBcode(bdto);
+	    } else {
+	        // 일반회원은 본인글만 조회
+	        bdto.setM_code(loginedMember.getM_code());
+	        original = boardservice.getOneBoard(bdto, loginedMember);
+	    }
+
 	    if(original == null) {
-	    	// 본인 글 아니거나 존재 안함
-	    	System.out.println("수정실패");
+	        System.out.println("수정실패");
 	        return false;
 	    }
-	    
-	    // 비밀번호 체크
-	    if(!original.getB_pw().equals(bdto.getB_pw())) {
-	    	System.out.println("비밀번호가 맞지 않습니다");
-	        return false;
+
+	    // 🔥 일반회원만 비밀번호 체크
+	    if(!isAdmin) {
+	        if(!original.getB_pw().equals(bdto.getB_pw())) {
+	            System.out.println("비밀번호가 맞지 않습니다");
+	            return false;
+	        }
 	    }
-	    
-	    // 기존 파일명 가져오기
+
 	    String oldFileName = original.getB_upload();
-	    
-	    // 새 파일이 선택된 경우
-		if(upload != null && !upload.isEmpty()) { 
-			// 기존 파일 삭제
+
+	    // 새 파일 선택한 경우
+	    if(upload != null && !upload.isEmpty()) {
+
 	        if(oldFileName != null) {
 	            File oldFile = new File(savePath + "/" + oldFileName);
 	            if(oldFile.exists()) {
 	                oldFile.delete();
 	            }
 	        }
-			
-	        // 새 파일 저장
-			String originalName = upload.getOriginalFilename();
-			String saveName = UUID.randomUUID().toString().subSequence(0, 6) + "_" + originalName;
-			
-			File newFile  = new File(savePath + "/" + saveName);
-			
-			upload.transferTo(newFile ); 			
-			//DB에 저장할 파일명 DTO에 세팅
-			bdto.setB_upload(saveName);
-		}else {
-			// 새 파일 선택 안 했으면 기존 파일 유지
+
+	        String originalName = upload.getOriginalFilename();
+	        String saveName = UUID.randomUUID().toString().substring(0, 6) + "_" + originalName;
+
+	        File newFile  = new File(savePath + "/" + saveName);
+	        upload.transferTo(newFile);
+
+	        bdto.setB_upload(saveName);
+
+	    } else {
 	        bdto.setB_upload(oldFileName);
-		}	
-		
-		boolean isSuccess = boardservice.updateBoard(bdto);
-		
-		return isSuccess;
+	    }
+
+	    // 🔥 관리자는 m_code 조건 없이 수정
+	    if(isAdmin) {
+	        return boardservice.adminUpdateBoard(bdto);
+	    } else {
+	        bdto.setM_code(loginedMember.getM_code());
+	        return boardservice.updateBoard(bdto,loginedMember);
+	    }
 	}
-	
+//	@PutMapping("/board/update")
+//	public boolean boardUpdate(BoardDTO bdto,
+//			@RequestParam(value="upload", required=false) MultipartFile upload,
+//			HttpSession session
+//			)throws IllegalStateException, IOException {
+//		System.out.println("BoardApiController boardUpdate() 메소드호출");	
+//		
+//		String savePath = "c:/resort2026/resort/frontend/public/boardImg";
+//
+//		File saveDir = new File(savePath);
+//		if(!saveDir.exists()) {
+//			saveDir.mkdirs(); 
+//		}
+//		
+//		MemberDTO loginedMember = (MemberDTO)session.getAttribute("loginUser");
+//		if(loginedMember == null) return false;
+//		
+//		// bdto에 m_code 세팅
+//	    bdto.setM_code(loginedMember.getM_code());
+//
+//	    // 기존 게시글 조회 (b_code + m_code)
+//	    BoardDTO original = boardservice.getOneBoard(bdto,loginedMember);
+//		
+//	    if(original == null) {
+//	    	// 본인 글 아니거나 존재 안함
+//	    	System.out.println("수정실패");
+//	        return false;
+//	    }
+//	    
+//	    // 비밀번호 체크
+//	    if(!original.getB_pw().equals(bdto.getB_pw())) {
+//	    	System.out.println("비밀번호가 맞지 않습니다");
+//	        return false;
+//	    }
+//	    
+//	    // 기존 파일명 가져오기
+//	    String oldFileName = original.getB_upload();
+//	    
+//	    // 새 파일이 선택된 경우
+//		if(upload != null && !upload.isEmpty()) { 
+//			// 기존 파일 삭제
+//	        if(oldFileName != null) {
+//	            File oldFile = new File(savePath + "/" + oldFileName);
+//	            if(oldFile.exists()) {
+//	                oldFile.delete();
+//	            }
+//	        }
+//			
+//	        // 새 파일 저장
+//			String originalName = upload.getOriginalFilename();
+//			String saveName = UUID.randomUUID().toString().subSequence(0, 6) + "_" + originalName;
+//			
+//			File newFile  = new File(savePath + "/" + saveName);
+//			
+//			upload.transferTo(newFile ); 			
+//			//DB에 저장할 파일명 DTO에 세팅
+//			bdto.setB_upload(saveName);
+//		}else {
+//			// 새 파일 선택 안 했으면 기존 파일 유지
+//	        bdto.setB_upload(oldFileName);
+//		}	
+//		
+//		boolean isSuccess = boardservice.updateBoard(bdto);
+//		
+//		return isSuccess;
+//	}
+//	
 	// 하나의 게시글을 삭제하는 컨트롤러
 	@DeleteMapping("/board/delete")
-	public int boardDelete(BoardDTO bdto) {
-		System.out.println("BoardApiController boardDelete() 메소드호출");
-		//삭제된 갯수(댓글포함) 반환
-		int isSuccess = boardservice.deleteBoard(bdto);
-		
-		return isSuccess;
+	public int boardDelete(BoardDTO bdto, HttpSession session) {
+
+	    MemberDTO loginedMember = (MemberDTO)session.getAttribute("loginUser");
+
+	    if(loginedMember == null) {
+	        return 0;
+	    }
+
+	    // 로그인 회원코드 세팅
+	    bdto.setM_code(loginedMember.getM_code());
+
+	    int isSuccess = boardservice.deleteBoard(bdto);
+
+	    return isSuccess;
 	}
+//	@DeleteMapping("/board/delete")
+//	public int boardDelete(BoardDTO bdto) {
+//		System.out.println("BoardApiController boardDelete() 메소드호출");
+//		//삭제된 갯수(댓글포함) 반환
+//		int isSuccess = boardservice.deleteBoard(bdto);
+//		
+//		return isSuccess;
+//	}
 	
 	
 	// 관리자 페이지 에서 사용하는 리스트 

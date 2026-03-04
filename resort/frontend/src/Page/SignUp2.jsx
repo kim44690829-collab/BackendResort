@@ -96,6 +96,7 @@ export default function SignUp2(){
                     color: mouseCursor2 ? '#fff' : '#a5a5a5ff',
                     border:'none'
                     }} >인증번호 전송</button>}
+                <p style={{color:'red'}}>* 임시 인증번호 : 1111</p>
             </form>
         </div>
     )
