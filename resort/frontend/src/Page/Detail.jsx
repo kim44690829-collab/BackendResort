@@ -16,7 +16,7 @@ export default function Detail(){
     const navigate = useNavigate();
 
     //호텔,객실,찜,예약날짜,예약인원,예약객실 데이터  
-    const {RoomData,HotelData,ReviewData, setHotelNum, RatingData, RatingAvgData, setReviewData, WishAvg, DayData,wish,wishStar,wishArray,wishHandler,setPayHead, guestCount, setGuestCount
+    const {RoomData,HotelData,ReviewData, setRender,render, setHotelNum, RatingData, RatingAvgData, setReviewData, WishAvg, DayData,wish,wishStar,wishArray,wishHandler,setPayHead, guestCount, setGuestCount
         // setPayRoom
     } = useContext(ResortDataContext);
     //모달 프로바이더
@@ -35,6 +35,10 @@ export default function Detail(){
     const year = new Date().getFullYear()
     const month = new Date().getMonth()
     const date = new Date().getDate()
+
+    useEffect(() => {
+        setRender(!render);
+    },[])
    
     
     //호텔별점 이미지
@@ -90,7 +94,7 @@ export default function Detail(){
     if(!Hotel) return <p>호텔 정보가 없습니다.</p>
     //호텔코드 비교
     const Room = RoomData.filter((item)=>item.h_code === Hotel.h_code);
-    // console.log('rooooooooooooooooooom', Room);
+    console.log('rooooooooooooooooooom', Room);
     //예외처리
     if (Room.length === 0) return <p>객실 정보가 없습니다.</p>;
     console.log(Room)
