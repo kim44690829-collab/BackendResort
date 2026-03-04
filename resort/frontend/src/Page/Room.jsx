@@ -107,11 +107,7 @@ export default function Room(){
             }).filter(Boolean) */
             sorted =pricefilter.sort((a,b) => b.hotelAvgScore - a.hotelAvgScore)
         }else if(hotelSort===3){
-            /* HotelRatingDate.sort((a,b) => a.h_rating - b.h_rating)
-            console.log(HotelRatingDate)
-            sorted = HotelRatingDate.map((item2) => {
-                return pricefilter.find((item1) => item1.h_code === item2.r_h_code)
-            }).filter(Boolean) */
+            
             sorted =pricefilter.sort((a,b) => a.hotelAvgScore - b.hotelAvgScore)
         }else if(hotelSort===4){
             sorted =pricefilter.sort((a,b) => b.minPrice - a.minPrice)
@@ -400,13 +396,13 @@ export default function Room(){
                                                 {item.discount===1?
                                                 <span className="disC">
                                                     <span className="s_box">10%할인</span>
-                                                    <span className="p_box">{hotelMinPrice[index].hotelPrice.toLocaleString()}원</span>
+                                                    <span className="p_box">{item?.minPrice.toLocaleString()}원</span>
                                                 </span>
                                                 :
                                                 <span className="coupon">회원가입시 10,000원 할인쿠폰</span>
                                                 }
                                             </p>
-                                            <p className="menu_price">{item.discount===1?Math.floor(hotelMinPrice[index]?.hotelPrice*0.9).toLocaleString():(Math.floor(hotelMinPrice[index]?.hotelPrice)).toLocaleString()}원</p>
+                                            <p className="menu_price">{item.discount===1?Math.floor(item?.minPrice*0.9).toLocaleString():(Math.floor(item?.minPrice)).toLocaleString()}원</p>
                                             
                                             
                                         </div>
@@ -425,7 +421,7 @@ export default function Room(){
                             )
                             
                             })
-                            : <h2 style={{textAlign:'center',fontSize:'20px',fontWeight:600,marginTop:'60px'}}>{DayData.length<2?'원하시는 일자를 선택해 주세요':'검색된 상품이 없습니다.'}</h2>}
+                            : <h2 style={{textAlign:'center',fontSize:'20px',fontWeight:600,marginTop:'100px',marginBottom:"150px",borderBottom:"1px solid #ccc",paddingBottom:"100px"}}>{DayData.length<2?'원하시는 일자를 선택해 주세요':'검색된 상품이 없습니다.'}</h2>}
                     </ul>
                 </div>
             </div>

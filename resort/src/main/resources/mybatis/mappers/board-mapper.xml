@@ -174,7 +174,7 @@
  -->
 <update id="reSqUpdate" parameterType="BoardDTO">
 	UPDATE board SET re_step = re_step + 1
-	WHERE ref = #{ref} AND re_step > #{re_step}
+	WHERE ref = #{ref} AND re_step &gt; #{re_step}
 	<!-- ref(원글번호)가 같고, re_step(댓글번호)가 1(기본값)보다 큰게 있으면 +1시킴 (1은 원글)  --> 
 </update>
 

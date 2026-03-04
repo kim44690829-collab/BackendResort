@@ -13,7 +13,10 @@ export default function AdminPage5(){
     const [page, setPage] = useState(1);
     const [searchType, setSearchType] = useState("m_code");
     const [searchKeyword, setSearchKeyword] = useState("");
-    const [serch,setSerch] = useState("")
+    const [serch,setSerch] = useState("");
+    const [isInfo,setIsInfo] = useState(false);
+    const [num,setNum] = useState(0);
+    
     useEffect(()=>{
         axios.get('/api/board/adminlist',{
             params: {
@@ -164,49 +167,112 @@ export default function AdminPage5(){
                                     
                                     <input className="searchbox" type="text" name="searchKeyword"  value={serch} placeholder="검색어를 입력하세요" onChange={(e) => setSerch(e.target.value)}/>
                                     <input type="submit" value="검색" className="searchBtn" onClick={()=>submitHandler()}/>
-                                    <input type="button" value="전체보기" className="searchBtn" onClick={()=>{setSearchKeyword(""),setSearchType("phone"),setSerch("")}}/>
+                                    <input type="button" value="전체보기" className="searchBtn" onClick={()=>{setSearchKeyword(""),setSearchType("phone"),setSerch(""),setPage(1)}}/>
                                 </form>
 					        </div>
                         <div className="admin_list">
                             <table className="list_table" >
                                 <thead >
                                     <tr className="table_head">
-                                        <th >Num</th>
-                                        <th style={{width:"60px"}}>회원번호</th>
+                                        <th style={{width:"5%"}}>Num</th>
+                                        <th style={{width:"40%"}}>제목</th>
+                                        <th style={{width:"20%"}}>작성자명</th>
+                                        <th style={{width:"15%"}}>작성일자</th>
+                                        <th style={{width:"10%"}}>상세보기</th>
+                                        <th style={{width:"10%"}}>답글여부</th>
+                                        {/* <th style={{width:"60px"}}>회원번호</th>
                                         <th style={{width:"250px"}}>제목</th>
-                                        <th style={{width:"150px"}}>작성자명</th>
                                         <th style={{width:"100px"}}>문의비밀번호</th>
                                         <th style={{width:"80px"}}>조회수</th>
-                                        <th style={{width:"120px"}}>작성일자</th>
                                         <th style={{width:"160px"}}>문의내용</th>
                                         <th style={{width:"120px"}}>수정일자</th>
-                                        <th style={{width:"300px",overflow:"hidden"}}>문의 이미지</th>
+                                        <th style={{width:"300px",overflow:"hidden"}}>문의 이미지</th> */}
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {board.map((item,index)=>{
-                                        const member_birth = new Date(item.m_birth)
-                                        const birth_Date = member_birth.toLocaleDateString('ko-KR')
-                                        const member_reg = new Date(item.m_regDate)
-                                        const reg_Date = member_reg.toLocaleString('ko-KR')
                                         return(
                                             <tr key={index} className="table_head">
-                                                <td>{item.re_step === 2?`${item.ref}번 답글`:item.ref}</td>
-                                                <td>{item.m_code}</td>
-                                                <td>{item.b_title}</td>
-                                                <td>{item.b_writer}</td>
-                                                <td>{item.b_pw}</td>
-                                                <td>{item.readcount}</td>
-                                                <td>{item.b_date.slice(0,10)}</td>
-                                                <td>{item.b_content}</td>
-                                                <td>{item.b_update.slice(0,10)}</td>
-                                                <td style={{width:"100px",overflow:"hidden"}}>{/* {item.b_upload} */}</td>
-                                                
+                                                {item.re_step ===1?
+                                                    <>
+                                                        <td>{item.re_step === 2?`${item.ref}번 답글`:item.ref}</td>
+                                                        <td>{item.b_title}</td>
+                                                        <td>{item.b_writer}</td>
+                                                        <td>{item.b_date.slice(0,10)}</td>
+                                                        <td>
+                                                            <button type="button" className="table_btn"  onClick={()=>{setIsInfo(!isInfo),setNum(index)}}>상세보기</button>
+                                                        </td>
+                                                        <td>
+                                                            {board.find((f)=>f.ref === item.ref && f.re_step === 2)===undefined?"":"답글 작성 완료"}
+                                                        </td>
+                                                    </>
+                                                    :
+                                                    <></>
+                                                }
                                             </tr>
                                         )
                                     })}
                                 </tbody>
                             </table>
+                            {isInfo && <div className="admin_modal">
+                                        
+                                            <button type="button" onClick={()=>setIsInfo(!isInfo)} className="closeBtn">✖</button>
+                                            <h2 style={{fontWeight:600,fontSize:"30px",margin:"0 auto 30px",borderBottom:"2px solid #cececeff",width:"900px",paddingBottom:"30px"}}>1대1 문의 상세</h2>
+                                            
+                                            <div className="service_box">
+                                                <ul className="info_list">
+                                                    <li>
+                                                        <span>문의 번호 : </span>  <span style={{display:"inline-block",width:"300px"}}>{board[num].ref}</span>
+                                                    </li>
+                                                    <li>
+                                                        <span>제목 : </span>  <span style={{display:"inline-block",width:"300px"}}>{board[num].b_title}</span>
+                                                    </li>
+                                                    <li>
+                                                        <span>비밀번호 : </span>  <span style={{display:"inline-block",width:"300px"}}>{board[num].b_pw}</span>
+                                                        <span>조회수 : </span>  <span style={{display:"inline-block",width:"300px"}}>{board[num].readcount}</span>
+                                                    </li>
+                                                    <li>
+                                                        <span>작성일자 : </span>  <span style={{display:"inline-block",width:"300px"}}>{board[num].b_date.slice(0,10)}</span> 
+                                                        <span>수정일자 : </span>  <span style={{display:"inline-block",width:"300px"}}>{board[num].b_update.slice(0,10)}</span>
+                                                    </li>
+                                                    <li style={{margin:"40px 0 0 0"}}>
+                                                        <table style={{width:"900px"}}>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td style={{width:"15%",height:"180px"}}><span>내용 </span></td>
+                                                                    <td style={{width:"85%",height:"180px",backgroundColor:"#e1eaf371",paddingLeft:"15px"}}>
+                                                                        <span style={{display:"inline-block",width:"300px"}}>{board[num].b_content}</span>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </li>
+                                                    
+                                                    
+                                                </ul>
+                                            </div>
+                                            <div className="service_box" style={{marginTop:"20px"}}>
+                                                <table style={{width:"900px"}}>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td style={{width:"15%",height:"180px"}}><span>답글내용  </span></td>
+                                                            {board.map((item,index)=>(
+                                                                item.re_step === 2 && item.ref === board[num].ref
+                                                                ?
+                                                                <td style={{width:"85%" ,height:"180px",backgroundColor:"#e1eaf371",paddingLeft:"15px"}} key={index}>
+                                                                    <span style={{display:"inline-block"}}>{item.b_content}</span>
+                                                                </td>
+                                                                :
+                                                                <>
+                                                                    
+                                                                </>
+                                                            ))}
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    }
                             <div className="paging">
                                 {/* 페이지가 많을때 좌우 버튼 */}
                                 {ph.prev && (

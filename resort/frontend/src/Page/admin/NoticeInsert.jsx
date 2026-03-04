@@ -9,6 +9,8 @@ import { useNavigate } from "react-router-dom";
 export default function NoticeInsert(){
     const {userEmail} = useContext(ResortDataContext);
 
+    const {userEmail} = useContext(ResortDataContext)
+
     const [textarea,setTextarea] = useState('')
     const [notice,setNotice] = useState('')
 

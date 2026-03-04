@@ -774,7 +774,7 @@ export default function HelpCenter(){
                              
                     }
                     {noticeNum ===0 && 
-                        <div className="paging" style={{width:"600px",marginTop:"10px"}}>
+                        <div className="paging" style={{width:"564px",marginTop:"10px"}}>
                                 {/* 페이지가 많을때 좌우 버튼 */}
                                 {ph.prev && (
                                     <button className="arrowbtn" onClick={() => setPage(ph.startPage - 1)}> ⇦  Prev</button>
@@ -793,7 +793,7 @@ export default function HelpCenter(){
                                     <p>{noticelist[noticeNum-1].n_title}</p>
                                     <p className='notice-date'>작성일 : {noticelist[noticeNum-1].n_date.slice(0,10)}</p>
                                 </div>
-                                <div className='notice-contents' style={{whiteSpace:"pre-wrap"}}>
+                                <div className='notice-contents' style={{whiteSpace:"pre-wrap",backgroundColor:"#42799b0e",borderBottom:"1px solid #333",padding:"50px 10px",margin:"0"}}>
                                     {noticelist[noticeNum-1].n_content}
                                 </div>
                                 <button type='button' className='noticeContentsBtn' onClick={()=>setNoticeNum(0)}>목록 보기</button>

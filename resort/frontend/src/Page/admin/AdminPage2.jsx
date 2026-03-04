@@ -8,7 +8,7 @@ export default function AdminPage2(){
 
     const {userEmail} = useContext(ResortDataContext)
     
-
+    const {userEmail} = useContext(ResortDataContext)
     const [hotel,setHotel] = useState([]);
     const [ph,setPh] = useState({});
     const [page, setPage] = useState(1);
@@ -159,7 +159,7 @@ export default function AdminPage2(){
                                     
                                     <input className="searchbox" type="text" name="searchKeyword" value={serch} placeholder="검색어를 입력하세요" onChange={(e) => setSerch(e.target.value)}/>
                                     <input type="submit" value="검색" className="searchBtn" onClick={()=>submitHandler()}/>
-                                    <input type="button" value="전체보기" className="searchBtn" onClick={()=>{setSearchKeyword(""),setSearchType("hotelName"),setSerch("")}}/>
+                                    <input type="button" value="전체보기" className="searchBtn" onClick={()=>{setSearchKeyword(""),setSearchType("hotelName"),setSerch(""),setPage(1)}}/>
                                 </form>
 					        </div>
                         <div className="admin_list">
@@ -198,7 +198,7 @@ export default function AdminPage2(){
                             {isInfo && <div className="admin_modal">
                                         
                                             <button type="button" onClick={()=>setIsinfo(!isInfo)} className="closeBtn">✖</button>
-                                            <div className="img_box">
+                                            <div className="img_box" style={{marginTop:"20px"}}>
                                                 <img src={`/img/${hotel[num].h_Img}`} alt={`/img/${hotel[num].h_Img}`} />
                                                 <img src={`/img/${hotel[num].h_s_Img1}`} alt={`/img/${hotel[num].h_Img}`} />
                                                 <img src={`/img/${hotel[num].h_s_Img2}`} alt={`/img/${hotel[num].h_Img}`} />
@@ -241,7 +241,7 @@ export default function AdminPage2(){
                                                 </ul>
                                             </div>
                                             <Link to={`/hotelUpdate/${hotel[num].h_code}`}>
-                                                <button className="updateBtn" style={{color:"#fff",fontWeight:600,marginTop:"20px"}}>
+                                                <button className="updateBtn" style={{color:"#0155ff",marginTop:"20px"}}>
                                                     내용 수정하기
                                                 </button>
                                             </Link>

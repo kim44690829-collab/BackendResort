@@ -72,7 +72,7 @@
 		SELECT r.*
 		FROM room r
 		WHERE r.h_code = #{h_code}
-		  AND r.maxOccupancy >= #{maxOccupancy}
+		  AND r.maxOccupancy &gt;= #{maxOccupancy}
 		  AND NOT EXISTS (
 		    SELECT 1
 		    FROM reservation re

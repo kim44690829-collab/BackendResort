@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function HotelUpdate(){
 
-    const {userEmail} = useContext(ResortDataContext)
+    const {userEmail,setRender,render} = useContext(ResortDataContext)
 
     const {h_code} = useParams();
     const [roomservice,setRoomservice] = useState([])
@@ -51,6 +51,7 @@ export default function HotelUpdate(){
     },[])
 
     const submitHandler = ()=>{
+        setRender(!render)
         axios.put('/api/hotel/adminupdatehotel',{
             h_code: h_code,
             hotelName:hotelName,

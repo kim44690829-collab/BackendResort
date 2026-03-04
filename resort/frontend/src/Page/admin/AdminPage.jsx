@@ -159,13 +159,13 @@ export default function AdminPage(){
                                     <select className="searchSelect" name="searchType" value={searchType} onChange={(e) => setSearchType(e.target.value)}>
                                         <option value="phone">전화번호</option>
                                         <option value="gender">성별</option>
-                                        <option value="nickName">별명</option>
+                                        <option value="nickName">닉네임</option>
                                         <option value="mail">이메일</option>
                                     </select>
                                     
                                     <input className="searchbox" type="text" name="searchKeyword" placeholder="검색어를 입력하세요" value={serch} onChange={(e) => setSerch(e.target.value)}/>
                                     <input type="submit" value="검색" className="searchBtn" onClick={()=>submitHandler()}/>
-                                    <input type="button" value="전체보기" className="searchBtn" onClick={()=>{setSearchKeyword(""),setSearchType("phone"),setSerch("")}}/>
+                                    <input type="button" value="전체보기" className="searchBtn" onClick={()=>{setSearchKeyword(""),setSearchType("phone"),setSerch(""),setPage(1)}}/>
                                 </form>
 					        </div>
                         <div className="admin_list">
@@ -177,7 +177,7 @@ export default function AdminPage(){
                                         <th width="150px">전화번호</th>
                                         <th width="150px">생일</th>
                                         <th width="80px">성별</th>
-                                        <th>별명</th>
+                                        <th>닉네임</th>
                                         <th width="80px">쿠폰 보유</th>
                                         <th width="230px">가입일</th>
                                         <th width="120px">회원정보수정</th>
