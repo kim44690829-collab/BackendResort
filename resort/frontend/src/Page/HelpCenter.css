@@ -58,13 +58,13 @@
     line-height: 30px;
 }
 .helpCenter_text .text_contents .contents5{
-    background-color: #ddd;
+    background-color: #fff;
     padding: 10px;
     border-radius: 10px;
     line-height: 20px;
 }
 .helpCenter_text .text_contents .contents6{
-    background-color: #ddd;
+    background-color: #fff;
     padding: 10px;
     border-radius: 10px;
     line-height: 20px;
@@ -115,8 +115,7 @@
     border: 1px solid #ddd;
     border-radius: 10px;
     margin-left: 50px;
-    /* height: 752px; */
-    height: auto;
+    height: 752px;
     background-color: #ddd;
 }
 .helpCenter_tel .helpCenter_tel1{

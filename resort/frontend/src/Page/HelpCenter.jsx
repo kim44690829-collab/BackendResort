@@ -528,7 +528,9 @@ export default function HelpCenter(){
                 style={{height:isContent1 ? '250px' : '0px',
                         overflow:'hidden', 
                         transition:'height 0.3s ease', 
-                        padding:'0'
+                        padding:'0',
+                        backgroundColor:'rgb(66 121 155 / 12%)',
+                        paddingLeft:'20px'
                     }}>
                     <br/> A. 예약 취소는 EcoStay앱 또는 웹의 ‘내 정보 → 예약/구매 내역’에서 직접 진행하실 수 있습니다. <br/>
 
@@ -554,7 +556,9 @@ export default function HelpCenter(){
                         height:isContent2 ? '250px' : '0px',
                         overflow:'hidden', 
                         transition:'height 0.3s ease',
-                        padding:'0'
+                        padding:'0',
+                        backgroundColor:'rgb(66 121 155 / 12%)',
+                        paddingLeft:'20px'
                 }}>
                     <br/> A. 기상 악화, 감염병 확산 등 불가항력적인 사유로 숙소 이용이 어려운 경우, <br/>
                     고객센터로 예약 내역과 증빙 서류를 접수해 주시면 확인 후 취소 가능 여부를 안내드립니다. <br/>
@@ -579,7 +583,9 @@ export default function HelpCenter(){
                         height:isContent3 ? '170px' : '0px',
                         overflow:'hidden', 
                         transition:'height 0.3s ease',
-                        padding:'0'
+                        padding:'0',
+                        backgroundColor:'rgb(66 121 155 / 12%)',
+                        paddingLeft:'20px'
                 }}>
                     <br/> A. 예약이 대기 상태인 경우, <br/>
                     고객센터를 통해 예약 취소 요청을 해주시기 바랍니다. <br/>
@@ -603,7 +609,9 @@ export default function HelpCenter(){
                         height:isContent4 ? '250px' : '0px',
                         overflow:'hidden', 
                         transition:'height 0.3s ease',
-                        padding:'0'
+                        padding:'0',
+                        backgroundColor:'rgb(66 121 155 / 12%)',
+                        paddingLeft:'20px'
                 }}>
                    <br/>  A. 예약 결제가 완료된 이후에는 체크인 날짜 및 객실 타입 변경이 불가능합니다. <br/>
 
@@ -630,7 +638,9 @@ export default function HelpCenter(){
                         height:isContent5 ? '500px' : '0px',
                         overflow:'hidden', 
                         transition:'height 0.3s ease',
-                        padding:'0'
+                        padding:'0',
+                        backgroundColor:'rgb(66 121 155 / 12%)',
+                        paddingLeft:'20px'
                 }}>
                     <br/>A. 현금영수증은 현금성 결제 수단으로 결제한 경우에 한해 발급이 가능합니다.<br/>
 
@@ -676,7 +686,9 @@ export default function HelpCenter(){
                         height:isContent6 ? '500px' : '0px',
                         overflow:'hidden', 
                         transition:'height 0.3s ease',
-                        padding:'0'
+                        padding:'0',
+                        backgroundColor:'rgb(66 121 155 / 12%)',
+                        paddingLeft:'20px'
                 }}>
                     <br/> A. 예약 및 결제 정보가 포함된 영수증 또는 거래내역서는<br/>
                     아래 경로를 통해 직접 확인 및 발급하실 수 있습니다.<br/><br/>
