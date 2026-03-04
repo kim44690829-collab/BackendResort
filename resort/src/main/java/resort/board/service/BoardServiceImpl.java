@@ -94,9 +94,15 @@ public class BoardServiceImpl implements BoardService {
 
 	//하나의 게시글을 수정하는 메소드
 	@Override
-	public boolean updateBoard(BoardDTO bdto) {
+	public boolean updateBoard(BoardDTO bdto,MemberDTO loginUser) {
 		System.out.println("BoardServiceImpl updateBoard() 메소드호출");
 		
+		// 관리자면 그냥 수정
+	    if("admin@resort.com".equals(loginUser.getM_email())) {
+	        return boardmapper.adminUpdateBoard(bdto);
+	    }
+	    
+		//일반 사용자
 		int result = boardmapper.updateBoard(bdto);
 		
 		if(result > 0) {
@@ -109,20 +115,53 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	//게시글 삭제하는 메소드	
+	@Override
 	public int deleteBoard(BoardDTO bdto) {
-		System.out.println("BoardServiceImpl deleteBoard() 메소드호출");
+	    System.out.println("BoardServiceImpl deleteBoard() 메소드호출");
 
-	    // 비밀번호 확인 + ref 조회
-	    Integer ref = boardmapper.getRefByBcode(bdto);
-
-	    if(ref == null) {
-			System.out.println("게시글 삭제 실패(비밀번호 불일치)");
-	        return 0; // 비번 틀림
+	    MemberDTO loginUser = memberservice.getOneMember(bdto.getM_code());
+	    if(loginUser == null) {
+	        return 0;
 	    }
 
-	    // 같은 ref 전체 삭제	    
-	    System.out.println("게시글 삭제 성공");
-	    return boardmapper.deleteBoardByRef(ref);
+	    boolean isAdmin = "admin@resort.com".equals(loginUser.getM_email());
+
+	    // 🔥 삭제 대상 게시글 먼저 조회
+	    BoardDTO board = boardmapper.getBoardByBcode(bdto);
+	    if(board == null) {
+	        return 0;
+	    }
+
+	    boolean isOriginal = board.getRe_level() == 1;
+
+	    //  관리자
+	    if(isAdmin) {
+
+	        if(isOriginal) {
+	            // 원글이면 ref 전체 삭제
+	            return boardmapper.deleteBoardByRef(board.getRef());
+	        } else {
+	            // 댓글이면 해당 댓글만 삭제
+	            return boardmapper.deleteSingleReply(board.getB_code());
+	        }
+	    }
+
+	    //  일반 사용자
+	    if(isOriginal) {
+	        // 원글 삭제는 비밀번호 체크 필요
+	        Integer ref = boardmapper.getRefByBcode(bdto);
+	        if(ref == null) {
+	            return 0;
+	        }
+	        return boardmapper.deleteBoardByRef(ref);
+	    } else {
+	        // 댓글 삭제도 비밀번호 체크 필요
+	        Integer ref = boardmapper.getRefByBcode(bdto);
+	        if(ref == null) {
+	            return 0;
+	        }
+	        return boardmapper.deleteSingleReply(board.getB_code());
+	    }
 	}
 
 	//전체 게시글수 검색하는 메소드
@@ -243,6 +282,24 @@ public class BoardServiceImpl implements BoardService {
 	public int deleteBoardByRef(int ref) {
 		System.out.println("BoardServiceImpl deleteBoardByRef() 호출");	
 		return boardmapper.deleteBoardByRef(ref);
+	}
+
+	@Override
+	public BoardDTO getBoardByBcode(BoardDTO bdto) {
+		System.out.println("BoardServiceImpl getBoardByBcode() 호출");	
+		return boardmapper.getBoardByBcode(bdto);
+	}
+	//관리자 전용 조회
+	@Override
+	public boolean adminUpdateBoard(BoardDTO bdto) {
+		System.out.println("BoardServiceImpl adminUpdateBoard() 호출");	
+	    return boardmapper.adminUpdateBoard(bdto);
+	}
+	//댓글삭제
+	@Override
+	public int deleteSingleReply(int b_code) {
+		System.out.println("BoardServiceImpl deleteSingleReply() 호출");	
+		return boardmapper.deleteSingleReply(b_code);
 	}
 
 	

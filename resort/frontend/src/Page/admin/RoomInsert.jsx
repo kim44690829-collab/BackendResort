@@ -7,7 +7,6 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 export default function RoomInsert(){
-
     const {userEmail} = useContext(ResortDataContext)
     
     const [room,setRoom] = useState({

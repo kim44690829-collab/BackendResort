@@ -5,7 +5,6 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 
 export default function AdminPage6(){
-
     const {userEmail} = useContext(ResortDataContext)
 
     const [noticelist,setNoticelist] = useState([]);

@@ -1,17 +1,10 @@
-import { useContext, useState, useEffect } from 'react';
+import { useState } from 'react';
 import axios from "axios";
-import { ResortDataContext } from '../Api/ResortData';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
 import './ForgotPassword.css';
 
 export default function ForgotPassword(){
     console.log("ForgotPassword 렌더링");
-    const navigation = useNavigate();
-
-    // 받아온 데이터
-    const {HotelData, wish, wishHandler, hotelRatingAvgData, hotelMinPrice, Domestic, setDomestic} = useContext(ResortDataContext);
-
+        
     const [email, setEmail] = useState("");
     const [message, setMessage] = useState("");
 

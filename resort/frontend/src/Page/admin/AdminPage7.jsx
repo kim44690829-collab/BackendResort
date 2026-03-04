@@ -6,7 +6,6 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 
 export default function AdminPage7(){
-
     const {userEmail} = useContext(ResortDataContext)
     
     const navigate = useNavigate();

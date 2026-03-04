@@ -433,6 +433,11 @@ export default function Detail(){
 
     //Room에서 필터된 hotel의 r_code 저장
     useEffect(() => {
+        searchFilterHandler();
+    },[Hotel]);
+
+    //검색 필터링된 r_code 재저장
+    const searchFilterHandler = () =>{
         if (Hotel === 0) return;
 
         const filterIndex1 = [];
@@ -446,7 +451,9 @@ export default function Detail(){
             filterRcode1.push(Room[i].r_code);
         }
         setFilterRcode(filterRcode1);
-    },[Hotel]);
+
+    }
+
 
     // //객실검색
     // const searchClick = () =>{        
@@ -621,6 +628,8 @@ export default function Detail(){
             setResultRooms([]);
         }
         setSearch(true);
+
+        searchFilterHandler();
     }
 
         
