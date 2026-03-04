@@ -458,7 +458,7 @@ export default function MyPage(){
 
             axios.put('/api/board/reviewMod', null,{
                 params: {
-                    rb_code: reviewIndex, 
+                    re_code: reviewIndex, 
                     rb_score: rating
                 }
             })
@@ -470,6 +470,7 @@ export default function MyPage(){
                     setModalContent(<p style={{fontSize:'18px',fontWeight:'700'}}>리뷰 수정에 실패하였습니다.</p>)
                     toggle();
                 }
+                console.log('리뷰?????????',res.data)
                 setReviewCom(prev => prev + 1);
                 setStar1(false);
                 setStar2(false);
@@ -481,10 +482,15 @@ export default function MyPage(){
                 
             })
         }
-    
+        const [status, setStatus] = useState(null);
         const reviewModalOpen = (item) => {
             setRoomCode(item.r_code);
             setReviewIndex(item.re_code);
+            if(item.review_status === 1){
+                setStatus(1);
+            }else{
+                setStatus(0);
+            }
             setIsOpen(true);
         }
 
@@ -1209,7 +1215,7 @@ export default function MyPage(){
             }
             
             {/* 리뷰 ------------------------------------------------------------------------------------ */}
-            {isOpen && (
+            {isOpen && (status === 0 ? (
                 <div className='review_overlay'>
                     <div className='review_wrap'>
                         <p className="reviewTitle">호텔에 만족하셨나요?</p>
@@ -1245,7 +1251,44 @@ export default function MyPage(){
                     </div>
                 </div>
             
-            )}
+            )
+            :
+            (
+                <div className='review_overlay'>
+                    <div className='review_wrap'>
+                        <p className="reviewTitle">리뷰 수정</p>
+                        <div className="reviewBtn">
+                            <button type="button" onClick={() => starHandler(1)} className="starBtn">
+                                {star1 ? <img src='/img/star-one.png' alt="score" /> : <img src='/img/star-zero.png' alt="score" />}
+                            </button>
+                            <button type="button" onClick={() => starHandler(2)} className="starBtn">
+                                {star2 ? <img src='/img/star-one.png' alt="score" /> : <img src='/img/star-zero.png' alt="score" />}
+                            </button>
+                            <button type="button" onClick={() => starHandler(3)} className="starBtn">
+                                {star3 ? <img src='/img/star-one.png' alt="score" /> : <img src='/img/star-zero.png' alt="score" />}
+                            </button>
+                            <button type="button" onClick={() => starHandler(4)} className="starBtn">
+                                {star4 ? <img src='/img/star-one.png' alt="score" /> : <img src='/img/star-zero.png' alt="score" />}
+                            </button>
+                            <button type="button" onClick={() => starHandler(5)} className="starBtn">
+                                {star5 ? <img src='/img/star-one.png' alt="score" /> : <img src='/img/star-zero.png' alt="score" />}
+                            </button>
+                        </div>
+                        <div className="review_rating">
+                            {rating} 점 : {rating === 0 ? "별점을 선택해주세요." : rating === 1 ? "최악이에요" : rating === 2 ? "그저 그랬어요" : rating === 3 ? "보통이었어요" : rating === 4 ? "만족스러워요" : "정말 최고에요"} 
+                        </div>
+                        <button type='button' onClick={()=>{setIsOpen(false)}} className='review_Xbtn'>
+                            <i className="fa-solid fa-x"></i>
+                        </button>
+                        <button type="button" onClick={reviewMod} className="comBtn"
+                        style={{
+                            backgroundColor : star1 === false ? '#e7e7e7ff' : '#42799b',
+                            color:'#fff',
+                            cursor:star1 === false ? 'not-allowed' : 'pointer'
+                            }}>완료</button>
+                    </div>
+                </div>
+            ))}
             
             
         </div>

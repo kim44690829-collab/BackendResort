@@ -107,8 +107,8 @@
 	
 	
 	
-	<!-- // 리뷰 update public int reviewMod(@Param("rb_code") int rb_code, @Param("rb_score") int rb_score); -->
+	<!-- // 리뷰 update public int reviewMod(@Param("re_code") int re_code, @Param("rb_score") int rb_score); -->
 	<update id="reviewMod" parameterType="ReviewboardDTO">
-		UPDATE reviewboard SET rb_score = #{rb_score} WHERE rb_code = #{rb_code}
+		UPDATE reviewboard SET rb_score = #{rb_score} WHERE re_code = #{re_code}
 	</update>
 </mapper>
