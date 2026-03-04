@@ -7,6 +7,9 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 export default function HotelInsert(){
+
+    const {userEmail} = useContext(ResortDataContext)
+
     const [roomservice,setRoomservice] = useState([])
     const [r_value,setR_value] = useState("")
     const [publicservice,setPublicservice] = useState([])

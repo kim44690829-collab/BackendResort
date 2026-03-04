@@ -7,6 +7,9 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 export default function RoomUpdate(){
+
+    const {userEmail} = useContext(ResortDataContext)
+
     const {r_code} = useParams();
     const {RoomData} = useContext(ResortDataContext)
     const [relode,setRelode] = useState(false)

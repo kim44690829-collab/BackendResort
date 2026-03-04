@@ -9,11 +9,11 @@ import axios from "axios";
 
 export default function Room(){
     // 가져오는 호텔, 개실 데이터
-    const {HotelData,RoomData, hotelInput,hotelMerge,HotelRatingDate,townfilter2, setHotelInput, DayData,RatingAvgData,RatingData,ReviewData, hotelMinPrice,HotelPriceDate, setDayData,countryEn,cityEn,town,townfilter,setTown,
+    const {HotelData,RoomData, hotelInput,hotelMerge, HotelRatingDate,townfilter2, setHotelInput, DayData,RatingAvgData,RatingData,ReviewData, hotelMinPrice,HotelPriceDate, setDayData,countryEn,cityEn,town,townfilter,setTown,
         serchHandler,dateFilter,setDateFilter,hotelSort,setHotelSort,myhotel,setmyhotel,wish,wishStar,wishArray,wishHandler, guestCount, setGuestCount} = useContext(ResortDataContext);
     //const {selectDate,setSelectDate,setSelectday} = useContext(calendarAuth)
 
-        console.log('hotelMinPrice', hotelMinPrice)
+        // console.log('hotelMinPrice', hotelMinPrice)
     /* console.log(selectDate) */
     /* 필터 목록 */
     const filter_publicService = [{id:1,name:'피트니스'},{id:2,name:'레스토랑'},{id:3,name:'사우나'},{id:4,name:'실내수영장'},{id:5,name:'야외수영장'},{id:6,name:'편의점'},{id:7,name:'바'},{id:8,name:'라운지'},{id:9,name:'엘리베이터'},{id:10,name:'비즈니스센터'},{id:11,name:'건조기'},{id:12,name:'탈수기'},{id:13,name:'바베큐'}]
@@ -35,7 +35,10 @@ export default function Room(){
     const [test,setTest] = useState('ㅋㅋ')
     //검색어 한국어 , 영문으로 변환
    
-    
+    useEffect(() => {
+        console.log('myhotel02@@@@@@@@@@@@@@@@', myhotel02.length)
+        console.log('myhotel02@@@@@@@@@@@@@@@@', myhotel02)
+    },[myhotel02])
   
 
     //const [dateFilter,setDateFilter] = useState([])
@@ -44,8 +47,8 @@ export default function Room(){
         let dateFilterCopy = [...dateFilter]
         let imsi ;
         //const townfilter = HotelData.filter((f)=>f.city===cityEn || f.country===countryEn)
-        console.log("cityEn00",cityEn)
-        console.log("countryEn00",countryEn)
+        // console.log("cityEn00",cityEn)
+        // console.log("countryEn00",countryEn)
         if(cityEn===null && countryEn ===null){
             dateFilterCopy = hotelMerge.filter((f)=>(f.startDate>=DayData[0] && f.startDate<=DayData[1]) || (f.endDate<=DayData[1] && f.endDate>=DayData[0]) || (DayData[0]>=f.startDate && DayData[1]<=f.endDate))
             imsi = HotelData.filter((f)=>(f.startDate>=DayData[0] && f.startDate<=DayData[1]) || (f.endDate<=DayData[1] && f.endDate>=DayData[0]) || (DayData[0]>=f.startDate && DayData[1]<=f.endDate))
@@ -55,8 +58,9 @@ export default function Room(){
         }
         setmyhotel03(imsi)
         setDateFilter(dateFilterCopy)
-        console.log("dateFilterCopy",dateFilterCopy)
-        console.log("DayData",DayData)
+        // console.log("dateFilterCopy",dateFilterCopy)
+        // console.log("DayData",DayData)
+        
     },[DayData,cityEn,countryEn])
     
     useEffect(()=>{
@@ -66,9 +70,9 @@ export default function Room(){
         const selectfilter01 = myFilterCopy.filter((f)=>f.id>0 && f.id <14) // publicService 항목 구분
         const selectfilter02 = myFilterCopy.filter((f)=>f.id>13 && f.id <27) // roomservice 항목 구분
         const selectfilter03 = myFilterCopy.filter((f)=>f.id>26 && f.id <=35) // otherService 항목 구분
-        console.log(dateFilter,"dateFilter필터확인")
-        console.log(myhotel03,"myhotel03필터확인")
-        console.log(dateFilter,"dateFilter필터확인")
+        // console.log(dateFilter,"dateFilter필터확인")
+        // console.log(myhotel03,"myhotel03필터확인")
+        // console.log(dateFilter,"dateFilter필터확인")
 
         const hotelmap = myhotel03.map((hotel03) => {
             const match = dateFilter.find(
@@ -84,13 +88,13 @@ export default function Room(){
             const f3 = selectfilter03.every((filter)=>data.otherservice.includes(filter.name));
             return f1&&f2&&f3
         })
-        console.log("filterHotel",filterHotel)
+        // console.log("filterHotel",filterHotel)
         //const pricefilter = filterHotel.filter((f)=>f.hotelPrice > minPrice && f.hotelPrice<=maxPrice) //위의 필터에서 가격이 포함하는 것만 필터링
         const pricefilter = filterHotel.filter((f)=>f.minPrice > minPrice && f.minPrice<=maxPrice) //위의 필터에서 가격이 포함하는 것만 필터링
     
         
 
-        console.log("pricefilter",pricefilter)
+        // console.log("pricefilter",pricefilter)
         let sorted;
         if(hotelSort===1){
             HotelRatingDate.sort((a,b) => a.r_h_code - b.r_h_code)
@@ -114,11 +118,11 @@ export default function Room(){
         }else{
             sorted =pricefilter.sort((a,b) => a.minPrice - b.minPrice)
         }
-        console.log("pricefilter",pricefilter)
+        // console.log("pricefilter",pricefilter)
 
-        if(pricefilter.length !== 0 && DayData.length===2 && openC === false){
+        if( DayData.length===2 && openC === false){
             setmyhotel02(sorted)
-            console.log(myhotel02.length,"랭스확인")
+            // console.log(myhotel02.length,"랭스확인")
         }
         
 
@@ -135,7 +139,7 @@ export default function Room(){
             setMaxPrice(300000)
             setMinPrice(290000)
         }
-        console.log(myhotel02)
+        // console.log(myhotel02)
     },[minPrice,maxPrice])
 
     
@@ -149,12 +153,12 @@ export default function Room(){
             setMyfilter(myFilterCopy)
         }else{
             const filtering = myFilterCopy.filter((f)=>f.id !== item.id)
-            console.log(myFilterCopy)
-            console.log(item)
+            // console.log(myFilterCopy)
+            // console.log(item)
             setMyfilter(filtering)
         }
         
-        console.log(HotelData[0].roomservice)
+        // console.log(HotelData[0].roomservice)
         //console.log(myFilter,'추가 직후 마이필터')
     }
 
@@ -362,7 +366,9 @@ export default function Room(){
                                             <p className="menu_city">
                                                 {item.city === 'Sokcho'?'대한민국, 강원도 속초시':item.city === 'Gyeongju'?'대한민국, 경상북도 경주시':item.city === 'Busan'?'대한민국, 부산시':item.city === 'Gangneung'?'대한민국, 강원도 강릉시':item.city === 'Yeosu'?'대한민국, 전라남도 여수시':item.city === 'Daejeon'?'대한민국, 대전시':item.city === 'Gwangju'?'대한민국, 광주시':item.city === 'Jeju'?'대한민국, 제주도':item.city === 'Pohang'?'대한민국, 경상북도 포항시':item.city === 'Seoul'?'대한민국, 서울시':item.city === 'Tokyo'?'일본, 도쿄':item.city === 'Sapporo'?'일본, 훗카이도 삿포로':item.city === 'LosAngeles'?'미국, 캘리포니아 로스앤젤레스':item.city === 'New York'?'미국, 뉴욕':item.city === 'Guam'?'미국, 괌':item.city === 'Zhangjiajie'?'중국, 후난성 장가계':item.city === 'Shanghai'?'중국, 상하이':item.city === 'Rome'?'이탈리아, 로마':item.city === 'Venice'?'이탈리아, 베네치아':item.city === 'Paris'?'프랑스, 파리':null}
                                             </p>
-                                            <p className="menu_score"><i className="fa-solid fa-star" style={{lineHeight:'12px'}}></i> {HotelRatingDate[item.h_code-1]===undefined?0:(HotelRatingDate[item.h_code-1].h_rating).toFixed(1)}점</p>
+                                            <p className="menu_score"><i className="fa-solid fa-star" style={{lineHeight:'12px'}}></i> 
+                                            {HotelRatingDate[item.h_code-1]===undefined?0: (HotelRatingDate[item.h_code-1].h_rating - Math.floor(HotelRatingDate[item.h_code-1].h_rating) === 0) ? HotelRatingDate[item.h_code-1].h_rating+'.0' : Math.trunc((HotelRatingDate[item.h_code-1].h_rating) * 10) / 10 }점</p>
+                                            
                                             <div className="service_list">
                                                 <p style={{marginBottom:'10px'}}>
                                                     기타시설: 

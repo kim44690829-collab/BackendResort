@@ -106,6 +106,7 @@ public class RoomApiController {
 	@GetMapping("/room/available")
 	public List<RoomDTO> reservateRoom(ReservateRoomDTO resRdto) {
 		System.out.println("RoomApiController : reservateRoom() 메서드 확인");
+		System.out.println("?????????????" + resRdto.getMaxOccupancy());
 		return roomService.reservateRoom(resRdto);
 	}
 	

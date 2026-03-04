@@ -257,6 +257,7 @@ export default function MyPage(){
                 setDetailView(0);
                 //setHeaderChange(0);
                 loginSave(nickname,userMail);
+                navigate('/')
             }else{
                 alert('회원 정보수정 실패. 비밀번호를 다시 입력해주세요.');               
             }
@@ -1170,7 +1171,7 @@ export default function MyPage(){
                             {/* 버튼 */}
                             <div className="buttons">
                                 <button type='submit' 
-                                className='signupBtn' 
+                                className='signupBtn'
                                 disabled={isDisabledSignup} 
                                 style={{
                                     cursor: mouseCursor ? 'pointer' : 'not-allowed',
