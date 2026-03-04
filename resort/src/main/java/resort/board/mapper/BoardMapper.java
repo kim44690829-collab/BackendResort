@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import resort.board.dto.BoardDTO;
+import resort.member.dto.MemberDTO;
 
 @Mapper
 public interface BoardMapper {
@@ -23,11 +24,16 @@ public interface BoardMapper {
 	public int upReadCount(BoardDTO bdto);
 	public BoardDTO getOneBoard(BoardDTO bdto);
 	
+	//관리자 전용 조회
+	public BoardDTO getBoardByBcode(BoardDTO bdto);	
+	
 	//하나의 게시글을 수정하는 메소드
 	public int updateBoard(BoardDTO bdto);
+	//관리자 수정
+	public boolean  adminUpdateBoard(BoardDTO bdto);
 	
-	// 게시글 삭제
-	//public int deleteBoard(BoardDTO bdto);
+	// 댓글 삭제
+	public int deleteSingleReply(int b_code);
 	
 	// 삭제를 위한 ref 먼저 구하는 쿼리
 	public Integer getRefByBcode(BoardDTO bdto);

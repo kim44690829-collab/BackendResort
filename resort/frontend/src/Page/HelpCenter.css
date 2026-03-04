@@ -5,9 +5,9 @@
 }
 /* 고객센터 메뉴 선택 */
 .helpCenter_container .helpCenter_list{
-    width: 280px;
+    width: 175px;
     height: 300px;
-    margin-right: 70px;
+    margin-right: 50px;
 }
 .helpCenter_container .helpCenter_list .list_title{
     border-bottom: 3px solid black;
@@ -31,7 +31,8 @@
 }
 /* 고객센터 내용 */
 .helpCenter_text{
-    width: 600px;
+    width: 100%;
+    max-width: 673px;
 } 
 .helpCenter_text .text_title{
     margin-bottom: 36px;
@@ -58,13 +59,13 @@
     line-height: 30px;
 }
 .helpCenter_text .text_contents .contents5{
-    background-color: #ddd;
+    background-color: #fff;
     padding: 10px;
     border-radius: 10px;
     line-height: 20px;
 }
 .helpCenter_text .text_contents .contents6{
-    background-color: #ddd;
+    background-color: #fff;
     padding: 10px;
     border-radius: 10px;
     line-height: 20px;
@@ -119,8 +120,7 @@
     border: 1px solid #ddd;
     border-radius: 10px;
     margin-left: 50px;
-    /* height: 752px; */
-    height: auto;
+    height: 752px;
     background-color: #ddd;
 }
 .helpCenter_tel .helpCenter_tel1{
@@ -190,7 +190,7 @@
 
 /* 전체 영역 */
 #board {
-    max-width: 564.55px;
+    max-width: 673px;
     box-sizing: border-box;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
@@ -209,6 +209,7 @@
     margin-bottom: 36px;
     font-size: 30px;
     font-weight: 600;
+    font-family: "Noto Sans KR";
 }
 
 /* 게시판 래퍼 */
@@ -226,6 +227,12 @@
 #board table .boardTitle button{
     font-size: 15px;
     line-height: 20px;
+    max-width: 393px;
+    width: 393px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 36px;
 }
 
 #board .sportBtn{
@@ -245,9 +252,9 @@
 
 /* 헤더 */
 #board table tr:first-child {
-    background-color: #42799b;
+    /* background-color: #42799b; */
     font-weight: 600;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 2px solid #bdbdbd;
 }
 
 /* 셀 공통 */
@@ -262,7 +269,7 @@
     text-align: center;
     line-height: 51px;
     font-size: 14px;
-    color: #fff;
+    color: #000;
 }
 
 /* 번호 */
@@ -274,20 +281,28 @@
 
 /* 제목 */
 #board td:nth-child(2) {
-    width: auto;
+    max-width: 393px;
+    width: 393px;
+    white-space: nowrap;
+    overflow: hidden;  
+    text-overflow: ellipsis;
     text-align: left;
 }
 
 /* 작성자 */
 #board td:nth-child(3) {
-    width: 70px;
+    max-width: 100px;
+    width: 100px;
+    white-space: nowrap;
+    overflow: hidden;  
+    text-overflow: ellipsis;
     text-align: center;
     font-size: 14px;
 }
 
 /* 작성일 */
 #board td:nth-child(4) {
-    width: 90px;
+    width: 83px;
     text-align: center;
     font-size: 13px;
     line-height: 17px;
@@ -330,7 +345,7 @@
 }
 
 #board .reple{
-    background-color: #eaf2f6;
+    /* background-color: #eaf2f6; */
     /* background-color: #f6f6f6; */
 
 }
@@ -349,11 +364,11 @@
 }
 #board .answer-wrap .answer{
     font-size: 14px;
-    background: #42799b;
-    color: #fff;
+    color: #42799b;
     font-weight: 500;
     padding: 3px 7px;
     border-radius: 50px;
+    border: 1px solid #42799b;
 }
 
 /* 페이지네이션 */
@@ -441,7 +456,8 @@
 #board_wrap3 textarea{
     border-color: #ddd;
     margin: 8px 0;
-    max-width: 457px;
+    max-width: 563px;
+    width: 563px;
     font-family: 'arial';
     font-size: 15px;
     line-height: 21px;
@@ -451,8 +467,8 @@
 #board_wrap3 td:first-child,
 #board_wrap4 td:first-child{
     border-right: 1px solid #ddd;
-    background: #42799b;
-    color: #fff;
+    background: #c7c7c72e;
+    color: #000;
     font-size: 15px;
     min-width: 97px;
     max-width: 97px;
@@ -461,6 +477,17 @@
 #board_wrap3 td:nth-child(2),
 #board_wrap4 td:nth-child(2){
     padding-left: 10px;
+    font-size: 15px;
+}
+
+#board_wrap2 td.boardContent,
+#board_wrap3 td.boardContent,
+#board_wrap4 td.boardContent{
+    width: 100%;
+    background-color: #fff;
+    border-right: 0;
+    padding: 25px;
+    line-height: 26px;
 }
 #board_wrap4 td:nth-child(2){
     padding: 10px;
@@ -506,4 +533,11 @@
     margin-left: 5px;
     line-height: 35px;
 
+}
+
+#board_wrap3 .download,
+#board_wrap4 .download{
+    background-color: #fff;
+    border: 0;
+    color: #264f69;
 }

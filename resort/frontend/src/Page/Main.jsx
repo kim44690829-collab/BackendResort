@@ -6,7 +6,7 @@ import 'leaflet/dist/leaflet.css';
 import Calendar from './Calendar';
 
 export default function Main(){    
-    // 2025-12-26 병합2
+    // 2026-03-04 병합
     // 호텔, 객실데이터 useContext로 가져오는 훅
     const {setSelectMonth, hotelMerge, HotelData, hotelRatingAvgData, DayData, setDayData,town,setTown,serchHandler, wish, wishHandler,cityEn,countryEn,dateFilter,setDateFilter,townfilter, guestCount, setGuestCount} = useContext(ResortDataContext);
     
@@ -416,7 +416,7 @@ export default function Main(){
                             value={town}
                             onChange={(e) => setTown(e.target.value)}
                             onClick={() => setIsInput(true)}
-                            placeholder='국가나 여행지를 검색해주세요'
+                            placeholder='나라나 도시를 검색해주세요'
                             />
                             {/* input 클릭시 나오는 순위 */}
                             {isInput &&
@@ -590,7 +590,7 @@ export default function Main(){
                                             <div className='popularAccom_review'>
                                                 <span className='popularAccom_score'>
                                                     <i className="fa-solid fa-star"></i>
-                                                    <span className='starScore'>{(hotelRatingAvgData[item.h_code - 1].hotelAvg).toFixed(1)}</span>
+                                                    <span className='starScore'>{(hotelRatingAvgData[item.h_code - 1].hotelAvg - Math.floor(hotelRatingAvgData[item.h_code - 1].hotelAvg) === 0) ? hotelRatingAvgData[item.h_code - 1].hotelAvg+'.0' : Math.trunc((hotelRatingAvgData[item.h_code - 1].hotelAvg) * 10) / 10}</span>
                                                 </span>
                                                 <span className='popularAccom_count'>{(hotelRatingAvgData[item.h_code - 1].scoreCount).toLocaleString()}명 참여</span>
                                             </div>

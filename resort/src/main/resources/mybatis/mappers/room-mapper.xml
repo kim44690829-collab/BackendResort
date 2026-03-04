@@ -69,15 +69,18 @@
 	
 	<!-- // 예약된 객실 제외한 객실을 찾는 select / public List<RoomDTO> reservateRoom(ReservateRoomDTO resRdto); -->
 	<select id="reservateRoom" resultType="RoomDTO" parameterType="ReservateRoomDTO">
-		SELECT r.* FROM room r
-		LEFT JOIN reservation re
-		ON r.r_code = re.r_code
-		AND re.check_in_date &lt; #{check_out_date}
-		AND re.check_out_date &gt; #{check_in_date}
+		SELECT r.*
+		FROM room r
 		WHERE r.h_code = #{h_code}
-		AND (r.maxOccupancy &gt;= #{maxOccupancy}
-		AND re.r_code IS NULL
-		OR re.cancel = 1)
+		  AND r.maxOccupancy &gt;= #{maxOccupancy}
+		  AND NOT EXISTS (
+		    SELECT 1
+		    FROM reservation re
+		    WHERE re.r_code = r.r_code
+		      AND re.cancel = 0
+		      AND re.check_in_date &lt; #{check_out_date}
+		      AND re.check_out_date &gt; #{check_in_date}
+		  )
 	</select>
 	
 	<!-- ===========2026-02-26 수정부분 JHJ ================ -->
