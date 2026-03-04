@@ -65,6 +65,7 @@ public class ReviewboardApiController {
 	@PostMapping("/board/reviewSend")
 	public int reviewAdd(@RequestBody ReviewboardDTO redto) {
 		System.out.println("ReviewboardServiceImpl : reviewAdd() 메서드 확인");
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@" + redto.getRe_code());
 		return reviewboardservice.reviewAdd(redto);
 	}
 	

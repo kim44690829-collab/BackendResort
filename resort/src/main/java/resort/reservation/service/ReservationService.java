@@ -49,4 +49,7 @@ public interface ReservationService {
 	
 	// 비회원정보 수정
 	public int updateResercation(@Param("booker_name") String booker_name, @Param("re_code") int re_code, @Param("g_phone") String g_phone);
+	
+	// 리뷰 작성후 수정
+	public int reviewMod(int re_code);
 }
