@@ -200,7 +200,7 @@ export default function AdminPage4(){
                                     
                                     <input className="searchbox" type="text" name="searchKeyword" value={serch} placeholder="검색어를 입력하세요" onChange={(e) => setSerch(e.target.value)}/>
                                     <input  type="submit" value="검색" className="searchBtn" onClick={()=>submitHandler()}/>
-                                    <input type="button" value="전체보기" className="searchBtn" onClick={()=>{setSearchKeyword(""),setSearchType("booker_name"),setSerch("")}}/>
+                                    <input type="button" value="전체보기" className="searchBtn" onClick={()=>{setSearchKeyword(""),setSearchType("booker_name"),setSerch(""),setPage(1)}}/>
                                 </form>
 					        </div>
                         <div className="admin_list">
@@ -245,10 +245,10 @@ export default function AdminPage4(){
                                     })}
                                 </tbody>
                             </table>
-                            {isInfo && <div className="admin_modal">
+                            {isInfo && <div className="admin_modal" style={{height:"700px"}}>
                                         
                                             <button type="button" onClick={()=>setIsinfo(!isInfo)} className="closeBtn">✖</button>
-                                            <h2 style={{fontWeight:600,fontSize:"30px",margin:"0 auto 30px",borderBottom:"2px solid #333",width:"900px",paddingBottom:"30px"}}>예약 정보</h2>
+                                            <h2 style={{fontWeight:600,fontSize:"30px",margin:"0 auto 30px",borderBottom:"2px solid #cececeff",width:"900px",paddingBottom:"30px"}}>예약 정보</h2>
                                             
                                             <div className="service_box">
                                                 <ul className="info_list">
@@ -287,7 +287,7 @@ export default function AdminPage4(){
                                                         <p><span>최종가격</span> : <span style={{display:"inline-block",width:"300px"}}>{reservation[num].final_price.toLocaleString()}원</span></p>
                                                     </li>
                                                     <li>
-                                                        <p><span>취소여부</span> : <span style={{display:"inline-block",width:"300px"}}>{reservation[num].cancel ===0? "X": "O"}</span><span>취소시간 :</span>  {reservation[num].cancel_date.slice(0,10)} - {reservation[num].cancel_date.slice(11,16)}</p>
+                                                        <p><span>취소여부</span> : <span style={{display:"inline-block",width:"300px"}}>{reservation[num].cancel ===0? "X": "O"}</span><span>취소시간 :</span>  {reservation[num].cancel_date!==null?`${reservation[num].cancel_date.slice(0,10)} - ${reservation[num].cancel_date.slice(11,16)}`:""}</p>
                                                     </li>
                                                     
                                                 </ul>
@@ -299,10 +299,10 @@ export default function AdminPage4(){
                                             </Link> */}
                                         </div>
                                     }
-                            {isInfo2 && <div className="admin_modal" style={{width:"600px"}}>
+                            {isInfo2 && <div className="admin_modal" style={{width:"600px",height:"700px"}}>
                                         
                                             <button type="button" style={{marginLeft:"520px"}} onClick={()=>setIsinfo2(!isInfo2)} className="closeBtn">✖</button>
-                                            <h2 style={{fontWeight:600,fontSize:"30px",margin:"0 auto 30px",borderBottom:"2px solid #333",width:"500px",paddingBottom:"30px"}}>비회원 정보 수정</h2>
+                                            <h2 style={{fontWeight:600,fontSize:"30px",margin:"0 auto 30px",borderBottom:"2px solid #cececeff",width:"500px",paddingBottom:"30px"}}>비회원 정보 수정</h2>
                                             
                                             <div className="service_box" >
                                                 

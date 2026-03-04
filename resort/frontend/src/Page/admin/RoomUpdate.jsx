@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function RoomUpdate(){
 
-    const {userEmail} = useContext(ResortDataContext)
+    const {userEmail,setRender,render} = useContext(ResortDataContext)
 
     const {r_code} = useParams();
     const {RoomData} = useContext(ResortDataContext)
@@ -22,6 +22,7 @@ export default function RoomUpdate(){
     const navigate = useNavigate();
     //상품 들록하는 submit 함수
     const submitHandler=()=>{
+        setRender(!render)
         axios.put('/api/room/update',{
             r_code:r_code,
             h_code: h_code,

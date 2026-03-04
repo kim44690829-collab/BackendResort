@@ -166,7 +166,7 @@ export default function AdminPage7(){
                                     
                                     <input className="searchbox" type="text" name="searchKeyword" value={serch} placeholder="검색어를 입력하세요" onChange={(e) => setSerch(e.target.value)}/>
                                     <input type="submit" value="검색" className="searchBtn" onClick={()=>submitHandler()}/>
-                                    <input type="button" value="전체보기" className="searchBtn" onClick={()=>{setSearchKeyword(""),setSearchType("rb_score"),setSerch("")}}/>
+                                    <input type="button" value="전체보기" className="searchBtn" onClick={()=>{setSearchKeyword(""),setSearchType("rb_score"),setSerch(""),setPage(1)}}/>
                                 </form>
 					        </div>
                         <div className="admin_list">

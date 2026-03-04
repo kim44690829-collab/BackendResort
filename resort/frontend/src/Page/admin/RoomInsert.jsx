@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function RoomInsert(){
 
-    const {userEmail} = useContext(ResortDataContext)
+    const {userEmail,setRender,render} = useContext(ResortDataContext)
     
     const [room,setRoom] = useState({
         h_code:'',
@@ -21,6 +21,7 @@ export default function RoomInsert(){
     const navigate = useNavigate();
     //상품 들록하는 submit 함수
     const submitHandler=()=>{
+        setRender(!render)
         // React에서 이미지 업로드시 반드시 formData 객체를 생성한다.
         const formData = new FormData();
 

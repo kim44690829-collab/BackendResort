@@ -85,13 +85,17 @@
     margin: 30px auto;
     width: 300px;
     padding: 15px;
-    border: 1px solid #ddd;
+    border: 1px solid #42799b;
     border-radius: 10px;
     font-size: 13px;
-    color: #333;
+    color: #42799b;
+    font-weight: 500;
     background-color: transparent;
+    box-sizing: border-box;
 }
-
+.noticeContentsBtn:hover{
+    font-weight: 800;
+}
 
 
 /* 1대1 문의 */

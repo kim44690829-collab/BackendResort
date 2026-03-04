@@ -25,6 +25,8 @@ export default function ResortData({children}){
     // 인원 상태변수
     const [guestCount, setGuestCount] = useState(1)
 
+    const [render,setRender] = useState(false);
+
     // axios 사용 - 호텔, 객실
     useEffect(() => {
         // HotelData
@@ -143,7 +145,7 @@ export default function ResortData({children}){
             setMemberAllData([]); // 실패해도 최소 빈 배열 넣기 (중요)
         });
 
-    },[])
+    },[render])
 
 
     // 휴대폰 번호 상태저장 변수
@@ -444,6 +446,7 @@ export default function ResortData({children}){
     if(HotelData.length > 0 && RoomData.length > 0 && ReviewData.length >0 && RatingData.length > 0 && RatingAvgData.length > 0 && hotelMinPrice.length > 0 && hotelMerge.length>0) {
         return(
             <ResortDataContext.Provider value={{
+                setRender,render,
                 guestCount, setGuestCount,
                 setUserEmail,setUserNickName,townfilter2,
                 userEmail,MemberAllData,setHotelMerge,

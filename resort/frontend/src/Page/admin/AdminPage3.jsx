@@ -168,7 +168,7 @@ export default function AdminPage3(){
                                     
                                     <input className="searchbox" type="text" name="searchKeyword" placeholder="검색어를 입력하세요" value={serch} onChange={(e) => setSerch(e.target.value)}/>
                                     <input type="submit" value="검색" className="searchBtn" onClick={()=>submitHandler()}/>
-                                    <input type="button" value="전체보기" className="searchBtn" onClick={()=>{setSearchKeyword(""),setSearchType("hotelName"),setSerch("")}}/>
+                                    <input type="button" value="전체보기" className="searchBtn" onClick={()=>{setSearchKeyword(""),setSearchType("hotelName"),setSerch(""),setPage(1)}}/>
                                 </form>
 					        </div>
                         <div className="admin_list">
@@ -198,15 +198,15 @@ export default function AdminPage3(){
                                     ))}
                                 </tbody>
                             </table>
-                            {isInfo && <div className="admin_modal">
+                            {isInfo && <div className="admin_modal" style={{height:"700px"}}>
                                 
                                     <button type="button" onClick={()=>setIsinfo(!isInfo)} className="closeBtn">✖</button>
-                                    <div className="img_box" >
+                                    <div className="img_box" style={{marginTop:"20px"}}>
                                         <img  src={room[num].r_code%3===0?`/img/${hotel[room[num].h_code-1]?.h_s_Img1}`
                                         :room[num].r_code%3===1?`/img/${hotel[room[num].h_code-1].h_s_Img2}`
                                         :`/img/${hotel[room[num].h_code-1].h_s_Img3}`} alt="img" className="roomImg"/>
                                     </div>
-                                    <div className="service_box">
+                                    <div className="service_box" >
                                         <ul>
                                             
                                             <li>
@@ -224,7 +224,7 @@ export default function AdminPage3(){
                                         </ul>
                                     </div>
                                     <Link to={`/roomUpdate/${room[num].r_code}`}>
-                                        <button className="updateBtn" style={{color:"#fff",fontWeight:600,marginTop:"30px"}}>
+                                        <button className="updateBtn" style={{marginTop:"30px"}}>
                                             내용 수정하기
                                         </button>
                                     </Link>
