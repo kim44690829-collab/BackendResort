@@ -5,7 +5,9 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 
 export default function AdminPage4(){
+
     const {userEmail} = useContext(ResortDataContext)
+    
 
     const [reservation,setReservation] = useState([]);
     const [ph,setPh] = useState({});
@@ -286,7 +288,7 @@ export default function AdminPage4(){
                                                         <p><span>최종가격</span> : <span style={{display:"inline-block",width:"300px"}}>{reservation[num].final_price.toLocaleString()}원</span></p>
                                                     </li>
                                                     <li>
-                                                        <p><span>취소여부</span> : <span style={{display:"inline-block",width:"300px"}}>{reservation[num].cancel ===0? "X": "O"}</span><span>취소시간 :</span>  {reservation[num].cancel_date.slice(0,10)} - {reservation[num].cancel_date.slice(11,16)}</p>
+                                                        <p><span>취소여부</span> : <span style={{display:"inline-block",width:"300px"}}>{reservation[num].cancel ===0? "X": "O"}</span><span>취소시간 :</span>  {reservation[num].cancel_date!==null? `${reservation[num].cancel_date.slice(0,10)} - ${reservation[num].cancel_date.slice(11,16)}`:''}</p>
                                                     </li>
                                                     
                                                 </ul>

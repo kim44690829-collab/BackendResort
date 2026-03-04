@@ -1,4 +1,5 @@
--- 호텔 테이블
+CREATE DATABASE resort;
+
 CREATE TABLE hotel(
 	h_code int primary key auto_increment, -- 호텔코드(PK)
     hotelName varchar(30) not null, -- 호텔이름
@@ -19,7 +20,6 @@ CREATE TABLE hotel(
     otherservice varchar(100) -- 기타시설
 );
 
--- 객실 테이블
 CREATE TABLE room(
 	r_code int primary key auto_increment, -- 객실코드(PK)
     h_code int not null, -- 호텔코드(FK)
@@ -29,9 +29,18 @@ CREATE TABLE room(
     r_img varchar(100) -- 이미지
 );
 
--- 회원 테이블
+CREATE TABLE reviewboard(
+	rb_code int primary key auto_increment, -- 리뷰보드코드(PK)
+    rb_score tinyInt not null, -- 별점
+    rb_date datetime default now(), -- 작성일자
+    m_code int not null, -- 회원코드(FK)
+    r_code int not null, -- 객실코드(FK)
+    re_code int not null unique -- 예약코드(PK)
+);
+
+
 CREATE TABLE member(
-	 m_code int primary key auto_increment, -- 회원코드(PK)
+	m_code int primary key auto_increment, -- 회원코드(PK)
      m_email varchar(50) not null UNIQUE, -- 이메일
      m_pw varchar(200) not null, -- 비밀번호
      m_phone varchar(30) not null, -- 전화번호
@@ -44,7 +53,6 @@ CREATE TABLE member(
      deleted_at DATETIME NULL -- 탈퇴일
 );
 
--- 비회원 테이블
 CREATE TABLE guest(
 	g_code int primary key auto_increment, -- 비회원코드(PK)
 	g_name varchar(20) not null, -- 이름
@@ -53,7 +61,6 @@ CREATE TABLE guest(
 	g_check tinyInt default 0 -- 숙박완료 여부
 );
 
--- 예약 테이블
 CREATE TABLE reservation(
 	re_code int primary key auto_increment, -- 예약코드(PK)
 	m_code int, -- 회원코드(FK)
@@ -70,12 +77,11 @@ CREATE TABLE reservation(
   final_price int not null, -- 할인 후 가격
   cancel tinyint default 0, -- 취소여부
   cancel_date datetime default null, -- 취소일
-  review_status tinyInt default 0 -- 예약 작성 여부 (0작성가능/1작성완료/2작성불가)
+  review_status tinyInt default 0 -- 예약 작성 여부 0작성가능/1작성완료/2작성불가
 );
 
--- 1대1 문의 테이블
 CREATE TABLE board(
-    b_code int primary key auto_increment, -- 게시판코드(PK)
+	  b_code int primary key auto_increment, -- 게시판코드(PK)
     m_code int, -- 회원코드(FK)
     b_title varchar(100) not null, -- 제목
     b_writer varchar(30) not null, -- 작성자
@@ -90,21 +96,10 @@ CREATE TABLE board(
     b_upload varchar(200) -- 첨부파일
 );
 
--- 공지사항 테이블
 CREATE TABLE notice(
-	n_code int primary key auto_increment, -- 공지사항코드(PK)
+	  n_code int primary key auto_increment, -- 공지사항코드(PK)
     n_title varchar(100) not null, -- 제목
     n_date datetime default now(), -- 날짜
     n_content varchar(2000) not null, -- 내용
     n_update datetime default now() -- 수정일자
-);
-
--- 리뷰 테이블
-CREATE TABLE reviewboard(
-	rb_code int primary key auto_increment, -- 리뷰보드코드(PK)
-    rb_score tinyInt not null, -- 별점
-    rb_date datetime default now(), -- 작성일자
-    m_code int not null, -- 회원코드(FK)
-    r_code int not null, -- 객실코드(FK)
-    re_code int not null unique -- 예약코드(PK)
 );

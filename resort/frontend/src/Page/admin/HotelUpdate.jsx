@@ -9,8 +9,9 @@ import { useNavigate } from "react-router-dom";
 
 
 export default function HotelUpdate(){
+
     const {userEmail} = useContext(ResortDataContext)
-    
+
     const {h_code} = useParams();
     const [roomservice,setRoomservice] = useState([])
     const [r_value,setR_value] = useState("")

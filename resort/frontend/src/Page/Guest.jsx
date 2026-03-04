@@ -198,7 +198,8 @@ export default function Guest(){
             : '')}
             {/* 회원이라면 로그인 */}
             <div className='LoginGo' onClick={loginGo}>
-                <button type="button" className='userLogin'>회원 예약조회</button>
+                <p>회원 예약은 로그인 후 조회할 수 있어요</p>
+                <button type="button" className='userLogin'>로그인하기</button>
             </div>
         </div>
     )
