@@ -64,7 +64,7 @@ export default function Guest(){
             })
             console.log("비회원 정보 수정용 : ", res.data)
             setGuestUpdateResult(res.data)
-            const res02 = await axios.get("/api/guestResSelect", null, {
+            const res02 = await axios.get("/api/guestResSelect", {
                 params : {
                     reservation_no : reservationNum
                 }
