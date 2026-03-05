@@ -51,5 +51,5 @@ public interface ReviewboardService {
 	
 	public int deleteReview(int rb_code);
 	// 리뷰 update
-	public int reviewMod(int rb_code, int rb_score);
+	public int reviewMod(int re_code, int rb_score);
 }

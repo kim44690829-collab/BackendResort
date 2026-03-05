@@ -6,7 +6,6 @@ import lombok.Data;
 
 @Data
 public class ReservationDTO{
-	// 공지보드 DTO
 	private int re_code; //예약코드 
 	private Integer m_code; //회원코드
 	private Integer g_code; //비회원코드

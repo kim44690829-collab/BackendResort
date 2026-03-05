@@ -65,6 +65,7 @@ public class ReviewboardApiController {
 	@PostMapping("/board/reviewSend")
 	public int reviewAdd(@RequestBody ReviewboardDTO redto) {
 		System.out.println("ReviewboardServiceImpl : reviewAdd() 메서드 확인");
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@" + redto.getRe_code());
 		return reviewboardservice.reviewAdd(redto);
 	}
 	
@@ -121,30 +122,13 @@ public class ReviewboardApiController {
 		return reviewboardservice.deleteReview(rb_code);
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	// 리뷰  UPDATE
 	@PutMapping("/board/reviewMod")
-	public int reviewMod(@RequestParam("rb_code") int rb_code, @RequestParam("rb_score") int rb_score ) {
+	public int reviewMod(@RequestParam("re_code") int re_code, @RequestParam("rb_score") int rb_score ) {
 		System.out.println("ReviewboardServiceImpl : reviewAdd() 메서드 확인");
-		return reviewboardservice.reviewMod(rb_code, rb_score);
+		System.out.println("??????????????" + re_code);
+		System.out.println("!!!!!!!!!!!!!!" + rb_score);
+		return reviewboardservice.reviewMod(re_code, rb_score);
 	}
 	
 }

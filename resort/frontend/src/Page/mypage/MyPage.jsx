@@ -419,35 +419,46 @@ export default function MyPage(){
         const memberNum = MemberAllData.find(m => m.m_nickName === userNickName)?.m_code;
         // console.log('memberNum', memberNum)
     
-        const reviewSend = () => {
-            axios.post('/api/board/reviewSend', {rb_score: rating, m_code : memberNum, r_code: roomCode})
-            .then((res) => {
+        const reviewSend = async () => {
+
+            try{
+                const res = await axios.post('/api/board/reviewSend', {rb_score: rating, m_code : memberNum, r_code: roomCode, re_code : reviewIndex})
                 if(res.data === 1){
+                    console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',res.data)
                     setModalContent(<p style={{fontSize:'18px',fontWeight:'700'}}>리뷰를 작성해주셔서 감사합니다.</p>)
                     toggle();
+                    const res02 = await axios.put('/api/reservation/resMod', null,{
+                        params:{
+                            re_code : reviewIndex
+                        }
+                    })
+                    console.log(res02.data)
+                    setReviewCom(prev => prev + 1);
+                    setStar1(false);
+                    setStar2(false);
+                    setStar3(false);
+                    setStar4(false);
+                    setStar5(false);
+                    setRating(0)
+                    setIsOpen(false);
                 }else{
                     setModalContent(<p style={{fontSize:'18px',fontWeight:'700'}}>리뷰 작성에 실패하였습니다.</p>)
                     toggle();
                 }
-                setReviewCom(prev => prev + 1);
-                setStar1(false);
-                setStar2(false);
-                setStar3(false);
-                setStar4(false);
-                setStar5(false);
-                setRating(0)
-                setIsOpen(false)
-                
-            })
+
+            }catch(err){
+                console.error(err)
+            }
+
         }
 
 
-        console.log('myPage[reviewIndex].rb_code', myPage[reviewIndex]?.rb_code)
+        
         const reviewMod = () => {
 
             axios.put('/api/board/reviewMod', null,{
                 params: {
-                    rb_code: reviewIndex, 
+                    re_code: reviewIndex, 
                     rb_score: rating
                 }
             })
@@ -459,6 +470,7 @@ export default function MyPage(){
                     setModalContent(<p style={{fontSize:'18px',fontWeight:'700'}}>리뷰 수정에 실패하였습니다.</p>)
                     toggle();
                 }
+                console.log('리뷰?????????',res.data)
                 setReviewCom(prev => prev + 1);
                 setStar1(false);
                 setStar2(false);
@@ -470,15 +482,23 @@ export default function MyPage(){
                 
             })
         }
-    
+        const [status, setStatus] = useState(null);
         const reviewModalOpen = (item) => {
             setRoomCode(item.r_code);
-            setReviewIndex(item.rb_code);
+            setReviewIndex(item.re_code);
+            if(item.review_status === 1){
+                setStatus(1);
+            }else{
+                setStatus(0);
+            }
             setIsOpen(true);
         }
 
         const today = new Date().toLocaleDateString('sv-SE');
+        console.log('today', today)
 
+        console.log('myPagemyPage',myPage)
+        console.log('myPage[reviewIndex].rb_code', reviewIndex)
     return(
         <div className="reserVation_container">
             {/* 왼쪽 메뉴 */}
@@ -528,16 +548,102 @@ export default function MyPage(){
                                             </div>
                                         ) : (search && dateFilter !== null) || (search && dateFilter.length >= 1) ? (
                                             <ul>
-                                                {dateFilter.map((item)=>(
-                                                    item.cancel === 0 ? (
-                                                    <Fragment key={item.re_code}>
+
+                                                {dateFilter.map((item, index)=>{
+
+                                                        const year = new Date(item.check_out_date).getFullYear();
+                                                        const month = new Date(item.check_out_date).getMonth()+1;
+                                                        const day = new Date(item.check_out_date).getDate();
+
+                                                    return(
+                                                        item.cancel === 0 ? (
+                                                        <Fragment key={item.re_code}>
+                                                            <li style={{padding: '0',background: 'transparent',marginBottom: '10px'}}>
+                                                                <p className='room-title wish'>{item.reserved_at?.slice(0, 10)} 예약
+                                                                    <span className='del detail' onClick={()=>contentHandeler(item.re_code)}>상세보기 <i className="fa-solid fa-angle-right"></i></span>
+                                                                    {item.check_in_date.slice(0,10) > today && ( 
+                                                                        <span className='del' onClick={()=>{reserveCancel(item.re_code)}}><i className="fa-solid fa-ban" style={{color:'#f94239'}}></i> 취소하기</span>
+                                                                    )}
+                                                                    {item.check_in_date.slice(0,10) <= today && item.check_out_date.slice(0,10) > today && (
+                                                                        <span className='del' style={{
+                                                                            cursor: 'default',
+                                                                            background: '#f1f3f5',
+                                                                            border: '1px solid #e9ecef',
+                                                                            color: '#495057'
+                                                                        }}>
+                                                                            🏨 숙소 이용 중
+                                                                        </span>
+                                                                    )}
+                                                                    {item.check_out_date.slice(0,10) <= today && item.review_status === 0 &&  ( 
+                                                                        <span className='del' onClick={()=>{reviewModalOpen(item)}}>
+                                                                            <i className="fa-solid fa-star" style={{color:'#FCC34B'}}></i> 리뷰작성
+                                                                        </span>
+                                                                    )}   
+                                                                    {/* 체크아웃 이후 + 리뷰 작성 완료 */}
+                                                                    {new Date(year,month,day+30).toLocaleDateString('sv-SE') > today && item.review_status === 1 ? (
+                                                                    <span className='del' onClick={() => reviewModalOpen(item)}>
+                                                                        <i className="fa-solid fa-star" style={{color:'#FCC34B'}}></i> 리뷰수정
+                                                                    </span>
+                                                                    )
+                                                                    :
+                                                                    <span></span>
+                                                                    }                                                  
+                                                                    {/* 체크아웃 이후 + 리뷰 작성기간 만료 */}
+                                                                    {item.check_out_date.slice(0,10) <= today && item.review_status === 2 && (
+                                                                    <span className='del' style={{
+                                                                        cursor: 'default',
+                                                                        background: '#f1f3f5',
+                                                                        border: '1px solid #e9ecef',
+                                                                        color: '#495057'
+                                                                    }}>
+                                                                        <i className="fa-solid fa-star" style={{color:'#FCC34B'}}></i> 리뷰기간만료
+                                                                    </span>
+                                                                    )}                                                    
+                                                                </p>
+                                                            </li>
+                                                            <li>
+                                                                <div className="room-left">
+                                                                    <Link to={`/detail/${item.h_code}`} onClick={() => window.scrollTo(0,0)} >
+                                                                        <img src={`/img/${item.h_Img}`} alt={item.hotelName} />
+                                                                    </Link>
+                                                                </div>
+                                                                <div className="room-right">
+                                                                    <h2><Link to={`/detail/${item.h_code}`} onClick={() => window.scrollTo(0,0)}>{item.hotelName}</Link></h2>
+                                                                    <div className="room-info">
+                                                                        <p><i className="fa-solid fa-address-card"></i> 예약자명 : <span className='bold'>{item.booker_name}</span></p>                                                                
+                                                                        <p><i className="fa-solid fa-couch"></i> 예약객실 : <span className='bold'>{item.roomName}</span></p>
+                                                                        <p><i className="fa-regular fa-calendar"></i> 숙박일 : <span className='bold'>{new Date(item.check_in_date)?.toISOString().slice(0, 10)}({new Date(item.check_in_date).getDay()===0?'일':new Date(item.check_in_date).getDay()===1?'월':new Date(item.check_in_date).getDay()===2?'화':new Date(item.check_in_date).getDay()===3?'수':new Date(item.check_in_date).getDay()===4?'목':new Date(item.check_in_date).getDay()===5?'금':new Date(item.check_in_date).getDay()===6?'토':undefined})
+                                                                                ~ {new Date(item.check_out_date)?.toISOString().slice(0, 10)}({new Date(item.check_out_date).getDay()===0?'일':new Date(item.check_out_date).getDay()===1?'월':new Date(item.check_out_date).getDay()===2?'화':new Date(item.check_out_date).getDay()===3?'수':new Date(item.check_out_date).getDay()===4?'목':new Date(item.check_out_date).getDay()===5?'금':new Date(item.check_out_date).getDay()===6?'토':undefined})</span></p>
+                                                                        <span className='final-price'>{(item.final_price).toLocaleString()}원<span>/{(new Date(item.check_out_date).getTime()-new Date(item.check_in_date).getTime())/(1000*24*60*60)}박</span></span>                                                                
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                        </Fragment>
+                                                        ):null
+                                                    )
+                                                    
+                                                })}
+
+                                            </ul>
+                                        ):null}
+
+                                        {(!search && activeList && activeList.length > 0) ? ( 
+                                            <ul>
+                                                {activeList.map((item, index)=>{
+                                                        const year = new Date(item.check_out_date).getFullYear();
+                                                        const month = new Date(item.check_out_date).getMonth()+1;
+                                                        const day = new Date(item.check_out_date).getDate();
+                                                    return(
+                                                        item.cancel === 0 ? (
+                                                        <Fragment key={item.re_code}>
                                                         <li style={{padding: '0',background: 'transparent',marginBottom: '10px'}}>
                                                             <p className='room-title wish'>{item.reserved_at?.slice(0, 10)} 예약
                                                                 <span className='del detail' onClick={()=>contentHandeler(item.re_code)}>상세보기 <i className="fa-solid fa-angle-right"></i></span>
                                                                 {item.check_in_date.slice(0,10) > today && ( 
                                                                     <span className='del' onClick={()=>{reserveCancel(item.re_code)}}><i className="fa-solid fa-ban" style={{color:'#f94239'}}></i> 취소하기</span>
                                                                 )}
-                                                                {item.check_in_date.slice(0,10) <= today && item.check_out_date.slice(0,10) > today && (
+
+                                                                {item.check_in_date.slice(0,10) <= today && today < item.check_out_date.slice(0,10) && ( 
                                                                     <span className='del' style={{
                                                                         cursor: 'default',
                                                                         background: '#f1f3f5',
@@ -547,28 +653,26 @@ export default function MyPage(){
                                                                         🏨 숙소 이용 중
                                                                     </span>
                                                                 )}
-                                                                {item.check_out_date.slice(0,10) <= today && item.review_status === 0 &&  ( 
-                                                                    <span className='del' onClick={()=>{reviewModalOpen(item)}}>
-                                                                        <i className="fa-solid fa-star" style={{color:'#FCC34B'}}></i> 리뷰작성
+                                                                {item.check_out_date.slice(0,10) <= today && item.review_status === 0 && ( 
+                                                                    <span className='del' onClick={()=>{reviewModalOpen(item)}}><i className="fa-solid fa-star" style={{color:'#FCC34B'}}></i> 리뷰작성</span>
+                                                                )}
+
+                                                                {new Date(year,month,day+30).toLocaleDateString('sv-SE') > today && item.review_status === 1 ? (
+                                                                    <span className='del' onClick={() => reviewModalOpen(item)}>
+                                                                        <i className="fa-solid fa-star" style={{color:'#FCC34B'}}></i> 리뷰수정
                                                                     </span>
-                                                                )}   
-                                                                {/* 체크아웃 이후 + 리뷰 작성 완료 */}
-                                                                {item.check_out_date.slice(0,10) <= today && item.review_status === 1 && (
-                                                                <span className='del' onClick={() => reviewModalOpen(item)}>
-                                                                    <i className="fa-solid fa-star" style={{color:'#FCC34B'}}></i> 리뷰수정
-                                                                </span>
-                                                                )}                                                         
-                                                                {/* 체크아웃 이후 + 리뷰 작성기간 만료 */}
-                                                                {item.check_out_date.slice(0,10) <= today && item.review_status === 2 && (
-                                                                <span className='del' style={{
-                                                                    cursor: 'default',
-                                                                    background: '#f1f3f5',
-                                                                    border: '1px solid #e9ecef',
-                                                                    color: '#495057'
-                                                                }}>
-                                                                    <i className="fa-solid fa-star" style={{color:'#FCC34B'}}></i> 리뷰기간만료
-                                                                </span>
-                                                                )}                                                         
+                                                                    )
+                                                                    :
+                                                                    <span></span>
+                                                                    }
+                                                                {item.check_out_date.slice(0,10) <= today &&  item.review_status === 2 && ( 
+                                                                    <span className='del' style={{
+                                                                        cursor: 'default',
+                                                                        background: '#f1f3f5',
+                                                                        border: '1px solid #e9ecef',
+                                                                        color: '#495057'
+                                                                    }}> 리뷰기간만료</span>
+                                                                )} 
                                                             </p>
                                                         </li>
                                                         <li>
@@ -583,76 +687,17 @@ export default function MyPage(){
                                                                     <p><i className="fa-solid fa-address-card"></i> 예약자명 : <span className='bold'>{item.booker_name}</span></p>                                                                
                                                                     <p><i className="fa-solid fa-couch"></i> 예약객실 : <span className='bold'>{item.roomName}</span></p>
                                                                     <p><i className="fa-regular fa-calendar"></i> 숙박일 : <span className='bold'>{new Date(item.check_in_date)?.toISOString().slice(0, 10)}({new Date(item.check_in_date).getDay()===0?'일':new Date(item.check_in_date).getDay()===1?'월':new Date(item.check_in_date).getDay()===2?'화':new Date(item.check_in_date).getDay()===3?'수':new Date(item.check_in_date).getDay()===4?'목':new Date(item.check_in_date).getDay()===5?'금':new Date(item.check_in_date).getDay()===6?'토':undefined})
-                                                                            ~ {new Date(item.check_out_date)?.toISOString().slice(0, 10)}({new Date(item.check_out_date).getDay()===0?'일':new Date(item.check_out_date).getDay()===1?'월':new Date(item.check_out_date).getDay()===2?'화':new Date(item.check_out_date).getDay()===3?'수':new Date(item.check_out_date).getDay()===4?'목':new Date(item.check_out_date).getDay()===5?'금':new Date(item.check_out_date).getDay()===6?'토':undefined})</span></p>
+                                                                        ~ {new Date(item.check_out_date)?.toISOString().slice(0, 10)}({new Date(item.check_out_date).getDay()===0?'일':new Date(item.check_out_date).getDay()===1?'월':new Date(item.check_out_date).getDay()===2?'화':new Date(item.check_out_date).getDay()===3?'수':new Date(item.check_out_date).getDay()===4?'목':new Date(item.check_out_date).getDay()===5?'금':new Date(item.check_out_date).getDay()===6?'토':undefined})</span></p>
                                                                     <span className='final-price'>{(item.final_price).toLocaleString()}원<span>/{(new Date(item.check_out_date).getTime()-new Date(item.check_in_date).getTime())/(1000*24*60*60)}박</span></span>                                                                
                                                                 </div>
                                                             </div>
                                                         </li>
-                                                    </Fragment>
-                                                    ):null
-                                                ))}
-                                            </ul>
-                                        ):null}
+                                                        </Fragment>
+                                                        ):null
+                                                    )
 
-                                        {(!search && activeList && activeList.length > 0) ? ( 
-                                            <ul>
-                                                {activeList.map((item, index)=>(
-                                                    item.cancel === 0 ? (
-                                                    <Fragment key={item.re_code}>
-                                                    <li style={{padding: '0',background: 'transparent',marginBottom: '10px'}}>
-                                                        <p className='room-title wish'>{item.reserved_at?.slice(0, 10)} 예약
-                                                            <span className='del detail' onClick={()=>contentHandeler(item.re_code)}>상세보기 <i className="fa-solid fa-angle-right"></i></span>
-                                                            {item.check_in_date.slice(0,10) > today && ( 
-                                                                <span className='del' onClick={()=>{reserveCancel(item.re_code)}}><i className="fa-solid fa-ban" style={{color:'#f94239'}}></i> 취소하기</span>
-                                                            )}
-
-                                                            {item.check_in_date.slice(0,10) <= today && today < item.check_out_date.slice(0,10) && ( 
-                                                                <span className='del' style={{
-                                                                    cursor: 'default',
-                                                                    background: '#f1f3f5',
-                                                                    border: '1px solid #e9ecef',
-                                                                    color: '#495057'
-                                                                }}>
-                                                                    🏨 숙소 이용 중
-                                                                </span>
-                                                            )}
-                                                            {item.check_out_date.slice(0,10) <= today && item.review_status === 0 && ( 
-                                                                <span className='del' onClick={()=>{reviewModalOpen(item)}}><i className="fa-solid fa-star" style={{color:'#FCC34B'}}></i> 리뷰작성</span>
-                                                            )}
-
-                                                            {item.check_out_date.slice(0,10) <= today &&  item.review_status === 1 && ( 
-                                                                <span className='del' onClick={()=>{reviewModalOpen(item)}}><i className="fa-solid fa-star" style={{color:'#FCC34B'}}></i> 리뷰수정</span>
-                                                            )} 
-                                                            {item.check_out_date.slice(0,10) <= today &&  item.review_status === 2 && ( 
-                                                                <span className='del' style={{
-                                                                    cursor: 'default',
-                                                                    background: '#f1f3f5',
-                                                                    border: '1px solid #e9ecef',
-                                                                    color: '#495057'
-                                                                }}> 리뷰기간만료</span>
-                                                            )} 
-                                                        </p>
-                                                    </li>
-                                                    <li>
-                                                        <div className="room-left">
-                                                            <Link to={`/detail/${item.h_code}`} onClick={() => window.scrollTo(0,0)} >
-                                                                <img src={`/img/${item.h_Img}`} alt={item.hotelName} />
-                                                            </Link>
-                                                        </div>
-                                                        <div className="room-right">
-                                                            <h2><Link to={`/detail/${item.h_code}`} onClick={() => window.scrollTo(0,0)}>{item.hotelName}</Link></h2>
-                                                            <div className="room-info">
-                                                                <p><i className="fa-solid fa-address-card"></i> 예약자명 : <span className='bold'>{item.booker_name}</span></p>                                                                
-                                                                <p><i className="fa-solid fa-couch"></i> 예약객실 : <span className='bold'>{item.roomName}</span></p>
-                                                                <p><i className="fa-regular fa-calendar"></i> 숙박일 : <span className='bold'>{new Date(item.check_in_date)?.toISOString().slice(0, 10)}({new Date(item.check_in_date).getDay()===0?'일':new Date(item.check_in_date).getDay()===1?'월':new Date(item.check_in_date).getDay()===2?'화':new Date(item.check_in_date).getDay()===3?'수':new Date(item.check_in_date).getDay()===4?'목':new Date(item.check_in_date).getDay()===5?'금':new Date(item.check_in_date).getDay()===6?'토':undefined})
-                                                                     ~ {new Date(item.check_out_date)?.toISOString().slice(0, 10)}({new Date(item.check_out_date).getDay()===0?'일':new Date(item.check_out_date).getDay()===1?'월':new Date(item.check_out_date).getDay()===2?'화':new Date(item.check_out_date).getDay()===3?'수':new Date(item.check_out_date).getDay()===4?'목':new Date(item.check_out_date).getDay()===5?'금':new Date(item.check_out_date).getDay()===6?'토':undefined})</span></p>
-                                                                <span className='final-price'>{(item.final_price).toLocaleString()}원<span>/{(new Date(item.check_out_date).getTime()-new Date(item.check_in_date).getTime())/(1000*24*60*60)}박</span></span>                                                                
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    </Fragment>
-                                                    ):null
-                                                ))}
+                                                    
+                                                })}
                                             </ul>
                                         ): !search && activeList && activeList.length === 0 ?(
                                             <p className='room-empty'>예약한 내역이 없습니다.</p>
@@ -713,109 +758,119 @@ export default function MyPage(){
                             <div className="detail-content">
                                 <div className="detail-left" ref={triggerRef}>                       
                                     <div className="reservDetail-select" style={{borderTop:'0px'}}>
-                                        {activeList.map((item)=>(
-                                            item.re_code === detailView ? (
-                                            <Fragment key={item.re_code}>
-                                            <div style={{padding: '0',background: 'transparent',marginBottom: '10px'}}>
-                                                <p className='room-title wish'  style={{marginTop:'0'}}>예약호텔 정보</p>
-                                                <div className="hotelInfo">
-                                                    <div className="room-left">
-                                                        <Link to={`/detail/${item.h_code}`} onClick={() => window.scrollTo(0,0)} >
-                                                            <img src={`/img/${item.h_Img}`} alt={item.hotelName} />
-                                                        </Link>
-                                                    </div>
-                                                    <div className="room-right">
-                                                        <h2><Link to={`/detail/${item.h_code}`} onClick={() => window.scrollTo(0,0)}>{item.hotelName}</Link></h2>
-                                                        <div className="intro-right">
-                                                            <button type='button' className='pay' onClick={()=>navigate(`/detail/${item.h_code}`)}>
-                                                                상세보기<i className="fa-solid fa-angle-right"></i>
-                                                            </button>
+                                        {activeList.map((item)=>{
+                                            const year = new Date(item.check_out_date).getFullYear();
+                                            const month = new Date(item.check_out_date).getMonth()+1;
+                                            const day = new Date(item.check_out_date).getDate();
+                                            return(
+                                                item.re_code === detailView ? (
+                                                <Fragment key={item.re_code}>
+                                                <div style={{padding: '0',background: 'transparent',marginBottom: '10px'}}>
+                                                    <p className='room-title wish'  style={{marginTop:'0'}}>예약호텔 정보</p>
+                                                    <div className="hotelInfo">
+                                                        <div className="room-left">
+                                                            <Link to={`/detail/${item.h_code}`} onClick={() => window.scrollTo(0,0)} >
+                                                                <img src={`/img/${item.h_Img}`} alt={item.hotelName} />
+                                                            </Link>
                                                         </div>
-                                                        <div className="room-info">
-                                                            <p><i className="fa-solid fa-address-card"></i> 예약자명 : <span className='bold'>{item.booker_name}</span></p>                                                                
-                                                            <p><i className="fa-solid fa-couch"></i> 예약객실 : <span className='bold'>{item.roomName}</span></p>
-                                                            <p><i className="fa-regular fa-calendar"></i> 숙박일 : <span className='bold'>{new Date(item.check_in_date)?.toISOString().slice(0, 10)}({new Date(item.check_in_date).getDay()===0?'일':new Date(item.check_in_date).getDay()===1?'월':new Date(item.check_in_date).getDay()===2?'화':new Date(item.check_in_date).getDay()===3?'수':new Date(item.check_in_date).getDay()===4?'목':new Date(item.check_in_date).getDay()===5?'금':new Date(item.check_in_date).getDay()===6?'토':undefined})
-                                                                    ~ {new Date(item.check_out_date)?.toISOString().slice(0, 10)}({new Date(item.check_out_date).getDay()===0?'일':new Date(item.check_out_date).getDay()===1?'월':new Date(item.check_out_date).getDay()===2?'화':new Date(item.check_out_date).getDay()===3?'수':new Date(item.check_out_date).getDay()===4?'목':new Date(item.check_out_date).getDay()===5?'금':new Date(item.check_out_date).getDay()===6?'토':undefined})</span></p>
-                                                            <span className='final-price'>{(item.final_price).toLocaleString()}원<span>/{(new Date(item.check_out_date).getTime()-new Date(item.check_in_date).getTime())/(1000*24*60*60)}박</span></span>                                                                
+                                                        <div className="room-right">
+                                                            <h2><Link to={`/detail/${item.h_code}`} onClick={() => window.scrollTo(0,0)}>{item.hotelName}</Link></h2>
+                                                            <div className="intro-right">
+                                                                <button type='button' className='pay' onClick={()=>navigate(`/detail/${item.h_code}`)}>
+                                                                    상세보기<i className="fa-solid fa-angle-right"></i>
+                                                                </button>
+                                                            </div>
+                                                            <div className="room-info">
+                                                                <p><i className="fa-solid fa-address-card"></i> 예약자명 : <span className='bold'>{item.booker_name}</span></p>                                                                
+                                                                <p><i className="fa-solid fa-couch"></i> 예약객실 : <span className='bold'>{item.roomName}</span></p>
+                                                                <p><i className="fa-regular fa-calendar"></i> 숙박일 : <span className='bold'>{new Date(item.check_in_date)?.toISOString().slice(0, 10)}({new Date(item.check_in_date).getDay()===0?'일':new Date(item.check_in_date).getDay()===1?'월':new Date(item.check_in_date).getDay()===2?'화':new Date(item.check_in_date).getDay()===3?'수':new Date(item.check_in_date).getDay()===4?'목':new Date(item.check_in_date).getDay()===5?'금':new Date(item.check_in_date).getDay()===6?'토':undefined})
+                                                                        ~ {new Date(item.check_out_date)?.toISOString().slice(0, 10)}({new Date(item.check_out_date).getDay()===0?'일':new Date(item.check_out_date).getDay()===1?'월':new Date(item.check_out_date).getDay()===2?'화':new Date(item.check_out_date).getDay()===3?'수':new Date(item.check_out_date).getDay()===4?'목':new Date(item.check_out_date).getDay()===5?'금':new Date(item.check_out_date).getDay()===6?'토':undefined})</span></p>
+                                                                <span className='final-price'>{(item.final_price).toLocaleString()}원<span>/{(new Date(item.check_out_date).getTime()-new Date(item.check_in_date).getTime())/(1000*24*60*60)}박</span></span>                                                                
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </div>  
-                                                <p className='room-title wish'>예약 내역</p>
-                                                <table>
-                                                    <tbody>
-                                                        <tr>
-                                                            <th>호텔명</th>
-                                                            <td colSpan={2}>{item.hotelName}</td>
-                                                            <th>객실명</th>
-                                                            <td colSpan={2}>{item.roomName}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>예약일</th>
-                                                            <td>{item.reserved_at?.replace('T', ' ').substring(0, 19)}</td>
-                                                            <th>예약자명</th>
-                                                            <td>{item.booker_name}</td>
-                                                            <th>전화번호</th>
-                                                            <td>{item.m_phone}</td>
-                                                        </tr>                                                        
-                                                        <tr>
-                                                            <th>숙박 시작일</th>
-                                                            <td>{new Date(item.check_in_date)?.toISOString().slice(0, 10)}({new Date(item.check_in_date).getDay()===0?'일':new Date(item.check_in_date).getDay()===1?'월':new Date(item.check_in_date).getDay()===2?'화':new Date(item.check_in_date).getDay()===3?'수':new Date(item.check_in_date).getDay()===4?'목':new Date(item.check_in_date).getDay()===5?'금':new Date(item.check_in_date).getDay()===6?'토':undefined})</td>
-                                                            <th>숙박 종료일</th>
-                                                            <td>{new Date(item.check_out_date)?.toISOString().slice(0, 10)}({new Date(item.check_out_date).getDay()===0?'일':new Date(item.check_out_date).getDay()===1?'월':new Date(item.check_out_date).getDay()===2?'화':new Date(item.check_out_date).getDay()===3?'수':new Date(item.check_out_date).getDay()===4?'목':new Date(item.check_out_date).getDay()===5?'금':new Date(item.check_out_date).getDay()===6?'토':undefined})</td>
-                                                            <th>총 숙박 일수</th>
-                                                            <td>{(new Date(item.check_out_date).getTime()-new Date(item.check_in_date).getTime())/(1000*24*60*60)}박</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                                <p className='room-title wish'>결제 내역</p>
-                                                <table>
-                                                    <tbody>
-                                                        <tr>
-                                                            <th>총 결제금액</th>
-                                                            <td>{(item.original_price).toLocaleString()}원</td>
-                                                            <th>할인금액</th>
-                                                            <td>-{(item.original_price-item.final_price).toLocaleString()}원</td>
-                                                            <th>최종 결제금액</th>
-                                                            <td>{(item.final_price).toLocaleString()}원</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                                                                              
-                                                <div className="buttons">
-                                                    {item.check_in_date.slice(0,10) > today && ( 
-                                                        <span className='del' onClick={()=>{reserveCancel(item.re_code)}}><i className="fa-solid fa-ban" style={{color:'#f94239'}}></i> 취소하기</span>
-                                                    )}
-                                                    {item.check_in_date.slice(0,10) <= today && item.check_out_date.slice(0,10) > today && ( 
-                                                        <span className='del' style={{
-                                                            cursor: 'default',
-                                                            background: '#f1f3f5',
-                                                            border: '1px solid #e9ecef',
-                                                            color: '#495057'
-                                                        }}>
-                                                            🏨 숙소 이용 중
-                                                        </span>
-                                                    )}
-                                                    {item.check_out_date.slice(0,10) <= today && item.review_status === 0 && ( 
-                                                        <span className='del'  onClick={()=>{reviewModalOpen(item)}}><i className="fa-solid fa-star" style={{color:'#FCC34B'}}></i> 리뷰작성</span>
-                                                    )}
+                                                    </div>  
+                                                    <p className='room-title wish'>예약 내역</p>
+                                                    <table>
+                                                        <tbody>
+                                                            <tr>
+                                                                <th>호텔명</th>
+                                                                <td colSpan={2}>{item.hotelName}</td>
+                                                                <th>객실명</th>
+                                                                <td colSpan={2}>{item.roomName}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>예약일</th>
+                                                                <td>{item.reserved_at?.replace('T', ' ').substring(0, 19)}</td>
+                                                                <th>예약자명</th>
+                                                                <td>{item.booker_name}</td>
+                                                                <th>전화번호</th>
+                                                                <td>{item.m_phone}</td>
+                                                            </tr>                                                        
+                                                            <tr>
+                                                                <th>숙박 시작일</th>
+                                                                <td>{new Date(item.check_in_date)?.toISOString().slice(0, 10)}({new Date(item.check_in_date).getDay()===0?'일':new Date(item.check_in_date).getDay()===1?'월':new Date(item.check_in_date).getDay()===2?'화':new Date(item.check_in_date).getDay()===3?'수':new Date(item.check_in_date).getDay()===4?'목':new Date(item.check_in_date).getDay()===5?'금':new Date(item.check_in_date).getDay()===6?'토':undefined})</td>
+                                                                <th>숙박 종료일</th>
+                                                                <td>{new Date(item.check_out_date)?.toISOString().slice(0, 10)}({new Date(item.check_out_date).getDay()===0?'일':new Date(item.check_out_date).getDay()===1?'월':new Date(item.check_out_date).getDay()===2?'화':new Date(item.check_out_date).getDay()===3?'수':new Date(item.check_out_date).getDay()===4?'목':new Date(item.check_out_date).getDay()===5?'금':new Date(item.check_out_date).getDay()===6?'토':undefined})</td>
+                                                                <th>총 숙박 일수</th>
+                                                                <td>{(new Date(item.check_out_date).getTime()-new Date(item.check_in_date).getTime())/(1000*24*60*60)}박</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <p className='room-title wish'>결제 내역</p>
+                                                    <table>
+                                                        <tbody>
+                                                            <tr>
+                                                                <th>총 결제금액</th>
+                                                                <td>{(item.original_price).toLocaleString()}원</td>
+                                                                <th>할인금액</th>
+                                                                <td>-{(item.original_price-item.final_price).toLocaleString()}원</td>
+                                                                <th>최종 결제금액</th>
+                                                                <td>{(item.final_price).toLocaleString()}원</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                                                                
+                                                    <div className="buttons">
+                                                        {item.check_in_date.slice(0,10) > today && ( 
+                                                            <span className='del' onClick={()=>{reserveCancel(item.re_code)}}><i className="fa-solid fa-ban" style={{color:'#f94239'}}></i> 취소하기</span>
+                                                        )}
+                                                        {item.check_in_date.slice(0,10) <= today && item.check_out_date.slice(0,10) > today && ( 
+                                                            <span className='del' style={{
+                                                                cursor: 'default',
+                                                                background: '#f1f3f5',
+                                                                border: '1px solid #e9ecef',
+                                                                color: '#495057'
+                                                            }}>
+                                                                🏨 숙소 이용 중
+                                                            </span>
+                                                        )}
+                                                        {item.check_out_date.slice(0,10) <= today && item.review_status === 0 && ( 
+                                                            <span className='del'  onClick={()=>{reviewModalOpen(item)}}><i className="fa-solid fa-star" style={{color:'#FCC34B'}}></i> 리뷰작성</span>
+                                                        )}
 
-                                                    {item.check_out_date.slice(0,10) <= today && item.review_status === 1 && ( 
-                                                        <span className='del'  onClick={()=>{reviewModalOpen(item)}}><i className="fa-solid fa-star" style={{color:'#FCC34B'}}></i> 리뷰수정</span>
-                                                    )}                                                           
-                                                    {item.check_out_date.slice(0,10) <= today && item.review_status === 2 && ( 
-                                                        <span className='del' style={{
-                                                            cursor: 'default',
-                                                            background: '#f1f3f5',
-                                                            border: '1px solid #e9ecef',
-                                                            color: '#495057'
-                                                        }}> 리뷰기간만료</span>
-                                                    )}                                                           
-                                                    <span className='del detail' onClick={()=>{setListType(1);setListView(true);setDetailView(0);}}>전체목록<i className="fa-solid fa-angle-right"></i></span>
+                                                        {new Date(year,month,day+30).toLocaleDateString('sv-SE') > today && item.review_status === 1 ? (
+                                                        <span className='del' onClick={() => reviewModalOpen(item)}>
+                                                            <i className="fa-solid fa-star" style={{color:'#FCC34B'}}></i> 리뷰수정
+                                                        </span>
+                                                        )
+                                                        :
+                                                        <span></span>
+                                                        }                                                           
+                                                        {item.check_out_date.slice(0,10) <= today && item.review_status === 2 && ( 
+                                                            <span className='del' style={{
+                                                                cursor: 'default',
+                                                                background: '#f1f3f5',
+                                                                border: '1px solid #e9ecef',
+                                                                color: '#495057'
+                                                            }}> 리뷰기간만료</span>
+                                                        )}                                                           
+                                                        <span className='del detail' onClick={()=>{setListType(1);setListView(true);setDetailView(0);}}>전체목록<i className="fa-solid fa-angle-right"></i></span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            </Fragment>
+                                                </Fragment>
                                             ):null
-                                        ))}
+                                            )
+                                        })}
                                     </div>
                                 </div>
                             </div>               
@@ -1196,7 +1251,7 @@ export default function MyPage(){
             }
             
             {/* 리뷰 ------------------------------------------------------------------------------------ */}
-            {isOpen && (myPage.rb_code ? (
+            {isOpen && (status === 0 ? (
                 <div className='review_overlay'>
                     <div className='review_wrap'>
                         <p className="reviewTitle">호텔에 만족하셨나요?</p>
@@ -1231,8 +1286,9 @@ export default function MyPage(){
                             }}>완료</button>
                     </div>
                 </div>
-            ) 
-            : 
+            
+            )
+            :
             (
                 <div className='review_overlay'>
                     <div className='review_wrap'>
@@ -1269,6 +1325,8 @@ export default function MyPage(){
                     </div>
                 </div>
             ))}
+            
+            
         </div>
     )
 }

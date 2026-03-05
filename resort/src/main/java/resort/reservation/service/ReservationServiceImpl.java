@@ -83,6 +83,12 @@ public class ReservationServiceImpl implements ReservationService {
 		return reservationmapper.updateResercation(booker_name, re_code, g_phone);
 	}
 
+	@Override
+	public int reviewMod(int re_code) {
+		System.out.println("ReservationServiceImpl : updateResercation(O*O) 메서드 확인");
+		return reservationmapper.reviewMod(re_code);
+	}
+
 	
 	
 }

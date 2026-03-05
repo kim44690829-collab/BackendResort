@@ -48,7 +48,7 @@
 	
 	<!-- // 리뷰 insert public int reviewAdd(ReviewboardDTO redto); -->
 	<insert id="reviewAdd" parameterType="ReviewboardDTO">
-		INSERT INTO reviewboard(rb_score, m_code, r_code) VALUES(#{rb_score}, #{m_code}, #{r_code})
+		INSERT INTO reviewboard(rb_score, m_code, r_code, re_code) VALUES(#{rb_score}, #{m_code}, #{r_code}, #{re_code})
 	</insert>
 	
 
@@ -107,8 +107,8 @@
 	
 	
 	
-	<!-- // 리뷰 update public int reviewMod(@Param("rb_code") int rb_code, @Param("rb_score") int rb_score); -->
+	<!-- // 리뷰 update public int reviewMod(@Param("re_code") int re_code, @Param("rb_score") int rb_score); -->
 	<update id="reviewMod" parameterType="ReviewboardDTO">
-		UPDATE reviewboard SET rb_score = #{rb_score} WHERE rb_code = #{rb_code}
+		UPDATE reviewboard SET rb_score = #{rb_score} WHERE re_code = #{re_code}
 	</update>
 </mapper>

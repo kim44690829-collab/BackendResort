@@ -107,5 +107,10 @@
 			LEFT JOIN guest g 
 			on r.g_code = g.g_code SET booker_name = #{booker_name}, g_phone = #{g_phone} WHERE re_code=#{re_code}
 		</update>
+		
+		<!-- public int reviewMod(@Param("re_code") int re_code); -->
+		<update id="reviewMod">
+			UPDATE reservation SET review_status = 1 WHERE re_code = #{re_code}
+		</update>
 	
 </mapper>
