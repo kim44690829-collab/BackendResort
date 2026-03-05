@@ -15,7 +15,7 @@ public class CorsConfig {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
                         .allowedOrigins(
-                        		"http://localhost:5173",
+//                        		"http://localhost:5173",
                         		"https://port-0-backendresort-mmctqk47e196d173.sel3.cloudtype.app"
                         		)
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
