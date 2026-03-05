@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import resort.board.dto.BoardDTO;
 import resort.board.service.BoardService;
@@ -32,7 +33,8 @@ public class BoardApiController {
 
 	// 게시글 작성 
 	@PostMapping("/board/write")
-	public boolean boardWrite(BoardDTO bdto,
+	public boolean boardWrite(HttpServletRequest request,
+			BoardDTO bdto,
 			@RequestParam(value="upload", required=false) MultipartFile upload,
 			HttpSession session
 			) throws IllegalStateException, IOException {
@@ -44,7 +46,9 @@ public class BoardApiController {
 			
 		//1. 파일을 저장할 실제 하드디스크 위치를 지정한다.
 		//WebConfig에서 설정한 "file:///c:/upload/' 이 경로와 반드시 일치하여야 한다.
-		String savePath = "c:/resort2026/resort/frontend/public/boardImg";
+		String rootPath = System.getProperty("user.dir");
+        String savePath = rootPath + File.separator + "uploads" + File.separator + "img" + File.separator + "boardImg" + File.separator;
+
 		//2. 안전장치 : 만약 c:/upload/ 폴더가 존재하지않으면,
 		//프로그램을 통해 자동으로 생성되도록 작성한다.
 		File saveDir = new File(savePath);
@@ -59,7 +63,7 @@ public class BoardApiController {
 			String saveName = UUID.randomUUID().toString().subSequence(0, 6) + "_" + originalName;//파일명에 랜덤 문자 섞고 싶으면 pdf 16강 - 13페이지(random.UUID) 추가하면됨.
 			
 			// c:/upload/20.jpg
-			File file = new File(savePath + "/" + saveName);
+			File file = new File(savePath + saveName);
 			
 			
 			System.out.println("저장경로확인 : " + file.getAbsolutePath());
@@ -165,14 +169,17 @@ public class BoardApiController {
 	
 	// 게시글의 수정
 	@PutMapping("/board/update")
-	public boolean boardUpdate(BoardDTO bdto,
+	public boolean boardUpdate(HttpServletRequest request,
+			BoardDTO bdto,
 	        @RequestParam(value="upload", required=false) MultipartFile upload,
 	        HttpSession session
 	        ) throws IllegalStateException, IOException {
 
 	    System.out.println("BoardApiController boardUpdate() 메소드호출");    
 
-	    String savePath = "c:/resort2026/resort/frontend/public/boardImg";
+	    String rootPath = System.getProperty("user.dir");
+        String savePath = rootPath + File.separator + "uploads" + File.separator + "img" + File.separator + "boardImg" + File.separator;
+
 
 	    File saveDir = new File(savePath);
 	    if(!saveDir.exists()) {
@@ -200,7 +207,7 @@ public class BoardApiController {
 	        return false;
 	    }
 
-	    // 🔥 일반회원만 비밀번호 체크
+	    //  일반회원만 비밀번호 체크
 	    if(!isAdmin) {
 	        if(!original.getB_pw().equals(bdto.getB_pw())) {
 	            System.out.println("비밀번호가 맞지 않습니다");
@@ -214,7 +221,7 @@ public class BoardApiController {
 	    if(upload != null && !upload.isEmpty()) {
 
 	        if(oldFileName != null) {
-	            File oldFile = new File(savePath + "/" + oldFileName);
+	            File oldFile = new File(savePath + oldFileName);
 	            if(oldFile.exists()) {
 	                oldFile.delete();
 	            }
@@ -223,7 +230,7 @@ public class BoardApiController {
 	        String originalName = upload.getOriginalFilename();
 	        String saveName = UUID.randomUUID().toString().substring(0, 6) + "_" + originalName;
 
-	        File newFile  = new File(savePath + "/" + saveName);
+	        File newFile  = new File(savePath + saveName);
 	        upload.transferTo(newFile);
 
 	        bdto.setB_upload(saveName);
@@ -316,7 +323,9 @@ public class BoardApiController {
 	
 	//답글 작성을 처리하는 컨트롤러
 	@PostMapping("/board/reply")
-	public boolean reWrite(BoardDTO bdto,
+	public boolean reWrite(
+			HttpServletRequest request,
+			BoardDTO bdto,
 			@RequestParam(value="upload", required=false) MultipartFile upload,
 			HttpSession session
 			) throws IllegalStateException, IOException {
@@ -327,7 +336,8 @@ public class BoardApiController {
 		//회원코드 저장
 		bdto.setM_code(loginedMember.getM_code());
 		
-		String savePath = "c:/resort2026/resort/frontend/public/boardImg";
+		String rootPath = System.getProperty("user.dir"); 
+        String savePath = rootPath + File.separator + "uploads" + File.separator + "img" + File.separator + "boardImg" + File.separator;
 	
 		File saveDir = new File(savePath);
 		
@@ -339,7 +349,7 @@ public class BoardApiController {
 			String originalName = upload.getOriginalFilename();
 			String saveName = UUID.randomUUID().toString().subSequence(0, 6) + "_" + originalName;
 	
-			File file = new File(savePath + "/" + saveName);
+			File file = new File(savePath + saveName);
 			
 			upload.transferTo(file);
 			

@@ -517,7 +517,7 @@ export default function HelpCenter(){
     //다운로드 클릭시
     const handleDownload = (fileName) => {
         const link = document.createElement("a");
-        link.href = `/boardImg/${fileName}`;
+        link.href = `/img/boardImg/${fileName}`;
         link.download = fileName;
         document.body.appendChild(link);
         link.click();
@@ -1059,7 +1059,7 @@ export default function HelpCenter(){
                                         <tr height="40">
                                             <td align="center" style={{ width: '150px' }}>미리보기</td>
                                             <td style={{ width: '100%',padding:'10px' }}>
-                                                <img src={`/boardImg/${detail.b_upload}`} alt="첨부이미지"
+                                                <img src={`/img/boardImg/${detail.b_upload}`} alt="첨부이미지"
                                                     style={{ maxWidth: "30%", borderRadius: "6px" }}
                                                 />
                                             </td>
