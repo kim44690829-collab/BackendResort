@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.annotation.MultipartConfig;
+import jakarta.servlet.http.HttpServletRequest;
 import resort.handler.PageHandler;
 import resort.product.dto.HotelDTO;
 import resort.product.dto.HotelMergeDTO;
@@ -121,105 +123,168 @@ public class HotelApiController {
 	
 	// =============== 2026-02-24 수정부분 JHJ =====================
 	// 호텔 목록 추가
+//	@PostMapping("/hotel/insert")
+//	public int insertHotel(
+//			//@ModelAttribute HotelDTO hdto ,
+//			@RequestParam("hotelData") String hotelData,
+//			@RequestParam("h_Img")MultipartFile h_Img,
+//			@RequestParam("h_s_Img1")MultipartFile h_s_Img1,
+//			@RequestParam("h_s_Img2")MultipartFile h_s_Img2,
+//			@RequestParam("h_s_Img3")MultipartFile h_s_Img3,
+//			@RequestParam("h_s_Img4")MultipartFile h_s_Img4
+//			) throws Exception{
+//		System.out.println("자동차 등록 요청");
+//		
+//		// JSON 문자열 → TestImgDTO 변환
+//        ObjectMapper mapper = new ObjectMapper();
+//        HotelDTO hdto = mapper.readValue(hotelData, HotelDTO.class);
+//		
+//		//저장경로
+//		String savePath = "C:/resort2026/resort/frontend/public/img/";
+//				
+//		//저장할 경로가 졵하지 않으면 자동 생성해주는 코드
+//		File dir = new File(savePath);
+//		if(!dir.exists()) {
+//			dir.mkdirs();
+//		}
+//		
+//		String fileName="";
+//		if(!h_Img.isEmpty()) {
+//			//사용자가 올린 파일명을 가져온다.
+//			String originalName = h_Img.getOriginalFilename();
+//			
+//			// 사용자명 중복해서 입력되지 않도록 UUID클래스 이용
+//			fileName = UUID.randomUUID().toString().substring(0,4)+"_"+originalName;
+//			
+//			//fileName = hdto.getH_code()+1+"-"+"1";
+//			
+//			File saveFile = new File(savePath + fileName);
+//			h_Img.transferTo(saveFile);
+//		}
+//		String fileName1="";
+//		if(!h_s_Img1.isEmpty()) {
+//			//사용자가 올린 파일명을 가져온다.
+//			String originalName = h_s_Img1.getOriginalFilename();
+//			
+//			// 사용자명 중복해서 입력되지 않도록 UUID클래스 이용
+//			fileName1 = UUID.randomUUID().toString().substring(0,4)+"_"+originalName;
+//			
+//			//fileName1 = hdto.getH_code()+1+"-"+"2";
+//			
+//			File saveFile = new File(savePath + fileName1);
+//			h_s_Img1.transferTo(saveFile);
+//		}
+//		String fileName2="";
+//		if(!h_s_Img2.isEmpty()) {
+//			//사용자가 올린 파일명을 가져온다.
+//			String originalName = h_s_Img2.getOriginalFilename();
+//			
+//			// 사용자명 중복해서 입력되지 않도록 UUID클래스 이용
+//			fileName2 = UUID.randomUUID().toString().substring(0,4)+"_"+originalName;
+//			//fileName2 = hdto.getH_code()+1+"-"+"3";
+//			
+//			File saveFile = new File(savePath + fileName2);
+//			h_s_Img2.transferTo(saveFile);
+//		}
+//		String fileName3="";
+//		if(!h_s_Img3.isEmpty()) {
+//			//사용자가 올린 파일명을 가져온다.
+//			String originalName = h_s_Img3.getOriginalFilename();
+//			
+//			// 사용자명 중복해서 입력되지 않도록 UUID클래스 이용
+//			fileName3 = UUID.randomUUID().toString().substring(0,4)+"_"+originalName;
+//			//fileName3 = hdto.getH_code()+1+"-"+"4";
+//			
+//			File saveFile = new File(savePath + fileName3);
+//			h_s_Img3.transferTo(saveFile);
+//		}
+//		String fileName4="";
+//		if(!h_s_Img4.isEmpty()) {
+//			//사용자가 올린 파일명을 가져온다.
+//			String originalName = h_s_Img4.getOriginalFilename();
+//			
+//			// 사용자명 중복해서 입력되지 않도록 UUID클래스 이용
+//			fileName4 = UUID.randomUUID().toString().substring(0,4)+"_"+originalName;
+//			//fileName4 = hdto.getH_code()+1+"-"+"5";
+//			
+//			File saveFile = new File(savePath + fileName4);
+//			h_s_Img4.transferTo(saveFile);
+//		}
+//		
+//		// DTO중 setImg()에 파일명만 세팅한다.
+//		hdto.setH_Img(fileName);
+//		hdto.setH_s_Img1(fileName1);
+//		hdto.setH_s_Img2(fileName2);
+//		hdto.setH_s_Img3(fileName3);
+//		hdto.setH_s_Img4(fileName4);
+//		
+//		// DB에 저장
+//		hotelService.insertHotel(hdto);
+//		
+//		return 1;
+//	}
+	
 	@PostMapping("/hotel/insert")
-	public int insertHotel(
-			//@ModelAttribute HotelDTO hdto ,
+	public int insertCarProduct(
+			HttpServletRequest request,
+			//@ModelAttribute HotelDTO hdto,
 			@RequestParam("hotelData") String hotelData,
 			@RequestParam("h_Img")MultipartFile h_Img,
 			@RequestParam("h_s_Img1")MultipartFile h_s_Img1,
 			@RequestParam("h_s_Img2")MultipartFile h_s_Img2,
 			@RequestParam("h_s_Img3")MultipartFile h_s_Img3,
 			@RequestParam("h_s_Img4")MultipartFile h_s_Img4
-			) throws Exception{
-		System.out.println("자동차 등록 요청");
-		
-		// JSON 문자열 → TestImgDTO 변환
-        ObjectMapper mapper = new ObjectMapper();
-        HotelDTO hdto = mapper.readValue(hotelData, HotelDTO.class);
-		
-		//저장경로
-		String savePath = "C:/resort2026/resort/frontend/public/img/";
-				
-		//저장할 경로가 졵하지 않으면 자동 생성해주는 코드
-		File dir = new File(savePath);
-		if(!dir.exists()) {
-			dir.mkdirs();
-		}
-		
-		String fileName="";
-		if(!h_Img.isEmpty()) {
-			//사용자가 올린 파일명을 가져온다.
-			String originalName = h_Img.getOriginalFilename();
-			
-			// 사용자명 중복해서 입력되지 않도록 UUID클래스 이용
-			fileName = UUID.randomUUID().toString().substring(0,4)+"_"+originalName;
-			
-			//fileName = hdto.getH_code()+1+"-"+"1";
-			
-			File saveFile = new File(savePath + fileName);
-			h_Img.transferTo(saveFile);
-		}
-		String fileName1="";
-		if(!h_s_Img1.isEmpty()) {
-			//사용자가 올린 파일명을 가져온다.
-			String originalName = h_s_Img1.getOriginalFilename();
-			
-			// 사용자명 중복해서 입력되지 않도록 UUID클래스 이용
-			fileName1 = UUID.randomUUID().toString().substring(0,4)+"_"+originalName;
-			
-			//fileName1 = hdto.getH_code()+1+"-"+"2";
-			
-			File saveFile = new File(savePath + fileName1);
-			h_s_Img1.transferTo(saveFile);
-		}
-		String fileName2="";
-		if(!h_s_Img2.isEmpty()) {
-			//사용자가 올린 파일명을 가져온다.
-			String originalName = h_s_Img2.getOriginalFilename();
-			
-			// 사용자명 중복해서 입력되지 않도록 UUID클래스 이용
-			fileName2 = UUID.randomUUID().toString().substring(0,4)+"_"+originalName;
-			//fileName2 = hdto.getH_code()+1+"-"+"3";
-			
-			File saveFile = new File(savePath + fileName2);
-			h_s_Img2.transferTo(saveFile);
-		}
-		String fileName3="";
-		if(!h_s_Img3.isEmpty()) {
-			//사용자가 올린 파일명을 가져온다.
-			String originalName = h_s_Img3.getOriginalFilename();
-			
-			// 사용자명 중복해서 입력되지 않도록 UUID클래스 이용
-			fileName3 = UUID.randomUUID().toString().substring(0,4)+"_"+originalName;
-			//fileName3 = hdto.getH_code()+1+"-"+"4";
-			
-			File saveFile = new File(savePath + fileName3);
-			h_s_Img3.transferTo(saveFile);
-		}
-		String fileName4="";
-		if(!h_s_Img4.isEmpty()) {
-			//사용자가 올린 파일명을 가져온다.
-			String originalName = h_s_Img4.getOriginalFilename();
-			
-			// 사용자명 중복해서 입력되지 않도록 UUID클래스 이용
-			fileName4 = UUID.randomUUID().toString().substring(0,4)+"_"+originalName;
-			//fileName4 = hdto.getH_code()+1+"-"+"5";
-			
-			File saveFile = new File(savePath + fileName4);
-			h_s_Img4.transferTo(saveFile);
-		}
-		
-		// DTO중 setImg()에 파일명만 세팅한다.
-		hdto.setH_Img(fileName);
-		hdto.setH_s_Img1(fileName1);
-		hdto.setH_s_Img2(fileName2);
-		hdto.setH_s_Img3(fileName3);
-		hdto.setH_s_Img4(fileName4);
-		
-		// DB에 저장
-		hotelService.insertHotel(hdto);
-		
-		return 1;
+	        ) throws Exception {
+
+	    String rootPath = System.getProperty("user.dir"); 
+	    
+	    ObjectMapper mapper = new ObjectMapper();
+	    HotelDTO hdto = mapper.readValue(hotelData, HotelDTO.class);
+	    
+	    // 1. 대표 이미지 저장 경로 (car 폴더)
+	    String hotelPath = rootPath + File.separator + "uploads" + File.separator + "img" + File.separator;
+	    // 2. 상세 이미지 저장 경로 (detail 폴더)
+	    //String detailPath = rootPath + File.separator + "uploads" + File.separator + "img" + File.separator + "detail" + File.separator;
+
+	    
+	    File dir = new File(hotelPath);
+		 if (!dir.exists()) {
+			 dir.mkdirs();
+		 }
+	    
+	    // 폴더 생성
+	    new File(hotelPath).mkdirs();
+	    //new File(detailPath).mkdirs();
+
+	    if (h_Img != null && !h_Img.isEmpty()) {
+	        String fileName1 = UUID.randomUUID().toString().substring(0, 4) + "_" + h_Img.getOriginalFilename();
+	        h_Img.transferTo(new File(hotelPath + fileName1)); // carPath에 저장
+	        hdto.setH_Img(fileName1);
+	    }
+
+	    if (h_s_Img1 != null && !h_s_Img1.isEmpty()) {
+	        String fileName2 = UUID.randomUUID().toString().substring(0, 4) + "_" + h_s_Img1.getOriginalFilename();
+	        h_s_Img1.transferTo(new File(hotelPath + fileName2)); // detailPath에 저장
+	        hdto.setH_s_Img1(fileName2);
+	    }
+	    if (h_s_Img2 != null && !h_s_Img2.isEmpty()) {
+	    	String fileName3 = UUID.randomUUID().toString().substring(0, 4) + "_" + h_s_Img2.getOriginalFilename();
+	    	h_s_Img2.transferTo(new File(hotelPath + fileName3)); // detailPath에 저장
+	    	hdto.setH_s_Img2(fileName3);
+	    }
+	    if (h_s_Img3 != null && !h_s_Img3.isEmpty()) {
+	    	String fileName4 = UUID.randomUUID().toString().substring(0, 4) + "_" + h_s_Img3.getOriginalFilename();
+	    	h_s_Img3.transferTo(new File(hotelPath + fileName4)); // detailPath에 저장
+	    	hdto.setH_s_Img3(fileName4);
+	    }
+	    if (h_s_Img4 != null && !h_s_Img4.isEmpty()) {
+	    	String fileName5 = UUID.randomUUID().toString().substring(0, 4) + "_" + h_s_Img4.getOriginalFilename();
+	    	h_s_Img4.transferTo(new File(hotelPath + fileName5)); // detailPath에 저장
+	    	hdto.setH_s_Img4(fileName5);
+	    }
+
+	    hotelService.insertHotel(hdto);;
+	    return 1;
 	}
 	
 	@GetMapping("/hotel/onlyhotel")
