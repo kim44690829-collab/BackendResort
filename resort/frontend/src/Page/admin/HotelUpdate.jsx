@@ -75,7 +75,7 @@ export default function HotelUpdate(){
             console.error(error);
         });
         
-        setRender(!render);        
+        setRender(!render)
         
     }
 

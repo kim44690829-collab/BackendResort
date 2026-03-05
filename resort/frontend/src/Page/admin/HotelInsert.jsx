@@ -38,7 +38,7 @@ export default function HotelInsert(){
     const submitHandler=()=>{
         // React에서 이미지 업로드시 반드시 formData 객체를 생성한다.
         const formData = new FormData();
-        setRender(!render)
+        
         // 자바의 확장 for문과 비슷한 
         // 리액트의 for ~ in 구문
         // 객체의 key를 하나씩 꺼내는 구문
@@ -92,6 +92,7 @@ export default function HotelInsert(){
         .catch((error)=>{
             console.log("등록실패")
         })
+        setRender(!render)
     }
     // 공통 임력 처리 함수
     const handleChange=(e)=>{

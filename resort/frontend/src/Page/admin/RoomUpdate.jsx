@@ -22,7 +22,7 @@ export default function RoomUpdate(){
     const navigate = useNavigate();
     //상품 들록하는 submit 함수
     const submitHandler=()=>{
-        setRender(!render)
+        
         axios.put('/api/room/update',{
             r_code:r_code,
             h_code: h_code,
@@ -40,6 +40,7 @@ export default function RoomUpdate(){
         .catch((error) => {
             console.error(error);
         });
+        setRender(!render)
     }
     // 공통 임력 처리 함수
     
