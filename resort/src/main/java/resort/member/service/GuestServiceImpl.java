@@ -18,6 +18,8 @@ public class GuestServiceImpl implements GuestService{
 	
 	public final static int MEMBER_NOT_FOUND = -1;
 	
+	public final static int MEMBER_FOUND = 1;
+	
 	@Override
 	public int insertGuest(GuestDTO gdto) {
 		System.out.println("GuestServiceImpl : insertGuest() 메서드 확인");
@@ -53,6 +55,19 @@ public class GuestServiceImpl implements GuestService{
 				return UPDATE_NOT_MATCHED;
 			}
 		}
+	}
+
+	@Override
+	public int guestSel(String reservation_no) {
+		System.out.println("GuestServiceImpl : guestChkPro() 메서드 확인");
+		GuestDTO gdto = guestmapper.guestSel(reservation_no);
+		int result = 0;
+		if(gdto == null) {
+			result = MEMBER_NOT_FOUND;
+		}else {
+			result = MEMBER_FOUND;
+		}
+		return result;
 	}
 
 	

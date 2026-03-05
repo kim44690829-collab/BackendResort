@@ -34,7 +34,7 @@ export default function NoticeUpdate(){
     },[])
 
     const submitHandler=()=>{
-        setR(!r)
+        
         axios.put('/api/board/adminupdatenotice',{
             n_code:n_code,
             n_title: n_title,
@@ -49,6 +49,7 @@ export default function NoticeUpdate(){
         .catch((error) => {
             console.error(error);
         });
+        setR(!r)
     }
 
     useEffect(()=>{

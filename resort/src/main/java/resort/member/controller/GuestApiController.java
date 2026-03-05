@@ -30,6 +30,12 @@ public class GuestApiController {
 		System.out.println("GuestApiController : guestChk() 메서드 확인");
 		return guestservice.guestChkPro(reservation_no, g_phone);
 	}
+	
+	@GetMapping("/guestResSelect")
+	public int guestSel(@RequestParam("reservation_no") String reservation_no) {
+		System.out.println("GuestApiController : guestSel() 메서드 확인");
+		return guestservice.guestSel(reservation_no);
+	}
 
 	
 }

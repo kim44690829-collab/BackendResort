@@ -768,7 +768,7 @@ export default function HelpCenter(){
                              
                     }
                     {noticeNum ===0 && 
-                        <div className="paging" style={{width:"564px",marginTop:"10px"}}>
+                        <div className="paging" style={{width:"673px",marginTop:"10px"}}>
                                 {/* 페이지가 많을때 좌우 버튼 */}
                                 {ph.prev && (
                                     <button className="arrowbtn" onClick={() => setPage(ph.startPage - 1)}> ⇦  Prev</button>
@@ -782,7 +782,7 @@ export default function HelpCenter(){
                     {noticeNum !==0 ?
                         (
                         <>
-                            <div className='helpCenter_text' style={{width:"564px",borderTop:'2px solid black' }}>
+                            <div className='helpCenter_text' style={{width:"673px",borderTop:'2px solid black' }}>
                                 <div className='helpCenter_texts'>
                                     <p>{noticelist[noticeNum-1].n_title}</p>
                                     <p className='notice-date'>작성일 : {noticelist[noticeNum-1].n_date.slice(0,10)}</p>

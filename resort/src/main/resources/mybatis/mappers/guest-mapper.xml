@@ -30,4 +30,10 @@
 		WHERE re.reservation_no = #{reservation_no} AND g.g_phone = #{g_phone}
 	</select>
 	
+	<!-- // 정보 있는지 확인 public int guestSel(@RequestParam("reservation_no") String reservation_no); -->
+	<select id="guestSel" resultType="GuestDTO">
+		SELECT g.* FROM guest g INNER JOIN reservation re ON g.g_code = re.g_code  
+		WHERE re.reservation_no = #{reservation_no} AND g.g_check = 0;
+	</select>
+	
 </mapper>

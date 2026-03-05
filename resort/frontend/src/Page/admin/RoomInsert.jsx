@@ -205,7 +205,7 @@ export default function RoomInsert(){
                                     </tr>
                                 </thead>
                             </table>
-                                <Link to={'/adminpage'}>
+                                <Link to={'/adminpage3'}>
                                     <button type="button" className="insertBtn">
                                         취소하기
                                     </button>

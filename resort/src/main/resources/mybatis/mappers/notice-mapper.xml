@@ -66,7 +66,6 @@
 	<!-- 공지사항 수정 쿼리문 -->
 	<update id="adminUpdateNotice" parameterType="NoticeDTO">
 		UPDATE notice SET n_title = #{n_title},n_content = #{n_content} WHERE n_code = #{n_code}
-		UPDATE room SET h_code = #{h_code},roomName = #{roomName},price = #{price},maxOccupancy = #{maxOccupancy},r_img = #{r_img} WHERE r_code =#{r_code}
 	</update>
 	
 </mapper>

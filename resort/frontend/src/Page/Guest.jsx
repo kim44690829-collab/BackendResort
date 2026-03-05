@@ -64,7 +64,13 @@ export default function Guest(){
             })
             console.log("비회원 정보 수정용 : ", res.data)
             setGuestUpdateResult(res.data)
-            if(res.data === 1){
+            const res02 = await axios.get("/api/guestResSelect", null, {
+                params : {
+                    reservation_no : reservationNum
+                }
+            })
+            console.log("비회원 있어? : ", res02.data)
+            if(res.data === 1 || res02.data === -1){
                 console.log("예약정보 없음")
                 setGuestData(null);
                 setModalContent(<p style={{fontSize:'18px',fontWeight:'700'}}>예약 정보가 없습니다.</p>)

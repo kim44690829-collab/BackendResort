@@ -62,7 +62,7 @@ export default function AdminPage4(){
         })
         .then((res) => {
             console.log("수정 성공");
-            alert("예약정보 수정이 완료되었습니다")
+            alert("예약취소가 완료되었습니다")
            
             setR(!r)
         })

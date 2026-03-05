@@ -1,6 +1,7 @@
 package resort.member.service;
 
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import resort.member.dto.GuestDTO;
 
@@ -18,4 +19,6 @@ public interface GuestService {
 	// 정보가 있는지 확인하고 있으면 업데이트
 	public int guestChkPro(String reservation_no,String g_phone);
 	
+	// 정보 있는지 확인
+	public int guestSel(String reservation_no);
 }
