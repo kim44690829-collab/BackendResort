@@ -12,6 +12,7 @@ import axios from 'axios';
 
 
 export default function Detail(){  
+    // 0305 배포전 주석
     const {h_code} = useParams();
     const navigate = useNavigate();
 
