@@ -4,7 +4,7 @@ import '../Page/calendar.css'
 import { ResortDataContext } from '../Api/ResortData';
 import { data } from "react-router-dom";
 
-export default function Calendar(){
+export default function Calendar2(){
 
     const {RoomData, HotelData,DayData,setDayData,selectDate,setSelectDate,selectday,setSelectday,selectMonth,setSelectMonth,selectDateRemoveAll} = useContext(ResortDataContext);
     // 선택한 달
@@ -20,7 +20,7 @@ export default function Calendar(){
     ) //달력에 들어가는 배열
 
     
-    useEffect(()=>{
+    /* useEffect(()=>{
         const thisyears = new Date().getFullYear() // 오늘의 연도
         const thismonth = new Date().getMonth() //오늘의 월
         const thisdate = new Date().getDate() //오늘의 날짜
@@ -28,10 +28,8 @@ export default function Calendar(){
         console.log(thisyears)
         console.log(thisdate)
         console.log(thismonth)
-        if(selectDate.length > 2){
-            setSelectMonth(new Date(thisyears,thismonth,thisdate))
-        }
-    },[])
+        setSelectMonth(new Date(thisyears,thismonth,thisdate))
+    },[]) */
 
     useEffect(()=>{
         setDayData(selectday)
@@ -119,7 +117,7 @@ export default function Calendar(){
         const thismonth = new Date().getMonth()
 
         if(selectMonth.getMonth()+1 === (thismonth)%12 && selectMonth.getFullYear()<=thisyears){ // 이번달 일때 달력에 오늘 일자가 들어간다
-            setSelectMonth(new Date(selectMonth.getFullYear(),selectMonth.getMonth() + 1,thisdate))
+            setSelectMonth(new Date(selectMonth.getFullYear(),selectMonth.getMonth() + 1,1))
             console.log(selectMonth.getMonth()+1,'확인용1')
             console.log((thismonth)%12,'확인용1')
         }else{
@@ -138,8 +136,8 @@ export default function Calendar(){
         console.log(selectMonth.getFullYear())
         console.log(thisyears)
 
-        if(selectMonth.getFullYear() === thisyears && selectMonth.getMonth() === thismonth+1){
-            setSelectMonth(new Date(selectMonth.getFullYear(),selectMonth.getMonth() - 1,thisdate))
+        if(selectMonth.getFullYear() === thisyears /* && selectMonth.getMonth() === thismonth+1 */){
+            setSelectMonth(new Date(selectMonth.getFullYear(),selectMonth.getMonth() - 1,1))
         }else if(selectMonth.getFullYear()>thisyears+1 || selectMonth.getMonth()>=3){
             setSelectMonth(new Date(selectMonth.getFullYear(),selectMonth.getMonth() - 1,1))
         }
@@ -262,11 +260,11 @@ export default function Calendar(){
                                     <tr key={index}>
                                         {item.map((items,index) => (
                                                                                         /* 선택한 일자가 오늘일자보다 클때 클릭 활성화 - 비활성화 처리 */
-                                            <td key={index} onClick={()=>items!=='' && selectMonth.getDate()<=items?leftcal(items,selectMonth.getMonth()+1,selectMonth.getFullYear()):''} 
+                                            <td key={index} onClick={()=>items!=='' /* && selectMonth.getDate()<=items */?leftcal(items,selectMonth.getMonth()+1,selectMonth.getFullYear()):''} 
                                             className={
                                                 /* 현재 일자 이전 일자 클래스 없음 예외처리 - 비활성화*/
-                                                `${selectMonth.getDate()>items?''
-                                                :
+                                                `${/* selectMonth.getDate()>items?''
+                                                : */
                                                 `${selectMonth.getFullYear()}-${selectMonth.getMonth()+1<10?`0${selectMonth.getMonth()+1}`:selectMonth.getMonth()+1}-${items<10?'0'+items:items}`===selectday[0] || `${selectMonth.getFullYear()}-${selectMonth.getMonth()+1<10?`0${selectMonth.getMonth()+1}`:selectMonth.getMonth()+1}-${items<10?'0'+items:items}`===selectday[1]?'choose'
                                                 :
                                                 `${selectMonth.getFullYear()}-${selectMonth.getMonth()+1<10?`0${selectMonth.getMonth()+1}`:selectMonth.getMonth()+1}-${items<10?'0'+items:items}`>selectday[0] && `${selectMonth.getFullYear()}-${selectMonth.getMonth()+1<10?`0${selectMonth.getMonth()+1}`:selectMonth.getMonth()+1}-${items<10?'0'+items:items}`<selectday[1]?'area'

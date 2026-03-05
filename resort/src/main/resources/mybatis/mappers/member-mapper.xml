@@ -32,7 +32,7 @@
 <select id="oneSelectMember" parameterType="String" resultType="MemberDTO">
     SELECT *,
         CASE 
-            WHEN NOW() > DATE_ADD(m.m_regDate, INTERVAL 1 MONTH) THEN 0
+            WHEN NOW() &gt; DATE_ADD(m.m_regDate, INTERVAL 1 MONTH) THEN 0
             ELSE m.m_coupon
         END AS currentCoupon
     FROM member m

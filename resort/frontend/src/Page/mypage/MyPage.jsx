@@ -1,5 +1,5 @@
 import { useState,useEffect,useContext,useRef,Fragment } from "react";
-import Calendar from '../Calendar';
+import Calendar2 from '../Calendar2';
 import { ResortDataContext } from '../../Api/ResortData';
 import { ModalContext } from '../Modal';
 import { Link, useNavigate } from 'react-router-dom';
@@ -710,7 +710,7 @@ export default function MyPage(){
                                             setCal((Cal === true) ? true : false);
                                             e.stopPropagation();
                                         }}>
-                                            <Calendar/>
+                                            <Calendar2/>
                                         </div>
                                     }
                                     <div className="hotel-day" >
@@ -973,7 +973,7 @@ export default function MyPage(){
                                             setCal((Cal === true) ? true : false);
                                             e.stopPropagation();
                                         }}>
-                                            <Calendar/>
+                                            <Calendar2/>
                                         </div>
                                     }
                                     <div className="hotel-day" >

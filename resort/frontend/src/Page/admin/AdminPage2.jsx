@@ -7,7 +7,6 @@ import { Link } from "react-router-dom";
 export default function AdminPage2(){
 
     const {userEmail} = useContext(ResortDataContext)
-
     const [hotel,setHotel] = useState([]);
     const [ph,setPh] = useState({});
     const [page, setPage] = useState(1);
