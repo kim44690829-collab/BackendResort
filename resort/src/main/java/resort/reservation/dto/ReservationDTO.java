@@ -24,5 +24,6 @@ public class ReservationDTO{
 	private int coupon_used; // 쿠폰 사용 여부
 	private String m_phone; // 회원전화번호
 	private String g_phone; // 비회원전화번호	
-	private String reservation_no; // 예약 번호	
+	private String reservation_no; // 예약 번호
+	private int coupon_used; // 쿠폰 사용 여부
 }	
