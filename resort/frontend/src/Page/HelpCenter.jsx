@@ -879,9 +879,7 @@ export default function HelpCenter(){
             {/* 1대1 문의 게시글 전체 */}
             {listType === 8 && writeBoard === false && detailBoard === false && modifyBoard === false &&(
                 <div id="board" className="helpCenter_text">
-                    <h1 className="text_title">1 대 1 문의</h1>
-
-                    {boardList && boardList.length > 0 ? (
+                    <h1 className="text_title">1 대 1 문의</h1>                    
                     <div id="board_wrap">
                         <div className="word">
                             <h2>전체 문의글</h2>
@@ -894,62 +892,63 @@ export default function HelpCenter(){
                                 </button>
                             }                        
                         </div>
+                        {boardList && boardList.length > 0 ? (
                         <div className="content">
-                        <table>
-                            <tbody>
-                            {/* 테이블 헤더 */}
-                            <tr>
-                                <th>번호</th>
-                                <th>제목</th>
-                                <th>작성자</th>
-                                <th>작성일자</th>
-                                <th>조회수</th>
-                            </tr>
-                            
-                            {/* 게시글 반복 */}
-                            {boardList.map((item, index) => (
-                                <tr key={item.b_code} className={item.re_level > 1 ? 'reple' : null}>
-                                    <td>
-                                        {!isMyList ?
-                                        (pageHandler.totalCnt - ((page - 1) * pageSize) - index)
-                                        :
-                                        (item.re_level === 1 ? pageHandler.totalCnt - ((page - 1) * pageSize) - (index - boardList.slice(0, index).filter(v => v.re_level > 1).length)
-                                            : ""
-                                        )}
-                                    </td>
-                                    <td className='boardTitle'> 
-                                        <button onClick={()=>{detailView(item.b_code)}}>
-                                            {/* 답글인 경우 */}
-                                            {item.re_level > 1 ? (
-                                                // <span style={{ paddingLeft: `${(item.re_level - 1) * 20}px` }}>
-                                                <span className='answer-wrap'>
-                                                   └<span className='answer'>답변완료</span> {item.b_title}
-                                                </span>
-                                            ) : (
-                                            item.b_title
-                                            )}
-                                        </button>
-                                    </td>
-                                    <td>
-                                        {item.b_writer}
-                                    </td>
-                                    <td>
-                                        {formatDateTime(item.b_date).slice(0, 10)}
-                                    </td>
-                                    <td>
-                                        {item.readcount}
-                                    </td>
+                            <table>
+                                <tbody>
+                                {/* 테이블 헤더 */}
+                                <tr>
+                                    <th>번호</th>
+                                    <th>제목</th>
+                                    <th>작성자</th>
+                                    <th>작성일자</th>
+                                    <th>조회수</th>
                                 </tr>
-                            ))}
-                            </tbody>
-                        </table>
+                                
+                                {/* 게시글 반복 */}
+                                {boardList.map((item, index) => (
+                                    <tr key={item.b_code} className={item.re_level > 1 ? 'reple' : null}>
+                                        <td>
+                                            {!isMyList ?
+                                            (pageHandler.totalCnt - ((page - 1) * pageSize) - index)
+                                            :
+                                            (item.re_level === 1 ? pageHandler.totalCnt - ((page - 1) * pageSize) - (index - boardList.slice(0, index).filter(v => v.re_level > 1).length)
+                                                : ""
+                                            )}
+                                        </td>
+                                        <td className='boardTitle'> 
+                                            <button onClick={()=>{detailView(item.b_code)}}>
+                                                {/* 답글인 경우 */}
+                                                {item.re_level > 1 ? (
+                                                    // <span style={{ paddingLeft: `${(item.re_level - 1) * 20}px` }}>
+                                                    <span className='answer-wrap'>
+                                                    └<span className='answer'>답변완료</span> {item.b_title}
+                                                    </span>
+                                                ) : (
+                                                item.b_title
+                                                )}
+                                            </button>
+                                        </td>
+                                        <td>
+                                            {item.b_writer}
+                                        </td>
+                                        <td>
+                                            {formatDateTime(item.b_date).slice(0, 10)}
+                                        </td>
+                                        <td>
+                                            {item.readcount}
+                                        </td>
+                                    </tr>
+                                ))}
+                                </tbody>
+                            </table>
                         </div>
-                    </div>
-                    ) : (
-                    <div>
-                        <p className="support-1on1">현재 문의 사항이 없습니다.</p>
-                    </div>
-                    )}
+                        ) : (
+                        <div className="content">
+                            <p className="support-1on1">현재 문의 사항이 없습니다.</p>
+                        </div>
+                        )}
+                    </div>                   
 
                     {boardList && boardList.length > 0 ? (
                     <div className="pagination">
