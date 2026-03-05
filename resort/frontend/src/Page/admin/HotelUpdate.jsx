@@ -23,7 +23,7 @@ export default function HotelUpdate(){
 
    
 
-
+//
     const currentHotel = hotel.find(h => h.h_code == h_code);
 
     const[hotelName,setHotelName] = useState(null)
