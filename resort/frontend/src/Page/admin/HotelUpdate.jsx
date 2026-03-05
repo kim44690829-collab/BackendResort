@@ -23,7 +23,7 @@ export default function HotelUpdate(){
 
    
 
-
+//
     const currentHotel = hotel.find(h => h.h_code == h_code);
 
     const[hotelName,setHotelName] = useState(null)
@@ -51,7 +51,7 @@ export default function HotelUpdate(){
     },[])
 
     const submitHandler = ()=>{
-        setRender(!render)
+        
         axios.put('/api/hotel/adminupdatehotel',{
             h_code: h_code,
             hotelName:hotelName,
@@ -75,7 +75,7 @@ export default function HotelUpdate(){
             console.error(error);
         });
         
-        
+        setRender(!render);        
         
     }
 

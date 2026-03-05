@@ -7,8 +7,6 @@ import { Link } from "react-router-dom";
 
 export default function AdminPage7(){
     const {userEmail} = useContext(ResortDataContext)
-    
-    const {userEmail} = useContext(ResortDataContext)
     const navigate = useNavigate();
     const [reviewlist,setReviewlist] = useState([]);
     const [ph,setPh] = useState({});
