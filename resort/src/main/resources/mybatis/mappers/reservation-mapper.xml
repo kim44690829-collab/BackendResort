@@ -93,7 +93,7 @@
 		</update>
 		
 		<!-- public int updateResercation(ReservationDTO redto); -->
-		<update id="deleteResercation" parameterType="String">
+		<update id="deleteResercation" parameterType="int">
 			UPDATE reservation r LEFT JOIN member m 
 			on r.m_code = m.m_code 
 			LEFT JOIN guest g 
