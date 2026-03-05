@@ -21,7 +21,7 @@ export default function RoomInsert(){
     const navigate = useNavigate();
     //상품 들록하는 submit 함수
     const submitHandler=()=>{
-        setRender(!render)
+        
         // React에서 이미지 업로드시 반드시 formData 객체를 생성한다.
         const formData = new FormData();
 
@@ -71,6 +71,7 @@ export default function RoomInsert(){
         .catch((error)=>{
             console.log("등록실패")
         })
+        setRender(!render)
     }
     // 공통 임력 처리 함수
     const handleChange=(e)=>{

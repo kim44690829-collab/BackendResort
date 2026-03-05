@@ -123,7 +123,7 @@ export default function MemberUdate(){
                         </div>
                     </div>
                     <div className="admin_body">
-                        <div className="admin_text" style={{textAlign:"left",width:"800px"}}>회원 정보 수정</div>
+                        <div className="admin_text" style={{textAlign:"left",width:"600px"}}>회원 정보 수정</div>
                         <div className="admin_list">
                             <table className="list_table" style={{width:"600px"}}>
                                 <thead >
