@@ -459,48 +459,6 @@ export default function Detail(){
 
     }
 
-
-    // //객실검색
-    // const searchClick = () =>{        
-    //     console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-    //     console.log(Hotel);
-    //     console.log(DayData[1]);
-
-    //     // DayData[0] = 체크인 DayData[1] = 체크아웃
-    //     // 호텔 예약가능 첫날이 체크인보다 크고 호텔 예약 가능 첫날이 마지막날보다 작거나
-    //     // Hotel.startDate <= DayData[1] && Hotel.endDate   >= DayData[0]
-    //     if((Hotel.startDate >= DayData[0] && Hotel.startDate <= DayData[1]  ) 
-    //         || (Hotel.endDate >= DayData[0] && Hotel.endDate <= DayData[1]) 
-    //         || (DayData[0]>=Hotel.startDate && DayData[1]<=Hotel.endDate)){
-    //         console.log("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
-    //         setDateFilter(true);
-
-    //         const headFilter2 = Room.filter((item)=>item.maxOccupancy >= head);
-    //         setHeadFilter(headFilter2);
-
-    //         //Room에서 필터된 인덱스 저장
-    //         const filterIndex2 = Room.map((arr,index) =>
-    //             headFilter2.some(item => item.r_code === arr.r_code) ? index : null
-    //         ).filter(index => index !== null);
-
-    //         setFilterIndex(filterIndex2);
-
-    //         //Room에서 필터된 인덱스 저장
-    //         const filterRcode2 = Room.map((arr) =>
-    //             headFilter2.some(item => item.r_code === arr.r_code) ? arr.r_code : null
-    //         ).filter(arr => arr !== null);
-
-    //         setFilterRcode(filterRcode2);
-
-    //     }else{
-    //         setDateFilter(false);
-    //         setHeadFilter([]);
-    //     }
-
-    //     setSearch(true);
-    //     //console.log(DayData[1]);
-    // }
-
     console.log("========================");
         console.log(filterIndex);
 
@@ -583,8 +541,8 @@ export default function Detail(){
             searchClick(); // axios로 /api/room/available 호출
             setSearch(true); // "검색한 상태"로 취급
         }
-    }, []);
-        // [Hotel?.h_code, DayData?.[0], DayData?.[1], head]
+    }, [Hotel?.h_code, DayData?.[0], DayData?.[1], guestCount]);
+        // []
 
         // 객실 검색
     const searchClick = async () => {
@@ -1240,7 +1198,7 @@ export default function Detail(){
                                     <button type='button' onClick={plusClick} className={guestCount === 30 ? 'die' : null}><i className="fa-solid fa-plus"></i></button>
                                 </div>
                             </div>
-                            <button type='button' className='search' onClick={()=>{searchClick();setCal(false);}}>객실 검색</button>
+                            {/* <button type='button' className='search' onClick={()=>{searchClick();setCal(false);}}>객실 검색</button> */}
                         </div>
                         <div className="hotel-select">
                             <p className='select-tit'>예약 전 참고사항</p>

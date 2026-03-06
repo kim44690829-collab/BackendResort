@@ -93,11 +93,13 @@
 		</update>
 		
 		<!-- public int updateResercation(ReservationDTO redto); -->
+		<!-- 예약 여부 삭제를 위한 업데이트 -->
 		<update id="deleteResercation" parameterType="int">
 			UPDATE reservation r LEFT JOIN member m 
 			on r.m_code = m.m_code 
 			LEFT JOIN guest g 
-			on r.g_code = g.g_code SET r.cancel = 1, r.cancel_date = now(), g.g_check=1 WHERE r.re_code=#{re_code}
+			on r.g_code = g.g_code SET r.cancel = 1, r.cancel_date = now(), 
+			g.g_check=1 WHERE r.re_code=#{re_code}
 		</update>
 		
 		

@@ -293,6 +293,7 @@ public class HotelApiController {
 		return hotelService.getonlyHotelAll();
 	}
 	
+	// 호텔 정보를 수정하기 위한 컨트롤러
 	@PutMapping("/hotel/adminupdatehotel")
 	public int adminupdatehotel(@RequestBody HotelDTO hdto) {
 		System.out.println("HotelApiController : adminupdatehotel() 메서드 확인");

@@ -15,7 +15,7 @@ export default function ForgotPassword(){
         }
 
         try {
-        await axios.post("http://localhost:8090/request-reset", {
+        await axios.post("/api/request-reset", {
             email: email
         });
 

@@ -9,7 +9,7 @@ export default function SignUp3(){
     const navigate = useNavigate();
     //
     // 핸드폰 데이터 3개 합친 변수
-    const {userNumFront, setUserNumFront, userNumBack, setUserNumBack, setHeaderChange, userNickName, /* nickname, setNickname */} = useContext(ResortDataContext);
+    const {userNumFront, setUserNumFront, userNumBack, setUserNumBack, setHeaderChange, userNickName, setRender} = useContext(ResortDataContext);
     // 회원가입 form에 들어가는 상태변수
     // 이메일
     const [userMail, setUserMail] = useState('');
@@ -229,7 +229,7 @@ export default function SignUp3(){
                     <p className='couponDate'><span style={{fontWeight:'700'}}>유효기간 :</span> ~{year}.{month+1}.{date}까지</p>
                     {/* <p className='couponDate'>오늘({year}.{month}.{date})부터 <span style={{color:'red', fontSize:'20px', fontWeight:'600'}}>‘한달’동안</span> 사용하실 수 있습니다!</p> */}
                     <button type='button' 
-                    onClick={modalHandeler} 
+                    onClick={() => {modalHandeler(); setRender(!render)}}
                     style={{color:'#fff', backgroundColor:'#42799b', border:'none', cursor:'pointer'}}
                     className='signupModalBtn'>홈으로</button>
                 </div> 

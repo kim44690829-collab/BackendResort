@@ -22,8 +22,8 @@ export default function MemberUdate(){
     const handleChange = ()=>{
         axios.put('/api/member/adminupdatemember',{
             m_code: m_code,
-            m_phone: find2===undefined || find2.m_phone === MemberAllData[m_code-1].m_phone?newph:MemberAllData[m_code-1].m_phone,
-            m_nickName: find===undefined || find.m_nickName === MemberAllData[m_code-1].m_nickName?newNick:MemberAllData[m_code-1].m_nickName
+            m_phone: find2===undefined || find2.m_phone === MemberAllData[m_code-1]?.m_phone?newph:MemberAllData[m_code-1]?.m_phone,
+            m_nickName: find===undefined || find.m_nickName === MemberAllData[m_code-1]?.m_nickName?newNick:MemberAllData[m_code-1]?.m_nickName
         })
         .then((res) => {
             console.log("수정 성공");
@@ -31,9 +31,9 @@ export default function MemberUdate(){
         .catch((error) => {
             console.error(error);
         });
-        if(find !== undefined && find.m_nickName !== MemberAllData[m_code-1].m_nickName){
+        if(find !== undefined && find.m_nickName !== MemberAllData[m_code-1]?.m_nickName){
             alert("이미 존재하는 닉네임입니다.")
-        }else if(find2 !== undefined && find2.m_phone !== MemberAllData[m_code-1].m_phone){
+        }else if(find2 !== undefined && find2.m_phone !== MemberAllData[m_code-1]?.m_phone){
             alert("이미 존재하는 전화번호입니다.")
         }else{
             alert("회원정보 수정이 완료되었습니다")
@@ -129,11 +129,11 @@ export default function MemberUdate(){
                                 <thead >
                                     <tr>
                                         <th width="200px">Num</th>
-                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:'1px solid #ddd'}}>{MemberAllData[m_code-1].m_code}</th>
+                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:'1px solid #ddd'}}>{MemberAllData[m_code-1]?.m_code}</th>
                                     </tr>
                                     <tr>
                                         <th width="200px">E_mail</th>
-                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:'1px solid #ddd'}}>{MemberAllData[m_code-1].m_email}</th>
+                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:'1px solid #ddd'}}>{MemberAllData[m_code-1]?.m_email}</th>
                                     </tr>
                                     <tr>
                                         <th width="200px">전화번호</th>
@@ -145,13 +145,13 @@ export default function MemberUdate(){
                                     <tr>
                                         <th width="200px">생일</th>
                                         <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:'1px solid #ddd'}}>
-                                            {MemberAllData[m_code-1].m_birth}
+                                            {MemberAllData[m_code-1]?.m_birth}
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">성별</th>
                                         <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:'1px solid #ddd'}}>
-                                            {MemberAllData[m_code-1].m_gender==0?"남성":"여성"}
+                                            {MemberAllData[m_code-1]?.m_gender==0?"남성":"여성"}
                                         </th>
                                     </tr>
                                     <tr>
@@ -164,11 +164,11 @@ export default function MemberUdate(){
                                     </tr>
                                     <tr>
                                         <th width="200px">쿠폰 보유</th>
-                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:'1px solid #ddd'}}>{MemberAllData[m_code-1].m_coupon}</th>
+                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:'1px solid #ddd'}}>{MemberAllData[m_code-1]?.m_coupon}</th>
                                     </tr>
                                     <tr>
                                         <th width="200px">가입일</th>
-                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:'1px solid #ddd'}}>{MemberAllData[m_code-1].m_regDate}</th>
+                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:'1px solid #ddd'}}>{MemberAllData[m_code-1]?.m_regDate}</th>
                                     </tr>
                                 </thead>
                             </table>

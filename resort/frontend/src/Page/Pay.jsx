@@ -381,7 +381,6 @@ export default function Pay(){
                                     (<>
                                         <input type="text" className="guest_phone" value={memberSel?.m_phone} onChange={(e)=>setPhone(e.target.value)} readOnly/> 
                                     </>)}
-                                <button type="button" className="phone_btn">인증번호 발송 </button>
                                 <div className="phone_txt">
                                     <i className="fa-solid fa-circle-exclamation"></i>
                                     <button type="button" className="phone_under">입력된 휴대폰 번호는 안심번호로 변경되어 숙소에 전달돼요.</button>
