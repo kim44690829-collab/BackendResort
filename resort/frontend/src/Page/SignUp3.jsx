@@ -9,7 +9,7 @@ export default function SignUp3(){
     const navigate = useNavigate();
     //
     // 핸드폰 데이터 3개 합친 변수
-    const {userNumFront, setUserNumFront, userNumBack, setUserNumBack, setHeaderChange, userNickName, setRender} = useContext(ResortDataContext);
+    const {userNumFront, setUserNumFront, userNumBack, setUserNumBack, setHeaderChange, userNickName, setRender, render} = useContext(ResortDataContext);
     // 회원가입 form에 들어가는 상태변수
     // 이메일
     const [userMail, setUserMail] = useState('');

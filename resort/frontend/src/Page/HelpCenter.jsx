@@ -1082,7 +1082,7 @@ export default function HelpCenter(){
                                         <td align="center" style={{backgroundColor:'#ae4444'}}>비밀번호</td>
                                         <td style={{ width: '100%' }}>
                                             <input type="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-                                            <input type="button" onClick={deleteSubmit} value="확인" />
+                                            <input type="button" onClick={deleteSubmit} value="삭제" />
                                         </td>                                        
                                     </tr>)}
                                     <tr height="40" className='ans_btn'>

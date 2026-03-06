@@ -537,7 +537,7 @@ export default function Detail(){
 
     useEffect(() => {
         // 날짜/인원 값이 준비된 순간 자동 조회
-        if (Hotel?.h_code && DayData?.[0] && DayData?.[1] && guestCount) {
+        if (Hotel?.h_code && (DayData?.[0] || DayData?.[1] || guestCount)) {
             searchClick(); // axios로 /api/room/available 호출
             setSearch(true); // "검색한 상태"로 취급
         }
@@ -877,7 +877,7 @@ export default function Detail(){
                                                         payClick(guestCount, item.r_code);
                                                         window.scrollTo(0, 0);
                                                     }}>
-                                                    {search && !availableSet.has(item.r_code) ? "예약불가" : "예약하기"}
+                                                    {(search && !availableSet.has(item.r_code)) || (DayData.length < 2) ? "예약불가" : "예약하기"}
                                                     </button>
                                                 </div>
                                             </div>
@@ -1177,11 +1177,11 @@ export default function Detail(){
                         <div className="hotel-day">
                             <p className='day-wrap'>
                                 <span className='day-tit'>예약일</span>
-                                <span className='day-txt'>{DayData.length < 2 ? `${year}-${month+1}-${date}` : `${DayData[0]}`}</span>
+                                <span className='day-txt'>{DayData.length < 2 ? `일정을 선택해주세요.` : `${DayData[0]}`}</span>
                             </p>
                             <p className='day-wrap'>
                                 <span className='day-tit'>종료일</span>
-                                <span className='day-txt'>{DayData.length < 2 ? `${year}-${month+1}-${date + 1}` : `${DayData[1]}`}</span>
+                                <span className='day-txt'>{DayData.length < 2 ? `일정을 선택해주세요.` : `${DayData[1]}`}</span>
                             </p>
                             <button type='button' onClick={ e =>{
                                 setCal((Cal === true) ? false : true);
