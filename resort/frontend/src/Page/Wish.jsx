@@ -303,7 +303,7 @@ console.log(WishAvg);
                                 setDayClick(true);
                                 setSelectday([]);
                                 e.stopPropagation();
-                            }}>예약가능일 조회</button>
+                            }}>예약가능상품 조회</button>
                         </div>
                         <div className="hotel-headcount">
                             <p className='head-tit'>투숙인원 선택</p>
