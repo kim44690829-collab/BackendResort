@@ -290,12 +290,12 @@ console.log(WishAvg);
                         <div className="hotel-day" style={{marginTop:'37px'}}>
                             <p className='day-wrap'>
                                 <span className='day-tit'>예약일</span>
-                                <span className='day-txt'>{dayClick === true ? (DayData.length < 2 ? `${year}-${month+1}-${date}` : `${DayData[0]}`) : ('예약날짜를 설정해주세요.')}</span>
+                                <span className='day-txt'>{dayClick === true ? (DayData.length < 2 ? `${year}-${month+1}-${date}` : `${DayData[0]}`) : ('예약 가능 시작일 입력')}</span>
                             </p>
                             <p className='day-wrap'>
                                 <span className='day-tit'>종료일</span>
                                 <span className='day-txt'>
-                                    {dayClick === true ? (DayData.length < 2 ? `${year}-${month+1}-${date+1}` : `${DayData[1]}`) : ('예약날짜를 설정해주세요.')}
+                                    {dayClick === true ? (DayData.length < 2 ? `${year}-${month+1}-${date+1}` : `${DayData[1]}`) : ('예약 가능 종료일 입력')}
                                 </span>
                             </p>
                             <button type='button' onClick={ e =>{
@@ -303,7 +303,7 @@ console.log(WishAvg);
                                 setDayClick(true);
                                 setSelectday([]);
                                 e.stopPropagation();
-                            }}>예약일 변경</button>
+                            }}>예약가능일 조회</button>
                         </div>
                         <div className="hotel-headcount">
                             <p className='head-tit'>투숙인원 선택</p>
