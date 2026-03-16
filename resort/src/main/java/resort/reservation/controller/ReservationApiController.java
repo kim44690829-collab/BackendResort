@@ -22,6 +22,7 @@ import resort.product.dto.RoomDTO;
 import resort.reservation.dto.ResInfoDTO;
 import resort.reservation.dto.ResResponseDTO;
 import resort.reservation.dto.ReservationDTO;
+import resort.reservation.dto.ReservationMergeDTO;
 import resort.reservation.service.ReservationService;
 
 @RestController
@@ -103,7 +104,7 @@ public class ReservationApiController {
 		// 페이지 핸들러 인스터스화
 		PageHandler ph = new PageHandler(totalCnt, page, pageSize);
 		
-		List<ReservationDTO>list;
+		List<ReservationMergeDTO>list;
 		
 		if(searchType != null && !searchKeyword.trim().isEmpty()) {
 			list = reservationservice.getSearchResPageList(searchType, searchKeyword, ph.getStartRow(), pageSize);				

@@ -917,24 +917,30 @@
     background-color: #fff;
     padding: 13px 15px;
     border-radius: 5px;
+    text-align: center;
 }
+.reserVation-wrap .detail-content .detail-right .hotel-day .day-wrap2{
+    text-align: center;
+}
+
 .reserVation-wrap .detail-content .detail-right .hotel-day .day-wrap .day-tit{
     float: left;
     font-size: 14px;
     font-weight: 500;
 }
 .reserVation-wrap .detail-content .detail-right .hotel-day .day-wrap .day-txt{
-    float: right;
+    float: none;
     font-weight: 600;
     font-size: 15px;
     line-height: 0.8;
 }
+
 .reserVation-wrap .detail-content .detail-right .hotel-day button{
-    background-color: #42799b;
-    color: #fff;
-    border: 1px solid #42799b;
-    font-weight: 500;
-    font-size: 17px;
+    background-color: #ffffff;
+    color: #000;
+    border: 1px solid #e7e7e7;
+    font-weight: 700;
+    font-size: 15px;
     letter-spacing: 0.5px;
     line-height: 40px;
     width: 100%;
@@ -942,8 +948,8 @@
     margin-top: 10px;
 }
 .reserVation-wrap .detail-content .detail-right .hotel-day button:hover{
-    background-color: #31688a;
-    border-color: #31688a;
+    background-color: #e7e7e7;
+    border: 1px solid #e7e7e7;
 }
 .reserVation-wrap .detail-content .detail-right .hotel-headcount{
     padding: 25px 30px;
@@ -1319,6 +1325,23 @@
     padding: 10px;
     border-radius: 10px;
     line-height: 20px;
+}
+#nickname{
+    width: 390px;
+    padding: 15px 10px 15px 20px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    background-color: #f0f0f0;
+}
+.nicknameCheckBtn{
+    width: 100px;
+    margin-left: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    color: #000;
+    background-color: #fff;
+    border: 1px solid #808080;
 }
 /* 공지사항 */
 .coupons{

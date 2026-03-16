@@ -345,7 +345,8 @@ button{
 }
 .detail-wrap .detail-content .detail-left .room-select .empty-room{
     text-align: center;
-    padding-top: 24px;
+    /* padding-top: 24px; */
+    padding-top: 90px;
 }
 .detail-wrap .detail-content .detail-left .room-select .empty-room .x-icon{
     border: 0;
@@ -372,7 +373,8 @@ button{
     color: #707070;
     font-weight: 600;
     letter-spacing: -0.5px;
-    padding-bottom: 55px;
+    /* padding-bottom: 55px; */
+    padding-bottom: 125px;
 }
 .detail-wrap .detail-content .detail-left .room-select .empty-room .empty-bottom{
     text-align: left;
@@ -427,10 +429,23 @@ button{
 .room-select ul li .room-right .room-intro .intro-right{
     float: right;
 }
-.room-select ul li .room-right .room-intro .intro-left img{
-    margin-right: 1px;
-    width: 15px;
+.room-select ul li .room-right .room-intro .intro-left .img3{
+    margin-right: 0;
+    height: 15px;
+    width: auto;
 }
+.detail-wrap .recommend .recommend-slider .hotel-txt .intro-left .img4{
+    margin-right: 0;
+    height: 14px;
+    width: auto;
+}
+.bottom-right .review-wrap .room-div .review-txt-wrap .img5{
+    margin-right: 0;
+    height: 13px;
+    width: auto;
+    vertical-align: text-top;
+}
+
 .room-select ul li .room-right .room-intro .intro-left .starScore{
     font-size: 14px;
     font-weight: 600;
@@ -601,10 +616,19 @@ button{
 .hotel-score .score-wrap .score-left .star{
     margin: 29px 0 21px;
 }
-.hotel-score .score-wrap .score-left .star img{
-    margin-right: 2px;
-    width: 21px;
+.hotel-score .score-wrap .score-left .star .img1{
+    margin:0;
+    height: 21px;
+    width: auto;
 }
+
+.detail-wrap .detail-title .title-left .img2{
+    margin:0;
+    height: 15px;
+    width: auto;
+}
+
+
 .hotel-score .score-wrap .score-left .score,
 .hotel-score .score-wrap .score-left .score span{
     font-size: 43px;
@@ -793,6 +817,11 @@ button{
     border-radius: 5px;
     margin-right: 15px;
     margin-top: 3.5px;
+}
+
+.bottom-right .review-wrap .room-div .review-txt-wrap{
+    /* display: flex;
+    align-items: center; */
 }
 .bottom-right .review-wrap .room-div .hotel-img-wrap .hotel-img{
     position: absolute;
@@ -1162,10 +1191,12 @@ button{
     transform: translate(-50%, -50%);
     height: 100%;
     border-radius: 12px;
+    cursor: pointer;
 }
 .detail-wrap .recommend .recommend-slider .hotel-txt,
 .detail-wrap .wish .wish-slider .hotel-txt{
     padding: 15px 36px 0px 7px;
+    cursor: pointer;
 }
 .detail-wrap .recommend .recommend-slider .hotel-txt .hotel-type,
 .detail-wrap .wish .wish-slider .hotel-txt .hotel-type{

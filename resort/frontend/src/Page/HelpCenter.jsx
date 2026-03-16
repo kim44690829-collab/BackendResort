@@ -4,10 +4,9 @@ import { ResortDataContext} from '../Api/ResortData';
 import axios from "axios";
 
 export default function HelpCenter(){
-    const {userEmail,userNickName,logout, headerChange, setHeaderChange} = useContext(ResortDataContext);
+    const {userEmail,userNickName,logout, headerChange, setHeaderChange, listType, setListType} = useContext(ResortDataContext);
 
-    // 왼쪽 리스트 클릭시 컨텐츠 전환
-    const [listType, setListType] = useState(1)
+    //
 
     // caret 버튼 클릭시 자주 묻는 질문 나타나게 하는 상태변수
         const [isContent1, setIsContent1] = useState(false);
@@ -517,7 +516,7 @@ export default function HelpCenter(){
     //다운로드 클릭시
     const handleDownload = (fileName) => {
         const link = document.createElement("a");
-        link.href = `/img/boardImg/${fileName}`;
+        link.href = `img/boardImg/${fileName}`;
         link.download = fileName;
         document.body.appendChild(link);
         link.click();
@@ -575,7 +574,7 @@ export default function HelpCenter(){
                 style={{height:isContent1 ? '245px' : '0px',
                         overflow:'hidden', 
                         transition:'height 0.3s ease', 
-                        backgroundColor:'rgb(66 121 155 / 12%)',
+                        backgroundColor:'rgba(97, 149, 182, 0.12)',
                         padding:'0 20px 0 20px'
                     }}>
                     <br/> A. 예약 취소는 EcoStay앱 또는 웹의 ‘내 정보 → 예약/구매 내역’에서 직접 진행하실 수 있습니다. <br/>
@@ -602,7 +601,7 @@ export default function HelpCenter(){
                         height:isContent2 ? '220px' : '0px',
                         overflow:'hidden', 
                         transition:'height 0.3s ease',
-                        backgroundColor:'rgb(66 121 155 / 12%)',
+                        backgroundColor:'rgba(97, 149, 182, 0.12)',
                         padding:'0 20px 0 20px'
                 }}>
                     <br/> A. 기상 악화, 감염병 확산 등 불가항력적인 사유로 숙소 이용이 어려운 경우, <br/>
@@ -628,7 +627,7 @@ export default function HelpCenter(){
                         height:isContent3 ? '185px' : '0px',
                         overflow:'hidden', 
                         transition:'height 0.3s ease',
-                        backgroundColor:'rgb(66 121 155 / 12%)',
+                        backgroundColor:'rgba(97, 149, 182, 0.12)',
                         padding:'0 20px 0 20px'
                 }}>
                     <br/> A. 예약이 대기 상태인 경우, <br/>
@@ -653,7 +652,7 @@ export default function HelpCenter(){
                         height:isContent4 ? '250px' : '0px',
                         overflow:'hidden', 
                         transition:'height 0.3s ease',
-                        backgroundColor:'rgb(66 121 155 / 12%)',
+                        backgroundColor:'rgba(97, 149, 182, 0.12)',
                         padding:'0 20px 0 20px'
                 }}>
                    <br/>  A. 예약 결제가 완료된 이후에는 체크인 날짜 및 객실 타입 변경이 불가능합니다. <br/>
@@ -681,7 +680,7 @@ export default function HelpCenter(){
                         height:isContent5 ? '500px' : '0px',
                         overflow:'hidden', 
                         transition:'height 0.3s ease',
-                        backgroundColor:'rgb(66 121 155 / 12%)',
+                        backgroundColor:'rgba(97, 149, 182, 0.12)',
                         padding:'0 20px 0 20px'
                 }}>
                     <br/>A. 현금영수증은 현금성 결제 수단으로 결제한 경우에 한해 발급이 가능합니다.<br/>
@@ -728,7 +727,7 @@ export default function HelpCenter(){
                         height:isContent6 ? '400px' : '0px',
                         overflow:'hidden', 
                         transition:'height 0.3s ease',
-                        backgroundColor:'rgb(66 121 155 / 12%)',
+                        backgroundColor:'rgba(97, 149, 182, 0.12)',
                         padding:'0 20px 0 20px'
                 }}>
                     <br/> A. 예약 및 결제 정보가 포함된 영수증 또는 거래내역서는<br/>
@@ -768,14 +767,14 @@ export default function HelpCenter(){
                              
                     }
                     {noticeNum ===0 && 
-                        <div className="paging" style={{width:"673px",marginTop:"10px"}}>
+                        <div className="paging2" style={{width:"673px",marginTop:"10px"}}>
                                 {/* 페이지가 많을때 좌우 버튼 */}
                                 {ph.prev && (
-                                    <button className="arrowbtn" onClick={() => setPage(ph.startPage - 1)}> ⇦  Prev</button>
+                                    <button className="arrowbtn" onClick={() => setPage(ph.startPage - 1)}>◀</button>
                                 )}
                                 <div className="pages">{pages}</div>
                                 {ph.next && (
-                                    <button className="arrowbtn" onClick={() => setPage(ph.endPage + 1)}>Next ⇨</button>
+                                    <button className="arrowbtn" onClick={() => setPage(ph.endPage + 1)}>▶</button>
                                 )}
                             </div>
                     }
@@ -787,11 +786,10 @@ export default function HelpCenter(){
                                     <p>{noticelist[noticeNum-1].n_title}</p>
                                     <p className='notice-date'>작성일 : {noticelist[noticeNum-1].n_date.slice(0,10)}</p>
                                 </div>
-                                <div className='notice-contents' style={{whiteSpace:"pre-wrap",backgroundColor:"#42799b0e",borderBottom:"1px solid #333",padding:"50px 10px",margin:"0"}}>
+                                <div className='notice-contents' style={{whiteSpace:"pre-wrap",backgroundColor:"rgba(90, 146, 180, 0.12)",borderBottom:"1px solid #333",padding:"50px 10px",margin:"0"}}>
                                     {noticelist[noticeNum-1].n_content}
                                 </div>
                                 <button type='button' className='noticeContentsBtn' onClick={()=>setNoticeNum(0)}>목록 보기</button>
-                                
                             </div>
                             
                         </>
@@ -879,76 +877,77 @@ export default function HelpCenter(){
             {/* 1대1 문의 게시글 전체 */}
             {listType === 8 && writeBoard === false && detailBoard === false && modifyBoard === false &&(
                 <div id="board" className="helpCenter_text">
-                    <h1 className="text_title">1 대 1 문의</h1>                    
+                    <h1 className="text_title">1 대 1 문의</h1>
+
+                    {boardList && boardList.length > 0 ? (
                     <div id="board_wrap">
                         <div className="word">
                             <h2>전체 문의글</h2>
                             <button type="button" className="sportBtn" onClick={writeButton} style={{marginLeft:'15px'}}>
-                                <i class="fa-regular fa-circle-question" style={{color:'#42799b'}}></i> 문의하기
+                                <i className="fa-regular fa-circle-question" style={{color:'#42799b'}}></i> 문의하기
                             </button>
                             {!(userEmail == "" || userEmail == null) &&
                                 <button type="button" className="sportBtn" onClick={()=>{myloadList();}}>
-                                    <i class="fa-regular fa-user" style={{color:'#42799b'}}></i> 나의 문의글
+                                    <i className="fa-regular fa-user" style={{color:'#42799b'}}></i> 나의 문의글
                                 </button>
                             }                        
                         </div>
-                        {boardList && boardList.length > 0 ? (
                         <div className="content">
-                            <table>
-                                <tbody>
-                                {/* 테이블 헤더 */}
-                                <tr>
-                                    <th>번호</th>
-                                    <th>제목</th>
-                                    <th>작성자</th>
-                                    <th>작성일자</th>
-                                    <th>조회수</th>
-                                </tr>
-                                
-                                {/* 게시글 반복 */}
-                                {boardList.map((item, index) => (
-                                    <tr key={item.b_code} className={item.re_level > 1 ? 'reple' : null}>
-                                        <td>
-                                            {!isMyList ?
-                                            (pageHandler.totalCnt - ((page - 1) * pageSize) - index)
-                                            :
-                                            (item.re_level === 1 ? pageHandler.totalCnt - ((page - 1) * pageSize) - (index - boardList.slice(0, index).filter(v => v.re_level > 1).length)
-                                                : ""
+                        <table>
+                            <tbody>
+                            {/* 테이블 헤더 */}
+                            <tr>
+                                <th>번호</th>
+                                <th>제목</th>
+                                <th>작성자</th>
+                                <th>작성일자</th>
+                                <th>조회수</th>
+                            </tr>
+                            
+                            {/* 게시글 반복 */}
+                            {boardList.map((item, index) => (
+                                <tr key={item.b_code} className={item.re_level > 1 ? 'reple' : null}>
+                                    <td>
+                                        {!isMyList ?
+                                        (pageHandler.totalCnt - ((page - 1) * pageSize) - index)
+                                        :
+                                        (item.re_level === 1 ? pageHandler.totalCnt - ((page - 1) * pageSize) - (index - boardList.slice(0, index).filter(v => v.re_level > 1).length)
+                                            : ""
+                                        )}
+                                    </td>
+                                    <td className='boardTitle'> 
+                                        <button onClick={()=>{detailView(item.b_code)}}>
+                                            {/* 답글인 경우 */}
+                                            {item.re_level > 1 ? (
+                                                // <span style={{ paddingLeft: `${(item.re_level - 1) * 20}px` }}>
+                                                <span className='answer-wrap'>
+                                                   └<span className='answer'>답변완료</span> {item.b_title}
+                                                </span>
+                                            ) : (
+                                            item.b_title
                                             )}
-                                        </td>
-                                        <td className='boardTitle'> 
-                                            <button onClick={()=>{detailView(item.b_code)}}>
-                                                {/* 답글인 경우 */}
-                                                {item.re_level > 1 ? (
-                                                    // <span style={{ paddingLeft: `${(item.re_level - 1) * 20}px` }}>
-                                                    <span className='answer-wrap'>
-                                                    └<span className='answer'>답변완료</span> {item.b_title}
-                                                    </span>
-                                                ) : (
-                                                item.b_title
-                                                )}
-                                            </button>
-                                        </td>
-                                        <td>
-                                            {item.b_writer}
-                                        </td>
-                                        <td>
-                                            {formatDateTime(item.b_date).slice(0, 10)}
-                                        </td>
-                                        <td>
-                                            {item.readcount}
-                                        </td>
-                                    </tr>
-                                ))}
-                                </tbody>
-                            </table>
+                                        </button>
+                                    </td>
+                                    <td>
+                                        {item.b_writer}
+                                    </td>
+                                    <td>
+                                        {formatDateTime(item.b_date).slice(0, 10)}
+                                    </td>
+                                    <td>
+                                        {item.readcount}
+                                    </td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </table>
                         </div>
-                        ) : (
-                        <div className="content">
-                            <p className="support-1on1">현재 문의 사항이 없습니다.</p>
-                        </div>
-                        )}
-                    </div>                   
+                    </div>
+                    ) : (
+                    <div>
+                        <p className="support-1on1">현재 문의 사항이 없습니다.</p>
+                    </div>
+                    )}
 
                     {boardList && boardList.length > 0 ? (
                     <div className="pagination">
@@ -1010,9 +1009,9 @@ export default function HelpCenter(){
                          onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault();handleSearch();}}}
                             style={{ height: "37px", width: "250px", padding: "0 10px" }}/>
                         <button type="button" className="btn searchBtn" onClick={handleSearch} >
-                            <i class="fa-solid fa-magnifying-glass" style={{color:'#42799b'}}></i> 검색</button>
+                            <i className="fa-solid fa-magnifying-glass" style={{color:'#42799b'}}></i> 검색</button>
                         <button type="button" className="btn searchBtn" onClick={resetBoard} >
-                            <i class="fa-solid fa-list" style={{color:'#42799b'}}></i> 전체목록
+                            <i className="fa-solid fa-list" style={{color:'#42799b'}}></i> 전체목록
                         </button>
                     </div>                    
                 </div>
@@ -1070,7 +1069,7 @@ export default function HelpCenter(){
                                         <td style={{ width: '100%',borderBottom:'0' }}>
                                             {detail.b_upload ? (
                                                 <button className='download' onClick={() => handleDownload(detail.b_upload)}>
-                                                    <i class="fa-solid fa-download"></i> {detail.b_upload}
+                                                    <i className="fa-solid fa-download"></i> {detail.b_upload}
                                                 </button>
                                             ) : (
                                                 "첨부파일 없음"
@@ -1082,7 +1081,7 @@ export default function HelpCenter(){
                                         <td align="center" style={{backgroundColor:'#ae4444'}}>비밀번호</td>
                                         <td style={{ width: '100%' }}>
                                             <input type="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-                                            <input type="button" onClick={deleteSubmit} value="삭제" />
+                                            <input type="button" onClick={deleteSubmit} value="확인" />
                                         </td>                                        
                                     </tr>)}
                                     <tr height="40" className='ans_btn'>
@@ -1090,7 +1089,7 @@ export default function HelpCenter(){
                                         <input type="button" onClick={modifyButton} value="수정하기" />
                                         {/* 삭제하기 눌렀을때 관리자가 아니면 비밀번호 입력 */}
                                         {!delState && userEmail !== "admin@resort.com" &&
-                                            <input type="button" onClick={deleteButton} value="삭제하기" />
+                                            <input type="button" onClick={()=>{deleteButton();setPassword();}} value="삭제하기" />
                                         }
                                         {/* 삭제하기 눌렀을때 관리자면 비밀번호 입력안해도 삭제 */}
                                         {!delState && userEmail === "admin@resort.com" &&
@@ -1139,9 +1138,8 @@ export default function HelpCenter(){
                                     </tr>
                                     <tr height="40">
                                         <td align="center" style={{ width: '150px' }}>비밀번호
-                                             {/* <span className='red'>(필수입력)</span> */}
                                         </td>
-                                        <td style={{ width: '450px' }}><input type="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} /></td>
+                                        <td style={{ width: '450px' }}><input type="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} />{userEmail === "admin@resort.com" && <span style={{color:'#ff0000',lineHeight:'24px',fontSize:'14px'}}>* 관리자는 아무거나 한글자 이상 입력</span>}</td>
                                     </tr>
                                     <tr height="40">
                                         <td align="center" style={{ width: '150px' }}>글내용</td>
@@ -1165,7 +1163,7 @@ export default function HelpCenter(){
                                         <td style={{ width: '450px' }}>
                                             {detail.b_upload ? (
                                                 <button className='download' onClick={() => handleDownload(detail.b_upload)}>
-                                                    <i class="fa-solid fa-download"></i> {detail.b_upload}
+                                                    <i className="fa-solid fa-download"></i> {detail.b_upload}
                                                 </button>
                                             ) : (
                                                 "첨부파일 없음"
@@ -1206,11 +1204,11 @@ export default function HelpCenter(){
                 <div className='helpCenter_tel1'>
                     <h1 className='tel1_title'>EcoStay 고객 센터</h1>
                     <ul>
-                        <li className='tel_list chatLi'>
+                        {/* <li className='tel_list chatLi'>
                             <button type='button' className='chatBtn'>
                                 채팅 상담
                             </button>
-                        </li>
+                        </li> */}
                         <li className='tel_list'>
                             <i className="fa-solid fa-phone"></i>
                             여행 상담센터

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import resort.member.dto.MemberDTO;
 
@@ -12,7 +13,7 @@ public interface MemberMapper {
 	//회원 가입 추가하는 추상메소드
 	public int insertMember(MemberDTO mdto);
 	//회원가입 중복체크(이미 가입된 전화번호로 회원가입하면 실패출력)
-	public boolean isMemberPhone(String m_phone);
+	public boolean isMemberPhone(@Param("m_phone") String m_phone);
 	//회원가입 중복체크(이미 가입된 이메일로 회원가입하면 실패출력)
 	public boolean isMemberEmail(String m_email);
 	//회원가입 중복체크(이미 가입된 닉네임으로 회원가입하면 실패출력)
@@ -68,4 +69,13 @@ public interface MemberMapper {
 	
 	// 비밀번호 찾기
 	public int pwFind(MemberDTO mdto);
+	
+	// 하나의 회원
+	public MemberDTO oneMember(@PathVariable int m_code);
+	
+	// 03-16 수정
+	// 닉네임 중복 확인
+	public MemberDTO nickSel(@Param("m_nickName") String m_nickName);
+		
+	
 }

@@ -172,7 +172,7 @@
    padding: 5px 10px;
    width: 600px;
 }
-/* 주석 */
+/* 주석 03-16 */
 .admin_wrap .admin_body .admin_list .admin_modal{
     position: fixed;
     top: 50%;
@@ -252,11 +252,17 @@
     border: none;
     margin-right:10px;
 }
-.paging .pages .pageBtn.active{
-    background-color: #67b2de9f;
-    color: #fff;
+.paging .pages .pageBtn:hover{
+    border: 1px solid #3775ff;
+    border-radius: 3px;
+    color: #3775ff;
 }
-
+.paging .pages .pageBtn.active{
+    border: 2px solid #3775ff;
+    font-weight: 600;
+    color: #3775ff;
+    border-radius: 3px;
+}
 .paging .arrowbtn{
     font-weight: 600px;
     border: none;

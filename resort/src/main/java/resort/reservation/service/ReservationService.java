@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import resort.reservation.dto.ResInfoDTO;
 import resort.reservation.dto.ReservationDTO;
+import resort.reservation.dto.ReservationMergeDTO;
 
 public interface ReservationService {
 	
@@ -26,7 +27,7 @@ public interface ReservationService {
 	public int getAllRescount();
 		
 	// 전체 예약정보의 시작(startRow), 몇개의 행 (pageSize)만큼 보는 메소드
-	public List<ReservationDTO> getResPagelist(@Param("startRow")int startRow,@Param("pageSize")int pageSize);
+	public List<ReservationMergeDTO> getResPagelist(@Param("startRow")int startRow,@Param("pageSize")int pageSize);
 	
 	//검색페이징에 필요한 메서드
 	//searchType, searchKeyword에 해당하는 검색된 개수를 반환하는 메소드
@@ -35,7 +36,7 @@ public interface ReservationService {
 	
 	// searchType, searchKeyword, startRow, pageSize
 	// => limit startRow부터, pageSize개 만큼 한 화면에 보여질 행의 개수
-	public List<ReservationDTO> getSearchResPageList(
+	public List<ReservationMergeDTO> getSearchResPageList(
 		@Param("searchType") String searchType,
 		@Param("searchKeyword") String searchKeyword,
 		@Param("startRow") int startRow,

@@ -8,11 +8,10 @@ import { useNavigate } from "react-router-dom";
 
 export default function MemberUdate(){
 
-    const {userEmail} = useContext(ResortDataContext)
+    const {userEmail, setRender, render ,MemberAllData} = useContext(ResortDataContext)
 
 
     const {m_code} = useParams();
-    const {MemberAllData} = useContext(ResortDataContext);
     const [newph,setNewph] = useState(null)
     const [newNick,setNewNick] = useState(null)
     console.log(MemberAllData[m_code-1]?.m_email)
@@ -20,19 +19,26 @@ export default function MemberUdate(){
     const find2 = MemberAllData?.find((f)=>f.m_phone===newph)
     const navigate = useNavigate();
     const [memberData,setMemberData] = useState({})
+    const [oneData,setOneData] = useState(null)
 
-    // 공통 임력 처리 함수
-    useEffect(()=>{
-        console.log("m_code",m_code)
-        console.log("MemberAllData",MemberAllData)
-        const aaa = MemberAllData.filter((f)=>f.m_code === Number(m_code))
-        console.log("aaa",aaa)
-
-        setMemberData(aaa)
-        setNewNick(aaa[0].m_nickName)
-        setNewph(aaa[0].m_phone)
-    },[])
     
+    
+    useEffect(()=>{
+        axios.get(`/api/member/oneMember/${m_code}`)
+        .then((res) => {
+            console.log(res.data)
+            setOneData(res.data);
+        })
+        .catch((error) => {
+            console.error("error", error)
+        })
+    },[])
+
+
+
+
+
+
     const handleChange = ()=>{
         axios.put('/api/member/adminupdatemember',{
             m_code: m_code,
@@ -51,6 +57,7 @@ export default function MemberUdate(){
             alert("이미 존재하는 전화번호입니다.")
         }else{
             alert("회원정보 수정이 완료되었습니다")
+            window.scrollTo(0, 0)
             navigate('/adminpage');
         }
     }
@@ -147,46 +154,46 @@ export default function MemberUdate(){
                                 <thead >
                                     <tr>
                                         <th width="200px">Num</th>
-                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:'1px solid #ddd'}}>{memberData[0]?.m_code}</th>
+                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:'1px solid #ddd'}}>{oneData?.m_code}</th>
                                     </tr>
                                     <tr>
                                         <th width="200px">E_mail</th>
-                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:'1px solid #ddd'}}>{memberData[0]?.m_email}</th>
+                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:'1px solid #ddd'}}>{oneData?.m_email}</th>
                                     </tr>
                                     <tr>
                                         <th width="200px">전화번호</th>
                                         <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:'1px solid #ddd'}}>
-                                            <input type="text" value={newph===null?memberData[0]?.m_phone:newph} name="m_phone" onChange={(e)=>setNewph(e.target.value)} maxLength={11} style={{width:"300px",height:"30px"}}/>
+                                            <input type="text" value={newph===null?oneData?.m_phone:newph} name="m_phone" onChange={(e)=>setNewph(e.target.value)} maxLength={11} style={{width:"300px",height:"30px"}}/>
                                             <p style={{color:"#999"}}>{`ex) 01012345678`}</p>
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">생일</th>
                                         <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:'1px solid #ddd'}}>
-                                            {memberData[0]?.m_birth.slice(0,10)}
+                                            {oneData?.m_birth.slice(0,10)}
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">성별</th>
                                         <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:'1px solid #ddd'}}>
-                                            {memberData[0]?.m_gender==0?"남성":"여성"}
+                                            {oneData?.m_gender==0?"남성":"여성"}
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">별명</th>
                                         <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:'1px solid #ddd'}}>
                                             <input type="text" name="m_birth" onChange={(e)=>setNewNick(e.target.value)} maxLength={15} 
-                                            value={newNick===null?memberData[0]?.m_nickName:newNick} style={{width:"300px",height:"30px"}}/>
+                                            value={newNick===null?oneData?.m_nickName:newNick} style={{width:"300px",height:"30px"}}/>
                                         </th>
 
                                     </tr>
                                     <tr>
                                         <th width="200px">쿠폰 보유</th>
-                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:'1px solid #ddd'}}>{memberData[0]?.m_coupon}</th>
+                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:'1px solid #ddd'}}>{oneData?.m_coupon===0?"미보유":"보유"}</th>
                                     </tr>
                                     <tr>
                                         <th width="200px">가입일</th>
-                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:'1px solid #ddd'}}>{memberData[0]?.m_regDate.slice(0,10)}</th>
+                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:'1px solid #ddd'}}>{oneData?.m_regDate.slice(0,10)}</th>
                                     </tr>
                                 </thead>
                             </table>

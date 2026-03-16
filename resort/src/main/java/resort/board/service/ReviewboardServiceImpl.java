@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import resort.board.dto.HotelAvgDTO;
 import resort.board.dto.RatingDTO;
 import resort.board.dto.ReviewboardDTO;
+import resort.board.dto.ScoreDTO;
 import resort.board.mapper.ReviewboardMapper;
 
 @Service
@@ -87,5 +88,17 @@ public class ReviewboardServiceImpl implements ReviewboardService{
 	public int reviewMod(int re_code, int rb_score) {
 		System.out.println("ReviewboardServiceImpl : reviewMod() 메서드 확인");
 		return reviewboardmapper.reviewMod(re_code, rb_score);
+	}
+
+	@Override
+	public ScoreDTO hotelScoreCount(int h_code) {
+		System.out.println("ReviewboardServiceImpl : hotelScoreCount() 메서드 확인");
+		return reviewboardmapper.hotelScoreCount(h_code);
+	}
+
+	@Override
+	public List<RatingDTO> roomReview(int h_code) {
+		System.out.println("ReviewboardServiceImpl : roomReview() 메서드 확인");
+		return reviewboardmapper.roomReview(h_code);
 	}
 }

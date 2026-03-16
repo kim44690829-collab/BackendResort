@@ -384,7 +384,6 @@ export default function Pay(){
                                 <div className="phone_txt">
                                     <i className="fa-solid fa-circle-exclamation"></i>
                                     <button type="button" className="phone_under">입력된 휴대폰 번호는 안심번호로 변경되어 숙소에 전달돼요.</button>
-                                    <i className="fa-solid fa-angle-right"></i>
                                 </div>
                             </li>
                         </ul>
@@ -427,10 +426,10 @@ export default function Pay(){
                             <li className="type_list"><button onClick={()=>payTypeHandler(8)} type="button" className="type_btn" style={{fontWeight:500,backgroundColor:btnNum===8?'#a5a5a54b':'#fff'}}>법인 카드</button></li>
                             <li className="type_list"><button onClick={()=>payTypeHandler(9)} type="button" className="type_btn" style={{fontWeight:500,backgroundColor:btnNum===9?'#a5a5a54b':'#fff'}}>휴대폰 결제</button></li>
                         </ul>
-                        <div className="paychk">
+                        {/* <div className="paychk">
                             <input type="checkbox" name="pay_chk" id="pay_chk" />
                             <label htmlFor="pay_chk" className="pay_chking">이 결제 수단을 다음에도 사용</label>
-                        </div>
+                        </div> */}
                     </div>
                     <div className="room_info">
                         <div className="room_box">

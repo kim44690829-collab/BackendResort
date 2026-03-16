@@ -12,6 +12,106 @@
     margin-left: 10px;
     width: 650px;
 }
+/* ------------------------------------------------------------------------------------------ */
+
+/* hotelModal 기준점 만들기 */
+.Room_wrap .Room_section .hotelModal{
+    position: relative;
+}
+
+/* 검색창 ul */
+.Room_wrap .Room_section .hotelModal .rankBoxRoom{
+    position: absolute;
+    top: calc(100% + 47px);
+    left: 0;
+    width: 260px;
+    max-height: 430px;
+    margin: 0;
+    padding: 18px 12px 18px 18px;
+    list-style: none;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
+    box-sizing: border-box;
+    z-index: 9999;
+    overflow-y: auto;
+    overflow-x: hidden;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+    /* scrollbar-width: thin; */
+}
+
+/* 스크롤바 스타일 */
+.Room_wrap .Room_section .hotelModal .rankBoxRoom::-webkit-scrollbar{
+    width: 6px;
+}
+
+.Room_wrap .Room_section .hotelModal .rankBoxRoom::-webkit-scrollbar-thumb{
+    background: #a3a3a3;
+    border-radius: 999px;
+}
+
+.Room_wrap .Room_section .hotelModal .rankBoxRoom::-webkit-scrollbar-track{
+    background: transparent;
+    margin: 10px 0;
+}
+
+/* 섹션 제목 li */
+.Room_wrap .Room_section .hotelModal .rankBoxRoom .rankBoxLiRoom{
+    width: 100%;
+    padding: 0;
+    margin: 18px 0 8px;
+}
+
+.Room_wrap .Room_section .hotelModal .rankBoxRoom .rankBoxLiRoom:first-child{
+    margin-top: 0;
+}
+
+/* 국내 / 해외 / 일본 같은 제목 */
+.Room_wrap .Room_section .hotelModal .rankBoxRoom .rankBoxLiRoom .inputInfoRoom{
+    display: inline-block;
+    font-size: 20px;
+    font-weight: 700;
+    color: #256085;
+    margin: 10px;
+    line-height: 1.4;
+}
+.Room_wrap .Room_section .hotelModal .rankBoxRoom .rankBoxLiRoom .inputInfoMainRoom{
+    display: inline-block;
+    font-size: 20px;
+    font-weight: 700;
+    color: #113a53;
+    margin-left: 10px;
+    line-height: 1.4;
+}
+
+/* 도시명 */
+.Room_wrap .Room_section .hotelModal .rankBoxRoom .rankNameRoom{
+    display: block;
+    width: 100%;
+    padding: 10px 12px;
+    margin: 0;
+    border-radius: 8px;
+    font-size: 16px;
+    color: #111;
+    box-sizing: border-box;
+    transition: background-color 0.2s;
+}
+
+/* 검색창 클릭시 나오는 지역 css */
+.Room_wrap .Room_section .hotelModal .rankBoxRoom .rankNameRoom{
+    cursor: pointer;
+}
+
+/* hover */
+.Room_wrap .Room_section .hotelModal .rankBoxRoom .rankNameRoom:hover{
+    background-color: #f5f7fa;
+    color: #42799b;
+    font-weight: 600;
+}
+
+
+/* ------------------------------------------------------------------------------------------- */
+
 .Room_section .serch_box .serch_btn{
     height: 40px;
     margin-left: 5px;
@@ -235,113 +335,7 @@
     font-weight: 600;
     text-decoration: underline;
 }
-/* 필터 중앙 부분 */
-/* 
-.Room_section .filter_menu .center_filter{
-    padding: 10px;
-    box-sizing: border-box;
-    width: 330px;
-    border-right: 2px solid #c7c7c7;
-    position: relative;
-    text-align: center;
-}
-.Room_section .filter_menu .center_filter .reset{
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-}
-.Room_section .filter_menu .center_filter .reset .reset_btn{
-    border: none;
-    background-color: transparent;
-    cursor: pointer;
-    color: #aaa;
-}
-.Room_section .filter_menu .center_filter .reset .reset_btn:hover{
-    color: #42799b;
-    font-weight: 600;
-}
-.Room_section .filter_menu .center_filter .reset .reset_btn:hover .resettxt{
-    color: #333;
-    font-weight: 600;
-    text-decoration: underline;
-}
-.Room_section .filter_menu .center_filter .price_slide{
-    position: relative;
-    height: 4px;
-    width: 250px;
-    border-radius: 10px;
-    background-color: #dddddd;
-    margin: 20px 0;
-}
-.Room_section .filter_menu .center_filter .price_slide .slide_input{
-    position: absolute;
-    top: -8px;
-    left: 0;
-    width: 100%;
-    -webkit-appearance: none;
-    background: none;
-    pointer-events: none;
-}
-.Room_section .filter_menu .center_filter .price_slide .slide_input::-webkit-slider-thumb{
-    height: 20px;
-    width: 20px;
-    border-radius: 50%; 
-    background-color: #7ED6E4;
-    -webkit-appearance: none;
-    pointer-events: auto;
-    cursor: pointer;
-}
-.Room_section .filter_menu .center_filter .price_slide .slide_input::-webkit-slider-thumb:hover{
-    background-color: #42799b;
-    border: 2px solid #fff;
-}
-.Room_section .filter_menu .center_filter .price_slide .price_inner{
-    position: absolute;
-    left: 30%;
-    right: 20%;
-    height: 4px;
-    border-radius: 10px;
-    background-color: #7ED6E4;
-}
-.Room_section .filter_menu .center_filter .minprice,
-.Room_section .filter_menu .center_filter .maxprice{
-    border-radius: 10px;
-    text-align: right;
-    width: 250px;
-    overflow: hidden;
-    margin: 20px 0 0;
-    background-color: #dddddd;
-    padding-right: 10px;
-}
-.Room_section .filter_menu .center_filter .price_txt{
-    color: #aaa;
-    font-size: 14px;
-    padding: 5px;
-    text-align: left;
-}
-.Room_section .filter_menu .center_filter .price_input{
-    border: none;
-    padding: 5px;
-    font-weight: 600;
-    background-color: #dddddd;
-    width: 70px;
-    text-align: right;
-} */
 
-/* 필터 오른쪽 부분 *//* 
-.Room_section .filter_menu .right_filter{
-    width: 400px;
-    box-sizing: border-box;
-    padding: 10px;
-}
-.Room_section .filter_menu .right_filter .map{
-    width: 100%;
-    height: 200px;
-    background-color: #7ED6E4;
-    border-radius: 10px;
-} */
-
-/* 상품 필터 영역 끝 */
 
 /* 상품 정렬 영역 시작--------------------------------------------------- */
 .Room_section .arr_menu{

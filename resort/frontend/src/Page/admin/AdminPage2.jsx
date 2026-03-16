@@ -15,6 +15,7 @@ export default function AdminPage2(){
     const [searchKeyword, setSearchKeyword] = useState("");
     const [serch,setSerch] = useState("")
     const [isInfo,setIsinfo] = useState(false)
+    const [allCount,setAllCount] = useState("")
     useEffect(()=>{
         axios.get('/api/hotel/list',{
             params: {
@@ -36,6 +37,15 @@ export default function AdminPage2(){
             console.error("error", error)
         })
         console.log(page)
+
+        // 호텔 총 수
+        axios.get('/api/hotel/getAllCount')
+        .then((res) => {
+            setAllCount(res.data);
+        })
+        .catch((error) => {
+            console.error("error", error)
+        })
     },[page,searchType,searchKeyword])
 
     const pages = [];
@@ -164,32 +174,37 @@ export default function AdminPage2(){
                             <table className="list_table" >
                                 <thead >
                                     <tr className="table_head">
-                                        <th width="50px">Num</th>
+                                        <th width="50px">No.</th>
+                                        <th width="50px">호텔코드</th>
                                         <th width="200px">호텔명</th>
                                         <th width="100px">국가</th>
                                         <th width="100px">도시</th>
                                         <th width="100px">숙소유형</th>
                                         <th width="200px">주소지</th>
-                                        <th width="140px">시작일</th>
-                                        <th width="140px">종료일</th>
+                                        <th width="120px">시작일</th>
+                                        <th width="120px">종료일</th>
                                         <th width="100px">상세정보</th>
                                         
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {hotel.map((item,index)=>(
-                                        <tr key={index} className="table_head">
-                                            <td>{item.h_code}</td>
-                                            <td>{item.hotelName}</td>
-                                            <td>{item.country}</td>
-                                            <td>{item.city}</td>
-                                            <td>{item.type}</td>
-                                            <td>{item.h_address}</td>
-                                            <td>{item.startDate}</td>
-                                            <td>{item.endDate}</td>
-                                            <td><button className="table_btn" onClick={()=>{setIsinfo(!isInfo),setNum(index)}}>상세정보</button></td>
-                                        </tr>                                        
-                                    ))}
+                                    {hotel.map((item,index)=>{
+                                        const num = allCount - (10*(page-1)) - index
+                                        return(
+                                            <tr key={index} className="table_head">
+                                                <td>{num}</td>
+                                                <td>{item.h_code}</td>
+                                                <td>{item.hotelName}</td>
+                                                <td>{item.country}</td>
+                                                <td>{item.city}</td>
+                                                <td>{item.type}</td>
+                                                <td>{item.h_address}</td>
+                                                <td>{item.startDate}</td>
+                                                <td>{item.endDate}</td>
+                                                <td><button className="table_btn" onClick={()=>{setIsinfo(!isInfo),setNum(index)}}>상세정보</button></td>
+                                            </tr>                                        
+                                        )
+                                    })}
                                     
                                 </tbody>
                             </table>

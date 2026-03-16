@@ -75,9 +75,9 @@ export default function HotelSection(){
                                         </>
                                     )}
                                 </Link>
-                                <button type='button' className='wishBtn2' onClick={()=>wishHandler(item.id)}>
+                                <button type='button' className='wishBtn2' onClick={()=>wishHandler(item.h_code)}>
                                 <i className="fa-solid fa-heart" style={
-                                wish.find((hotel) => hotel.id === Number(item.id)) ?
+                                wish.find((hotel) => hotel.h_code === Number(item.h_code)) ?
                                     {color:'#f94239'}
                                 :
                                     {color:'#6b6b6b'}

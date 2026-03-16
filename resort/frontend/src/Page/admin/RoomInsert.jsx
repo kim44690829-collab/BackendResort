@@ -8,8 +8,8 @@ import { useNavigate } from "react-router-dom";
 
 export default function RoomInsert(){
 
-    const {userEmail,setRender,render} = useContext(ResortDataContext)
-    
+    const {userEmail,setRender,render ,HotelData} = useContext(ResortDataContext)
+    const [hotelData,setHotelData] = useState([])
     const [room,setRoom] = useState({
         h_code:'',
         roomName:'',
@@ -20,33 +20,33 @@ export default function RoomInsert(){
     const [r_img,setR_img] = useState('')
     const navigate = useNavigate();
     //상품 들록하는 submit 함수
+
+    useEffect(()=>{
+        axios.get("/api/hotel/chkAllHotel")
+        .then((res)=>{
+            console.log(res.data)
+            setHotelData(res.data)
+        })
+        .catch((error)=>{
+            console.log("출력실패")
+        })
+    },[])
+
     const submitHandler=()=>{
         
+        if(hotelData.find((f)=>f.h_code === Number(room.h_code)) === undefined){
+            alert("등록된 호텔중 해당하는 호텔이 존재하지 않습니다.");
+            return;
+        }
+        if(room.maxOccupancy>4){
+            alert("최대 등록 가능한 인원 수를 다시 확인해주세요.");
+            return;
+        }
+
         // React에서 이미지 업로드시 반드시 formData 객체를 생성한다.
         const formData = new FormData();
 
-        // 자바의 확장 for문과 비슷한 
-        // 리액트의 for ~ in 구문
-        // 객체의 key를 하나씩 꺼내는 구문
-        /* for(let key in hotel){
-            // key중 img 확인
-            if(key === 'h_Img' || key === 'h_s_Img1' || key === 'h_s_Img2' || key === 'h_s_Img3' || key === 'h_s_Img4'){
-                formData.append('uploadFile', hotel[key]);
-            }else if(key === 'discount'){
-                formData.append(key,Number(hotel[key]));
-            }else if(key === 'startDate' || key === 'endDate'){
-                formData.append(key,Date(hotel[key]));
-            }else{
-                formData.append(key,hotel[key]);
-            }
-        } */
-         /// 파일만 별도로 추가
-        /* formData.append('h_Img', hotel.h_Img);
-        formData.append('h_s_Img1', hotel.h_s_Img1);
-        formData.append('h_s_Img2', hotel.h_s_Img2);
-        formData.append('h_s_Img3', hotel.h_s_Img3);
-        formData.append('h_s_Img4', hotel.h_s_Img4); */
-        // 나머지 텍스트 필드들을 JSON 하나로 묶어서 추가
+        
         const textData = {
             h_code:Number(room.h_code),
             roomName:room.roomName,
@@ -64,7 +64,8 @@ export default function RoomInsert(){
         axios.post('/api/room/insert',formData)
         .then((res)=>{
             if(res.data === 1){
-                alert("상품등록 성공")
+                alert("객실상품등록 성공")
+                window.scrollTo(0, 0)
                 navigate("/adminpage3")
             }
         })
@@ -180,32 +181,32 @@ export default function RoomInsert(){
                             <table className="list_table" style={{width:"800px"}}>
                                 <thead >
                                     <tr>
-                                        <th width="200px">h_code</th>
+                                        <th width="200px">호텔코드</th>
                                         <th style={{backgroundColor:"#f6f8fc",color:"#333",borderBottom:"1px solid #ddd"}}>
                                             <input type="text" name="h_code" onChange={handleChange} style={{width:"400px",height:"30px"}}/>
                                         </th>
                                     </tr>
                                     <tr>
-                                        <th width="200px">roomName</th>
+                                        <th width="200px">객실이름</th>
                                         <th style={{backgroundColor:"#f6f8fc",color:"#333",borderBottom:"1px solid #ddd"}}>
                                             <input type="text" name="roomName" onChange={handleChange} style={{width:"400px",height:"30px"}}/>
                                         </th>
                                     </tr>
                                     <tr>
-                                        <th width="200px">price</th>
+                                        <th width="200px">{`가격(최대 300,000원)`}</th>
                                         <th style={{backgroundColor:"#f6f8fc",color:"#333",borderBottom:"1px solid #ddd"}}>
                                             <input type="text" name="price" onChange={handleChange} style={{width:"400px",height:"30px"}}/>
                                         </th>
                                     </tr>
                                     <tr>
-                                        <th width="200px">maxOccupancy</th>
+                                        <th width="200px">{`최대인원(4명)`}</th>
                                         <th style={{backgroundColor:"#f6f8fc",color:"#333",borderBottom:"1px solid #ddd"}}>
                                             <input type="text" name="maxOccupancy" onChange={handleChange} style={{width:"400px",height:"30px"}}/>
                                         </th>
                                     </tr>
                                 </thead>
                             </table>
-                                <Link to={'/adminpage3'}>
+                                <Link to={'/adminpage'}>
                                     <button type="button" className="insertBtn">
                                         취소하기
                                     </button>

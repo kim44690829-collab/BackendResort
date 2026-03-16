@@ -69,6 +69,7 @@ export default function HotelUpdate(){
         .then((res) => {
             console.log("수정 성공");
             alert("호텔정보 수정이 완료되었습니다")
+            window.scrollTo(0, 0)
             navigate('/adminpage2'); 
         })
         .catch((error) => {
@@ -239,65 +240,139 @@ export default function HotelUpdate(){
                             <table className="list_table" style={{width:"800px"}}>
                                 <thead >
                                     <tr>
-                                        <th width="200px">hotelName</th>
+                                        <th width="200px">호텔이름</th>
                                         <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>
                                             <input type="text" name="hotelName" onChange={(e)=>setHotelName(e.target.value)} 
                                             value={hotelName ?? currentHotel?.hotelName ?? ""} style={{width:"400px",height:"30px"}}/>
                                         </th>
                                     </tr>
                                     <tr>
-                                        <th width="200px">country</th>
+                                        <th width="200px">국가</th>
                                         <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>
-                                            <input type="text" name="country" onChange={(e)=>setCountry(e.target.value)} 
-                                            value={country ?? currentHotel?.country ?? ""} style={{width:"400px",height:"30px"}} />
+                                            {/* <input type="text" name="country" onChange={(e)=>setCountry(e.target.value)} 
+                                            value={country ?? currentHotel?.country ?? ""} style={{width:"400px",height:"30px"}} /> */}
+                                            <select className="select" name="country" value={country ?? currentHotel?.country ?? ""}
+                                            onChange={(e)=>setCountry(e.target.value)} style={{width:'130px'}}>
+                                                <option value="Korea">한국</option>
+                                                <option value="Japan">일본</option>
+                                                <option value="USA">미국</option>
+                                                <option value="China">중국</option>
+                                                <option value="Italy">이탈리아</option>
+                                                <option value="France">프랑스</option>
+                                            </select>
                                         </th>
                                     </tr>
                                     <tr>
-                                        <th width="200px">city</th>
+                                        <th width="200px">도시</th>
                                         <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>
-                                            <input type="text" name="city" onChange={(e)=>setCity(e.target.value)} 
-                                            value={city ?? currentHotel?.city??""} style={{width:"400px",height:"30px"}}/>
+                                            {/* <input type="text" name="city" onChange={(e)=>setCity(e.target.value)} 
+                                            value={city ?? currentHotel?.city??""} style={{width:"400px",height:"30px"}}/> */}
+                                            <select className="select" name="city" value={city ?? currentHotel?.city??""}
+                                            onChange={(e)=>setCity(e.target.value)} style={{width:'130px'}}>
+                                                <option value='' hidden>=== 선택 ===</option>
+                                                {hotel.country === 'Korea'?
+                                                    <>
+                                                        <option value="Seoul">서울</option>
+                                                        <option value="Busan">부산</option>
+                                                        <option value="Gangneung">강원도</option>
+                                                        <option value="Sokcho">속초</option>
+                                                        <option value="Gyeongju">경주</option>
+                                                        <option value="Yeosu">여수</option>
+                                                        <option value="Daejeon">대전</option>
+                                                        <option value="Gwangju">광주</option>
+                                                        <option value="Jeju">제주</option>
+                                                        <option value="Pohang">포항</option>
+                                                    </>
+                                                    :
+                                                hotel.country === 'Japan'? 
+                                                    <>
+                                                        <option value="Tokyo">도쿄</option>
+                                                        <option value="Sapporo">삿포로</option>
+                                                    </>
+                                                    :
+                                                hotel.country === 'USA'? 
+                                                    <>
+                                                        <option value="LosAngeles">로스앤젤레스</option>
+                                                        <option value="New York">뉴욕</option>
+                                                        <option value="Guam">괌</option>
+                                                    </>
+                                                    :
+                                                hotel.country === 'China'? 
+                                                    <>
+                                                        <option value="Zhangjiajie">장가계</option>
+                                                        <option value="Shanghai">상하이</option>
+                                                    </>
+                                                    :
+                                                hotel.country === 'Italy'? 
+                                                    <>
+                                                        <option value="Rome">로마</option>
+                                                        <option value="Venice">베네치아</option>
+                                                    </>
+                                                    :
+                                                hotel.country === 'France'? 
+                                                    <>
+                                                        <option value="Paris">파리</option>
+                                                    </>
+                                                    :
+                                                    <option>국가를 먼저 선택해주세요</option>
+                                                }
+                                            </select>
                                         </th>
                                     </tr>
                                     <tr>
-                                        <th width="200px">type</th>
+                                        <th width="200px">숙소유형</th>
                                         <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>
-                                            <input type="text" name="type" onChange={(e)=>setType(e.target.value)} 
-                                            value={type ?? currentHotel?.type ?? ""} style={{width:"400px",height:"30px"}}/>
+                                            {/* <input type="text" name="type" onChange={(e)=>setType(e.target.value)} 
+                                            value={type ?? currentHotel?.type ?? ""} style={{width:"400px",height:"30px"}}/> */}
+                                            <select  className="select" name="type" value={type ?? currentHotel?.type ?? ""}
+                                            onChange={(e)=>setType(e.target.value)} style={{width:'130px'}}>
+                                                <option value="Hotel">호텔</option>
+                                                <option value="Resort">리조트</option>
+                                                <option value="GuestHouse">게스트하우스</option>
+                                                <option value="Condo">콘도</option>
+                                                <option value="Camping">캠핑장</option>
+                                            </select>
                                         </th>
                                     </tr>
                                     <tr>
-                                        <th width="200px">h_address</th>
+                                        <th width="200px">주소지</th>
                                         <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>
                                             <input type="text" name="h_address" onChange={(e)=>setH_address(e.target.value)}
                                             value={h_address ?? currentHotel?.h_address ?? ""} style={{width:"400px",height:"30px"}}/>
                                         </th>
                                     </tr>
                                     <tr>
-                                        <th width="200px">discount</th>
+                                        <th width="200px">할인여부</th>
                                         <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>
-                                            <input type="text" name="discount" onChange={(e)=>setDiscount(e.target.value)} 
-                                            value={discount ?? currentHotel?.discount ?? ""} style={{width:"400px",height:"30px"}}/>
+                                            {/* <input type="text" name="discount" onChange={(e)=>setDiscount(e.target.value)} 
+                                            value={discount ?? currentHotel?.discount ?? ""} style={{width:"400px",height:"30px"}}/> */}
+                                            <select  className="select" name="discount" onChange={(e)=>setDiscount(e.target.value)} style={{width:'130px'}} value={discount ?? currentHotel?.discount ?? ""}>
+                                                {/* setHotel({...hotel,[inputName]:e.target.value}) */}
+                                                <option value="0">할인</option>
+                                                <option value="1">미할인</option>
+                                            </select>
                                         </th>
 
                                     </tr>
                                     <tr>
-                                        <th width="200px">startDate</th>
+                                        <th width="200px">예약시작일</th>
                                         <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>
                                             <input type="text" name="startDate" onChange={(e)=>setStartDate(e.target.value)} 
                                             value={startDate ?? currentHotel?.startDate ?? ""} style={{width:"400px",height:"30px"}}/>
+                                            <p style={{fontWeight:'500', fontSize:'12px',color:'#bbb', marginTop:'10px'}}>{`ex) 2000-01-01`}</p>
                                         </th>
                                     </tr>
                                     <tr>
-                                        <th width="200px">endDate</th>
+                                        <th width="200px">예약종료일</th>
                                         <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>
                                             <input type="text" name="endDate" onChange={(e)=>setEndDate(e.target.value)} 
                                             value={endDate ?? currentHotel?.endDate ?? ""} style={{width:"400px",height:"30px"}}/>
+                                            <p style={{fontWeight:'500', fontSize:'12px',color:'#bbb', marginTop:'10px'}}>{`ex) 2000-01-01`}</p>
                                         </th>
                                     </tr>
                                     
                                     <tr>
-                                        <th width="200px">roomservice{`(최대 8개)`}</th>
+                                        <th width="200px">객내시설{`(최대 8개)`}</th>
                                         <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}} className="cheakboxgr">
                                             {/* <input type="text" name="roomservice" onChange={handleChange} /> */}
                                             <input type="checkbox" name="roomservice" id="roomservice1" onChange={()=>addroomServiceHandler("무선인터넷")} checked={roomservice.includes("무선인터넷")}
@@ -344,7 +419,7 @@ export default function HotelUpdate(){
                                         </th>
                                     </tr>
                                     <tr>
-                                        <th width="200px">publicservice{`(최대 8개)`}</th>
+                                        <th width="200px">공용시설{`(최대 8개)`}</th>
                                         <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}} className="cheakboxgr">
                                             {/* <input type="text" name="publicservice" onChange={handleChange} /> */}
                                             <input type="checkbox" name="publicservice" id="publicservice1" onChange={()=>addpublicServiceHandler("피트니스")} checked={publicservice.includes("피트니스")}
@@ -391,7 +466,7 @@ export default function HotelUpdate(){
                                         </th>
                                     </tr>
                                     <tr>
-                                        <th width="200px">otherservice{`(최대 3개)`}</th>
+                                        <th width="200px">기타시설{`(최대 3개)`}</th>
                                         <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}} className="cheakboxgr">
                                             {/* <input type="text" name="otherservice" onChange={handleChange} /> */}
                                             <input type="checkbox" name="otherservice" id="otherservice1" onChange={()=>addotherServiceHandler("스프링클러")} checked={otherservice.includes("스프링클러")}
@@ -427,7 +502,7 @@ export default function HotelUpdate(){
                                     </tr>
                                 </thead>
                             </table>
-                                <Link to={'/adminpage2'}>
+                                <Link to={'/adminpage'}>
                                     <button type="button" className="insertBtn">
                                         취소하기
                                     </button>

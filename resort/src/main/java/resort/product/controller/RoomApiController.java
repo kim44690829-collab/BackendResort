@@ -120,7 +120,12 @@ public class RoomApiController {
 	}
 	
 	
-	
+	// 객실 상품의 총 개수
+		@GetMapping("/room/getAllCount")
+		public int getroomAllCount() {
+			System.out.println("HotelApiController : getroomAllCount() 메서드 확인");
+			return roomService.getAllRoomcount();
+		}
 	
 	
 	

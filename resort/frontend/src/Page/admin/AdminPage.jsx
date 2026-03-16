@@ -5,7 +5,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 
 export default function AdminPage(){
-    // 주석
+    // 주석 03-16
     const {userEmail} = useContext(ResortDataContext)
 
     const [members,setMembers] = useState([]);
@@ -14,6 +14,8 @@ export default function AdminPage(){
     const [searchType, setSearchType] = useState("phone");
     const [searchKeyword, setSearchKeyword] = useState("");
     const [serch,setSerch] = useState("")
+    const [Num,setNum] = useState("")
+    const [chking,setChking] = useState(true)
     useEffect(()=>{
         axios.get('/api/member/list',{
             params: {
@@ -35,6 +37,18 @@ export default function AdminPage(){
             console.error("error", error)
         })
         console.log(page)
+
+
+        // 회원 총 수
+        axios.get('/api/member/getAllcount')
+        .then((res) => {
+            console.log("총원",res.data)
+            setNum(res.data);
+        })
+        .catch((error) => {
+            console.error("error", error)
+        })
+
     },[page,searchType,searchKeyword])
 
     const pages = [];
@@ -54,10 +68,10 @@ export default function AdminPage(){
     }
 
     // 삭제를 위한 useEffect
-    const delHandler=(email)=>{
+    const delHandler=(m_email)=>{
         axios.delete('/api/member/deletemember',{
             params: {
-                m_email: email
+                m_email: m_email
             }
         })
         .then((res) => {
@@ -153,26 +167,31 @@ export default function AdminPage(){
                         </div>
                     </div>
                     <div className="admin_body">
-                        <div className="admin_text">회원 정보 조회</div>
-                        <div id="search_wrap">
-                                <form onSubmit={submitHandler}>
-                                    <select className="searchSelect" name="searchType" value={searchType} onChange={(e) => setSearchType(e.target.value)}>
-                                        <option value="phone">전화번호</option>
-                                        <option value="gender">성별</option>
-                                        <option value="nickName">닉네임</option>
-                                        <option value="mail">이메일</option>
-                                    </select>
-                                    
-                                    <input className="searchbox" type="text" name="searchKeyword" placeholder="검색어를 입력하세요" value={serch} onChange={(e) => setSerch(e.target.value)}/>
-                                    <input type="submit" value="검색" className="searchBtn" onClick={()=>submitHandler()}/>
-                                    <input type="button" value="전체보기" className="searchBtn" onClick={()=>{setSearchKeyword(""),setSearchType("phone"),setSerch(""),setPage(1)}}/>
-                                </form>
-					        </div>
+                        <div className="admin_text" style={{width:"1600px"}}>회원 정보 조회</div>
+                        <div id="search_wrap" style={{width:"1600px"}}>
+                            <form onSubmit={submitHandler}>
+                                <select className="searchSelect" name="searchType" value={searchType} onChange={(e) => setSearchType(e.target.value)}>
+                                    <option value="phone">전화번호</option>
+                                    <option value="gender">성별</option>
+                                    <option value="nickName">닉네임</option>
+                                    <option value="mail">이메일</option>
+                                </select>
+                                
+                                <input className="searchbox" type="text" name="searchKeyword" placeholder="검색어를 입력하세요" value={serch} onChange={(e) => setSerch(e.target.value)}/>
+                                <input type="submit" value="검색" className="searchBtn" onClick={()=>submitHandler()}/>
+                                <input type="button" value="전체보기" className="searchBtn" onClick={()=>{setSearchKeyword(""),setSearchType("phone"),setSerch(""),setPage(1)}}/>
+                            </form>
+                        </div>
+                        <div style={{textAlign:"right",width:'1600px',margin:'0 auto'}}>
+                            <input type="checkbox" name="chkMember" id="chkMember" onChange={()=>setChking(!chking)}/>
+                            <label htmlFor="chkMember">탈퇴한 회원숨기기</label>
+                        </div>
                         <div className="admin_list">
-                            <table className="list_table" >
+                            <table className="list_table" style={{width:"1600px"}}>
                                 <thead >
                                     <tr className="table_head">
-                                        <th width="90px">Num</th>
+                                        <th width="90px">No.</th>
+                                        <th width="90px">회원번호</th>
                                         <th width="190px">E_mail</th>
                                         <th width="150px">전화번호</th>
                                         <th width="150px">생일</th>
@@ -181,6 +200,8 @@ export default function AdminPage(){
                                         <th width="80px">쿠폰 보유</th>
                                         <th width="230px">가입일</th>
                                         <th width="120px">회원정보수정</th>
+                                        <th width="120px">회원탈퇴여부</th>
+                                        <th width="230px">회원탈퇴시간</th>
                                         {/* <th width="120px">탈퇴처리</th> */}
                                     </tr>
                                 </thead>
@@ -190,24 +211,34 @@ export default function AdminPage(){
                                         const birth_Date = member_birth.toLocaleDateString('ko-KR')
                                         const member_reg = new Date(item.m_regDate)
                                         const reg_Date = member_reg.toLocaleString('ko-KR')
+                                        const num = Num - (10*(page-1)) - index
+                                        const delM_reg = new Date(item.deleted_at)
+                                        const Memberdel_at = delM_reg.toLocaleString('ko-KR')
                                         return(
-                                            <tr key={index} className="table_head">
-                                                <td>{item.m_code}</td>
-                                                <td>{item.m_email}</td>
-                                                <td>{item.m_phone}</td>
-                                                <td>{birth_Date}</td>
-                                                <td>{item.m_gender === 0? "남":"여"}</td>
-                                                <td>{item.m_nickName}</td>
-                                                <td>{item.m_coupon}</td>
-                                                <td>{reg_Date}</td>
-                                                <td><Link to={`/memberUpdate/${item.m_code}`}><button className="table_btn">회원수정</button> </Link></td>
-                                                {/* <td><button type="button" onClick={()=>delHandler(item.m_email)} className="table_btn">회원삭제</button></td> */}
-                                            </tr>
+                                            (item.m_is_deleted===1 && !chking) ?null:
+
+                                                <tr key={index} className="table_head">
+                                                    <td>{num}</td>
+                                                    <td>{item.m_code}</td>
+                                                    <td>{item.m_email}</td>
+                                                    <td>{item.m_phone}</td>
+                                                    <td>{birth_Date}</td>
+                                                    <td>{item.m_gender === 0? "남":"여"}</td>
+                                                    <td>{item.m_nickName}</td>
+                                                    <td>{item.m_coupon === 0? "미보유":"보유"}</td>
+                                                    <td>{reg_Date}</td>
+                                                    {item.m_is_deleted===0 ?<td><Link to={`/memberUpdate/${item.m_code}`}><button className="table_btn" onClick>회원수정</button> </Link></td>:<td></td>}
+                                                    <td>{item.m_is_deleted===0?"이용중":"탈퇴"}</td>
+                                                    <td>{item.m_is_deleted===0?"":Memberdel_at}</td>
+                                                    {/* <td><button type="button" onClick={()=>delHandler(item.m_email)} className="table_btn">회원삭제</button></td> */}
+                                                </tr>
+                                            
                                         )
+                                        
                                     })}
                                 </tbody>
                             </table>
-                            <div className="paging">
+                            <div className="paging" style={{width:"1600px"}}>
                                 {/* 페이지가 많을때 좌우 버튼 */}
                                 {ph.prev && (
                                     <button className="arrowbtn" onClick={() => setPage(ph.startPage - 1)}> ⇦  Prev</button>

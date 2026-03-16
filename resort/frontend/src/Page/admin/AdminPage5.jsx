@@ -174,7 +174,7 @@ export default function AdminPage5(){
                             <table className="list_table" >
                                 <thead >
                                     <tr className="table_head">
-                                        <th style={{width:"5%"}}>Num</th>
+                                        <th style={{width:"5%"}}>No.</th>
                                         <th style={{width:"40%"}}>제목</th>
                                         <th style={{width:"20%"}}>작성자명</th>
                                         <th style={{width:"15%"}}>작성일자</th>
@@ -241,7 +241,10 @@ export default function AdminPage5(){
                                                                 <tr>
                                                                     <td style={{width:"15%",height:"180px"}}><span>내용 </span></td>
                                                                     <td style={{width:"85%",height:"180px",backgroundColor:"#e1eaf371",paddingLeft:"15px"}}>
-                                                                        <span style={{display:"inline-block",width:"300px"}}>{board[num].b_content}</span>
+                                                                        <span style={{display:"inline-block",width:"100%"}}>{board[num].b_content}</span>
+                                                                    </td>
+                                                                    <td>
+                                                                        {board[num].b_upload !== null ? <img src={`/img/boardImg/${board[num].b_upload}`} style={{height:"180px",width:"270px",objectFit:"cover"}}/> : null}
                                                                     </td>
                                                                 </tr>
                                                             </tbody>

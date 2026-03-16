@@ -27,7 +27,7 @@ export default function ForgotPassword(){
 
     return (
         <div className='passFind'>
-            <h2>비밀번호 찾기/변경</h2>
+            <h2>비밀번호 찾기</h2>
 
             <p className='tit'>가입한 이메일 입력</p>
             <input

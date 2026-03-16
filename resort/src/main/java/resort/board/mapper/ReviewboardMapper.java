@@ -8,8 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import resort.board.dto.HotelAvgDTO;
 import resort.board.dto.RatingDTO;
 import resort.board.dto.ReviewboardDTO;
-import resort.member.dto.MemberDTO;
-import resort.product.dto.HotelDTO;
+import resort.board.dto.ScoreDTO;
 
 @Mapper
 public interface ReviewboardMapper {
@@ -56,4 +55,9 @@ public interface ReviewboardMapper {
 	// 리뷰 update
 	public int reviewMod(@Param("re_code") int re_code, @Param("rb_score") int rb_score);
 	
+	// 호텔별 각 점수들 갯수
+	public ScoreDTO hotelScoreCount(@Param("h_code") int h_code);
+		
+	// 객실별 평점
+	public List<RatingDTO> roomReview(@Param("h_code") int h_code);
 }

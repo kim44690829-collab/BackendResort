@@ -55,6 +55,9 @@ public interface HotelService {
 	public List<HotelDTO> getonlyHotelAll();
 	
 	public int updateHotel(HotelDTO hdto);
+	
+	// 호텔 정보가 있는지 확인을 위한 전체
+	public List<HotelDTO> chkAllHotel();
 		
 
 }

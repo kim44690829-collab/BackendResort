@@ -16,7 +16,7 @@ export default function HotelInsert(){
     const [o_value,setO_value] = useState("")
     const [hotel,setHotel] = useState({
         hotelName:'',
-        country:'',
+        country:'Korea',
         city:'',
         type:'Hotel',
         h_address:'',
@@ -36,6 +36,7 @@ export default function HotelInsert(){
     const navigate = useNavigate();
     //상품 들록하는 submit 함수
     const submitHandler=()=>{
+        console.log('hotel',hotel)
         // React에서 이미지 업로드시 반드시 formData 객체를 생성한다.
         const formData = new FormData();
         
@@ -75,7 +76,7 @@ export default function HotelInsert(){
             otherservice: o_value
         };
 
-        console.log(textData.publicservice,"00000000000000000000000000000000000000000")
+        console.log(textData,"00000000000000000000000000000000000000000")
 
         // JSON 문자열로 변환해서 testData 하나로 묶기
         formData.append('hotelData', JSON.stringify(textData));
@@ -85,7 +86,8 @@ export default function HotelInsert(){
         axios.post('/api/hotel/insert',formData)
         .then((res)=>{
             if(res.data === 1){
-                alert("상품등록 성공")
+                alert("호텔상품등록 성공")
+                window.scrollTo(0, 0)
                 navigate("/adminpage2")
             }
         })
@@ -257,100 +259,159 @@ export default function HotelInsert(){
                             <table className="list_table" style={{width:"800px"}}>
                                 <thead >
                                     <tr>
-                                        <th width="200px">hotelName</th>
+                                        <th width="200px">호텔이름</th>
                                         <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:"1px solid #ddd"}}>
                                             <input type="text" name="hotelName" onChange={handleChange}  style={{width:"500px",height:"30px"}}/>
                                         </th>
                                     </tr>
                                     <tr>
-                                        <th width="200px">country</th>
+                                        <th width="200px">국가</th>
                                         <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:"1px solid #ddd"}}>
-                                            <input type="text" name="country" onChange={handleChange} style={{width:"500px",height:"30px"}}/>
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <th width="200px">city</th>
-                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:"1px solid #ddd"}}>
-                                            <input type="text" name="city" onChange={handleChange} style={{width:"500px",height:"30px"}}/>
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <th width="200px">type</th>
-                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:"1px solid #ddd"}}>
-                                            {/* <input type="text" name="type" onChange={handleChange} style={{width:"400px",height:"30px"}}/> */}
-                                            <select  className="select" name="type" onChange={(e) => setHotel({...hotel,[e.target.name]:e.target.value})}>
-                                                <option value="Hotel">Hotel</option>
-                                                <option value="Resort">Resort</option>
-                                                <option value="GuestHouse">GuestHouse</option>
-                                                <option value="Condo">Condo</option>
-                                                <option value="Camping">Camping</option>
+                                            {/* <input type="text" name="country" onChange={handleChange} style={{width:"500px",height:"30px"}}/> */}
+                                            <select className="select" name="country" onChange={(e)=>setHotel({...hotel,[e.target.name]:e.target.value,city:''})} style={{width:'130px'}}>
+                                                <option value="Korea">한국</option>
+                                                <option value="Japan">일본</option>
+                                                <option value="USA">미국</option>
+                                                <option value="China">중국</option>
+                                                <option value="Italy">이탈리아</option>
+                                                <option value="France">프랑스</option>
                                             </select>
                                         </th>
                                     </tr>
                                     <tr>
-                                        <th width="200px">h_address</th>
+                                        <th width="200px">도시</th>
+                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:"1px solid #ddd"}}>
+                                            {/* <input type="text" name="city" onChange={handleChange} style={{width:"500px",height:"30px"}}/> */}
+                                            <select className="select" name="city" onChange={(e)=>setHotel({...hotel,[e.target.name]:e.target.value})} value={hotel.city} style={{width:'130px'}}>
+                                                <option value='' hidden>=== 선택 ===</option>
+                                                {hotel.country === 'Korea'?
+                                                    <>
+                                                        <option value="Seoul">서울</option>
+                                                        <option value="Busan">부산</option>
+                                                        <option value="Gangneung">강원도</option>
+                                                        <option value="Sokcho">속초</option>
+                                                        <option value="Gyeongju">경주</option>
+                                                        <option value="Yeosu">여수</option>
+                                                        <option value="Daejeon">대전</option>
+                                                        <option value="Gwangju">광주</option>
+                                                        <option value="Jeju">제주</option>
+                                                        <option value="Pohang">포항</option>
+                                                    </>
+                                                    :
+                                                hotel.country === 'Japan'? 
+                                                    <>
+                                                        <option value="Tokyo">도쿄</option>
+                                                        <option value="Sapporo">삿포로</option>
+                                                    </>
+                                                    :
+                                                hotel.country === 'USA'? 
+                                                    <>
+                                                        <option value="LosAngeles">로스앤젤레스</option>
+                                                        <option value="New York">뉴욕</option>
+                                                        <option value="Guam">괌</option>
+                                                    </>
+                                                    :
+                                                hotel.country === 'China'? 
+                                                    <>
+                                                        <option value="Zhangjiajie">장가계</option>
+                                                        <option value="Shanghai">상하이</option>
+                                                    </>
+                                                    :
+                                                hotel.country === 'Italy'? 
+                                                    <>
+                                                        <option value="Rome">로마</option>
+                                                        <option value="Venice">베네치아</option>
+                                                    </>
+                                                    :
+                                                hotel.country === 'France'? 
+                                                    <>
+                                                        <option value="Paris">파리</option>
+                                                    </>
+                                                    :
+                                                    <option>국가를 먼저 선택해주세요</option>
+                                                }
+                                            </select>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th width="200px">숙소유형</th>
+                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:"1px solid #ddd"}}>
+                                            {/* <input type="text" name="type" onChange={handleChange} style={{width:"400px",height:"30px"}}/> */}
+                                            <select  className="select" name="type" onChange={(e) => setHotel({...hotel,[e.target.name]:e.target.value})} style={{width:'130px'}}>
+                                                <option value="Hotel">호텔</option>
+                                                <option value="Resort">리조트</option>
+                                                <option value="GuestHouse">게스트하우스</option>
+                                                <option value="Condo">콘도</option>
+                                                <option value="Camping">캠핑장</option>
+                                            </select>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th width="200px">주소지</th>
                                         <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:"1px solid #ddd"}}>
                                             <input type="text" name="h_address" onChange={handleChange} style={{width:"500px",height:"30px"}}/>
                                         </th>
                                     </tr>
                                     <tr>
-                                        <th width="200px">discount</th>
+                                        <th width="200px">할인여부</th>
                                         <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:"1px solid #ddd"}}>
                                             {/* <input type="text" name="discount" onChange={handleChange} style={{width:"400px",height:"30px"}}/> */}
                                             {/* <select  className="discount" name="discount" onChange={(e) => setSearchType(e.target.value)}> */}
-                                            <select  className="select" name="discount" onChange={(e) => setHotel({...hotel,[e.target.name]:e.target.value})}>
+                                            <select  className="select" name="discount" onChange={(e) => setHotel({...hotel,[e.target.name]:e.target.value})} style={{width:'130px'}}>
                                                 {/* setHotel({...hotel,[inputName]:e.target.value}) */}
-                                                <option value="0">0</option>
-                                                <option value="1">1</option>
+                                                <option value="0">할인</option>
+                                                <option value="1">미할인</option>
                                             </select>
                                         </th>
 
                                     </tr>
                                     <tr>
-                                        <th width="200px">startDate</th>
+                                        <th width="200px">예약시작일</th>
                                         <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:"1px solid #ddd"}}>
                                             <input type="text" name="startDate" onChange={handleChange} style={{width:"500px",height:"30px"}}/>
+                                            <p style={{fontWeight:'500', fontSize:'12px',color:'#bbb', marginTop:'10px'}}>{`ex) 2000-01-01`}</p>
                                         </th>
                                     </tr>
                                     <tr>
-                                        <th width="200px">endDate</th>
+                                        <th width="200px">예약종료일</th>
                                         <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:"1px solid #ddd"}}>
                                             <input type="text" name="endDate" onChange={handleChange} style={{width:"500px",height:"30px"}}/>
+                                            <p style={{fontWeight:'500', fontSize:'12px',color:'#bbb', marginTop:'10px'}}>{`ex) 2000-01-01`}</p>
                                         </th>
                                     </tr>
                                     <tr>
-                                        <th width="200px">h_Img</th>
+                                        <th width="200px">메인이미지</th>
                                         <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:"1px solid #ddd"}}>
                                             <input type="file" name="h_Img" onChange={handleChange} />
                                         </th>
                                     </tr>
                                     <tr>
-                                        <th width="200px">h_s_Img1</th>
+                                        <th width="200px">1번째 서브이미지</th>
                                         <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:"1px solid #ddd"}}>
                                             <input type="file" name="h_s_Img1" onChange={handleChange} />
                                         </th>
                                     </tr>
                                     <tr>
-                                        <th width="200px">h_s_Img2</th>
+                                        <th width="200px">2번째 서브이미지</th>
                                         <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:"1px solid #ddd"}}>
                                             <input type="file" name="h_s_Img2" onChange={handleChange} />
                                         </th>
                                     </tr>
                                     <tr>
-                                        <th width="200px">h_s_Img3</th>
+                                        <th width="200px">3번째 서브이미지</th>
                                         <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:"1px solid #ddd"}}>
                                             <input type="file" name="h_s_Img3" onChange={handleChange} />
                                         </th>
                                     </tr>
                                     <tr>
-                                        <th width="200px">h_s_Img4</th>
+                                        <th width="200px">4번째 서브이미지</th>
                                         <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:"1px solid #ddd"}}>
                                             <input type="file" name="h_s_Img4" onChange={handleChange} />
                                         </th>
                                     </tr>
                                     
                                     <tr>
-                                        <th width="200px">roomservice{`(최대 8개)`}</th>
+                                        <th width="200px">객내시설{`(최대 8개)`}</th>
                                         <th style={{backgroundColor:"#ffffff53",color:"#333" ,borderBottom:"1px solid #ddd"}} className="cheakboxgr">
                                             {/* <input type="text" name="roomservice" onChange={handleChange} /> */}
                                             <input type="checkbox" name="roomservice" id="roomservice1" onChange={()=>{addroomServiceHandler("무선인터넷")}} 
@@ -397,7 +458,7 @@ export default function HotelInsert(){
                                         </th>
                                     </tr>
                                     <tr>
-                                        <th width="200px">publicservice{`(최대 8개)`}</th>
+                                        <th width="200px">공용시설{`(최대 8개)`}</th>
                                         <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:"1px solid #ddd"}} className="cheakboxgr">
                                             {/* <input type="text" name="publicservice" onChange={handleChange} /> */}
                                             <input type="checkbox" name="publicservice" id="publicservice1" onChange={()=>{addpublicServiceHandler("피트니스")}}
@@ -444,7 +505,7 @@ export default function HotelInsert(){
                                         </th>
                                     </tr>
                                     <tr>
-                                        <th width="200px">otherservice{`(최대 3개)`}</th>
+                                        <th width="200px">기타시설{`(최대 3개)`}</th>
                                         <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:"1px solid #ddd"}} className="cheakboxgr">
                                             {/* <input type="text" name="otherservice" onChange={handleChange} /> */}
                                             <input type="checkbox" name="otherservice" id="otherservice1" onChange={()=>{addotherServiceHandler("스프링클러")}}
@@ -480,7 +541,7 @@ export default function HotelInsert(){
                                     </tr>
                                 </thead>
                             </table>
-                                <Link to={'/adminpage2'}>
+                                <Link to={'/adminpage'}>
                                     <button type="button" className="insertBtn">
                                             취소하기
                                     </button>

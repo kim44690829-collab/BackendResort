@@ -2,6 +2,7 @@ import '../Page/SignUp2.css';
 import { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { ResortDataContext } from '../Api/ResortData';
+import axios from 'axios';
 
 export default function SignUp2(){
     // 가져오는 유저 핸드폰 데이터 
@@ -32,9 +33,9 @@ export default function SignUp2(){
     
 
     // 휴대폰 인증번호 전송버튼 클릭시 true로 변경하며 인증번호 input이 나타남
-    const telBtnHandeler = () => {
-        setPhoneVerificationCode(true);
-    }
+    // const telBtnHandeler = () => {
+    //     setPhoneVerificationCode(true);
+    // }
 
     // 인증번호가 if문에 만족하면 버튼 활성화
     const VerificationCodeHandeler = (e) => {
@@ -50,13 +51,36 @@ export default function SignUp2(){
         }
     }
 
+    //전화번호 중복여부 확인
+    const phoneCheck = () => {
+
+        //가입정보 전송
+        axios.get('/api/member/phoneCheck',{
+            params : {
+                m_phone : '010'+userNumFront+userNumBack
+            }
+        })
+        .then((res) => {
+            if(res.data === 1){
+                //중복아닐때
+                setPhoneVerificationCode(true);
+            }else{
+                alert('이미 가입된 번호가 있습니다.');               
+                setPhoneVerificationCode(false);
+            }
+        })
+        .catch((error) => {
+            console.error("error", error)
+        })
+    }
+
 
 
     return(
         <div className='signup2_container'>
             <h1 className='signup2_title'>휴대폰 인증 </h1>
             {/* 휴대폰 번호 form */}
-            <form className='tel_form'>
+            <div className='tel_form'>
                 <label>
                     휴대폰 번호<span style={{color:'red'}}>*</span></label>
                 <div className='userPhone'>
@@ -86,9 +110,9 @@ export default function SignUp2(){
                         }}>확인</button>
                 </Link>
                 : 
-                <button type='submit' 
+                <button type='button' 
                 className='telBtn' 
-                onClick={telBtnHandeler} 
+                onClick={phoneCheck} 
                 disabled={phoneNum} 
                 style={{
                     cursor: mouseCursor2 ? 'pointer' : 'not-allowed',
@@ -97,7 +121,7 @@ export default function SignUp2(){
                     border:'none'
                     }} >인증번호 전송</button>}
                 <p style={{color:'red'}}>* 임시 인증번호 : 1111</p>
-            </form>
+            </div>
         </div>
     )
 }

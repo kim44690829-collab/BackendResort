@@ -20,5 +20,7 @@
 		<typeAlias alias="ReservateRoomDTO" type="resort.product.dto.ReservateRoomDTO"/>
 		<typeAlias alias="MyPageDTO" type="resort.member.dto.MyPageDTO"/>
 		<typeAlias alias="ResInfoDTO" type="resort.reservation.dto.ResInfoDTO"/>
+		<typeAlias alias="ScoreDTO" type="resort.board.dto.ScoreDTO"/>
+		<typeAlias alias="ReservationMergeDTO" type="resort.reservation.dto.ReservationMergeDTO"/>
 	</typeAliases>
 </configuration>

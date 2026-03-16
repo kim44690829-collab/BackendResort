@@ -38,10 +38,10 @@
 	
 	<!-- 호텔 정보 총합(가격+ 별점) public List<HotelMergeDTO> getHotelMerge(); -->
 	<select id="getHotelMerge" resultType="HotelMergeDTO">
-		SELECT h.*,MIN(r.price) as hotelPrice,avg(rb.rb_score) as hotelAvgScore, MAX(maxOccupancy) as hotelMaxOccupancy FROM hotel h
+		SELECT h.*,MIN(r.price) as hotelPrice,IFNULL(avg(rb.rb_score),0.0) as hotelAvgScore, MAX(maxOccupancy) as hotelMaxOccupancy FROM hotel h
 		INNER JOIN room r
 		on h.h_code = r.h_code
-		INNER JOIN reviewboard rb
+		LEFT JOIN reviewboard rb
 		on rb.r_code = r.r_code
 		group by h.h_code
 	</select>
@@ -82,7 +82,7 @@
 		</where>
 	</select>
 
-	<select id="getSearchPageHotelList" resultType="HotelDTO">
+	<select id="getSearchPageHotelList" resultType="HotelDTO">                      
 		SELECT * FROM hotel 
 		<where>
 			<choose>
@@ -107,8 +107,10 @@
 	<!-- ===========2026-02-24 수정부분 JHJ ================ -->
 	
 	<insert id="insertHotel" parameterType="HotelDTO">
-		INSERT INTO hotel(hotelName,country,city,type,h_address,discount,h_Img,h_s_Img1,h_s_Img2,h_s_Img3,h_s_Img4,startDate,endDate,roomservice,publicservice,otherservice)
-		VALUES(#{hotelName},#{country},#{city},#{type},#{h_address},#{discount},#{h_Img},#{h_s_Img1},#{h_s_Img2},#{h_s_Img3},#{h_s_Img4},#{startDate},#{endDate},#{roomservice},#{publicservice},#{otherservice})
+		INSERT INTO hotel(hotelName,country,city,type,h_address,discount,
+		h_Img,h_s_Img1,h_s_Img2,h_s_Img3,h_s_Img4,startDate,endDate,roomservice,publicservice,otherservice)
+		VALUES(#{hotelName},#{country},#{city},#{type},#{h_address},#{discount},#{h_Img},#{h_s_Img1},
+		#{h_s_Img2},#{h_s_Img3},#{h_s_Img4},#{startDate},#{endDate},#{roomservice},#{publicservice},#{otherservice})
 	</insert>
 	
 	<select id="getonlyHotelAll" resultType="HotelDTO">
@@ -118,10 +120,12 @@
 	<!-- ===========2026-02-26 수정부분 JHJ ================ -->
 	<!-- 하나의 호텔의 정보를 수정하는 쿼리 -->
 	<update id="updateHotel" parameterType="HotelDTO">
-		UPDATE hotel SET hotelName =#{hotelName},country =#{country},
-		city =#{city},type =#{type},h_address =#{h_address},discount =#{discount},
-		startDate =#{startDate},endDate =#{endDate},roomservice =#{roomservice}
-		,publicservice =#{publicservice},otherservice =#{otherservice} WHERE h_code =#{h_code}
+		UPDATE hotel SET hotelName =#{hotelName},country =#{country},city =#{city},type =#{type},h_address =#{h_address},discount =#{discount},startDate =#{startDate},
+		endDate =#{endDate},roomservice =#{roomservice},publicservice =#{publicservice},otherservice =#{otherservice} WHERE h_code =#{h_code}
 	</update>
-
+	
+	<!-- 호텔 정보가 있는지 확인을 위한 전체 -->
+	<select id="chkAllHotel" resultType="HotelDTO">
+		SELECT * FROM hotel
+	</select>
 </mapper>

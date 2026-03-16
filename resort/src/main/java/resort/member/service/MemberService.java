@@ -3,6 +3,7 @@ package resort.member.service;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import resort.member.dto.MemberDTO;
@@ -10,6 +11,8 @@ import resort.member.dto.MemberDTO;
 public interface MemberService {
 	//회원 가입 추가하는 추상메소드
 	public int insertMember(MemberDTO mdto);
+	
+	public int phoneCheck(String m_phone);
 	//회원 전체 목록 검색 쿼리
 	public List<MemberDTO> allSelectMember();
 	//개인 한 사람의 정보를 검색하는 메소드
@@ -55,5 +58,11 @@ public interface MemberService {
 	
 	// 비밀번호 찾기
 	public int pwFind(MemberDTO mdto);
+	
+	// 하나의 회원
+	public MemberDTO oneMember(@PathVariable int m_code);
 
+	// 03-16 수정
+	// 닉네임 중복 확인
+	public int nickSel(String m_nickName);
 }

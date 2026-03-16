@@ -120,7 +120,7 @@
     border: 1px solid #ddd;
     border-radius: 10px;
     margin-left: 50px;
-    height: 752px;
+    height: 660px;
     background-color: #ddd;
 }
 .helpCenter_tel .helpCenter_tel1{
@@ -540,4 +540,38 @@
     background-color: #fff;
     border: 0;
     color: #264f69;
+}
+
+.paging2{
+    display: flex;
+    justify-content: center;
+    height: 31px;
+}
+.paging2 .pages{
+
+}
+
+.paging2 .pages .pageBtn{
+     margin: 3px;
+    padding: 5px 8px;
+    font-size: 12px;
+    border: 1px solid #ddd;
+    background: white;
+    cursor: pointer;
+    width: fit-content;
+}
+.paging2 .pages .pageBtn.active{
+    background-color: #42799b;
+    color: #fff;
+    /* border-color: #42799b; */
+    font-weight: 700;
+}
+.paging2 .arrowbtn{
+    margin: 3px;
+    padding: 5px 8px;
+    font-size: 12px;
+    border: 1px solid #ddd;
+    background: white;
+    cursor: pointer;
+    width: fit-content;
 }

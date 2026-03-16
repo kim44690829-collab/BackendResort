@@ -34,6 +34,9 @@ export default function Room(){
 
     const [test,setTest] = useState('ㅋㅋ')
     //검색어 한국어 , 영문으로 변환
+
+    // 호텔 input 아래 모달 상태변수
+    const [isInput, setIsInput] = useState(false);
    
     useEffect(() => {
         console.log('myhotel02@@@@@@@@@@@@@@@@', myhotel02.length)
@@ -66,13 +69,10 @@ export default function Room(){
     useEffect(()=>{
         //console.log(myFilter,'현재 마이필터')
         //console.log(myhotel,'현재 마이호텔')
-        const myFilterCopy = [...myFilter]
+        const myFilterCopy = [...myFilter] // 선택한 서비스 목록이 담길 변수
         const selectfilter01 = myFilterCopy.filter((f)=>f.id>0 && f.id <14) // publicService 항목 구분
         const selectfilter02 = myFilterCopy.filter((f)=>f.id>13 && f.id <27) // roomservice 항목 구분
         const selectfilter03 = myFilterCopy.filter((f)=>f.id>26 && f.id <=35) // otherService 항목 구분
-        // console.log(dateFilter,"dateFilter필터확인")
-        // console.log(myhotel03,"myhotel03필터확인")
-        // console.log(dateFilter,"dateFilter필터확인")
 
         const hotelmap = myhotel03.map((hotel03) => {
             const match = dateFilter.find(
@@ -88,9 +88,8 @@ export default function Room(){
             const f3 = selectfilter03.every((filter)=>data.otherservice.includes(filter.name));
             return f1&&f2&&f3
         })
-        // console.log("filterHotel",filterHotel)
-        //const pricefilter = filterHotel.filter((f)=>f.hotelPrice > minPrice && f.hotelPrice<=maxPrice) //위의 필터에서 가격이 포함하는 것만 필터링
-        const pricefilter = filterHotel.filter((f)=>f.minPrice > minPrice && f.minPrice<=maxPrice) //위의 필터에서 가격이 포함하는 것만 필터링
+        //위의 필터에서 가격이 포함하는 것만 필터링
+        const pricefilter = filterHotel.filter((f)=>f.minPrice > minPrice && f.minPrice<=maxPrice) 
     
         
 
@@ -204,32 +203,91 @@ export default function Room(){
     const year = new Date().getFullYear()
     const month = new Date().getMonth()
     const date = new Date().getDate()
-//
+
     // 검색어 입력한것 저장
     const townHandler =(e)=>{
         setTown(e.target.value)
     }
     
-
+    const closeUl1 = (e) => {
+        if (!e.target.closest('.hotelModal')) {
+            setIsInput(false);
+        }
+        if (!e.target.closest('.calenderWrap')) {
+            setOpenC(false);
+        } 
+        
+    }
 
     return(
         <>
           
-        <div className="Room_wrap" onClick={()=>setOpenC(false)}>
+        <div className="Room_wrap" onClick={closeUl1}>
             {/* 상품 메뉴영역 */}
             <div className="Room_section">
                 <div className="serch_box">
-                    <input type="text" placeholder="도시나 나라를 검색해주세요 ex)파리,속초" className="city_name" onChange={(e)=>townHandler(e)} value={town}/>
-                    <button type='button' onClick={(e) => {setOpenC(true);e.stopPropagation();}} style={{border:!openC?'2px solid #42799b55':'2px solid #7ED6E4'}} className='calenertBtn'>
-                        <i className="fa-solid fa-calendar" style={{color:!openC?'#42799b55':'#7ED6E4'}}></i>
-                        <span style={{marginRight:'5px'}}>{DayData.length < 2 ? '일정을 선택해 주세요': `${DayData[0]} - ${DayData[1]}`}</span>
-                    </button>
-                    <button type="button" className="serch_btn" onClick={()=>{serchHandler(),setOpenC(false)}}>검색하기</button>
-                    {openC && 
-                    <div className="calendar_box" onClick={(e) => {setOpenC(true);e.stopPropagation();}}>
-                        <Calendar/>
+                    <div className='hotelModal'>
+                        <input type="text" placeholder="도시나 나라를 검색해주세요 ex)파리,속초" className="city_name" onClick={() => setIsInput(true)} onChange={(e)=>townHandler(e)} value={town}/>
+                        {/* input 클릭시 나오는 순위 */}
+                        {isInput &&
+                        <>
+                            <ul className='rankBoxRoom'>
+                                <li className='rankBoxLiRoom'>
+                                    <span className='inputInfoMainRoom'>국내</span>
+                                </li>
+                                <li className='rankNameRoom' onClick={() => setTown('서울')}>서울</li>
+                                <li className='rankNameRoom' onClick={() => setTown('부산')}>부산</li>
+                                <li className='rankNameRoom' onClick={() => setTown('강릉')}>강릉</li>
+                                <li className='rankNameRoom' onClick={() => setTown('속초')}>속초</li>
+                                <li className='rankNameRoom' onClick={() => setTown('경주')}>경주</li>
+                                <li className='rankNameRoom' onClick={() => setTown('여수')}>여수</li>
+                                <li className='rankNameRoom' onClick={() => setTown('대전')}>대전</li>
+                                <li className='rankNameRoom' onClick={() => setTown('광주')}>광주</li>
+                                <li className='rankNameRoom' onClick={() => setTown('제주')}>제주</li>
+                                <li className='rankNameRoom' onClick={() => setTown('포항')}>포항</li>
+                                <li className='rankBoxLiRoom'>
+                                    <span className='inputInfoMainRoom'>해외</span>
+                                </li>
+                                <li className='rankBoxLiRoom'>
+                                    <span className='inputInfoRoom'>일본</span>
+                                </li>
+                                <li className='rankNameRoom' onClick={() => setTown('도쿄')}>도쿄</li>
+                                <li className='rankNameRoom' onClick={() => setTown('삿포로')}>삿포로</li>
+                                <li className='rankBoxLiRoom'>
+                                    <span className='inputInfoRoom' >미국</span>
+                                </li>
+                                <li className='rankNameRoom' onClick={() => setTown('로스앤젤레스')}>로스앤젤레스</li>
+                                <li className='rankNameRoom' onClick={() => setTown('뉴욕')}>뉴욕</li>
+                                <li className='rankNameRoom' onClick={() => setTown('괌')}>괌</li>
+                                <li className='rankBoxLiRoom'>
+                                    <span className='inputInfoRoom'>중국</span>
+                                </li>
+                                <li className='rankNameRoom' onClick={() => setTown('장가계')}>장가계</li>
+                                <li className='rankNameRoom' onClick={() => setTown('상하이')}>상하이</li>
+                                <li className='rankBoxLiRoom'>
+                                    <span className='inputInfoRoom'>이탈리아</span>
+                                </li>
+                                <li className='rankNameRoom' onClick={() => setTown('로마')}>로마</li>
+                                <li className='rankNameRoom' onClick={() => setTown('베네치아')}>베네치아</li>
+                                <li className='rankBoxLiRoom'>
+                                    <span className='inputInfoRoom'>프랑스</span>
+                                </li>
+                                <li className='rankNameRoom' onClick={() => setTown('파리')}>파리</li>
+                            </ul>
+                        </>}
                     </div>
-                    }
+                    <div className="calenderWrap">
+                        <button type='button' onClick={(e) => {setOpenC(true)}} style={{border:!openC?'2px solid #42799b55':'2px solid #7ED6E4'}} className='calenertBtn'>
+                            <i className="fa-solid fa-calendar" style={{color:!openC?'#42799b55':'#7ED6E4'}}></i>
+                            <span style={{marginRight:'5px'}}>{DayData.length < 2 ? '일정을 선택해 주세요': `${DayData[0]} - ${DayData[1]}`}</span>
+                        </button>
+                        <button type="button" className="serch_btn" onClick={()=>{serchHandler(),setOpenC(false)}}>검색하기</button>
+                        {openC && 
+                        <div className="calendar_box" onClick={(e) => {setOpenC(true);e.stopPropagation();}}>
+                            <Calendar/>
+                        </div>
+                        }
+                    </div>
                 </div>
                 {/* 상단 필터 영역 */}
                 <div className="filter_menu">
@@ -349,7 +407,7 @@ export default function Room(){
                             const otherService01 = JSON.parse(item.otherservice);
                             const publicService01 = JSON.parse(item.publicservice);
                             const roomservice01 = JSON.parse(item.roomservice);
-
+                            const star = HotelRatingDate.filter((f)=>f.r_h_code === item.h_code)
                             return(
                                 <>
                                     <li key={item.h_code} className="room_list">
@@ -363,7 +421,8 @@ export default function Room(){
                                                 {item.city === 'Sokcho'?'대한민국, 강원도 속초시':item.city === 'Gyeongju'?'대한민국, 경상북도 경주시':item.city === 'Busan'?'대한민국, 부산시':item.city === 'Gangneung'?'대한민국, 강원도 강릉시':item.city === 'Yeosu'?'대한민국, 전라남도 여수시':item.city === 'Daejeon'?'대한민국, 대전시':item.city === 'Gwangju'?'대한민국, 광주시':item.city === 'Jeju'?'대한민국, 제주도':item.city === 'Pohang'?'대한민국, 경상북도 포항시':item.city === 'Seoul'?'대한민국, 서울시':item.city === 'Tokyo'?'일본, 도쿄':item.city === 'Sapporo'?'일본, 훗카이도 삿포로':item.city === 'LosAngeles'?'미국, 캘리포니아 로스앤젤레스':item.city === 'New York'?'미국, 뉴욕':item.city === 'Guam'?'미국, 괌':item.city === 'Zhangjiajie'?'중국, 후난성 장가계':item.city === 'Shanghai'?'중국, 상하이':item.city === 'Rome'?'이탈리아, 로마':item.city === 'Venice'?'이탈리아, 베네치아':item.city === 'Paris'?'프랑스, 파리':null}
                                             </p>
                                             <p className="menu_score"><i className="fa-solid fa-star" style={{lineHeight:'12px'}}></i> 
-                                            {HotelRatingDate[item.h_code-1]===undefined?0: (HotelRatingDate[item.h_code-1].h_rating - Math.floor(HotelRatingDate[item.h_code-1].h_rating) === 0) ? HotelRatingDate[item.h_code-1].h_rating+'.0' : Math.trunc((HotelRatingDate[item.h_code-1].h_rating) * 10) / 10 }점</p>
+                                            {/* {HotelRatingDate[item.h_code-1]===undefined?0: (HotelRatingDate[item.h_code-1].h_rating - Math.floor(HotelRatingDate[item.h_code-1].h_rating) === 0) ? HotelRatingDate[item.h_code-1].h_rating+'.0' : Math.trunc((HotelRatingDate[item.h_code-1].h_rating) * 10) / 10 }점</p> */}
+                                            {star[0]?.h_rating===undefined?0:star[0]?.h_rating}점</p>
                                             
                                             <div className="service_list">
                                                 <p style={{marginBottom:'10px'}}>

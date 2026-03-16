@@ -17,6 +17,26 @@
 .detail-wrap .detail-content .detail-left .room-select .room-title.wish .thirty{
     font-size: 14px;
 }
+.detail-wrap .detail-content .detail-right .hotel-day .day-wrap2{
+    text-align: center;
+}
+.detail-wrap .detail-content .detail-right .hotel-day .day-wrap2 i{
+    margin-right: 3px;
+}
+.detail-wrap .detail-content .detail-right .hotel-day .day-wrap2 .day-txt{
+    float: none;
+}
+.detail-wrap .detail-content .detail-right .hotel-day .btn2{
+    background-color: #ffffff;
+    color: #000;
+    border: 1px solid #e7e7e7;
+    font-weight: 700;
+    font-size: 15px;
+}
+.detail-wrap .detail-content .detail-right .hotel-day .btn2:hover{
+    background-color: #e7e7e7;
+    border: 1px solid #e7e7e7;
+}
 .detail-wrap .detail-content .detail-left .room-select .room-title.wish .del{
     text-align: right;
     float: right;
@@ -74,4 +94,9 @@
     margin-left: 10px;
     color: #6d6d6d;
     line-height: 1.2;
+}
+
+.room-select ul li .room-right .room-intro .intro-left .img7{
+    margin-right: 1px;
+    width: 15px;
 }

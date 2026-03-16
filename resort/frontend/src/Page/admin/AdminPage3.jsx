@@ -16,6 +16,7 @@ export default function AdminPage3(){
     const [searchKeyword, setSearchKeyword] = useState("");
     const [serch,setSerch] = useState("")
     const [isInfo,setIsinfo] = useState(false)
+    const [allCount,setAllCount] = useState("")
     useEffect(()=>{
         axios.get('/api/room/list',{
             params: {
@@ -47,6 +48,15 @@ export default function AdminPage3(){
         })
         
         console.log(page)
+
+        // 호텔 총 수
+        axios.get('/api/room/getAllCount')
+        .then((res) => {
+            setAllCount(res.data);
+        })
+        .catch((error) => {
+            console.error("error", error)
+        })
     },[page,searchType,searchKeyword])
 
     const pages = [];
@@ -175,7 +185,8 @@ export default function AdminPage3(){
                             <table className="list_table" >
                                 <thead className="table_head">
                                     <tr className="table_head">
-                                        <th width="50px">Num</th>
+                                        <th width="50px">No.</th>
+                                        <th width="50px">객실코드</th>
                                         <th width="200px">호텔명</th>
                                         <th width="100px">객실명</th>
                                         <th width="100px">가격</th>
@@ -185,17 +196,21 @@ export default function AdminPage3(){
                                     </tr>
                                 </thead>
                                 <tbody >
-                                    {room.map((item,index)=>(
-                                        
-                                                <tr key={index} className="table_head">
-                                                    <td>{item.r_code}</td>
-                                                    <td>{hotel[item.h_code-1]?.hotelName}</td>
-                                                    <td>{item.roomName}</td>
-                                                    <td>{item.price}</td>
-                                                    <td>{item.maxOccupancy}</td>
-                                                    <td><button className="table_btn" onClick={()=>{setIsinfo(!isInfo),setNum(index)}}>상세정보</button></td>
-                                                </tr>
-                                    ))}
+                                    {room.map((item,index)=>{
+                                        const num = allCount - (10*(page-1)) - index
+                                        return(
+
+                                            <tr key={index} className="table_head">
+                                                <td>{num}</td>
+                                                <td>{item.r_code}</td>
+                                                <td>{hotel[item.h_code-1]?.hotelName}</td>
+                                                <td>{item.roomName}</td>
+                                                <td>{item.price}</td>
+                                                <td>{item.maxOccupancy}</td>
+                                                <td><button className="table_btn" onClick={()=>{setIsinfo(!isInfo),setNum(index)}}>상세정보</button></td>
+                                            </tr>
+                                        )
+                                    })}
                                 </tbody>
                             </table>
                             {isInfo && <div className="admin_modal" style={{height:"700px"}}>

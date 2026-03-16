@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,13 +34,22 @@ public class MemberApiController {
 	public int insertMember(@RequestBody MemberDTO mdto){
 		System.out.println("MemberApiController : insertMember() 메서드 확인");
 		return memberservice.insertMember(mdto);
-	}	
+	}
+	
+	//폰번호 중복확인
+	@GetMapping("/member/phoneCheck")
+	public int phoneCheck(@RequestParam("m_phone") String m_phone){
+		System.out.println("MemberApiController : phoneCheck() 메서드 확인");
+		System.out.println("======================================"+m_phone);
+		return memberservice.phoneCheck(m_phone);
+	}
+	
 	//회원 전체 목록 검색
 	@GetMapping("/member/allmember")
 	public List<MemberDTO> allSelectMember(){
 		System.out.println("MemberApiController : allSelectMember() 메서드 확인");
 		return memberservice.allSelectMember();
-	}	
+	}
 	
 	//개인 한 사람의 정보를 검색
 	@GetMapping("/member/onemember")
@@ -83,11 +93,11 @@ public class MemberApiController {
 		
 		if(searchType != null && !searchKeyword.trim().isEmpty()) {
 			totalCnt=memberservice.getSearchCount(searchType, searchKeyword);
-		}else if(searchType == "gender" && searchKeyword.trim()=="남"){
+		}else if("gender".equals(searchType) && "남".equals(searchKeyword.trim())){
 			System.out.println("성별 남자 확인용");
 			System.out.println(searchKeyword);
 			totalCnt=memberservice.getSearchCount(searchType, "0");
-		}else if(searchType == "gender" && searchKeyword.trim()=="여"){
+		}else if("gender".equals(searchType) && "여".equals(searchKeyword.trim())){
 			System.out.println("성별 여자 확인용");
 			System.out.println(searchKeyword);
 			totalCnt=memberservice.getSearchCount(searchType, "1");
@@ -192,5 +202,25 @@ public class MemberApiController {
 		System.out.println("MemberApiController : pwFind 요청됨");
 		return memberservice.pwFind(mdto);
 	}
-
+	
+	//전체 회원수
+	@GetMapping("/member/getAllcount")
+	public int getAllcount() {
+		return memberservice.getAllcount();
+	}
+	
+	//관리자 페이지에서 하나의 맴버출력
+	@GetMapping("/member/oneMember/{m_code}")
+	public MemberDTO  oneMember(@PathVariable("m_code") int m_code) {
+		System.out.println("MemberApiController : oneMember 요청됨");
+		return memberservice.oneMember(m_code);
+	}
+	
+	// 03-16 수정
+	// 닉네임 중복 확인
+	@GetMapping("/member/nicknameSel")
+	public int nickSel(@RequestParam("m_nickName") String m_nickName) {
+		System.out.println("MemberApiController : nickSel 요청됨");
+		return memberservice.nickSel(m_nickName);
+	}
 }

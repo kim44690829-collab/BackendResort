@@ -61,6 +61,7 @@ public class GuestServiceImpl implements GuestService{
 	public int guestSel(String reservation_no) {
 		System.out.println("GuestServiceImpl : guestChkPro() 메서드 확인");
 		GuestDTO gdto = guestmapper.guestSel(reservation_no);
+		System.out.printf("gdtogdtogdto", gdto);
 		int result = 0;
 		if(gdto == null) {
 			result = MEMBER_NOT_FOUND;
@@ -69,7 +70,5 @@ public class GuestServiceImpl implements GuestService{
 		}
 		return result;
 	}
-
-	
 
 }

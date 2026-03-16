@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 
 export default function AdminPage7(){
     const {userEmail} = useContext(ResortDataContext)
-    
+    // 
     const navigate = useNavigate();
     const [reviewlist,setReviewlist] = useState([]);
     const [ph,setPh] = useState({});
@@ -173,7 +173,7 @@ export default function AdminPage7(){
                             <table className="list_table">
                                 <thead >
                                     <tr className="table_head">
-                                        <th width="50px">Num</th>
+                                        <th width="50px">No.</th>
                                         <th width="50px">별점</th>
                                         <th width="50px">작성일자</th>
                                         <th width="50px">작성자 코드</th>
@@ -191,7 +191,7 @@ export default function AdminPage7(){
                                             <tr key={index} className="table_head">
                                                 <td>{item.rb_code}</td>
                                                 <td>{item.rb_score}</td>
-                                                <td>{item.rb_date}</td>
+                                                <td>{item.rb_date.slice(0,10)}</td>
                                                 <td>{item.m_code}</td>
                                                 <td>{item.r_code}</td>
                                                 <td><button type="button" className="table_btn" onClick={()=>delHandler(item.rb_code)}>리뷰삭제</button></td>

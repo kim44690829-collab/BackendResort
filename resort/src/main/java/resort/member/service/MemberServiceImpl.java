@@ -17,6 +17,8 @@ public class MemberServiceImpl implements MemberService {
 	public final static int user_phone_already_exit = -1;//폰번호가 이미 존재하는지 유무
 	public final static int user_email_already_exit = -2;//이메일이 이미 존재하는지 유무
 	public final static int user_nickname_already_exit = -3;//닉네임이 이미 존재하는지 유무
+	// 닉네임이 없을 때 상수
+	public final static int user_nickname_available = 0;
 	
 	//회원가입의 성공여부를 확인하는 상수
 	public final static int user_join_success = 1;
@@ -27,6 +29,8 @@ public class MemberServiceImpl implements MemberService {
 	public final static int user_pwMod_success = 1;
 	// 비밀번호 찾기를 했을때 실패했을때 상수
 	public final static int user_pwMod_fail = 0;
+	
+	
 	
 	@Autowired
 	MemberMapper membermapper;
@@ -221,7 +225,44 @@ public class MemberServiceImpl implements MemberService {
 
 	    return (updated == 1) ? user_pwMod_success : user_pwMod_fail;
 	}
+
+	@Override
+	public MemberDTO oneMember(int m_code) {
+		System.out.println("MemberServiceImpl : oneMember^(@-@)^ 메서드 확인");
+		return membermapper.oneMember(m_code);
+	}
+	// 03-16 수정
+	@Override
+	public int nickSel(String m_nickName) {
+		System.out.println("MemberServiceImpl : nickSel^(@-@)^ 메서드 확인");
+		MemberDTO mdto = membermapper.nickSel(m_nickName);
+		int result;
+		if(mdto == null) {
+			// 존재하지 않는 닉네임
+			result = user_nickname_available;
+		}else {
+			// 존재하는 닉네임
+			result = user_nickname_already_exit;
+		}
+		return result;
+	}
 		
+	
+	@Override
+	public int phoneCheck(String m_phone) {
+		System.out.println("MemberServiceImpl : phoneCheck() 메서드 확인");
+		
+		//회원가입 중복체크 (true면 중복, false면 중복X)
+		boolean isMemberPhone = membermapper.isMemberPhone(m_phone);
+
+
+		//회원가입 중복체크 통과했다면
+		if(isMemberPhone == false) {
+			return 1;
+		}else{
+			return 0;
+		}
+	}
 	
 	
 }

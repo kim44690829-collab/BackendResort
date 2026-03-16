@@ -63,6 +63,7 @@
     justify-content: space-between;
     position: relative;
 }
+
 .main_container .mainImgBenner .hotelSearch .hotelInput #citySearch{
     width: 400px;
     height: 50px;
@@ -80,45 +81,104 @@
 .main_container .mainImgBenner .hotelSearch .hotelInput #citySearch:hover::placeholder{
     color: #505050;
 }
-.main_container .mainImgBenner .hotelSearch .hotelInput .rankBox .rankName{
-    display: inline-block;
-    width: 300px;
+
+/* hotelInput 기준점 만들기 */
+.main_container .mainImgBenner .hotelSearch .hotelInput{
+    position: relative;
 }
+
+/* 검색창 ul */
+.main_container .mainImgBenner .hotelSearch .hotelInput .rankBox{
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    width: 400px;
+    max-height: 430px;
+    margin: 0;
+    padding: 18px 12px 18px 18px;
+    list-style: none;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
+    box-sizing: border-box;
+    z-index: 9999;
+    overflow-y: auto;
+    overflow-x: hidden;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+    /* scrollbar-width: thin; */
+}
+
+/* 스크롤바 스타일 */
+.main_container .mainImgBenner .hotelSearch .hotelInput .rankBox::-webkit-scrollbar{
+    width: 6px;
+}
+
+.main_container .mainImgBenner .hotelSearch .hotelInput .rankBox::-webkit-scrollbar-thumb{
+    background: #a3a3a3;
+    border-radius: 999px;
+}
+
+.main_container .mainImgBenner .hotelSearch .hotelInput .rankBox::-webkit-scrollbar-track{
+    background: transparent;
+    margin: 10px 0;
+}
+
+/* 섹션 제목 li */
+.main_container .mainImgBenner .hotelSearch .hotelInput .rankBox .rankBoxLi{
+    width: 100%;
+    padding: 0;
+    margin: 18px 0 8px;
+}
+
+.main_container .mainImgBenner .hotelSearch .hotelInput .rankBox .rankBoxLi:first-child{
+    margin-top: 0;
+}
+
+/* 국내 / 해외 / 일본 같은 제목 */
+.main_container .mainImgBenner .hotelSearch .hotelInput .rankBox .rankBoxLi .inputInfo{
+    display: inline-block;
+    font-size: 20px;
+    font-weight: 700;
+    color: #256085;
+    margin: 10px;
+    line-height: 1.4;
+}
+.main_container .mainImgBenner .hotelSearch .hotelInput .rankBox .rankBoxLi .inputInfoMain{
+    display: inline-block;
+    font-size: 25px;
+    font-weight: 700;
+    color: #113a53;
+    margin-left: 10px;
+    line-height: 1.4;
+}
+
+/* 도시명 */
+.main_container .mainImgBenner .hotelSearch .hotelInput .rankBox .rankName{
+    display: block;
+    width: 100%;
+    padding: 10px 12px;
+    margin: 0;
+    border-radius: 8px;
+    font-size: 16px;
+    color: #111;
+    box-sizing: border-box;
+    transition: background-color 0.2s;
+}
+
 /* 검색창 클릭시 나오는 지역 css */
 .main_container .mainImgBenner .hotelSearch .hotelInput .rankBox .countryInRank,
 .main_container .mainImgBenner .hotelSearch .hotelInput .rankBox .rankName{
     cursor: pointer;
 }
-/* 검색창 ul */
-.main_container .mainImgBenner .hotelSearch .hotelInput .rankBox{
-    width: 400px;
-    height: 430px;
-    margin: 10px 0 10px 0;
-    position: absolute;
-    background-color: #fff;
-    z-index: 20;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    top: 35px;
-    left: 0;
-    border-radius: 3px;
-    overflow: hidden;
+
+/* hover */
+.main_container .mainImgBenner .hotelSearch .hotelInput .rankBox .rankName:hover{
+    background-color: #f5f7fa;
+    color: #42799b;
+    font-weight: 600;
 }
-/* 검색창 li */
-.main_container .mainImgBenner .hotelSearch .hotelInput .rankBox .rankBoxLi{
-    padding: 10px;
-}
-.main_container .mainImgBenner .hotelSearch .hotelInput .rankBox .rankBoxLi .inputInfo{
-    display: inline-block;
-    font-size: 20px;
-    font-weight: bold;
-    margin: 10px 0 10px 0;
-}
+
 /* 검색창 순위 */
-.main_container .mainImgBenner .hotelSearch .hotelInput .rankBox .rankBoxLi .countryInRank{
-    padding-right: 30px;
-    width: 50px;
-    display: inline-block;
-}
 .main_container .mainImgBenner .hotelSearch .hotelInput .Search_Btn{
     width: 100px;
     height: 50px;
@@ -524,8 +584,10 @@
     display: flex;
     flex-wrap: wrap;
     gap: 18px;
+    /* height: 550px; */
 }
 .left_main .room-select_main .roomUl li{
+    height: 200px;
     overflow: hidden;
     border-radius: 10px;
     background: #f5f7fa;
@@ -537,8 +599,8 @@
 }
 .left_main .room-select_main .roomUl li .room-left_main{
     overflow: hidden;
-    width: 180px;
-    height: 180px;
+    width: 173px;
+    height: 173px;
     position: relative;
     border-radius: 15px;
     margin-right: 23px;
@@ -551,11 +613,11 @@
     height: 100%;
 }
 .left_main .room-select_main .roomUl li .room-right_main{
-    width: 420px;
-    height: 170px;
+    width: 450px;
+    height: 240px;
 }
 .left_main .room-select_main .roomUl li .room-right_main h2 a{
-    font-size: 17px;
+    font-size: 18px;
     font-weight: 600;
 }
 .left_main .room-select_main .roomUl li .room-right_main .room-intro_main{
@@ -564,6 +626,19 @@
 }
 .room-select_main .roomUl li .room-right_main .room-intro_main .intro-left_main{
     float: left;
+}
+.room-select_main .roomUl li .room-right_main .room-intro_main .intro-left_main .Mainstar1{
+    margin-right: 0;
+    height: 14px;
+    width: auto;
+}
+.starScore2{
+    font-size: 15px;
+    font-weight: 600;
+    vertical-align: top;
+    margin-left: 7px;
+    color: #6d6d6d;
+    line-height: 0.9;
 }
 .room-select_main .roomUl li .room-right_main .room-intro_main .intro-right_main{
     float: right;
@@ -584,7 +659,7 @@
     background-color: transparent;
     border: 0;
     font-weight: 600;
-    font-size: 11px;
+    font-size: 14px;
     cursor: pointer;
     color: #42799b;
 }
@@ -593,27 +668,28 @@
     width: 9px;
 }
 .room-select_main .roomUl li .room-right_main .room-info_main{
+    /* height: 130px; */
     background-color: #fff;
     padding: 10px 15px 8px;
     border-radius: 10px;
     margin-top: 15px;
 }
 .room-select_main .roomUl li .room-right_main .room-info_main p{
-    font-size: 11px;
-    line-height: 23px;
+    font-size: 13px;
+    line-height: 20px;
 }
 .room-select_main .roomUl li .room-right_main .room-info_main p i{
     color: #42799b;
-    font-size: 11px;
+    font-size: 13px;
 }
 .room-select_main .roomUl li .room-right_main .room-info_main p .bold_main{
     font-weight: 600;
-    font-size: 11px;
+    font-size: 13px;
 }
 .room-select_main .roomUl li .room-right_main .room-info_main p .red_main{
     background-color: #ffedea;
     color: #f94239;
-    font-size: 9px;
+    font-size: 11px;
     font-weight: 700;
     padding: 2px 5px;
     text-decoration: none !important;
@@ -623,12 +699,12 @@
     text-align: right;
 }
 .room-select_main .roomUl li .room-right_main .room-info_main .room-pay_main .origin-price_main{
-    font-size: 12px;
+    font-size: 15px;
     color: #707070;    
     text-decoration: line-through;
 }
 .room-select_main .roomUl li .room-right_main .room-info_main .room-pay_main .final-price_main{
-    font-size: 19px;
+    font-size: 21px;
     font-weight: 700;
     line-height: 40px;
     text-align: right;

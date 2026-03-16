@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import resort.board.dto.HotelAvgDTO;
 import resort.board.dto.RatingDTO;
 import resort.board.dto.ReviewboardDTO;
+import resort.board.dto.ScoreDTO;
 
 public interface ReviewboardService {
 	//리뷰 전체 검색
@@ -52,4 +53,10 @@ public interface ReviewboardService {
 	public int deleteReview(int rb_code);
 	// 리뷰 update
 	public int reviewMod(int re_code, int rb_score);
+	
+	// 호텔별 각 점수들 갯수
+	public ScoreDTO hotelScoreCount(int h_code);
+	
+	// 객실별 평점
+	public List<RatingDTO> roomReview(int h_code);
 }

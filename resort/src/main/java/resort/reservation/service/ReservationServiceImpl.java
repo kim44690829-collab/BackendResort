@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import resort.reservation.dto.ResInfoDTO;
 import resort.reservation.dto.ReservationDTO;
+import resort.reservation.dto.ReservationMergeDTO;
 import resort.reservation.mapper.ReservationMapper;
 
 @Service
@@ -47,7 +48,7 @@ public class ReservationServiceImpl implements ReservationService {
 	}
 
 	@Override
-	public List<ReservationDTO> getResPagelist(int startRow, int pageSize) {
+	public List<ReservationMergeDTO> getResPagelist(int startRow, int pageSize) {
 		System.out.println("ReservationServiceImpl : getResPagelist() 메서드 확인");
 		return reservationmapper.getResPagelist(startRow, pageSize);
 	}
@@ -59,7 +60,7 @@ public class ReservationServiceImpl implements ReservationService {
 	}
 
 	@Override
-	public List<ReservationDTO> getSearchResPageList(String searchType, String searchKeyword, int startRow,
+	public List<ReservationMergeDTO> getSearchResPageList(String searchType, String searchKeyword, int startRow,
 			int pageSize) {
 		System.out.println("ReservationServiceImpl : getSearchResPageList() 메서드 확인");
 		return reservationmapper.getSearchResPageList(searchType, searchKeyword, startRow, pageSize);

@@ -91,4 +91,10 @@ public class HotelServiceImpl implements HotelService {
 		return hotelMapper.updateHotel(hdto);
 	}
 
+	@Override
+	public List<HotelDTO> chkAllHotel() {
+		System.out.println("HotelServiceImpl : chkAllHotel(^o^) 메서드 확인");
+		return hotelMapper.chkAllHotel();
+	}
+
 }

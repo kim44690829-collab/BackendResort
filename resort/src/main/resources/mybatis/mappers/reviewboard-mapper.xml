@@ -38,9 +38,9 @@
 	
 	<!--  // 호텔별 별점 평균 public List<RatingDTO> getHotelRatingAvgAll();  -->
 	<select id="getHotelRatingAvgAll" resultType="HotelAvgDTO"> 
-		SELECT h.h_code, AVG(rb.rb_score) as hotelAvg, COUNT(*) as scoreCount FROM reviewboard rb 
-		INNER JOIN room r 
-		ON r.r_code = rb.r_code 
+		SELECT h.h_code, IFNULL(AVG(rb.rb_score),0) as hotelAvg , IFNULL(COUNT(rb.rb_score),0) as scoreCount FROM reviewboard rb 
+		RIGHT JOIN room r 
+		ON r.r_code = rb.r_code
 		INNER JOIN hotel h 
 		ON h.h_code = r.h_code 
 		GROUP BY h.h_code 
@@ -105,10 +105,48 @@
 		DELETE FROM reviewboard WHERE rb_code=#{rb_code} 
 	</delete>
 	
-	
-	
 	<!-- // 리뷰 update public int reviewMod(@Param("re_code") int re_code, @Param("rb_score") int rb_score); -->
 	<update id="reviewMod" parameterType="ReviewboardDTO">
 		UPDATE reviewboard SET rb_score = #{rb_score} WHERE re_code = #{re_code}
 	</update>
+	
+	<!-- // 호텔별 각 점수들 갯수 public ScoreDTO hotelScoreCount(@Param("h_code") int h_code); -->
+	<select id="hotelScoreCount">
+		SELECT 
+		r.h_code,
+		(
+		SELECT COUNT(*) FROM reviewboard rb
+		INNER JOIN room r ON r.r_code = rb.r_code
+		WHERE rb.rb_score = 1 AND r.h_code = #{h_code}
+		) AS scoreOne,
+		(
+		select COUNT(*) FROM reviewboard rb
+		INNER JOIN room r ON r.r_code = rb.r_code
+		WHERE rb.rb_score = 2 AND r.h_code = #{h_code}
+		) AS scoreTwo,
+		(
+		select COUNT(*) FROM reviewboard rb
+		INNER JOIN room r ON r.r_code = rb.r_code
+		WHERE rb.rb_score = 3 AND r.h_code = #{h_code}
+		) AS scoreThr,
+		(
+		select COUNT(*) FROM reviewboard rb
+		INNER JOIN room r ON r.r_code = rb.r_code
+		WHERE rb.rb_score = 4 AND r.h_code = #{h_code}
+		) AS scoreFou,
+		(
+		select COUNT(*) FROM reviewboard rb
+		INNER JOIN room r ON r.r_code = rb.r_code
+		WHERE rb.rb_score = 5 AND r.h_code = #{h_code}
+		) AS scoreFiv
+		FROM room r 
+		WHERE r.h_code = #{h_code}
+		GROUP BY r.h_code
+	</select>
+	
+	<!-- // 객실별 평점 public List<RatingDTO> roomReview(@Param("h_code") int h_code); -->
+	<select id="roomReview">
+		SELECT r.h_code, r.r_code, rb.rb_score, r.roomName FROM reviewboard rb
+		RIGHT JOIN room r ON r.r_code = rb.r_code WHERE r.h_code = #{h_code}
+	</select>
 </mapper>

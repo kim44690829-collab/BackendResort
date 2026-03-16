@@ -1,6 +1,7 @@
 package resort.product.controller;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,7 +9,6 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.annotation.MultipartConfig;
-import jakarta.servlet.http.HttpServletRequest;
 import resort.handler.PageHandler;
 import resort.product.dto.HotelDTO;
 import resort.product.dto.HotelMergeDTO;
@@ -39,6 +38,9 @@ public class HotelApiController {
 
 	@Autowired
 	HotelService hotelService;
+	
+//	@Autowired
+//	HotelMergeDTO hmdto;
 	
 	// 호텔 전체 정보 보내는 컨트롤러
 	@GetMapping("/hotel/context")
@@ -74,6 +76,11 @@ public class HotelApiController {
 	@GetMapping("/hotel/hotelMarge")
 	public  List<HotelMergeDTO> allHotelMarge(){
 		System.out.println("HotelApiController : allHotelMarge(^^) 메서드 확인");
+//		List<HotelMergeDTO> result = new ArrayList<HotelMergeDTO>();
+		
+//		if(hmdto.getHotelAvgScore() != null) {
+//			result = hotelService.getHotelMerge();
+//		}
 		return hotelService.getHotelMerge();
 	}
 	
@@ -123,107 +130,6 @@ public class HotelApiController {
 	
 	// =============== 2026-02-24 수정부분 JHJ =====================
 	// 호텔 목록 추가
-//	@PostMapping("/hotel/insert")
-//	public int insertHotel(
-//			//@ModelAttribute HotelDTO hdto ,
-//			@RequestParam("hotelData") String hotelData,
-//			@RequestParam("h_Img")MultipartFile h_Img,
-//			@RequestParam("h_s_Img1")MultipartFile h_s_Img1,
-//			@RequestParam("h_s_Img2")MultipartFile h_s_Img2,
-//			@RequestParam("h_s_Img3")MultipartFile h_s_Img3,
-//			@RequestParam("h_s_Img4")MultipartFile h_s_Img4
-//			) throws Exception{
-//		System.out.println("자동차 등록 요청");
-//		
-//		// JSON 문자열 → TestImgDTO 변환
-//        ObjectMapper mapper = new ObjectMapper();
-//        HotelDTO hdto = mapper.readValue(hotelData, HotelDTO.class);
-//		
-//		//저장경로
-//		String savePath = "C:/resort2026/resort/frontend/public/img/";
-//				
-//		//저장할 경로가 졵하지 않으면 자동 생성해주는 코드
-//		File dir = new File(savePath);
-//		if(!dir.exists()) {
-//			dir.mkdirs();
-//		}
-//		
-//		String fileName="";
-//		if(!h_Img.isEmpty()) {
-//			//사용자가 올린 파일명을 가져온다.
-//			String originalName = h_Img.getOriginalFilename();
-//			
-//			// 사용자명 중복해서 입력되지 않도록 UUID클래스 이용
-//			fileName = UUID.randomUUID().toString().substring(0,4)+"_"+originalName;
-//			
-//			//fileName = hdto.getH_code()+1+"-"+"1";
-//			
-//			File saveFile = new File(savePath + fileName);
-//			h_Img.transferTo(saveFile);
-//		}
-//		String fileName1="";
-//		if(!h_s_Img1.isEmpty()) {
-//			//사용자가 올린 파일명을 가져온다.
-//			String originalName = h_s_Img1.getOriginalFilename();
-//			
-//			// 사용자명 중복해서 입력되지 않도록 UUID클래스 이용
-//			fileName1 = UUID.randomUUID().toString().substring(0,4)+"_"+originalName;
-//			
-//			//fileName1 = hdto.getH_code()+1+"-"+"2";
-//			
-//			File saveFile = new File(savePath + fileName1);
-//			h_s_Img1.transferTo(saveFile);
-//		}
-//		String fileName2="";
-//		if(!h_s_Img2.isEmpty()) {
-//			//사용자가 올린 파일명을 가져온다.
-//			String originalName = h_s_Img2.getOriginalFilename();
-//			
-//			// 사용자명 중복해서 입력되지 않도록 UUID클래스 이용
-//			fileName2 = UUID.randomUUID().toString().substring(0,4)+"_"+originalName;
-//			//fileName2 = hdto.getH_code()+1+"-"+"3";
-//			
-//			File saveFile = new File(savePath + fileName2);
-//			h_s_Img2.transferTo(saveFile);
-//		}
-//		String fileName3="";
-//		if(!h_s_Img3.isEmpty()) {
-//			//사용자가 올린 파일명을 가져온다.
-//			String originalName = h_s_Img3.getOriginalFilename();
-//			
-//			// 사용자명 중복해서 입력되지 않도록 UUID클래스 이용
-//			fileName3 = UUID.randomUUID().toString().substring(0,4)+"_"+originalName;
-//			//fileName3 = hdto.getH_code()+1+"-"+"4";
-//			
-//			File saveFile = new File(savePath + fileName3);
-//			h_s_Img3.transferTo(saveFile);
-//		}
-//		String fileName4="";
-//		if(!h_s_Img4.isEmpty()) {
-//			//사용자가 올린 파일명을 가져온다.
-//			String originalName = h_s_Img4.getOriginalFilename();
-//			
-//			// 사용자명 중복해서 입력되지 않도록 UUID클래스 이용
-//			fileName4 = UUID.randomUUID().toString().substring(0,4)+"_"+originalName;
-//			//fileName4 = hdto.getH_code()+1+"-"+"5";
-//			
-//			File saveFile = new File(savePath + fileName4);
-//			h_s_Img4.transferTo(saveFile);
-//		}
-//		
-//		// DTO중 setImg()에 파일명만 세팅한다.
-//		hdto.setH_Img(fileName);
-//		hdto.setH_s_Img1(fileName1);
-//		hdto.setH_s_Img2(fileName2);
-//		hdto.setH_s_Img3(fileName3);
-//		hdto.setH_s_Img4(fileName4);
-//		
-//		// DB에 저장
-//		hotelService.insertHotel(hdto);
-//		
-//		return 1;
-//	}
-	
 	@PostMapping("/hotel/insert")
 	public int insertCarProduct(
 			HttpServletRequest request,
@@ -293,11 +199,22 @@ public class HotelApiController {
 		return hotelService.getonlyHotelAll();
 	}
 	
-	// 호텔 정보를 수정하기 위한 컨트롤러
 	@PutMapping("/hotel/adminupdatehotel")
 	public int adminupdatehotel(@RequestBody HotelDTO hdto) {
 		System.out.println("HotelApiController : adminupdatehotel() 메서드 확인");
 		return hotelService.updateHotel(hdto);
 	}
 	
+	// 호텔 상품의 총 개수
+	@GetMapping("/hotel/getAllCount")
+	public int gethotelAllCount() {
+		System.out.println("HotelApiController : gethotelAllCount() 메서드 확인");
+		return hotelService.getAllHotelcount();
+	}
+	
+	@GetMapping("/hotel/chkAllHotel")
+	public List<HotelDTO> chkAllHotel(){
+		System.out.println("HotelApiController : gethotelAllCount() 메서드 확인");
+		return hotelService.chkAllHotel();
+	}
 }

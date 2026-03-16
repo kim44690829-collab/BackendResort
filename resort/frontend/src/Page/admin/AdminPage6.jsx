@@ -175,11 +175,12 @@ export default function AdminPage6(){
                             <table className="list_table">
                                 <thead >
                                     <tr className="table_head">
-                                        <th style={{width:"50px"}}>Num</th>
+                                        <th style={{width:"50px"}}>No.</th>
+                                        <th style={{width:"50px"}}>공지번호</th>
                                         <th width="200px">제목</th>
-                                        <th width="260px">작성일자</th>
-                                        <th width="250px">내용</th>
-                                        <th width="260px">수정일자</th>
+                                        <th width="100px">작성일자</th>
+                                        <th width="150px">내용</th>
+                                        <th width="100px">수정일자</th>
                                         {/* <th width="50px">자세히보기</th> */}
                                         <th width="100px">수정하기</th>
                                         <th width="100px">삭제하기</th>
@@ -190,10 +191,11 @@ export default function AdminPage6(){
                                         return(
                                             <tr key={index} className="table_head">
                                                 <td>{item.n_code}</td>
+                                                <td>{item.n_code}</td>
                                                 <td>{item.n_title}</td>
-                                                <td>{item.n_date}</td>
+                                                <td>{item.n_date.slice(0,10)}</td>
                                                 <td><button className="table_btn" onClick={()=>{setIsinfo(!isInfo),setNum(index)}}>상세정보</button></td>
-                                                <td>{item.n_update}</td>
+                                                <td>{item.n_update.slice(0,10)}</td>
                                                 
                                                 {/* <td><button type="button" onClick={()=>delHandler(item.n_code)}>자세히</button></td> */}
                                                 <td>

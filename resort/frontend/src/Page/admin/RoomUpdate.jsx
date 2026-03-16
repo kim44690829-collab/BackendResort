@@ -35,6 +35,7 @@ export default function RoomUpdate(){
         .then((res) => {
             console.log("수정 성공");
             alert("객실정보 수정이 완료되었습니다")
+            window.scrollTo(0, 0)
             navigate('/adminPage3'); 
         })
         .catch((error) => {
@@ -143,7 +144,7 @@ export default function RoomUpdate(){
                             <table className="list_table"  style={{width:"800px"}}>
                                 <thead >
                                     <tr>
-                                        <th width="200px">h_code</th>
+                                        <th width="200px">호텔코드</th>
                                         <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>
                                             <input type="text" name="h_code" onChange={(e)=>{setH_code(e.target.value),setR_img(`["/img/${h_code}-1.jpg","/img/${h_code}-2.jpg","/img/${h_code}-3.jpg","/img/${h_code}-4.jpg","/img/${h_code}-5.jpg"]`)}} 
                                                 value={h_code === null? RoomData[r_code-1].h_code:h_code} style={{width:"400px",height:"30px"}}
@@ -151,7 +152,7 @@ export default function RoomUpdate(){
                                         </th>
                                     </tr>
                                     <tr>
-                                        <th width="200px">roomName</th>
+                                        <th width="200px">객실이름</th>
                                         <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>
                                             <input type="text" name="roomName" onChange={(e)=>setRoomName(e.target.value)} 
                                                 value={roomName === null? RoomData[r_code-1].roomName:roomName} style={{width:"400px",height:"30px"}}
@@ -159,7 +160,7 @@ export default function RoomUpdate(){
                                         </th>
                                     </tr>
                                     <tr>
-                                        <th width="200px">price</th>
+                                        <th width="200px">{`가격(최대 300,000원)`}</th>
                                         <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>
                                             <input type="text" name="price" onChange={(e)=>setPrice(e.target.value)} 
                                                 value={price === null? RoomData[r_code-1].price:price} style={{width:"400px",height:"30px"}}
@@ -167,7 +168,7 @@ export default function RoomUpdate(){
                                         </th>
                                     </tr>
                                     <tr>
-                                        <th width="200px">maxOccupancy</th>
+                                        <th width="200px">{`최대인원(4명)`}</th>
                                         <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>
                                             <input type="text" name="maxOccupancy" onChange={(e)=>setMaxOccupancy(e.target.value)} 
                                                 value={maxOccupancy === null? RoomData[r_code-1].maxOccupancy:maxOccupancy} style={{width:"400px",height:"30px"}}
@@ -176,7 +177,7 @@ export default function RoomUpdate(){
                                     </tr>
                                 </thead>
                             </table>
-                                <Link to={'/adminpage3'}>
+                                <Link to={'/adminpage'}>
                                     <button type="button" className="insertBtn">
                                         취소하기
                                     </button>

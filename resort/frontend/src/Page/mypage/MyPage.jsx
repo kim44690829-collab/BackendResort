@@ -9,7 +9,7 @@ import axios from "axios";
 export default function MyPage(){
     const {DayData,setSelectday,userEmail,loginSave,logout,setHeaderChange, MemberAllData, userNickName} = useContext(ResortDataContext);
     const {toggle,setModalContent} = useContext(ModalContext);
-    
+    // 2026-03-11
     //회원의 예약정보 가져오기
     const[myPage, setMyPage] = useState([]);
     //회원의 회원정보 가져오기
@@ -34,11 +34,21 @@ export default function MyPage(){
     const [userGender, setUserGender] = useState(0);
     // 닉네임
     const [nickname, setNickname] = useState('');
+    // 변경 닉네임
+    const [changeNick, setChangeNick] = useState('');
 
     const navigate = useNavigate();
 
     // 리뷰 작성 성공
     const [reviewCom, setReviewCom] = useState(0);
+
+    const [nickChange, setNickChange] = useState(true);
+
+    const nickChangeHandler = (e) => {
+        setNickname(e.target.value)
+        setChangeNick(e.target.value)
+        setNickChange(false)
+    }
 
     useEffect(() => {    
         if (!userEmail) return;
@@ -55,11 +65,11 @@ export default function MyPage(){
 
         try{
             const res = await axios.put('/api/reservation/reviewStatusMod')
-            console.log('리뷰 업데이트 됐나?',res.data)
+            // console.log('리뷰 업데이트 됐나?',res.data)
             const res02 = await axios.get('/api/member/mypage', {
                 params: { m_email: userEmail }
             })
-            console.log("마이페이지 데이터 : ", res02.data);
+            // console.log("마이페이지 데이터 : ", res02.data);
             setMyPage(res02.data);
         }catch(error){
             console.error("error", error)
@@ -74,7 +84,7 @@ export default function MyPage(){
             params: { m_email: userEmail }
         })
         .then((res) => {
-            console.log("회원 데이터 : ", res.data);
+            // console.log("회원 데이터 : ", res.data);
             setMemberInfo(res.data);
             const phone = res.data.m_phone;
             const userNumFront = phone.substring(3, 7);
@@ -106,8 +116,8 @@ export default function MyPage(){
         }
         axios.put('/api/reservation/cancel',null,{params:{re_code:code}})
         .then((res) => {
-            console.log("-----------------------------------------");
-            console.log(res.data);
+            // console.log("-----------------------------------------");
+            // console.log(res.data);
             if(res.data === true){
                 alert("예약이 취소 되었습니다");
                 fetchMyPage();
@@ -123,7 +133,6 @@ export default function MyPage(){
         })
     }
     
-
     // 왼쪽 리스트 클릭시 컨텐츠 전환
     const [listType, setListType] = useState(1);
 
@@ -164,7 +173,7 @@ export default function MyPage(){
 
     //예약내역 필터링
     const activeList = myPage.filter(item => item.cancel === 0);
-    console.log('activeList', activeList)
+    // console.log('activeList', activeList)
     //취소내역 필터링
     const cancelList = myPage.filter(item => item.cancel === 1);
 
@@ -204,9 +213,9 @@ export default function MyPage(){
         return;
     }
 
-    console.log('-------------------------', dateFilter)
+    // console.log('-------------------------', dateFilter)
     const [dayClick, setDayClick] = useState(false); 
-    console.log('dayClick',dayClick)
+    // console.log('dayClick',dayClick)
     //------------------------------------------------------ 회원정보 수정관련
 
     // 마우스 변경
@@ -267,6 +276,29 @@ export default function MyPage(){
         })
     }
 
+    // 닉네임 중복확인 -> 닉네임이 존재하는지 체크
+    const [nickChk, setNickChk] = useState(null);
+
+    const nickNameChk = () => {
+        axios.get('/api/member/nicknameSel',{
+            params : {
+                m_nickName : nickname
+            }
+        })
+        .then((res) => {
+            console.log('닉네임 중복확인',res.data)
+            if(res.data === -3){
+                alert('이미 존재하는 닉네임입니다.')
+            }else{
+                alert('사용 가능한 닉네임입니다.')
+            }
+            setNickChk(res.data)
+        })
+        .catch((error) => {
+            console.error("error", error)
+        })
+    }
+
     // 정규식 .test() => ()안에있는게 앞의 조건에 맞으면 true를 반환 아니면 false를 반환
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
     const isValidEmail = emailRegex.test(userMail);
@@ -284,16 +316,19 @@ export default function MyPage(){
     // 정보수정 시 버튼 활성화 조건
     useEffect(() => {
         if(
+            (nickChange || userNickName === changeNick) &&
             isValidEmail &&
             isAllowedDomain &&
             userPw_before.length >=8 &&
             ((userPw !== "" && userPw.length >= 8 )||userPw === "") && 
             userPwConfirm === userPw && 
+            (/^\d{4}$/.test(userNumFront) && /^\d{4}$/.test(userNumBack)) &&
             BirthYear.length >= 4 && 
             (1 <= m && m <= 12) &&
             (1 <= d && d <= 31) &&
             userGender !== '' &&
-            nickname !== ''
+            (nickname.length >= 2 && nickname.length <= 20) &&
+            nickChk !== -3
         ){
                 setIsDisabledSignup(false)
                 setMouseCursor(true)
@@ -301,7 +336,7 @@ export default function MyPage(){
                 setIsDisabledSignup(true)
                 setMouseCursor(false)
             }
-    }, [userMail, userPw, userPwConfirm, BirthYear, BirthMonth, BirthDate, userGender, nickname, userPw_before])
+    }, [userMail, userPw, userPwConfirm, userNumFront, userNumBack, BirthYear, BirthMonth, BirthDate, userGender, nickname, userPw_before, nickChk])
 
 
     const validatePwAlert_before = () => {
@@ -368,8 +403,8 @@ export default function MyPage(){
     const [rating, setRating] = useState(0);
     const [roomCode, setRoomCode] = useState(0);
     const [reviewIndex, setReviewIndex] = useState(0);
-    console.log('roomCode', roomCode)
-    console.log('reviewIndex', reviewIndex)
+    // console.log('roomCode', roomCode)
+    // console.log('reviewIndex', reviewIndex)
     
 
     const starHandler = (num) => {
@@ -424,7 +459,7 @@ export default function MyPage(){
             try{
                 const res = await axios.post('/api/board/reviewSend', {rb_score: rating, m_code : memberNum, r_code: roomCode, re_code : reviewIndex})
                 if(res.data === 1){
-                    console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',res.data)
+                    // console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',res.data)
                     setModalContent(<p style={{fontSize:'18px',fontWeight:'700'}}>리뷰를 작성해주셔서 감사합니다.</p>)
                     toggle();
                     const res02 = await axios.put('/api/reservation/resMod', null,{
@@ -432,7 +467,7 @@ export default function MyPage(){
                             re_code : reviewIndex
                         }
                     })
-                    console.log(res02.data)
+                    // console.log(res02.data)
                     setReviewCom(prev => prev + 1);
                     setStar1(false);
                     setStar2(false);
@@ -470,7 +505,7 @@ export default function MyPage(){
                     setModalContent(<p style={{fontSize:'18px',fontWeight:'700'}}>리뷰 수정에 실패하였습니다.</p>)
                     toggle();
                 }
-                console.log('리뷰?????????',res.data)
+                // console.log('리뷰?????????',res.data)
                 setReviewCom(prev => prev + 1);
                 setStar1(false);
                 setStar2(false);
@@ -495,10 +530,10 @@ export default function MyPage(){
         }
 
         const today = new Date().toLocaleDateString('sv-SE');
-        console.log('today', today)
+        // console.log('today', today)
 
-        console.log('myPagemyPage',myPage)
-        console.log('myPage[reviewIndex].rb_code', reviewIndex)
+        // console.log('myPagemyPage',myPage)
+        // console.log('myPage[reviewIndex].rb_code', reviewIndex)
     return(
         <div className="reserVation_container">
             {/* 왼쪽 메뉴 */}
@@ -530,7 +565,7 @@ export default function MyPage(){
             {/* 예약내역 */}
             {listType === 1 && listView && detailView === 0 &&
             (<div className='reserVation_text'>
-                <h1 className='text_title'>예약 내역</h1>
+                <h1 className='text_title'>예약 내역 <span>※ 예약일자가 최신인 순으로 보여집니다. </span></h1>
                 <div className='reserVation_texts' style={{borderTop:'2px solid black'}}>
                     <div className="wish-wrap" onClick={()=>setCal(false)}>
                         <section className="reserVation-wrap">
@@ -559,7 +594,7 @@ export default function MyPage(){
                                                         item.cancel === 0 ? (
                                                         <Fragment key={item.re_code}>
                                                             <li style={{padding: '0',background: 'transparent',marginBottom: '10px'}}>
-                                                                <p className='room-title wish'>{item.reserved_at?.slice(0, 10)} 예약
+                                                                <p className='room-title wish'>{item.reserved_at?.slice(0, 10)}({['일','월','화','수','목','금','토'][new Date(item.reserved_at?.slice(0,10)).getDay()]}) 예약건
                                                                     <span className='del detail' onClick={()=>contentHandeler(item.re_code)}>상세보기 <i className="fa-solid fa-angle-right"></i></span>
                                                                     {item.check_in_date.slice(0,10) > today && ( 
                                                                         <span className='del' onClick={()=>{reserveCancel(item.re_code)}}><i className="fa-solid fa-ban" style={{color:'#f94239'}}></i> 취소하기</span>
@@ -637,7 +672,7 @@ export default function MyPage(){
                                                         item.cancel === 0 ? (
                                                         <Fragment key={item.re_code}>
                                                         <li style={{padding: '0',background: 'transparent',marginBottom: '10px'}}>
-                                                            <p className='room-title wish'>{item.reserved_at?.slice(0, 10)} 예약
+                                                            <p className='room-title wish'>{item.reserved_at?.slice(0, 10)}({['일','월','화','수','목','금','토'][new Date(item.reserved_at?.slice(0,10)).getDay()]}) 예약건
                                                                 <span className='del detail' onClick={()=>contentHandeler(item.re_code)}>상세보기 <i className="fa-solid fa-angle-right"></i></span>
                                                                 {item.check_in_date.slice(0,10) > today && ( 
                                                                     <span className='del' onClick={()=>{reserveCancel(item.re_code)}}><i className="fa-solid fa-ban" style={{color:'#f94239'}}></i> 취소하기</span>
@@ -715,29 +750,26 @@ export default function MyPage(){
                                     }
                                     <div className="hotel-day" >
                                         <p className='day-wrap'>
-                                            <span className='day-tit'>예약일</span>
-                                            {/* <span className='day-txt'>{DayData.length < 2 ? `${year}-${month+1}-${date}` : `${DayData[0]}`}</span> */}
-                                            <span className='day-txt'>{dayClick === true ? (DayData.length < 2 ? `${year}-${month+1}-${date}` : `${DayData[0]}`) : ('조회날짜를 설정해주세요.')}</span>
-                                        </p>
-                                        <p className='day-wrap'>
-                                            <span className='day-tit'>예약일</span>
-                                            <span className='day-txt'>
-                                                {/* <span className='day-txt'>{DayData.length < 2 ? `${year}-${month+1}-${date + 1}` : `${DayData[1]}`}</span> */}
-                                                {dayClick === true ? (DayData.length < 2 ? `${year}-${month+1}-${date+1}` : `${DayData[1]}`) : ('조회날짜를 설정해주세요.')}
+                                            {dayClick === true ?
+                                            <span className='day-txt'><i style={{color:'#6f6f6f'}} className="fa-solid fa-calendar"></i> 
+                                                {DayData.length < 2 ? `${year}-${month+1}-${date}` : `${DayData[0]}`} ~ {DayData.length < 2 ? `${year}-${month+1}-${date+1}` : `${DayData[1]}`}
                                             </span>
+                                            : <span className='day-txt'><i style={{color:'#6f6f6f'}} className="fa-solid fa-calendar"></i> 조회할 기간을 설정해주세요.</span>}
                                         </p>
-                                        <button type='button' onClick={ e =>{
+                                        {/*  */}
+                                        <button type='button' style={{width:'60%'}} onClick={ e =>{
                                             setCal((Cal === true) ? false : true);
                                             setDayClick(true);
                                             setSelectday([]);
                                             e.stopPropagation();
                                         }}>조회기간 설정</button>
+                                        <button type='button' style={{width:'37%',marginLeft:'6px'}} className='search' onClick={()=>{setDayClick(false);setListType(1);setListView(true);setDetailView(0);setSearch(false);setCal(false);}}><i className="fa-solid fa-arrow-rotate-right"></i> 초기화</button>
                                     </div>
                                     <div className="hotel-headcount">
                                         <button type='button' className='search' onClick={()=>{searchClick();setCal(false);}}>조회하기</button>
                                     </div>
                                     <div className="reserve-select">
-                                        <p className='select-tit'>검색 전 참고사항</p>
+                                        <p className='select-tit'>조회 전 참고사항</p>
                                         <p className='select-txt'>· 조회기간을 설정하시기 전에는 모든 예약내역이 보여집니다.</p>
                                         <p className='select-txt'>· 예약내역 조회는 숙박일 기준이 아닌, <span className='bold'>예약일(결제일)</span>을 기준으로 검색해주시기 바랍니다.</p>
                                     </div>
@@ -882,7 +914,7 @@ export default function MyPage(){
             {/* 취소내역 */}
             {listType === 2 && listView && detailView === 0 &&
             (<div className='reserVation_text'>
-                <h1 className='text_title'>취소 내역</h1>
+                <h1 className='text_title'>취소 내역 <span>※ 취소일자가 최신인 순으로 보여집니다. </span></h1>
                 <div className='reserVation_texts' style={{borderTop:'2px solid black'}}>
                     <div className="wish-wrap" onClick={()=>setCal(false)}>
                         <section className="reserVation-wrap">
@@ -904,7 +936,7 @@ export default function MyPage(){
                                                     item.cancel !== 0 ? (
                                                     <Fragment key={item.re_code}>
                                                         <li style={{padding: '0',background: 'transparent',marginBottom: '10px'}}>
-                                                            <p className='room-title wish'>{item.cancel_date?.slice(0, 10)} 취소
+                                                            <p className='room-title wish'>{item.cancel_date?.slice(0, 10)}({['일','월','화','수','목','금','토'][new Date(item.cancel_date?.slice(0,10)).getDay()]}) 취소건
                                                                 <span className='del detail' onClick={()=>contentHandeler(item.re_code)}>상세보기 <i className="fa-solid fa-angle-right"></i></span>                                                           
                                                             </p>
                                                         </li>
@@ -937,7 +969,7 @@ export default function MyPage(){
                                                     item.cancel !== 0 ? (
                                                     <Fragment key={item.re_code}>
                                                     <li style={{padding: '0',background: 'transparent',marginBottom: '10px'}}>
-                                                        <p className='room-title wish'>{item.cancel_date?.slice(0, 10)} 취소
+                                                        <p className='room-title wish'>{item.cancel_date?.slice(0, 10)}({['일','월','화','수','목','금','토'][new Date(item.cancel_date?.slice(0,10)).getDay()]}) 취소건
                                                             <span className='del detail' onClick={()=>contentHandeler(item.re_code)}>상세보기 <i className="fa-solid fa-angle-right"></i></span>
                                                         </p>
                                                     </li>
@@ -977,30 +1009,28 @@ export default function MyPage(){
                                         </div>
                                     }
                                     <div className="hotel-day" >
-                                        <p className='day-wrap'>
-                                            <span className='day-tit'>취소일</span>
-                                            <span className='day-txt'>{dayClick === true ? (DayData.length < 2 ? `${year}-${month+1}-${date}` : `${DayData[0]}`) : ('조회날짜를 설정해주세요.')}</span>
-                                        </p>
-                                        <p className='day-wrap'>
-                                            <span className='day-tit'>취소일</span>
-                                            <span className='day-txt'>
-                                                {dayClick === true ? (DayData.length < 2 ? `${year}-${month+1}-${date+1}` : `${DayData[1]}`) : ('조회날짜를 설정해주세요.')}
+                                        <p className='day-wrap day-wrap2'>
+                                            {dayClick === true ?
+                                            <span className='day-txt'><i style={{color:'#6f6f6f'}} className="fa-solid fa-calendar"></i> 
+                                                {DayData.length < 2 ? `${year}-${month+1}-${date}` : `${DayData[0]}`} ~ {DayData.length < 2 ? `${year}-${month+1}-${date+1}` : `${DayData[1]}`}
                                             </span>
+                                            : <span className='day-txt'><i style={{color:'#6f6f6f'}} className="fa-solid fa-calendar"></i> 조회할 기간을 설정해주세요.</span>}
                                         </p>
-                                        <button type='button' onClick={ e =>{
+                                        <button type='button' style={{width:'60%'}} onClick={ e =>{
                                             setCal((Cal === true) ? false : true);
                                             setDayClick(true);
                                             setSelectday([]);
                                             e.stopPropagation();
                                         }}>조회기간 설정</button>
+                                        <button type='button' style={{width:'37%',marginLeft:'6px'}} className='search' onClick={()=>{setDayClick(false);setListType(2);setListView(true);setDetailView(0);setSearch(false);setCal(false);}}><i className="fa-solid fa-arrow-rotate-right"></i> 초기화</button>
                                     </div>
-                                    <div className="hotel-headcount">
+                                    <div className="hotel-headcount">                                        
                                         <button type='button' className='search' onClick={()=>{searchClick2();setCal(false);}}>조회하기</button>
                                     </div>
                                     <div className="reserve-select">
-                                        <p className='select-tit'>검색 전 참고사항</p>
+                                        <p className='select-tit'>조회 전 참고사항</p>
                                         <p className='select-txt'>· 조회기간을 설정하시기 전에는 모든 취소내역이 보여집니다.</p>
-                                        <p className='select-txt'>· 취소내역 조회는 예약일 기준이 아닌, <span className='bold'>취소일</span>을 기준으로 검색해주시기 바랍니다.</p>
+                                        <p className='select-txt'>· 취소내역 조회는 예약일 기준이 아닌, <span className='bold'>취소(신청)일</span>을 기준으로 조회해주시기 바랍니다.</p>
                                     </div>
                                 </div>
                             </div>               
@@ -1197,8 +1227,8 @@ export default function MyPage(){
                                 <label>전화번호<span style={{color:'red'}}> * 앞자리(010)는 고정입니다.</span></label><br/>
                                 <div className='signup2_sub'>
                                     <input type='text' id='usertel' name='usertel' value='010' disabled style={{color:'black'}} maxLength="3"/> <span>-</span>
-                                    <input type='text' id='usertelFront' name='usertel' placeholder='1234' value={userNumFront} onChange={(e) => setUserNumFront(e.target.value)} maxLength="4" /><span>-</span>
-                                    <input type='text' id='usertelBack' name='usertel' placeholder='5678' value={userNumBack} onChange={(e) => setUserNumBack(e.target.value)} maxLength="4" />
+                                    <input type='text' id='usertelFront' name='usertel' placeholder='1234' value={userNumFront} onChange={(e) => setUserNumFront(e.target.value)} minLength="4" maxLength="4" /><span>-</span>
+                                    <input type='text' id='usertelBack' name='usertel' placeholder='5678' value={userNumBack} onChange={(e) => setUserNumBack(e.target.value)} minLength="4" maxLength="4" />
                                 </div>
                             </div>
                             {/* 생년월일 */}
@@ -1221,7 +1251,10 @@ export default function MyPage(){
                             {/* 닉네임 */}
                             <div className='signup4'>
                                 <label htmlFor="nickname">닉네임<span style={{color:'red'}}> * 필수입력</span></label>
-                                <input type="text" id='nickname' name='nickname' value={nickname} onChange={(e) => setNickname(e.target.value)} placeholder='2글자 이상 적어주세요' onBlur={validateNickNameAlert} />
+                                <div style={{display:'flex'}}>
+                                    <input type="text" id='nickname' name='nickname' value={nickname} onChange={nickChangeHandler} placeholder='2글자 이상 적어주세요' onBlur={validateNickNameAlert} />
+                                    <button type="button" className="nicknameCheckBtn" onClick={() => {nickNameChk(); setNickChange(true);}}>중복 확인</button>
+                                </div>
                             </div>
                             {/* 버튼 */}
                             <div className="buttons">

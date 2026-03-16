@@ -8,7 +8,7 @@ import cookie from 'js-cookie';
 
 export default function Login(){
     // 공유 데이터 //
-    const {loginSave} = useContext(ResortDataContext)
+    const {loginSave, setHeaderChange} = useContext(ResortDataContext)
     const navigate = useNavigate();
 
     // 이메일, 비밀번호 저장 상태변수
@@ -125,7 +125,7 @@ export default function Login(){
                             <input type="checkbox" id="rememberMail" name='rememberMail' onChange={emailChkHandeler} />
                             <label htmlFor="rememberMail">이메일 저장</label>
                         </div>
-                        <button type="button" className='remember_right' onClick={() => navigate("/forgot-password")}>비밀번호 찾기/변경</button>
+                        <button type="button" className='remember_right' onClick={() => navigate("/forgot-password")}>비밀번호 찾기</button>
                     </div>
                     <button type="submit"
                      className='LoginBtn' 
@@ -143,7 +143,7 @@ export default function Login(){
                 {/* 회원가입 폼으로 이동 */}
                 <p>계정이 없으신가요?</p>
                 <Link to='/signup1'>
-                    <button type="button" className='EmailSignUp'>이메일로 회원가입</button>
+                    <button type="button" className='EmailSignUp' onClick={() => setHeaderChange(3)}>이메일로 회원가입</button>
                 </Link>
             </div>
         </div>

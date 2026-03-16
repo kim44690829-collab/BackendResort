@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import resort.board.dto.HotelAvgDTO;
 import resort.board.dto.RatingDTO;
 import resort.board.dto.ReviewboardDTO;
+import resort.board.dto.ScoreDTO;
 import resort.board.service.ReviewboardService;
 import resort.handler.PageHandler;
 import resort.product.dto.HotelDTO;
@@ -125,10 +127,23 @@ public class ReviewboardApiController {
 	// 리뷰  UPDATE
 	@PutMapping("/board/reviewMod")
 	public int reviewMod(@RequestParam("re_code") int re_code, @RequestParam("rb_score") int rb_score ) {
-		System.out.println("ReviewboardServiceImpl : reviewAdd() 메서드 확인");
+		System.out.println("ReviewboardApiController : reviewAdd() 메서드 확인");
 		System.out.println("??????????????" + re_code);
 		System.out.println("!!!!!!!!!!!!!!" + rb_score);
 		return reviewboardservice.reviewMod(re_code, rb_score);
 	}
 	
+	// 호텔별 각 점수들 갯수
+	@GetMapping("/board/reviewData")
+	public ScoreDTO hotelScoreCount(@RequestParam("h_code") int h_code) {
+		System.out.println("ReviewboardApiController : hotelScoreCount() 메서드 확인");
+		System.out.println("@@@@@@@@@@@@@@@@@@@#############" + h_code);
+		return reviewboardservice.hotelScoreCount(h_code);
+	}
+	// 객실별 평점
+	@GetMapping("/board/reviewRoom")
+	public List<RatingDTO> roomReview(@RequestParam("h_code") int h_code){
+		System.out.println("ReviewboardApiController : roomReview() 메서드 확인");
+		return reviewboardservice.roomReview(h_code);
+	}
 }

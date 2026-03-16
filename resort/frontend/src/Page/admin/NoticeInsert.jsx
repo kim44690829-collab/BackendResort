@@ -34,7 +34,8 @@ export default function NoticeInsert(){
         axios.post('/api/board/noticeinsert',formData)
         .then((res)=>{
             if(res.data === 1){
-                alert("상품등록 성공")
+                alert("공지사항등록 성공")
+                window.scrollTo(0, 0)
                 navigate("/adminpage6")
             }
         })
@@ -132,13 +133,13 @@ export default function NoticeInsert(){
                             <table className="list_table"  style={{width:"800px"}}>
                                 <thead >
                                     <tr>
-                                        <th width="200px">n_title</th>
+                                        <th width="200px">제목</th>
                                         <th style={{backgroundColor:"#f6f8fc",color:"#333",borderBottom:"1px solid #ddd"}}>
                                             <input type="text" name="n_title" onChange={(e)=>setNotice(e.target.value)} style={{width:"500px",height:"40px"}}/>
                                         </th>
                                     </tr>
                                     <tr>
-                                        <th width="200px">n_content</th>
+                                        <th width="200px">내용</th>
                                         <th style={{backgroundColor:"#f6f8fc",color:"#333",height:"300px" ,borderBottom:"1px solid #ddd"}}>
                                             {/* <input type="" name="roomName" onChange={handleChange} /> */}
                                             <textarea name="n_content" id="n_content" cols="30" style={{height:"250px",width:"500px"}}
@@ -148,7 +149,7 @@ export default function NoticeInsert(){
                                     </tr>
                                 </thead>
                             </table>
-                                <Link to={'/adminpage6'}>
+                                <Link to={'/adminpage'}>
                                     <button type="button" className="insertBtn">
                                         취소하기
                                     </button>

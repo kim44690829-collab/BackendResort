@@ -9,7 +9,7 @@ export default function SignUp3(){
     const navigate = useNavigate();
     //
     // 핸드폰 데이터 3개 합친 변수
-    const {userNumFront, setUserNumFront, userNumBack, setUserNumBack, setHeaderChange, userNickName, setRender, render} = useContext(ResortDataContext);
+    const {userNumFront, setUserNumFront, userNumBack, setUserNumBack, setHeaderChange, userNickName, /* nickname, setNickname */ setRender, render} = useContext(ResortDataContext);
     // 회원가입 form에 들어가는 상태변수
     // 이메일
     const [userMail, setUserMail] = useState('');
@@ -119,7 +119,7 @@ export default function SignUp3(){
             (1 <= m && m <= 12) &&
             (1 <= d && d <= 31) &&
             userGender !== '' &&
-            nickname !== ''
+            (nickname.length >= 2 && nickname.length <= 20)
         ){
                 setIsDisabledSignup(false)
                 setMouseCursor(true)
@@ -204,7 +204,7 @@ export default function SignUp3(){
                 {/* 닉네임 */}
                 <div className='signup4'>
                     <label htmlFor="nickname">닉네임<span style={{color:'red'}}>*</span></label>
-                    <input type="text" id='nickname' name='nickname' value={nickname} onChange={(e) => setNickname(e.target.value)} placeholder='2글자 이상 적어주세요' onBlur={validateNickNameAlert} />
+                    <input type="text" id='nickname' name='nickname' value={nickname} onChange={(e) => setNickname(e.target.value)} placeholder='2글자 이상 적어주세요' onBlur={validateNickNameAlert} style={{width:'500px'}}/>
                 </div>
                 {/* 버튼 */}
                 <button type='submit' 
@@ -229,7 +229,7 @@ export default function SignUp3(){
                     <p className='couponDate'><span style={{fontWeight:'700'}}>유효기간 :</span> ~{year}.{month+1}.{date}까지</p>
                     {/* <p className='couponDate'>오늘({year}.{month}.{date})부터 <span style={{color:'red', fontSize:'20px', fontWeight:'600'}}>‘한달’동안</span> 사용하실 수 있습니다!</p> */}
                     <button type='button' 
-                    onClick={() => {modalHandeler(); setRender(!render)}}
+                    onClick={() => {modalHandeler(); setRender(!render)}} 
                     style={{color:'#fff', backgroundColor:'#42799b', border:'none', cursor:'pointer'}}
                     className='signupModalBtn'>홈으로</button>
                 </div> 

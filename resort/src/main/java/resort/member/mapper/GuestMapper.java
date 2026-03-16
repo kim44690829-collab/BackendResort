@@ -2,7 +2,6 @@ package resort.member.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import resort.member.dto.GuestDTO;
 
@@ -21,6 +20,7 @@ public interface GuestMapper {
 	// 비회원의 정보가 있는지 확인하는 select문
 	public GuestDTO selectResGuest(@Param("reservation_no") String reservation_no, @Param("g_phone") String g_phone);
 	
+
 	// 정보 있는지 확인
 	public GuestDTO guestSel(@Param("reservation_no") String reservation_no);
 }

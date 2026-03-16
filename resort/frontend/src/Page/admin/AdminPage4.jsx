@@ -20,6 +20,7 @@ export default function AdminPage4(){
     const [booker_name,setBooker_name] = useState(null)
     const [g_phone,setG_phone] = useState(null)
     const [r,setR] = useState(false);
+
     useEffect(()=>{
         axios.get('/api/reservation/list',{
             params: {
@@ -62,7 +63,7 @@ export default function AdminPage4(){
         })
         .then((res) => {
             console.log("수정 성공");
-            alert("예약취소가 완료되었습니다")
+            alert("예약정보 삭제가 완료되었습니다")
            
             setR(!r)
         })
@@ -209,11 +210,12 @@ export default function AdminPage4(){
                                     <tr className="table_head">
                                         <th width="50px">예약번호</th>
                                         <th width="50px">회원번호</th>
-                                        <th width="50px">비회원번호</th>
+                                        <th width="80px">비회원번호</th>
+                                        <th width="50px">회원구분</th>
                                         <th width="180px">예약코드</th>
                                         <th width="50px">방코드</th>
                                         <th width="100px">예약자명</th>
-                                        <th width="50px">취소여부</th>
+                                        <th width="50px">예약상태</th>
                                         <th width="150px">취소시간</th>
                                         <th width="50px">상세보기</th>
                                         <th width="50px">예약수정</th>
@@ -232,10 +234,11 @@ export default function AdminPage4(){
                                                 <td>{item.re_code}</td>
                                                 <td>{item.m_code}</td>
                                                 <td>{item.g_code}</td>
+                                                <td>{item.g_code === null? "회원":"비회원"}</td>
                                                 <td>{item.reservation_no}</td>
                                                 <td>{item.r_code}</td>
                                                 <td>{item.booker_name}</td>
-                                                <td>{item.cancel}</td>
+                                                <td>{item.cancel === 0 ? "예약" : "취소"}</td>
                                                 <td>{item.cancel_date!==null? `${item.cancel_date.slice(0,10)} - ${item.cancel_date.slice(11,16)}`:''}</td>
                                                 <td><button className="table_btn" onClick={()=>{setIsinfo(!isInfo),setNum(index)}}>상세정보</button></td>
                                                 <td>{item.m_code === null? <button className="table_btn" style={{width:"100px"}} onClick={()=>{setIsinfo2(!isInfo2),setNum(index)}}>비회원수정</button>:""}</td>
@@ -263,6 +266,9 @@ export default function AdminPage4(){
                                                         <p><span>예약코드</span> : <span style={{display:"inline-block",width:"300px"}}>{reservation[num].reservation_no}</span></p>
                                                     </li>
                                                     <li>
+                                                        <p><span>호텔이름</span> : <span style={{display:"inline-block",width:"300px"}}>{reservation[num].hotelName}</span><span>객실이름 :</span>  {reservation[num].roomName}</p>
+                                                    </li>
+                                                    <li>
                                                         <p><span>방코드</span> : <span style={{display:"inline-block",width:"300px"}}>{reservation[num].r_code}</span></p>
                                                     </li>
                                                     <li>
@@ -278,7 +284,7 @@ export default function AdminPage4(){
                                                         <p><span>원가격</span> : <span style={{display:"inline-block",width:"300px"}}>{reservation[num].original_price.toLocaleString()}원</span></p>
                                                     </li>
                                                     <li>
-                                                        <p><span>쿠폰사용여부</span> : <span style={{display:"inline-block",width:"300px"}}>{reservation[num].coupon_used}</span></p>
+                                                        <p><span>쿠폰사용여부</span> : <span style={{display:"inline-block",width:"300px"}}>{reservation[num].coupon_used===0? "쿠폰 미사용": "쿠폰 사용"}</span></p>
                                                     </li>
                                                     <li>
                                                         <p><span>할인율</span> : <span style={{display:"inline-block",width:"300px"}}>{reservation[num].discount_rate}%</span></p>
@@ -287,7 +293,7 @@ export default function AdminPage4(){
                                                         <p><span>최종가격</span> : <span style={{display:"inline-block",width:"300px"}}>{reservation[num].final_price.toLocaleString()}원</span></p>
                                                     </li>
                                                     <li>
-                                                        <p><span>취소여부</span> : <span style={{display:"inline-block",width:"300px"}}>{reservation[num].cancel ===0? "X": "O"}</span><span>취소시간 :</span>  {reservation[num].cancel_date!==null?`${reservation[num].cancel_date.slice(0,10)} - ${reservation[num].cancel_date.slice(11,16)}`:""}</p>
+                                                        <p><span>예약상태</span> : <span style={{display:"inline-block",width:"300px"}}>{reservation[num].cancel ===0? "예약": "취소"}</span><span>취소시간 :</span>  {reservation[num].cancel_date!==null?`${reservation[num].cancel_date.slice(0,10)} - ${reservation[num].cancel_date.slice(11,16)}`:""}</p>
                                                     </li>
                                                     
                                                 </ul>
