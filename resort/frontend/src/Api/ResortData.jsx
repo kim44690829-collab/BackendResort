@@ -15,7 +15,8 @@ export default function ResortData({children}){
     const [RatingAvgData , setRatingAvgData] = useState([]);
     // const [HotelPriceDate , setHotelPriceDate] = useState([]);
     const [HotelRatingDate , setHotelRatingDate] = useState([]);
-
+    // 비회원 데이터 업데이트
+    const [guestUpdateResult, setGuestUpdateResult] = useState(null);
 
     const [hotelRatingAvgData, setHotelRatingAvgData] = useState([]);
     const [hotelMinPrice, setHotelMinPrice] = useState([]);

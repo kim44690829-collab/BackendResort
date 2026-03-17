@@ -15,7 +15,8 @@ export default function AdminPage5(){
     const [searchKeyword, setSearchKeyword] = useState("");
     const [serch,setSerch] = useState("");
     const [isInfo,setIsInfo] = useState(false);
-    const [num,setNum] = useState(0);
+    const [num,setNum] = useState([]);
+    const [allData,setAllData] = useState([])
     
     useEffect(()=>{
         axios.get('/api/board/adminlist',{
@@ -38,7 +39,20 @@ export default function AdminPage5(){
             console.error("error", error)
         })
         console.log(page)
+        // 전체 정보 가져오기
+        axios.get('/api/board/adminAlllist')
+        .then((res) => {
+            console.log("회원정보 데이터 : ", res.data);
+            setAllData(res.data);
+        })
+        .catch((error) => {
+            console.error("error", error)
+        })
+        console.log(page)
+
     },[page,searchType,searchKeyword])
+
+
 
     const pages = [];
 
@@ -191,6 +205,9 @@ export default function AdminPage5(){
                                 </thead>
                                 <tbody>
                                     {board.map((item,index)=>{
+                                        
+                                        const chk = allData.filter((f)=>f.ref === item.ref)
+                                        console.log(chk)
                                         return(
                                             <tr key={index} className="table_head">
                                                 {item.re_step ===1?
@@ -200,10 +217,10 @@ export default function AdminPage5(){
                                                         <td>{item.b_writer}</td>
                                                         <td>{item.b_date.slice(0,10)}</td>
                                                         <td>
-                                                            <button type="button" className="table_btn"  onClick={()=>{setIsInfo(!isInfo),setNum(index)}}>상세보기</button>
+                                                            <button type="button" className="table_btn"  onClick={()=>{setIsInfo(!isInfo),setNum(chk)}}>상세보기</button>
                                                         </td>
                                                         <td>
-                                                            {board.find((f)=>f.ref === item.ref && f.re_step === 2)===undefined?"":"답글 작성 완료"}
+                                                            {chk.length<2?"":"답글 작성 완료"}
                                                         </td>
                                                     </>
                                                     :
@@ -222,18 +239,18 @@ export default function AdminPage5(){
                                             <div className="service_box">
                                                 <ul className="info_list">
                                                     <li>
-                                                        <span>문의 번호 : </span>  <span style={{display:"inline-block",width:"300px"}}>{board[num].ref}</span>
+                                                        <span>문의 번호 : </span>  <span style={{display:"inline-block",width:"300px"}}>{num[0].ref}</span>
                                                     </li>
                                                     <li>
-                                                        <span>제목 : </span>  <span style={{display:"inline-block",width:"300px"}}>{board[num].b_title}</span>
+                                                        <span>제목 : </span>  <span style={{display:"inline-block",width:"300px"}}>{num[0].b_title}</span>
                                                     </li>
                                                     <li>
-                                                        <span>비밀번호 : </span>  <span style={{display:"inline-block",width:"300px"}}>{board[num].b_pw}</span>
-                                                        <span>조회수 : </span>  <span style={{display:"inline-block",width:"300px"}}>{board[num].readcount}</span>
+                                                        <span>비밀번호 : </span>  <span style={{display:"inline-block",width:"300px"}}>{num[0].b_pw}</span>
+                                                        <span>조회수 : </span>  <span style={{display:"inline-block",width:"300px"}}>{num[0].readcount}</span>
                                                     </li>
                                                     <li>
-                                                        <span>작성일자 : </span>  <span style={{display:"inline-block",width:"300px"}}>{board[num].b_date.slice(0,10)}</span> 
-                                                        <span>수정일자 : </span>  <span style={{display:"inline-block",width:"300px"}}>{board[num].b_update.slice(0,10)}</span>
+                                                        <span>작성일자 : </span>  <span style={{display:"inline-block",width:"300px"}}>{num[0].b_date.slice(0,10)}</span> 
+                                                        <span>수정일자 : </span>  <span style={{display:"inline-block",width:"300px"}}>{num[0].b_update.slice(0,10)}</span>
                                                     </li>
                                                     <li style={{margin:"40px 0 0 0"}}>
                                                         <table style={{width:"900px"}}>
@@ -241,10 +258,10 @@ export default function AdminPage5(){
                                                                 <tr>
                                                                     <td style={{width:"15%",height:"180px"}}><span>내용 </span></td>
                                                                     <td style={{width:"85%",height:"180px",backgroundColor:"#e1eaf371",paddingLeft:"15px"}}>
-                                                                        <span style={{display:"inline-block",width:"100%"}}>{board[num].b_content}</span>
+                                                                        <span style={{display:"inline-block",width:"100%"}}>{num[0].b_content}</span>
                                                                     </td>
                                                                     <td>
-                                                                        {board[num].b_upload !== null ? <img src={`/img/boardImg/${board[num].b_upload}`} style={{height:"180px",width:"270px",objectFit:"cover"}}/> : null}
+                                                                        {num[0].b_upload !== null ? <img src={`/img/boardImg/${num[0].b_upload}`} style={{height:"180px",width:"270px",objectFit:"cover"}}/> : null}
                                                                     </td>
                                                                 </tr>
                                                             </tbody>
@@ -259,17 +276,13 @@ export default function AdminPage5(){
                                                     <tbody>
                                                         <tr>
                                                             <td style={{width:"15%",height:"180px"}}><span>답글내용  </span></td>
-                                                            {board.map((item,index)=>(
-                                                                item.re_step === 2 && item.ref === board[num].ref
-                                                                ?
-                                                                <td style={{width:"85%" ,height:"180px",backgroundColor:"#e1eaf371",paddingLeft:"15px"}} key={index}>
-                                                                    <span style={{display:"inline-block"}}>{item.b_content}</span>
+                                                            {num[1]!==undefined?
+                                                                <td style={{width:"85%" ,height:"180px",backgroundColor:"#e1eaf371",paddingLeft:"15px"}}>
+                                                                    <span>{num[1].b_content}</span>
                                                                 </td>
                                                                 :
-                                                                <>
-                                                                    
-                                                                </>
-                                                            ))}
+                                                                ''
+                                                            }
                                                         </tr>
                                                     </tbody>
                                                 </table>

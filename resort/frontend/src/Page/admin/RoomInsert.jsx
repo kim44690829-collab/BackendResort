@@ -38,6 +38,10 @@ export default function RoomInsert(){
             alert("등록된 호텔중 해당하는 호텔이 존재하지 않습니다.");
             return;
         }
+        if(room.price>300000){
+            alert("최대 가격을 다시 확인해주세요.");
+            return;
+        }
         if(room.maxOccupancy>4){
             alert("최대 등록 가능한 인원 수를 다시 확인해주세요.");
             return;

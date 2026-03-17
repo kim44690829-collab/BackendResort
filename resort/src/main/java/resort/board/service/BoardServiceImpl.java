@@ -302,5 +302,20 @@ public class BoardServiceImpl implements BoardService {
 		return boardmapper.deleteSingleReply(b_code);
 	}
 
+	@Override
+	public int getAdminAllcount() {
+		System.out.println("BoardServiceImpl getAdminAllcount() 호출");	
+		return boardmapper.getAdminAllcount();
+	}
+
+	@Override
+	public int getAdminSearchCount(String searchType, String searchKeyword) {
+		System.out.println("BoardServiceImpl getAdminSearchCount() 호출");	
+		return boardmapper.getAdminSearchCount(searchType, searchKeyword);
+	}
+
+	
+	
+	
 	
 }

@@ -540,12 +540,14 @@ export default function HelpCenter(){
                 <ul>
                     <li className='list_title'>고객센터</li>
                     <li className='list_menu'>
-                        <button type='button' className='list_menuBtn' onClick={() => setListType(1)} style={{fontWeight: listType === 1 ? 'bold' : 'normal'}}>
+                        <button type='button' className='list_menuBtn' onClick={() => {setListType(1);setIsMyList(false); setWriteBoard(false); setDetailBoard(false);setModifyBoard(false);setReplStatus(false); setSearchType('b_title'); setSearchKeyword(''); setAppliedKeyword(''); setAppliedSearchType('b_title'); setPage(1); setWriter(userNickName);setTitle(''); setPassword(''); setBoardText(''); setFile(null); setDelState(false);loadList();
+        setReRef(0);setReRestep(0);setReLevel(0);setPreviewUrl(null);}} style={{fontWeight: listType === 1 ? 'bold' : 'normal'}}>
                             자주 찾는 질문
                         </button>
                     </li>
                     <li className='list_menu'>
-                        <button type='button' className='list_menuBtn' onClick={() => setListType(2)} style={{fontWeight: listType === 2 ? 'bold' : 'normal'}}>
+                        <button type='button' className='list_menuBtn' onClick={() => {setListType(2);setIsMyList(false); setWriteBoard(false); setDetailBoard(false);setModifyBoard(false);setReplStatus(false); setSearchType('b_title'); setSearchKeyword(''); setAppliedKeyword(''); setAppliedSearchType('b_title'); setPage(1); setWriter(userNickName);setTitle(''); setPassword(''); setBoardText(''); setFile(null); setDelState(false);loadList();
+        setReRef(0);setReRestep(0);setReLevel(0);setPreviewUrl(null);}} style={{fontWeight: listType === 2 ? 'bold' : 'normal'}}>
                             공지사항
                         </button>
                     </li>

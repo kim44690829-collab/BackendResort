@@ -58,7 +58,7 @@ export default function Modal({children}){
                     </div>
                 </div>
             }
-            {AddressCopy && <p className='copytext' style={{position:'absolute',left:'50%',top:'50%',transform:'translate(-50%,-50%)',zIndex:'11111111111',backgroundColor:'#ffffffed',padding:'25px 33px',fontSize:'18px',fontWeight:'600',borderRadius:'10px'}}>주소가 복사되었습니다.</p>}
+            {AddressCopy && <p className='copytext' style={{position:'fixed',left:'50%',top:'50%',transform:'translate(-50%,-50%)',zIndex:'11111111111',backgroundColor:'#ffffffed',padding:'25px 33px',fontSize:'18px',fontWeight:'600',borderRadius:'10px'}}>주소가 복사되었습니다.</p>}
         </ModalContext.Provider>
     )
 }

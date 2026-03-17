@@ -129,29 +129,30 @@ export default function HotelUpdate(){
 
 
     useEffect(() => {
-    if (!hotel || hotel.length === 0) return; // 데이터 없으면 실행 안함
+        if (!hotel || hotel.length === 0) return; // 데이터 없으면 실행 안함
 
-    const target = hotel[h_code - 1];
-    if (!target) return; // 해당 인덱스 없으면 종료
+        const target = hotel[h_code - 1];
+        if (!target) return; // 해당 인덱스 없으면 종료
 
-    const nnn = JSON.parse(target.roomservice);
-    const bbb = JSON.parse(target.publicservice);
-    const ncccnn = JSON.parse(target.otherservice);
+        const nnn = JSON.parse(target.roomservice);
+        const bbb = JSON.parse(target.publicservice);
+        const ncccnn = JSON.parse(target.otherservice);
 
-    setRoomservice(nnn);
-    setPublicservice(bbb);
-    setOtherservice(ncccnn);
-    setHotelName(currentHotel.hotelName)
-    setCountry(currentHotel.country)
-    setCity(currentHotel.city)
-    setType(currentHotel.type)
-    setH_address(currentHotel.h_address)
-    setDiscount(currentHotel.discount)
-    setStartDate(currentHotel.startDate)
-    setEndDate(currentHotel.endDate)
+        setRoomservice(nnn);
+        setPublicservice(bbb);
+        setOtherservice(ncccnn);
+        setHotelName(currentHotel.hotelName)
+        setCountry(currentHotel.country)
+        setCity(currentHotel.city)
+        setType(currentHotel.type)
+        setH_address(currentHotel.h_address)
+        setDiscount(currentHotel.discount)
+        setStartDate(currentHotel.startDate)
+        setEndDate(currentHotel.endDate)
 
-    console.log(nnn);
-}, [hotel, h_code]);
+        console.log(nnn);
+    }, [hotel, h_code]);
+    
     if(userEmail !== 'admin@resort.com'){
         return(
             <>
@@ -252,7 +253,7 @@ export default function HotelUpdate(){
                                             {/* <input type="text" name="country" onChange={(e)=>setCountry(e.target.value)} 
                                             value={country ?? currentHotel?.country ?? ""} style={{width:"400px",height:"30px"}} /> */}
                                             <select className="select" name="country" value={country ?? currentHotel?.country ?? ""}
-                                            onChange={(e)=>setCountry(e.target.value)} style={{width:'130px'}}>
+                                            onChange={(e)=>{setCountry(e.target.value),setCity("")}} style={{width:'130px'}}>
                                                 <option value="Korea">한국</option>
                                                 <option value="Japan">일본</option>
                                                 <option value="USA">미국</option>
@@ -270,7 +271,7 @@ export default function HotelUpdate(){
                                             <select className="select" name="city" value={city ?? currentHotel?.city??""}
                                             onChange={(e)=>setCity(e.target.value)} style={{width:'130px'}}>
                                                 <option value='' hidden>=== 선택 ===</option>
-                                                {hotel.country === 'Korea'?
+                                                {country === 'Korea'?
                                                     <>
                                                         <option value="Seoul">서울</option>
                                                         <option value="Busan">부산</option>
@@ -284,32 +285,32 @@ export default function HotelUpdate(){
                                                         <option value="Pohang">포항</option>
                                                     </>
                                                     :
-                                                hotel.country === 'Japan'? 
+                                                country === 'Japan'? 
                                                     <>
                                                         <option value="Tokyo">도쿄</option>
                                                         <option value="Sapporo">삿포로</option>
                                                     </>
                                                     :
-                                                hotel.country === 'USA'? 
+                                                country === 'USA'? 
                                                     <>
                                                         <option value="LosAngeles">로스앤젤레스</option>
                                                         <option value="New York">뉴욕</option>
                                                         <option value="Guam">괌</option>
                                                     </>
                                                     :
-                                                hotel.country === 'China'? 
+                                                country === 'China'? 
                                                     <>
                                                         <option value="Zhangjiajie">장가계</option>
                                                         <option value="Shanghai">상하이</option>
                                                     </>
                                                     :
-                                                hotel.country === 'Italy'? 
+                                                country === 'Italy'? 
                                                     <>
                                                         <option value="Rome">로마</option>
                                                         <option value="Venice">베네치아</option>
                                                     </>
                                                     :
-                                                hotel.country === 'France'? 
+                                                country === 'France'? 
                                                     <>
                                                         <option value="Paris">파리</option>
                                                     </>

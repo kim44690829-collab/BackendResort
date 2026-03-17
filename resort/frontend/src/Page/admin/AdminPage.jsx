@@ -184,7 +184,7 @@ export default function AdminPage(){
                         </div>
                         <div style={{textAlign:"right",width:'1600px',margin:'0 auto'}}>
                             <input type="checkbox" name="chkMember" id="chkMember" onChange={()=>setChking(!chking)}/>
-                            <label htmlFor="chkMember">탈퇴한 회원숨기기</label>
+                            <label htmlFor="chkMember" style={{marginLeft:'5px'}}>탈퇴한 회원숨기기</label>
                         </div>
                         <div className="admin_list">
                             <table className="list_table" style={{width:"1600px"}}>

@@ -110,4 +110,10 @@ public interface BoardMapper {
 	
 	//ref값 추출
 	public BoardDTO getParentByRef(int ref);
+	
+	//전체 게시글의 개수를 구하는 메소드
+	public int getAdminAllcount();
+	
+	public int getAdminSearchCount(@Param("searchType") String searchType,
+			@Param("searchKeyword") String searchKeyword);
 }

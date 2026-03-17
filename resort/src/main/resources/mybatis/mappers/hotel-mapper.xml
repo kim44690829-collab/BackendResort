@@ -6,7 +6,7 @@
 
 	<!-- // 호텔 전체 검색 public List<HotelDTO> getHotelAll(); -->
 	<select id="getHotelAll" resultType="HotelDTO">
-		SELECT h.*,MIN(r.price) as minPrice, MAX(r.maxOccupancy) as hotelMaxOccupancy FROM hotel h INNER JOIN room r
+		SELECT h.*,MIN(r.price) as minPrice, MAX(r.maxOccupancy) as hotelMaxOccupancy FROM hotel h LEFT JOIN room r
 		ON h.h_code = r.h_code
 		GROUP BY h.h_code
 	</select>
@@ -38,7 +38,7 @@
 	
 	<!-- 호텔 정보 총합(가격+ 별점) public List<HotelMergeDTO> getHotelMerge(); -->
 	<select id="getHotelMerge" resultType="HotelMergeDTO">
-		SELECT h.*,MIN(r.price) as hotelPrice,IFNULL(avg(rb.rb_score),0.0) as hotelAvgScore, MAX(maxOccupancy) as hotelMaxOccupancy FROM hotel h
+		SELECT h.*,MIN(r.price) as hotelPrice,IFNULL(avg(rb.rb_score),0.0) as hotelAvgScore, MAX(maxOccupancy) as hotelMaxOccupancy, IFNULL(COUNT(rb.rb_score),0) as hotelReviewCount FROM hotel h
 		INNER JOIN room r
 		on h.h_code = r.h_code
 		LEFT JOIN reviewboard rb

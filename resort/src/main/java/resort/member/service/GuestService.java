@@ -21,4 +21,6 @@ public interface GuestService {
 	// 정보 있는지 확인
 	public int guestSel(String reservation_no);
 	
+	// 비회원 자동 소프트 삭제
+	public void guestUpdate();
 }

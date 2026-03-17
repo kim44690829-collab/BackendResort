@@ -1304,6 +1304,10 @@ button{
     box-shadow: 1px 1px 4px rgb(6 6 6 / 19%);
 }
 .detail-wrap .recommend .left-arrow,
+.detail-wrap .wish .left-arrow{
+    box-shadow: -1px -1px 4px rgb(6 6 6 / 19%);
+}
+.detail-wrap .recommend .left-arrow,
 .detail-wrap .recommend .right-arrow{
     top: 292px;
 }

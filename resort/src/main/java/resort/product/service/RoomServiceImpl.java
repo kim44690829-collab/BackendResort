@@ -5,8 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import resort.member.dto.MemberDTO;
 import resort.product.dto.ReservateRoomDTO;
 import resort.product.dto.RoomDTO;
+import resort.product.dto.RoomMergeDTO;
 import resort.product.mapper.RoomMapper;
 
 @Service
@@ -30,7 +32,7 @@ public class RoomServiceImpl implements RoomService {
 	}
 
 	@Override
-	public List<RoomDTO> getRoomPagelist(int startRow, int pageSize) {
+	public List<RoomMergeDTO> getRoomPagelist(int startRow, int pageSize) {
 		System.out.println("RoomServiceImpl : getRoomPagelist() 메서드 확인");
 		return roomMapper.getRoomPagelist(startRow, pageSize);
 	}
@@ -42,7 +44,7 @@ public class RoomServiceImpl implements RoomService {
 	}
 
 	@Override
-	public List<RoomDTO> getSearchRoomPageList(String searchType, String searchKeyword, int startRow, int pageSize) {
+	public List<RoomMergeDTO> getSearchRoomPageList(String searchType, String searchKeyword, int startRow, int pageSize) {
 		System.out.println("RoomServiceImpl : getSearchRoomPageList() 메서드 확인");
 		return roomMapper.getSearchRoomPageList(searchType, searchKeyword, startRow, pageSize);
 	}
@@ -66,6 +68,12 @@ public class RoomServiceImpl implements RoomService {
 	public int updateRoom(RoomDTO rdto) {
 		System.out.println("RoomServiceImpl : updateRoom() 메서드 확인");
 		return roomMapper.updateRoom(rdto);
+	}
+
+	@Override
+	public RoomDTO oneRoom(int r_code) {
+		System.out.println("RoomServiceImpl : oneRoom() 메서드 확인");
+		return roomMapper.oneRoom(r_code);
 	}
 
 }

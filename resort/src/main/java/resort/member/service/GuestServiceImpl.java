@@ -1,6 +1,7 @@
 package resort.member.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import resort.member.dto.GuestDTO;
@@ -69,6 +70,13 @@ public class GuestServiceImpl implements GuestService{
 			result = MEMBER_FOUND;
 		}
 		return result;
+	}
+
+	@Override
+	@Scheduled(cron = "0 0 0 * * *", zone = "Asia/Seoul")
+	public void guestUpdate() {
+		System.out.println("GuestServiceImpl : guestUpdate() 메서드 확인");
+		guestmapper.guestUpdate();
 	}
 
 }

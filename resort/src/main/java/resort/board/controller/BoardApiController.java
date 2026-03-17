@@ -284,10 +284,10 @@ public class BoardApiController {
 		
 		if(searchType != null && searchKeyword != null && !searchKeyword.trim().isEmpty()) {
 			//검색을 성공한 경우 검색한 결과에 해당되는 개수 반환
-			totalCnt = boardservice.getSearchCount(searchType, searchKeyword);
+			totalCnt = boardservice.getAdminSearchCount(searchType, searchKeyword);
 		}else {
 			//검색을 하지 않은 경우 전체 게시글의 개수 반환
-			totalCnt = boardservice.getAllcount();
+			totalCnt = boardservice.getAdminAllcount();
 		}
 		
 		//4. PageHandler 클래스 접근하기위해 인스턴스화 한다.	
@@ -319,6 +319,13 @@ public class BoardApiController {
 		
 	    return result;
 	}
+	
+	@GetMapping("/board/adminAlllist")
+	public List<BoardDTO> boardAdminAllList(){
+		System.out.println("BoardApiController boardAdminAllList() 메소드호출");
+		return boardservice.getAllBoard();
+	}
+	
 	
 	//답글 작성을 처리하는 컨트롤러
 	@PostMapping("/board/reply")

@@ -19,8 +19,10 @@ public interface GuestMapper {
 	
 	// 비회원의 정보가 있는지 확인하는 select문
 	public GuestDTO selectResGuest(@Param("reservation_no") String reservation_no, @Param("g_phone") String g_phone);
-	
 
 	// 정보 있는지 확인
 	public GuestDTO guestSel(@Param("reservation_no") String reservation_no);
+	
+	// 비회원 자동 소프트 삭제
+	public void guestUpdate();
 }

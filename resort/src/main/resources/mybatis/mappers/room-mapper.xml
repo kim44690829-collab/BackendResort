@@ -19,46 +19,60 @@
 	
 <!-- ================2026-02-23 수정 부분 ============= -->
 	
-	<!-- 회원정보 개수  -->
+	<!-- 객실정보 개수  -->
 <select id="getAllRoomcount" resultType="int">
-	SELECT COUNT(*) FROM room
+	SELECT COUNT(*) FROM room r
+		INNER JOIN hotel h
+		ON r.h_code = h.h_code
 </select>
 
-<!-- 회원정보 보이는 개수 -->
-<select id="getRoomPagelist" resultType="roomDTO">
-	SELECT *FROM room ORDER BY r_code DESC
+<!-- 객실정보 보이는 개수 -->
+<select id="getRoomPagelist" resultType="RoomMergeDTO">
+	SELECT *FROM room r
+		INNER JOIN hotel h
+		ON r.h_code = h.h_code ORDER BY r.r_code DESC
 	LIMIT #{startRow}, #{pageSize}
 </select>
 
 
 
 <select id="getSearchRoomCount" resultType="int">
-		SELECT COUNT(*) FROM room 
+		SELECT COUNT(*) FROM room r
+		INNER JOIN hotel h
+		ON r.h_code = h.h_code 
 		<where>
 			<choose>
 				<when test="searchType == 'roomName'">
-					roomName LIKE CONCAT("%",#{searchKeyword},"%")
+					r.roomName LIKE CONCAT("%",#{searchKeyword},"%")
+				</when>
+				<when test="searchType == 'hotelName'">
+					h.hotelName LIKE CONCAT("%",#{searchKeyword},"%")
 				</when>
 				<otherwise>
-					maxOccupancy LIKE CONCAT("%",#{searchKeyword},"%")				
+					r.maxOccupancy LIKE CONCAT("%",#{searchKeyword},"%")				
 				</otherwise>
 			</choose>
 		</where>
 	</select>
 
-	<select id="getSearchRoomPageList" resultType="roomDTO">
-		SELECT * FROM room 
+	<select id="getSearchRoomPageList" resultType="RoomMergeDTO">
+		SELECT * FROM room r
+		INNER JOIN hotel h
+		ON r.h_code = h.h_code 
 		<where>
 			<choose>
 				<when test="searchType == 'roomName'">
-					roomName LIKE CONCAT("%",#{searchKeyword},"%")
+					r.roomName LIKE CONCAT("%",#{searchKeyword},"%")
+				</when>
+				<when test="searchType == 'hotelName'">
+					h.hotelName LIKE CONCAT("%",#{searchKeyword},"%")
 				</when>
 				<otherwise>
-					maxOccupancy LIKE CONCAT("%",#{searchKeyword},"%")				
+					r.maxOccupancy LIKE CONCAT("%",#{searchKeyword},"%")				
 				</otherwise>
 			</choose>
 		</where>
-		ORDER BY r_code DESC
+		ORDER BY r.r_code DESC
 		LIMIT #{startRow}, #{pageSize}
 	</select>
 	<!-- =========2026-02-24 수정부분 JHJ =========== -->
@@ -88,4 +102,9 @@
 	<update id="updateRoom" parameterType="RoomDTO">
 		UPDATE room SET h_code = #{h_code},roomName = #{roomName},price = #{price},maxOccupancy = #{maxOccupancy},r_img = #{r_img} WHERE r_code =#{r_code}
 	</update>
+	
+	
+	<select id="oneRoom">
+		SELECT * FROM room WHERE r_code = #{r_code}
+	</select>
 </mapper>

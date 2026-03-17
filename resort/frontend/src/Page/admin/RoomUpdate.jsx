@@ -17,19 +17,49 @@ export default function RoomUpdate(){
     const [roomName,setRoomName] = useState(null)
     const [price,setPrice] = useState(null)
     const [maxOccupancy,setMaxOccupancy] = useState(null)
-
+    const [oneData,setOneData] = useState(null)
+    const [hotelData,setHotelData] = useState([])
     const [r_img,setR_img] = useState('')
     const navigate = useNavigate();
+    
+    useEffect(()=>{
+        axios.get("/api/hotel/chkAllHotel")
+        .then((res)=>{
+            console.log(res.data)
+            setHotelData(res.data)
+        })
+        .catch((error)=>{
+            console.log("출력실패")
+        })
+    },[])
+    
+    
+    
     //상품 들록하는 submit 함수
     const submitHandler=()=>{
-        
+        console.log(hotelData)
+        console.log(h_code)
+        if(hotelData.find((f)=>f.h_code === Number(h_code)) === undefined){
+            alert("등록된 호텔중 해당하는 호텔이 존재하지 않습니다.");
+            return;
+        }
+        if(price>300000){
+            alert("최대 가격을 다시 확인해주세요.");
+            return;
+        }
+        if(maxOccupancy>4){
+            alert("최대 등록 가능한 인원 수를 다시 확인해주세요.");
+            return;
+        }
+
+
         axios.put('/api/room/update',{
             r_code:r_code,
-            h_code: h_code,
-            roomName: roomName,
-            price: price,
-            maxOccupancy: maxOccupancy,
-            r_img: r_img,
+            h_code: h_code === null? oneData?.h_code:h_code,
+            roomName: roomName===null?oneData?.roomName:roomName,
+            price: price === null? oneData?.price:price,
+            maxOccupancy: maxOccupancy === null? oneData?.maxOccupancy:maxOccupancy,
+            r_img: oneData?.r_img,
             
         })
         .then((res) => {
@@ -46,7 +76,29 @@ export default function RoomUpdate(){
     // 공통 임력 처리 함수
     
     useEffect(()=>{
+        axios.get(`/api/room/oneRoom/${r_code}`)
+        .then((res) => {
+            console.log(res.data);
+            setOneData(res.data);
+            setH_code(res.data.h_code);
+            setPrice(res.data.price);
+            setRoomName(res.data.roomName);
+            setMaxOccupancy(res.data.maxOccupancy);
+        })
+        .catch((error) => {
+            console.error("error", error)
+        })
+    },[])
+
+    
+
+    /* useEffect(()=>{
         // value={h_code === undefined? RoomData[r_code-1].h_code:h_code}
+        if (!RoomData || RoomData.length === 0) return; // 데이터 없으면 실행 안함
+
+        const target = RoomData[r_code-1];
+        if (!target) return; // 해당 인덱스 없으면 종료
+
         console.log(h_code)
         console.log(RoomData)
         console.log(RoomData[r_code-1])
@@ -55,7 +107,7 @@ export default function RoomUpdate(){
         setRoomName(RoomData[r_code-1].roomName)
         setPrice(RoomData[r_code-1].price)
         setMaxOccupancy(RoomData[r_code-1].maxOccupancy)
-    },[])
+    },[]) */
     if(userEmail !== 'admin@resort.com'){
         return(
             <>
@@ -147,7 +199,7 @@ export default function RoomUpdate(){
                                         <th width="200px">호텔코드</th>
                                         <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>
                                             <input type="text" name="h_code" onChange={(e)=>{setH_code(e.target.value),setR_img(`["/img/${h_code}-1.jpg","/img/${h_code}-2.jpg","/img/${h_code}-3.jpg","/img/${h_code}-4.jpg","/img/${h_code}-5.jpg"]`)}} 
-                                                value={h_code === null? RoomData[r_code-1].h_code:h_code} style={{width:"400px",height:"30px"}}
+                                                value={h_code === null? oneData?.h_code:h_code} style={{width:"400px",height:"30px"}}
                                             />
                                         </th>
                                     </tr>
@@ -155,7 +207,7 @@ export default function RoomUpdate(){
                                         <th width="200px">객실이름</th>
                                         <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>
                                             <input type="text" name="roomName" onChange={(e)=>setRoomName(e.target.value)} 
-                                                value={roomName === null? RoomData[r_code-1].roomName:roomName} style={{width:"400px",height:"30px"}}
+                                                value={roomName === null? oneData?.roomName:roomName} style={{width:"400px",height:"30px"}}
                                             />
                                         </th>
                                     </tr>
@@ -163,7 +215,7 @@ export default function RoomUpdate(){
                                         <th width="200px">{`가격(최대 300,000원)`}</th>
                                         <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>
                                             <input type="text" name="price" onChange={(e)=>setPrice(e.target.value)} 
-                                                value={price === null? RoomData[r_code-1].price:price} style={{width:"400px",height:"30px"}}
+                                                value={price === null? oneData?.price:price} style={{width:"400px",height:"30px"}}
                                             />
                                         </th>
                                     </tr>
@@ -171,7 +223,7 @@ export default function RoomUpdate(){
                                         <th width="200px">{`최대인원(4명)`}</th>
                                         <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>
                                             <input type="text" name="maxOccupancy" onChange={(e)=>setMaxOccupancy(e.target.value)} 
-                                                value={maxOccupancy === null? RoomData[r_code-1].maxOccupancy:maxOccupancy} style={{width:"400px",height:"30px"}}
+                                                value={maxOccupancy === null? oneData?.maxOccupancy:maxOccupancy} style={{width:"400px",height:"30px"}}
                                             />
                                         </th>
                                     </tr>

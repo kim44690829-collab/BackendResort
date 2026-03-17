@@ -1,7 +1,6 @@
 package resort.product.controller;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.annotation.MultipartConfig;
+import jakarta.servlet.http.HttpServletRequest;
 import resort.handler.PageHandler;
 import resort.product.dto.HotelDTO;
 import resort.product.dto.HotelMergeDTO;

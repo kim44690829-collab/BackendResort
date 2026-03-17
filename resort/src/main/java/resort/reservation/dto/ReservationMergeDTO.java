@@ -26,4 +26,5 @@ public class ReservationMergeDTO {
 	private String reservation_no; // 예약 번호
 	private String roomName; // 객실이름
 	private String hotelName; // 호텔이름
+	private int g_check; // 회원의 탈퇴여부
 }

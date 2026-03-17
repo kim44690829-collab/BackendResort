@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,6 +24,7 @@ import resort.member.dto.MemberDTO;
 import resort.product.dto.HotelDTO;
 import resort.product.dto.ReservateRoomDTO;
 import resort.product.dto.RoomDTO;
+import resort.product.dto.RoomMergeDTO;
 import resort.product.service.RoomService;
 
 @RestController
@@ -61,7 +63,7 @@ public class RoomApiController {
 			// 페이지 핸들러 인스터스화
 			PageHandler ph = new PageHandler(totalCnt, page, pageSize);
 			
-			List<RoomDTO>list;
+			List<RoomMergeDTO>list;
 			
 			if(searchType != null && !searchKeyword.trim().isEmpty()) {
 					list = roomService.getSearchRoomPageList(searchType, searchKeyword, ph.getStartRow(), pageSize);				
@@ -121,15 +123,20 @@ public class RoomApiController {
 	
 	
 	// 객실 상품의 총 개수
-		@GetMapping("/room/getAllCount")
-		public int getroomAllCount() {
-			System.out.println("HotelApiController : getroomAllCount() 메서드 확인");
-			return roomService.getAllRoomcount();
-		}
+	@GetMapping("/room/getAllCount")
+	public int getroomAllCount() {
+		System.out.println("RoomApiController : getroomAllCount() 메서드 확인");
+		return roomService.getAllRoomcount();
+	}
 	
 	
 	
-	
+	@GetMapping("/room/oneRoom/{r_code}")
+	public RoomDTO  oneRoom(@PathVariable("r_code") int r_code) {
+		System.out.println("RoomApiController : oneRoom 요청됨");
+		System.out.println(r_code);
+		return roomService.oneRoom(r_code);
+	}
 	
 	
 	

@@ -68,12 +68,12 @@
     width: 400px;
     height: 50px;
     padding: 12px 10px 10px 10px;
-    padding-left: 40px;
+    padding-left: 46px;
     border-radius: 10px;
     border: none;
     outline: none;
     line-height: 150px;
-    background-color: rgb(228, 228, 228);
+    background-color: #f3f3f3;
 }
 .main_container .mainImgBenner .hotelSearch .hotelInput #citySearch:hover{
     background-color: #cecece;
@@ -190,13 +190,15 @@
 }
 .main_container .mainImgBenner .hotelSearch .hotelInput .searchIcon{
     position: absolute;
-    top: 16px;
-    left: 10px;
+    top: 17px;
+    left: 16px;
+    color: #494949;
 }
 /* 인원 */
 .guests{
     display: inline-block;
     width: 50px;
+    font-weight: 600;
     padding: 10px;
     text-align: center;
 }
@@ -205,7 +207,7 @@
     width: 300px;
     border: none;
     border-radius: 10px;
-    background-color: rgb(228, 228, 228);
+    background-color: #f3f3f3;
 }
 .fa-calendar{
     margin-right: 10px;
@@ -249,7 +251,7 @@
     border: 1px solid #e7e7e7;
     background-color: #fff;
     color: #000;
-    box-shadow: 1px 1px 4px rgb(6 6 6 / 19%);
+    box-shadow: -1px -1px 4px rgb(6 6 6 / 19%);
     transform: rotate(180deg);
 }
 .main_container .eventBenner .eventRightBtn{
@@ -377,10 +379,10 @@
 .main_container .hotel_type .accomCat .hotelType_overlay .hTypeModal .hTypeModal_hotel .Modal_hType_Ul .Modal_hType_Li{
     position: relative;
     margin-bottom: 20px;
-    background-color: #f5f7fa;
     padding: 10px;
     border-radius: 10px;
     margin-left: 12px;
+    border: 1px solid #d3d3d3;
 }
 .main_container .hotel_type .accomCat .hotelType_overlay .hTypeModal .hTypeModal_hotel .Modal_hType_Ul .Modal_hType_Li .Modal_hType_Img{
     width: 290px;
@@ -394,19 +396,21 @@
     height: 118px;
 }
 .Modal_hTypeText1{
-    margin: 0 0 5px 10px;
+    margin: 0 0 7px 11px;
     padding-top: 10px;
     color: #888;
+    font-size: 14px;
 }
 .Modal_hTypeText2{
     width: 280px;
     height: 22px;
-    font-size: 22px;
+    font-size: 21px;
     margin-bottom: 5px;
     margin-left: 10px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    font-weight: 600;
 }
 .Modal_hTypeText3{
     font-size: 20px;
@@ -460,7 +464,7 @@
     border: 1px solid #e7e7e7;
     background-color: #fff;
     color: #000;
-    box-shadow: 1px 1px 4px rgb(6 6 6 / 19%);
+    box-shadow: -1px -1px 4px rgb(6 6 6 / 19%);
     transform: rotate(180deg);
 }
 .main_container .popularAccom .popularAccomSub1 .rightBtn1{
@@ -524,15 +528,16 @@
 .main_container .popularAccom .popularAccomSub1 .popularAccomSub2 .popularAccom_score{
     background-color: rgb(255 200 59);
     border-radius: 6px;
-    padding: 0 5px 2px 3px;
+    padding: 0px 8px 2px 8px;
+    font-size: 15px;
 }
 .fa-star{
     font-size: 12px;
 }
 .main_container .popularAccom .popularAccomSub1 .popularAccomSub2 .popularAccom_score .starScore{
     display: inline-block;
-    margin-left: 10px;
-    font-size: 12px;
+    margin-left: 4px;
+    font-size: 13px;
     font-weight: 700;
 }
 .popularAccom_discount{
@@ -545,7 +550,9 @@
 }
 .main_container .popularAccom .popularAccomSub1 .popularAccomSub2 .popularAccom_count{
     margin-left: 10px;
-    color: rgb(68, 68, 68);
+    color: #6d6d6d;
+    font-size: 13px;
+    font-weight: 600;
 }
 /* 찜 목록 */
 .wishBtn2{
@@ -599,7 +606,7 @@
 }
 .left_main .room-select_main .roomUl li .room-left_main{
     overflow: hidden;
-    width: 173px;
+    width: 213px;
     height: 173px;
     position: relative;
     border-radius: 15px;
@@ -802,7 +809,9 @@
 .bennerHotelName{
     display: inline-block;
     font-size: 25px;
-    margin-bottom: 10px;
+    margin-bottom: 6px;
+    font-weight: 600;
+    line-height: 32px;
 }
 .bennerText{
     color: rgb(233, 76, 76);
@@ -819,8 +828,9 @@
     margin-top: 25px;
     font-size: 20px;
     text-decoration: line-through;
-    color: #aaa;
-    margin-left: 30px;
+    color: #838383;
+    margin-left: 14px;
+    font-weight: 400;
 }
 .bennerPrice2-1{
     display: inline-block;
@@ -848,7 +858,7 @@
     border: 1px solid #e7e7e7;
     background-color: #fff;
     color: #000;
-    box-shadow: 1px 1px 4px rgb(6 6 6 / 19%);
+    box-shadow: -1px -1px 4px rgb(6 6 6 / 19%);
     transform: rotate(180deg);
 }
 /* 평점순으로 변경된 관광명소  */
@@ -901,7 +911,7 @@
     font-size: 15px;
     font-weight: 600;
     text-align: center;
-    line-height: 19px;
+    line-height: 23px;
 }
 .main_container .hotelRating .hotelRatingAll .hotelRatingBox .hotel_rating_ul .RatingWrap .ratingItemWrapper .ratingLabel .hotelRatingScore .rating{
     display: inline-block;
@@ -931,7 +941,7 @@
     border: 1px solid #e7e7e7;
     background-color: #fff;
     color: #000;
-    box-shadow: 1px 1px 4px rgb(6 6 6 / 19%);
+    box-shadow: -1px -1px 4px rgb(6 6 6 / 19%);
     transform: rotate(180deg);
 }
 .main_container .hotelRating .hotelRatingAll .rightBtn2{
@@ -978,7 +988,7 @@
 .main_container .hotelRating .hotelRatingAll .hotelRatingBox .hotel_rating_ul .RatingWrap .overlay .ratingModal .ratingModal_in .modalImg{
     width: 300px;
     height: 400px;
-    margin: 50px;
+    margin: 50px 50px 50px 40px;
     border-radius: 10px;
 }
 .ratingImgOverlay{
@@ -988,7 +998,7 @@
     background-color: rgba(0,0,0,0.3);
     position: absolute;
     top: 50px;
-    left: 50px;
+    left: 40px;
 }
 .overlayText1{
     position: absolute;
@@ -1011,8 +1021,8 @@
 }
 .main_container .hotelRating .hotelRatingAll .hotelRatingBox .hotel_rating_ul .RatingWrap .overlay .ratingModal .ratingModal_hotel{
     position: absolute;
-    top: 53px;
-    right: 10px;
+    top: 49px;
+    right: 35px;
     height: 400px;
     overflow: hidden;
 }
@@ -1042,10 +1052,12 @@
 }
 .main_container .hotelRating .hotelRatingAll .hotelRatingBox .hotel_rating_ul .RatingWrap .overlay .ratingModal .ratingModal_hotel .Modal_hotel_Ul .Modal_hotel_Li{
     display: flex;
-    padding: 15px;
-    background-color: #f5f7fa;
+    padding: 10px;
     border-radius: 10px;
     position: relative;
+    border-radius: 10px;
+    
+    border: 1px solid #d3d3d3;
 }
 .hotelLink{
     display: flex;
@@ -1053,8 +1065,8 @@
 }
 .wishBtn3{
     position: absolute;
-    top: 23px;
-    left: 155px;
+    top: 20px;
+    left: 149px;
     border: 0;
     width: 35px;
     height: 35px;
@@ -1084,7 +1096,7 @@
 }
 .main_container .hotelRating .hotelRatingAll .hotelRatingBox .hotel_rating_ul .RatingWrap .overlay .ratingModal .ratingModal_hotel .Modal_hotel_Ul .Modal_hotel_Li .Modal_hotelText .Modal_hotelText2{
     font-size: 22px;
-    margin-bottom: 25px;
+    margin-bottom: 32px;
 }
 .main_container .hotelRating .hotelRatingAll .hotelRatingBox .hotel_rating_ul .RatingWrap .overlay .ratingModal .ratingModal_hotel .Modal_hotel_Ul .Modal_hotel_Li .Modal_hotelText .Modal_hotelText3{
     font-size: 20px;
@@ -1112,10 +1124,10 @@
     text-decoration: none !important;
 }
 .discount .origin-price{
-    font-size: 13px;
-    color: #707070;    
+    font-size: 16px;
+    color: #707070;
     text-decoration: line-through;
-    margin-left: 10px;
+    margin-left: 4px;
 }
 .final-price{
     font-size: 20px;
@@ -1142,10 +1154,10 @@
     text-decoration: none !important;
 }
 .discount1 .origin-price1{
-    font-size: 13px;
-    color: #707070;    
+    font-size: 16px;
+    color: #707070;
     text-decoration: line-through;
-    margin-left: 10px;
+    margin-left: 6px;
 }
 .final-price1{
     font-size: 20px;

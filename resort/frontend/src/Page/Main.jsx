@@ -6,7 +6,7 @@ import 'leaflet/dist/leaflet.css';
 import Calendar from './Calendar';
 
 export default function Main(){    
-    // 2026-03-16 오후 병합
+    // 2026-03-17 끝 병합
     // 호텔, 객실데이터 useContext로 가져오는 훅
     const {setSelectMonth, 
         hotelMerge, HotelData, hotelRatingAvgData, setListType, setRender,render,
@@ -48,6 +48,8 @@ export default function Main(){
     // 국내
     const [internalHotel, setInternalHotel] = useState([])
 
+    const [hotelSale, setHotelSale] = useState([])
+
     //호텔별점 이미지
     const [hotelStar, setHotelStar] = useState({});
     const [isLoading, setIsLoading] = useState(false);
@@ -60,6 +62,15 @@ export default function Main(){
     useEffect(()=>{
         setSelectMonth(new Date('2026-03-01'))
     },[])
+
+    // const discountHotel = hotelMerge.filter(item => item.)
+    // 호텔 해외 필터
+    useEffect(() => {
+        if (!hotelMerge || hotelMerge.length === 0 || !HotelData || HotelData.length === 0) return
+        const discountHotel = HotelData.filter(item => item.discount === 1);
+        // const overseasRate = [...discountHotel].sort((a,b) => b.hotelAvgScore - a.hotelAvgScore);
+        setHotelSale(discountHotel)
+    },[hotelMerge])
 
     // 호텔 유형별로 접근하기 위한 사진 map돌리기 위한 오브젝트 배열
     const hotelType = [
@@ -86,6 +97,7 @@ export default function Main(){
         const overseas = hotelMerge.filter(item => item.country !== 'Korea');
         const overseasRate = [...overseas].sort((a,b) => b.hotelAvgScore - a.hotelAvgScore);
         setOverSeasHotel(overseasRate)
+        console.log('#################################',overseasHotel)
     },[hotelMerge])
 
     // 호텔 국내 필터
@@ -440,8 +452,8 @@ export default function Main(){
                         </div>
                         <i className="fa-solid fa-magnifying-glass searchIcon"></i>
                         <button type='button' onClick={() => {setOpenC(!openC),setSelectDay([])}} className='calenertBtn'>
-                            <i className="fa-solid fa-calendar"></i>
-                            <span style={{marginRight:'5px'}}>{DayData.length < 2 ? '일정을 선택해 주세요' : `${DayData[0]} - ${DayData[1]}`}</span>
+                            <i className="fa-solid fa-calendar" style={{color:'#42799b'}}></i>
+                            <span style={{marginRight:'5px',fontWeight:'600'}}>{DayData.length < 2 ? '일정을 선택해 주세요' : `${DayData[0]} - ${DayData[1]}`}</span>
                         </button>
                         <div className='CalendarModal'>
                             {openC && <Calendar setDayData={setDayData}/>}
@@ -453,8 +465,8 @@ export default function Main(){
                             onClick={minusBtn} 
                             className='minus_btn' 
                             style={{
-                                backgroundColor : guestCount === 1 ? '#e7e7e7ff' : '#42799b',
-                                color:'#fff',
+                                backgroundColor : guestCount === 1 ? '#f3f3f3' : '#42799b',
+                                color: guestCount === 1 ? '#898989' : '#fff',
                                 cursor:guestCount === 1 ? 'not-allowed' : 'pointer'
                             }}>
                                 <i className="fa-solid fa-minus"></i>
@@ -464,8 +476,8 @@ export default function Main(){
                             onClick={plusBtn}
                             className='plus_btn'
                             style={{
-                                backgroundColor : guestCount === 4 ? '#e7e7e7ff' : '#42799b',
-                                color:'#fff',
+                                backgroundColor : guestCount === 4 ? '#f3f3f3' : '#42799b',
+                                color: guestCount === 4 ? '#898989' : '#fff',
                                 cursor:guestCount === 4 ? 'not-allowed' : 'pointer'
                             }}>
                                 <i className="fa-solid fa-plus"></i>
@@ -788,7 +800,7 @@ export default function Main(){
 
             {/* 평점 - 호텔 평점순 */}
             <div className='hotelRating'>
-                <p className='hotelRatingTitle'>지역 평점 TOP!</p>
+                <p className='hotelRatingTitle'>지역별 숙소 찾기</p>
                 <div className='hotelRatingAll'>
                     {/* 왼쪽 슬라이드 버튼 */}
                     {btnCount2 > 0 &&
@@ -805,7 +817,7 @@ export default function Main(){
                                         <div className='ratingLabel'>
                                             <img src='/label.png' alt='label'/>
                                             <span className='hotelRatingScore'>
-                                                고객<br/> 평점<br/> <span className='rating'>4.0+</span>
+                                                고객<br/> Pick<br/>
                                             </span>
                                         </div>
                                         <div className='hotelRating_each_sub2'>
@@ -896,7 +908,7 @@ export default function Main(){
                     }
                     <div className='EcoMemberUlBox'>
                         <ul className='EcoMemberHotelAll' style={{marginLeft:`${slideMove3}px`}}>
-                            {HotelData.slice(60,70).map((item) => (
+                            {hotelSale.slice(60,70).map((item) => (
                             <li key={item.h_code} className='EcoMemberHotelAllLi'>
                                 <Link to = {`/detail/${item.h_code}`} className='EcoMemberA' onClick={() => window.scrollTo(0,0)}>
                                     <img src={`/img/${item.h_Img}`} alt={item.hotelName} style={{width:'285px', height:'230px',borderRadius:'10px 0 0 10px'}}/>

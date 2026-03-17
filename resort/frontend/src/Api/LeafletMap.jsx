@@ -53,9 +53,9 @@ const geoCache = new Map();
       `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(city)}`,
       {
         headers: {
-          "Accept": "application/json",
-          // 브라우저에서는 User-Agent가 무시되지만 명시적으로 둠
-          "Accept-Language": "en",
+           "Accept": "application/json",
+          "User-Agent": "hotel-booking-project",
+          "Accept-Language": "en"
         },
       }
     )
@@ -109,6 +109,7 @@ const geoCache = new Map();
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        attribution="© OpenStreetMap contributors"
       />
 
       <Marker position={position}>

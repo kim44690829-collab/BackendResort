@@ -21,7 +21,8 @@ export default function MemberUdate(){
     const [memberData,setMemberData] = useState({})
     const [oneData,setOneData] = useState(null)
 
-    
+    console.log('??????????????',find)
+    console.log('??????????????',MemberAllData[m_code-1]?.m_nickName)
     
     useEffect(()=>{
         axios.get(`/api/member/oneMember/${m_code}`)
@@ -42,8 +43,8 @@ export default function MemberUdate(){
     const handleChange = ()=>{
         axios.put('/api/member/adminupdatemember',{
             m_code: m_code,
-            m_phone: find2===undefined || find2.m_phone === MemberAllData[m_code-1]?.m_phone?newph:MemberAllData[m_code-1]?.m_phone,
-            m_nickName: find===undefined || find.m_nickName === MemberAllData[m_code-1]?.m_nickName?newNick:MemberAllData[m_code-1]?.m_nickName
+            m_phone:newph===null?oneData?.m_phone:newph,
+            m_nickName: newNick===null?oneData?.m_nickName:newNick,
         })
         .then((res) => {
             console.log("수정 성공");

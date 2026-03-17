@@ -186,10 +186,10 @@
     box-shadow: 0 0 5px #012b8081;
 }
 .admin_wrap .admin_body .admin_list .admin_modal .closeBtn{
-    border: 3px solid #0155ff;
     border-radius: 50%;
+    padding: 0 0 2px 1px;
+    border: 2px solid #0155ff;
     font-size: 18px;
-    line-height: 0.9;
     font-weight: 500;
     background-color: #fff;
     width: 30px;
@@ -198,6 +198,7 @@
     color: #0155ff;
     margin-left: 940px;
     margin-bottom: 10px;
+    box-sizing: border-box;
 }
 .admin_wrap .admin_body .admin_list .img_box{
     display: flex;

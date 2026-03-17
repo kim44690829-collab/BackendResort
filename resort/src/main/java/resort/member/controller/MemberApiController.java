@@ -186,6 +186,9 @@ public class MemberApiController {
 	@PutMapping("/member/adminupdatemember")
 	public int adminUpdateMember(@RequestBody MemberDTO mdto){			
 		System.out.println("MemberApiController : updateMember() 메서드 확인");
+		System.out.println("123123123" + mdto.getM_code());
+		System.out.println("1222222222222" + mdto.getM_nickName());
+		System.out.println("111111111111111" + mdto.getM_phone());
 		return memberservice.adminUpdateMember(mdto);
 	}
 	

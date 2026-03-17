@@ -60,28 +60,6 @@ export default function Header(){
         setA(!a);
     }
 
-
-    // const logoutHandeler = () => {
-
-    //     axios.get('/api/member/logout',{ withCredentials: true })
-    //      .then((res) => {
-    //         if(res.data === true){
-    //             sessionStorage.clear();
-    //             setUserNickName(null);
-    //             setUserEmail(null);
-    //             setCustomer('');
-    //             setHeaderChange(0);
-    //             navigate('/', { replace: true });              
-    //         }else{
-    //             //로그아웃 실패
-    //             alert("//로그아웃 실패");
-    //         }
-    //     })
-    //     .catch((error) => {
-    //         console.error("error", error)
-    //     })
-    // }
-
     // 컴포넌트 이동시 모달 닫기
     const location = useLocation();
 

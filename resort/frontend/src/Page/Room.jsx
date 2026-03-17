@@ -422,7 +422,7 @@ export default function Room(){
                                             </p>
                                             <p className="menu_score"><i className="fa-solid fa-star" style={{lineHeight:'12px'}}></i> 
                                             {/* {HotelRatingDate[item.h_code-1]===undefined?0: (HotelRatingDate[item.h_code-1].h_rating - Math.floor(HotelRatingDate[item.h_code-1].h_rating) === 0) ? HotelRatingDate[item.h_code-1].h_rating+'.0' : Math.trunc((HotelRatingDate[item.h_code-1].h_rating) * 10) / 10 }점</p> */}
-                                            {star[0]?.h_rating===undefined?0:star[0]?.h_rating}점</p>
+                                            {star[0]?.h_rating===undefined?0:Math.floor(star[0]?.h_rating*10)/10}점</p>
                                             
                                             <div className="service_list">
                                                 <p style={{marginBottom:'10px'}}>

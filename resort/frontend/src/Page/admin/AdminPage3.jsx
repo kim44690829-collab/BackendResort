@@ -174,6 +174,7 @@ export default function AdminPage3(){
                                     <select className="searchSelect" name="searchType" value={searchType} onChange={(e) => setSearchType(e.target.value)}>
                                         <option value="roomName">객실명</option>
                                         <option value="maxOccupancy">최대인원</option>
+                                        <option value="hotelName">호텔명</option>
                                     </select>
                                     
                                     <input className="searchbox" type="text" name="searchKeyword" placeholder="검색어를 입력하세요" value={serch} onChange={(e) => setSerch(e.target.value)}/>

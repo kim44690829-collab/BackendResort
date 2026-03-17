@@ -219,7 +219,7 @@ export default function Detail(){
     //주소복사 버튼
     const addressCopy = (address) =>{
         navigator.clipboard.writeText(`${address}`);
-        setModalContent(<p style={{fontSize:'18px',fontWeight:'700'}}>주소가 복사되었습니다.</p>);
+        //setModalContent(<p style={{fontSize:'18px',fontWeight:'700'}}>주소가 복사되었습니다.</p>);
         toggle();        
     }
     //주소복사 버튼2
@@ -795,6 +795,7 @@ export default function Detail(){
                                 {cityMap[Hotel.city]}
                                 &nbsp;{Hotel.hotelName}
                                 <button type='button' onClick={() => addressCopy(Hotel.h_address)}>주소복사</button>
+                                {/* <p style={{position:'fixed',left:'50%',top:'50%',transform:'translate(-50%,-50%)',zIndex:'11111111111',backgroundColor:'#ffffffed',padding:'25px 33px',fontSize:'18px',fontWeight:'600',borderRadius:'10px'}}>주소가 복사되었습니다.</p> */}
                             </p>
                         </div>
                         <div className="hotel-score">
