@@ -11,7 +11,7 @@ public class MemberDTO {
 	private String m_email;  //이메일
 	private String m_pw;  //비밀번호
 	private String m_phone;  //전화번호
-	private Date m_birth;  //생년월일
+	private String m_birth;  //생년월일
 	private int m_gender;  //성별
 	private String m_nickName;  //닉네임
 	private int m_coupon;  //쿠폰
