@@ -1,13 +1,13 @@
 import { useState,useEffect } from "react";
 import '../Page/pay.css'
-// import { useContext } from "react";
-// import { ResortDataContext } from "../Api/ResortData";
+import { useContext } from "react";
+import { ResortDataContext } from "../Api/ResortData";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
 export default function Pay2(){
 
-    // const {payHead,setPayHead,payRoom,setPayRoom,HotelData,RoomData,DayData,customer,setCustomer} = useContext(ResortDataContext)
+    const {userNickName} = useContext(ResortDataContext)
     
     const [resInfo, setResInfo] = useState(null);
 
@@ -53,41 +53,95 @@ export default function Pay2(){
     return(
         <>
             <div className="paysection2">
+                {/* <h2 className="pay2_title">구매가 완료되었습니다.</h2> */}
+                <h2 className="pay2_title">상품예약이 완료되었습니다</h2>
                 <div className="pay2_info">
-                    <h2 className="pay2_title">구매정보</h2>
-                    <p className="pay2_coment">고객님 상품예약이 완료되었습니다.</p>
                     <table className="pay2_table">
                         <tbody>
                             <tr>
-                                <td className="pay2_list">호텔</td>
-                                <td className="pay2_list">{resInfo.hotelName}</td>
+                                <td colSpan='2' style={{height:'150px'}}>
+                                    <img src={`/img/${resInfo.h_Img}`} alt={`${resInfo.h_Img}이미지`} className="payHotelimg"/>
+                                </td>
                             </tr>
                             <tr>
-                                <td className="pay2_list">객실</td>
-                                <td className="pay2_list">{resInfo.roomName}</td>
+                                <td className="pay2_list_title " >호텔정보</td>
+                            </tr>
+                            <tr className="trHeight">
+                                <td className="pay2_list trHeight">도시</td>
+                                <td className="pay2_list2 trHeight">{resInfo.city}</td>
+                            </tr>
+                            <tr className="trHeight">
+                                <td className="pay2_list trHeight">호텔</td>
+                                <td className="pay2_list2 trHeight">{resInfo.hotelName}</td>
+                            </tr>
+                            <tr className="trHeight">
+                                <td className="pay2_list trHeight">객실</td>
+                                <td className="pay2_list2 trHeight">{resInfo.roomName}</td>
                             </tr>
                             <tr>
-                                <td className="pay2_list">체크인/체크아웃</td>
-                                <td className="pay2_list">{resInfo.check_in_date} ~ {resInfo.check_out_date}</td>
-                                <td className="pay2_list">총 {totalDay}박</td>
-                                <td className="pay2_list"></td>
+                                <td colSpan='2' className="line">
+                                    <hr/>
+                                </td>
                             </tr>
                             <tr>
-                                <td className="pay2_list">결제 금액</td>
-                                <td className="pay2_list">{(resInfo.final_price ?? 0).toLocaleString()}원</td>
+                                <td className="pay2_list_title" colspan="2">체크인/아웃</td>
+                            </tr>
+                            <tr className="trHeight">
+                                <td className="pay2_list trHeight">예약일</td>
+                                <td className="pay2_list2 trHeight">{res_at}</td>
+                            </tr>
+                            <tr className="trHeight">
+                                <td className="pay2_list trHeight">체크인</td>
+                                <td className="pay2_list2 trHeight">{resInfo.check_in_date}</td>
+                            </tr>
+                            <tr className="trHeight">
+                                <td className="pay2_list trHeight">체크아웃</td>
+                                <td className="pay2_list2 trHeight">{resInfo.check_out_date}</td>
+                            </tr>
+                            <tr className="trHeight">
+                                <td className="pay2_list trHeight">숙박 일수</td>
+                                <td className="pay2_list2 trHeight"><span  style={{fontSize:'18px', marginRight:'5px', color:'#42799b', fontWeight:'bold'}}>{totalDay}</span>박</td>
                             </tr>
                             <tr>
-                                <td className="pay2_list">예약자</td>
-                                <td className="pay2_list">{resInfo.booker_name} 님</td>
+                                <td colSpan='2' className="line">
+                                    <hr/>
+                                </td>
                             </tr>
                             <tr>
-                                <td className="pay2_list">예약일</td>
-                                <td className="pay2_list">{res_at}</td>
+                                <td className="pay2_list_title" colspan="2" >결제 정보</td>
+                            </tr>
+                            {userNickName != null ? 
+                            (<tr className="trHeight">
+                                <td className="pay2_list trHeight">쿠폰 사용</td>
+                                <td className="pay2_list2 trHeight">{resInfo.coupon_used == 0 ? '미사용' : '사용'}</td>
+                            </tr>) : ''}
+                            
+                            <tr className="trHeight">
+                                <td className="pay2_list trHeight">결제 금액</td>
+                                <td className="pay2_list2 trHeight"><span style={{fontSize:'18px', marginRight:'5px', color:'#42799b', fontWeight:'bold'}}>{(resInfo.final_price ?? 0).toLocaleString()}</span>원</td>
                             </tr>
                             <tr>
-                                <td className="pay2_list">예약번호</td>
-                                <td className="pay2_list">{resInfo.reservation_no}</td>
+                                <td colSpan='2' className="line">
+                                    <hr/>
+                                </td>
                             </tr>
+                            <tr>
+                                <td className="pay2_list_title" colspan="2">예약자 정보</td>
+                            </tr>
+                            <tr className="trHeight">
+                                <td className="pay2_list trHeight">예약자</td>
+                                <td className="pay2_list2 trHeight">{resInfo.booker_name}</td>
+                            </tr>
+                            <tr className="trHeight">
+                                <td className="pay2_list trHeight">예약번호</td>
+                                <td className="pay2_list2 trHeight">{resInfo.reservation_no}</td>
+                            </tr>
+                            {userNickName == null ? 
+                            (<tr class="empty-row">
+                                <td colspan="2" style={{fontWeight:'bold', color:'rgb(64 152 198)'}} className="empty2">※ 비회원 예약 취소는 9999-9999로 문의주세요.</td>
+                            </tr>) : (<tr class="empty-row">
+                                <td colspan="2" style={{height:'40px'}} className="empty2"></td>
+                            </tr>)}
                         </tbody>
                     </table>
                     <div className="pay2_btns">

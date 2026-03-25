@@ -7,6 +7,7 @@ import '../mypage/MyPage.css'
 import axios from "axios";
 
 export default function MyPage(){
+    // 03-18 -> 39번째줄, 332번째줄
     const {DayData,setSelectday,userEmail,loginSave,logout,setHeaderChange, MemberAllData, userNickName} = useContext(ResortDataContext);
     const {toggle,setModalContent} = useContext(ModalContext);
     // 2026-03-11
@@ -35,7 +36,7 @@ export default function MyPage(){
     // 닉네임
     const [nickname, setNickname] = useState('');
     // 변경 닉네임
-    const [changeNick, setChangeNick] = useState('');
+    const [changeNick, setChangeNick] = useState(userNickName);
 
     const navigate = useNavigate();
 
@@ -328,7 +329,7 @@ export default function MyPage(){
             (1 <= d && d <= 31) &&
             userGender !== '' &&
             (nickname.length >= 2 && nickname.length <= 20) &&
-            nickChk !== -3
+            (userNickName === changeNick || nickChk === 0)
         ){
                 setIsDisabledSignup(false)
                 setMouseCursor(true)
@@ -336,7 +337,7 @@ export default function MyPage(){
                 setIsDisabledSignup(true)
                 setMouseCursor(false)
             }
-    }, [userMail, userPw, userPwConfirm, userNumFront, userNumBack, BirthYear, BirthMonth, BirthDate, userGender, nickname, userPw_before, nickChk])
+    }, [userMail, userPw, userPwConfirm, userNumFront, userNumBack, BirthYear, BirthMonth, BirthDate, userGender, nickname, userPw_before, nickChk, nickChange, changeNick])
 
 
     const validatePwAlert_before = () => {

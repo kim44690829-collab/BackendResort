@@ -206,7 +206,7 @@ export default function AdminPage3(){
                                                 <td>{item.r_code}</td>
                                                 <td>{hotel[item.h_code-1]?.hotelName}</td>
                                                 <td>{item.roomName}</td>
-                                                <td>{item.price}</td>
+                                                <td>{item.price.toLocaleString()}</td>
                                                 <td>{item.maxOccupancy}</td>
                                                 <td><button className="table_btn" onClick={()=>{setIsinfo(!isInfo),setNum(index)}}>상세정보</button></td>
                                             </tr>

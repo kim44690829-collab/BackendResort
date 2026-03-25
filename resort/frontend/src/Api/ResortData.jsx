@@ -451,7 +451,7 @@ export default function ResortData({children}){
         setTown(town.charAt(0).toUpperCase() + town.slice(1).toLowerCase())
     },[town])
 
-    const countryEn = town === '대한민국' || town ===  '한국' || town ===  '한' || town ===  'gksrnr'? 'Korea' : town === '일본' || town ===  '일'? 'Japan' : town === '미국'? 'USA' : town === '중국'? 'China': town === '이탈리아' || town ===  '이테리'? 'Italy' : town === '프랑스'? 'France': town === '' ? null : town
+    const countryEn = town === '대한민국' || town ===  '한국' || town ===  '한' || town ===  'gksrnr'? 'Korea' : town === '일본' || town ===  '일'? 'Japan' : town === '미국' || town === 'Usa' ? 'USA' : town === '중국'? 'China': town === '이탈리아' || town ===  '이테리'? 'Italy' : town === '프랑스'? 'France': town === '' ? null : town
     const cityEn = town === '속초'? 'Sokcho':town === '경주'? 'Gyeongju':town === '부산'? 'Busan':town === '강릉'? 'Gangneung':town === '여수'? 'Yeosu':town === '대전'? 'Daejeon':town === '광주'? 'Gwangju':town === '제주' || town ===  '제주도'? 'Jeju':town === '포항'? 'Pohang':town === '서울'? 'Seoul':town === '도쿄'? 'Tokyo':town === '삿포로'? 'Sapporo':town === '로스앤젤레스'? 'LosAngeles':town === '뉴욕'? 'New York':town === '괌'? 'Guam':town === '장가계'? 'Zhangjiajie':town === '상하이'? 'Shanghai':town === '로마'? 'Rome':town === '베네치아'? 'Venice':town === '파리'? 'Paris': town === '' ? null : town
     const townfilter = hotelMerge.filter((f)=>f.city===cityEn || f.country===countryEn)
     const townfilter2 = HotelData.filter((f)=>f.city===cityEn || f.country===countryEn)

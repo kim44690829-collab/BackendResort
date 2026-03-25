@@ -18,5 +18,6 @@ public class ResInfoDTO{
 	private String booker_name; //예약자명
 	private Date reserved_at; //예약신청일
 	private String reservation_no; // 예약 번호
-	
+	private String h_Img; // 호텔이미지
+	private String city; // 나라
 }	

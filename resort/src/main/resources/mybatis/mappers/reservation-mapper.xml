@@ -18,7 +18,8 @@
 	
 	<!-- // 회원 예약 내역 select public ResInfoDTO resSelect(@Param("reservation_no") String reservation_no); -->
 	<select id="resSelect" resultType="ResInfoDTO">
-		SELECT h.hotelName, r.roomName, re.check_in_date, re.check_out_date, re.original_price, re.discount_rate, re.coupon_used, re.final_price, re.booker_name, re.reserved_at, re.reservation_no FROM reservation re
+		SELECT h.hotelName, r.roomName, re.check_in_date, re.check_out_date, re.original_price, re.discount_rate, re.coupon_used, re.final_price, re.booker_name, re.reserved_at, re.reservation_no, h.h_Img, h.city 
+		FROM reservation re
 		INNER JOIN room r
 		ON r.r_code = re.r_code
 		INNER JOIN hotel h

@@ -208,7 +208,9 @@ export default function AdminPage(){
                                 <tbody>
                                     {members.map((item,index)=>{
                                         const member_birth = new Date(item.m_birth)
+                                        console.log('@@@@@@@@@@@@@@@@@@@@@@',member_birth)
                                         const birth_Date = member_birth.toLocaleDateString('ko-KR')
+                                        console.log('@@@@@@@@@@@@@@@@@@@@@@',birth_Date)
                                         const member_reg = new Date(item.m_regDate)
                                         const reg_Date = member_reg.toLocaleString('ko-KR')
                                         const num = Num - (10*(page-1)) - index
