@@ -3,6 +3,7 @@ package resort.board.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import resort.board.dto.HotelAvgDTO;
@@ -101,4 +102,6 @@ public class ReviewboardServiceImpl implements ReviewboardService{
 		System.out.println("ReviewboardServiceImpl : roomReview() 메서드 확인");
 		return reviewboardmapper.roomReview(h_code);
 	}
+	
+	
 }

@@ -233,9 +233,12 @@ export default function HelpCenter(){
 	        },
             withCredentials: true
 	    }).then((res) => {
-            
+            console.log(userEmail)
+            console.log(userNickName)
             console.log("상세보기 테스트");
             console.log(res.data);
+            console.log(num)
+            console.log(res.data.b_code)
             if(!res.data){
                 alert("본인이 작성한 게시글만 열람가능합니다.");
                 setDetail({});       
@@ -255,7 +258,7 @@ export default function HelpCenter(){
             console.error("error", error);
             alert("글 작성한 아이디로만 조회가 가능합니다.");
         })
-        console.log(num);
+        //console.log(num);
     }
     //게시글 수정버튼 클릭
     const modifyButton = () => {
@@ -1088,15 +1091,25 @@ export default function HelpCenter(){
                                     </tr>)}
                                     <tr height="40" className='ans_btn'>
                                         <td align="center" colSpan="2" style={{backgroundColor:'#fff', border:'0'}}>
-                                        <input type="button" onClick={modifyButton} value="수정하기" />
-                                        {/* 삭제하기 눌렀을때 관리자가 아니면 비밀번호 입력 */}
-                                        {!delState && userEmail !== "admin@resort.com" &&
-                                            <input type="button" onClick={()=>{deleteButton();setPassword();}} value="삭제하기" />
-                                        }
-                                        {/* 삭제하기 눌렀을때 관리자면 비밀번호 입력안해도 삭제 */}
-                                        {!delState && userEmail === "admin@resort.com" &&
-                                            <input type="button" onClick={deleteSubmit} value="삭제하기" />
-                                        }
+                                        {/* 관리자냐 유저냐에 따라 수정하기 버튼이 다르게 뜨게 */}
+                                        {detail?.re_step === 1 ?                                        
+                                            userEmail !== "admin@resort.com" && <input type="button" onClick={modifyButton} value="수정하기" />
+                                        :detail?.re_step >= 2 ?
+                                            userEmail === "admin@resort.com" && <input type="button" onClick={modifyButton} value="수정하기" />
+                                        :null}
+                                        
+                                        {/* 삭제하기 버튼 */}
+                                        {!delState && (
+                                            (detail?.re_step === 1 && userEmail !== "admin@resort.com") ||
+                                            (userEmail === "admin@resort.com")
+                                        ) && (
+                                            userEmail === "admin@resort.com" ? (
+                                                <input type="button" onClick={deleteSubmit} value="삭제하기" />
+                                            ) : (
+                                                <input type="button" onClick={()=>{deleteButton(); setPassword();}} value="삭제하기" />
+                                            )
+                                        )}
+                                        
                                         {userEmail === "admin@resort.com" ? (
                                             <input type="button" onClick={()=>replyClick(detail.ref,detail.re_step,detail.re_level)} value="댓글작성" />
                                         ):null}
@@ -1141,7 +1154,9 @@ export default function HelpCenter(){
                                     <tr height="40">
                                         <td align="center" style={{ width: '150px' }}>비밀번호
                                         </td>
-                                        <td style={{ width: '450px' }}><input type="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} />{userEmail === "admin@resort.com" && <span style={{color:'#ff0000',lineHeight:'24px',fontSize:'14px'}}>* 관리자는 아무거나 한글자 이상 입력</span>}</td>
+                                        <td style={{ width: '450px' }}><input type="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                                        {userEmail === "admin@resort.com" && <span style={{color:'#ff0000',lineHeight:'24px',fontSize:'14px'}}>* 관리자는 아무거나 한글자 이상 입력</span>}
+                                        </td>
                                     </tr>
                                     <tr height="40">
                                         <td align="center" style={{ width: '150px' }}>글내용</td>

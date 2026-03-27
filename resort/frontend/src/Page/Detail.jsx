@@ -218,9 +218,9 @@ export default function Detail(){
     }
     //주소복사 버튼
     const addressCopy = (address) =>{
+        toggle();
         navigator.clipboard.writeText(`${address}`);
-        //setModalContent(<p style={{fontSize:'18px',fontWeight:'700'}}>주소가 복사되었습니다.</p>);
-        toggle();        
+        setModalContent(<p style={{fontSize:'18px',fontWeight:'700'}}>주소가 복사되었습니다.</p>);                
     }
     //주소복사 버튼2
     const addressCopy2 = (address) =>{
@@ -274,8 +274,8 @@ export default function Detail(){
     ////플러스 버튼 클릭
     const plusClick = () =>{
         let copyHead = guestCount;
-        if(copyHead === 30){
-            copyHead = 30;
+        if(copyHead === 8){
+            copyHead = 8;
         }else{
             copyHead++;
         }
@@ -298,9 +298,13 @@ export default function Detail(){
     //필터링후 Room r_code저장
     const [filterRcode, setFilterRcode] = useState([]);
 
+    //호텔 최상단에 보여주는 5개 이미지
+    const [bigImg, setBigImg] = useState(`/img/${Hotel.h_Img}`);
+
     //Room에서 필터된 hotel의 r_code 저장
     useEffect(() => {
         searchFilterHandler();
+        setBigImg(`/img/${Hotel.h_Img}`);
     },[Hotel]);
 
     //검색 필터링된 r_code 재저장
@@ -392,7 +396,7 @@ export default function Detail(){
     }
 
     const [slider, setSlider] = useState(false);
-    const [bigImg, setBigImg] = useState(`/img/${Hotel.h_Img}`);
+    
 
     useEffect(() => {
         // 날짜/인원 값이 준비된 순간 자동 조회
@@ -451,17 +455,23 @@ export default function Detail(){
         }
         setSearch(true);
 
-        searchFilterHandler();
+        //searchFilterHandler();
     }
 
         
 
-    const roomsToShow =
-    search ? 
-    (resultRooms.length > 0 ? resultRooms : Room) : Room;
+    const roomsToShow = (
+    search
+        ? (resultRooms.length > 0 ? resultRooms : Room)
+            : Room
+    ).filter(room => Number(room.maxOccupancy) >= Number(guestCount));
     // console.log('roomsToShow', roomsToShow)
     // console.log('search', search)
     // console.log('resultRooms', resultRooms)
+    // 👉 여기서 한 번 더 필터링
+    // const filteredRooms = roomsToShow.filter(
+    //     room => room.maxOccupancy >= guestCount
+    // );
 
 
     // set => 중복 제거 배열
@@ -504,7 +514,7 @@ export default function Detail(){
         <div className="detail" onClick={()=>setCal(false)}>
             <section className="detail-wrap">
                 {slider &&
-                    <div className='hotel-modal-Overlay'>
+                    <div className='hotel-modal-Overlay' onClick={()=>setSlider(false)}>
                         <div className="hotel-img-slider">
                             <button className='closeBtn' onClick={()=>setSlider(false)}>
                                 <i className="fa-solid fa-xmark"></i>
@@ -561,7 +571,7 @@ export default function Detail(){
                                         (hotelScore.hotelAvg >= 4.5 && hotelScore.hotelAvg < 5) ? <img className='img2' src='/img/size20-4-5.png' alt="score" /> :
                                         <img className='img2' src='/img/size20-5-0.png' alt="score" />
                                     }
-                                    <span className='starScore'>{(hotelScore.hotelAvg - Math.floor(hotelScore.hotelAvg) < 0.5) ?  Math.floor(hotelScore.hotelAvg)+'.0' : Math.trunc(hotelScore.hotelAvg * 10) / 10}</span>
+                                    <span className='starScore'>{(hotelScore.hotelAvg - Math.floor(hotelScore.hotelAvg) === 0) ?  Math.floor(hotelScore.hotelAvg)+'.0' : Math.trunc(hotelScore.hotelAvg * 10) / 10}</span>
                                     <span className='scoreCount'>{(hotelScore.scoreCount).toLocaleString()}명 평가</span>                                   
                                 </div>
                                 <div className="title-right">
@@ -654,7 +664,7 @@ export default function Detail(){
                                     <p className='x-icon'>
                                         <i className="fa-solid fa-xmark"></i>
                                     </p>
-                                    <p className='empty-tit'>설정한 인원/날짜에 부합하는 객실이 없습니다.</p>
+                                    <p className='empty-tit'>설정한 인원에 부합하는 객실이 없습니다.</p>
                                     <p className='empty-txt'>객실별 투숙 가능 인원을 다시 확인해주세요.</p>
                                     <p className='empty-bottom'>아래 객실들은 설정한 인원보다 투숙 가능한 인원이 적은 객실입니다.</p>
                                 </div>
@@ -708,7 +718,7 @@ export default function Detail(){
                                                         {
                                                             (() => {
                                                                 const score = RatingAvgData.find(it => it.r_code === item.r_code)?.scoreAvg ?? 0;
-                                                                return score - Math.floor(score) < 0.5
+                                                                return score - Math.floor(score) === 0
                                                                     ? Math.floor(score) + '.0'
                                                                     : Math.trunc(score * 10) / 10;
                                                             })()
@@ -794,7 +804,7 @@ export default function Detail(){
                                 <i className="fa-solid fa-location-dot"></i>&nbsp;
                                 {cityMap[Hotel.city]}
                                 &nbsp;{Hotel.hotelName}
-                                <button type='button' onClick={() => addressCopy(Hotel.h_address)}>주소복사</button>
+                                <button type='button' onClick={() =>{addressCopy(Hotel.h_address);}}>주소복사</button>
                                 {/* <p style={{position:'fixed',left:'50%',top:'50%',transform:'translate(-50%,-50%)',zIndex:'11111111111',backgroundColor:'#ffffffed',padding:'25px 33px',fontSize:'18px',fontWeight:'600',borderRadius:'10px'}}>주소가 복사되었습니다.</p> */}
                             </p>
                         </div>
@@ -828,7 +838,7 @@ export default function Detail(){
                                     </p>
                                     <p className='score'>
                                         {starCountTotal === 0 ? 0 :
-                                        ((hotelScore.hotelAvg - Math.floor(hotelScore.hotelAvg) < 0.5) ? Math.floor(hotelScore.hotelAvg)+'.0' : Math.trunc(hotelScore.hotelAvg * 10) / 10)}
+                                        ((hotelScore.hotelAvg - Math.floor(hotelScore.hotelAvg) === 0) ? Math.floor(hotelScore.hotelAvg)+'.0' : Math.trunc(hotelScore.hotelAvg * 10) / 10)}
                                         <span>/5</span></p>
                                 </div>
                                 <div className="score-middle">
@@ -961,16 +971,26 @@ export default function Detail(){
                                                             <>
                                                             <h4 className='room-tit'>전체 객실 이용자 평가</h4>
                                                             <div className='room-div'>
-                                                                <div className="hotel-img-wrap">
+                                                                <div className="hotel-img-wrap hotel-img-wrap2">
                                                                     <img src={`/img/${Hotel.h_code}-${index+2}.jpg`} alt={Hotel.hotelName} className='hotel-img'/>
                                                                 </div>
-                                                                <div className="review-txt-wrap">
+                                                                <div className="review-txt-wrap review-txt-wrap2">
                                                                     {RoomReviewArr[index]?.map((review,ind)=>(
                                                                         <p key={ind}>
                                                                             <span className='room'>{item.roomName}</span>
-                                                                            {/* {starRoom[index] && starRoom[index][ind] && starRoom[index][ind].map((star,i)=>(
-                                                                                <img src={star} alt="star" key={i} className='star' />
-                                                                            ))} */}
+                                                                            {
+                                                                                (review.rb_score >= 0 && review.rb_score < 0.5) ? <img className='img5' src='/img/size20-0-0.png' alt="score" /> :
+                                                                                (review.rb_score >= 0.5 && review.rb_score < 1) ? <img className='img5' src='/img/size20-0-5.png' alt="score" /> :
+                                                                                (review.rb_score >= 1 && review.rb_score < 1.5) ? <img className='img5' src='/img/size20-1-0.png' alt="score" /> :
+                                                                                (review.rb_score >= 1.5 && review.rb_score < 2) ? <img className='img5' src='/img/size20-1-5.png' alt="score" /> :
+                                                                                (review.rb_score >= 2 && review.rb_score < 2.5) ? <img className='img5' src='/img/size20-2-0.png' alt="score" /> :
+                                                                                (review.rb_score >= 2.5 && review.rb_score < 3) ? <img className='img5' src='/img/size20-2-5.png' alt="score" /> :
+                                                                                (review.rb_score >= 3 && review.rb_score < 3.5) ? <img className='img5' src='/img/size20-3-0.png' alt="score" /> :
+                                                                                (review.rb_score >= 3.5 && review.rb_score < 4) ? <img className='img5' src='/img/size20-3-5.png' alt="score" /> :
+                                                                                (review.rb_score >= 4 && review.rb_score < 4.5) ? <img className='img5' src='/img/size20-4-0.png' alt="score" /> :
+                                                                                (review.rb_score >= 4.5 && review.rb_score < 5) ? <img className='img5' src='/img/size20-4-5.png' alt="score" /> :
+                                                                                <img className='img5' src='/img/size20-5-0.png' alt="score" />
+                                                                            } 
                                                                             <span className='review'>{review.rb_score}점</span>
                                                                             <i className='comment-wrap'>
                                                                                 {review.rb_score === 5 ?(<>
@@ -1098,11 +1118,19 @@ export default function Detail(){
                             </div>
                         }
                         <div className="hotel-day">
-                            <p className='day-wrap'>
+                            <p className='day-wrap' onClick={ e =>{
+                                setCal((Cal === true) ? false : true);
+                                e.stopPropagation();
+                            }} style={{cursor:'pointer'}}
+                            >
                                 <span className='day-tit'>체크인</span>
                                 <span className='day-txt'>{DayData.length < 2 ? `일정을 선택해주세요.` : `${DayData[0]}`}</span>
                             </p>
-                            <p className='day-wrap'>
+                            <p className='day-wrap' onClick={ e =>{
+                                setCal((Cal === true) ? false : true);
+                                e.stopPropagation();
+                            }} style={{cursor:'pointer'}}
+                            >
                                 <span className='day-tit'>체크아웃</span>
                                 <span className='day-txt'>{DayData.length < 2 ? `일정을 선택해주세요.` : `${DayData[1]}`}</span>
                             </p>
@@ -1118,7 +1146,7 @@ export default function Detail(){
                                 <div className="btns">
                                     <button type='button' onClick={minusClick} className={guestCount === 1 ? 'die' : null} ><i className="fa-solid fa-minus"></i></button>
                                     <span>{guestCount}</span>
-                                    <button type='button' onClick={plusClick} className={guestCount === 30 ? 'die' : null}><i className="fa-solid fa-plus"></i></button>
+                                    <button type='button' onClick={plusClick} className={guestCount === 8 ? 'die' : null}><i className="fa-solid fa-plus"></i></button>
                                 </div>
                             </div>
                             {/* <button type='button' className='search' onClick={()=>{searchClick();setCal(false);}}>객실 검색</button> */}
@@ -1167,7 +1195,7 @@ export default function Detail(){
                                                     })()
                                                 }
                                                 <span className='starScore'>
-                                                    {RecommAvg[index] && ((RecommAvg[index].scoreAvg - Math.floor(RecommAvg[index].scoreAvg) < 0.5) ? Math.floor(RecommAvg[index].scoreAvg)+'.0' : Math.trunc(RecommAvg[index].scoreAvg * 10) / 10)}
+                                                    {RecommAvg[index] && ((RecommAvg[index].scoreAvg - Math.floor(RecommAvg[index].scoreAvg) === 0) ? Math.floor(RecommAvg[index].scoreAvg)+'.0' : Math.trunc(RecommAvg[index].scoreAvg * 10) / 10)}
                                                 </span>
                                                 <span className='scoreCount'>{RecommAvg[index] && RecommAvg[index].reviewCount}명 평가</span>                                    
                                             </div>
@@ -1233,7 +1261,7 @@ export default function Detail(){
                                                         <img src={star} alt="score" key={ind} className='star' />
                                                     ))}
                                                     <span className='starScore'>
-                                                        {(WishAvg[index].scoreAvg - Math.floor(WishAvg[index].scoreAvg) < 0.5) ? Math.floor(WishAvg[index].scoreAvg)+'.0' : Math.trunc(WishAvg[index].scoreAvg * 10) / 10}
+                                                        {(WishAvg[index].scoreAvg - Math.floor(WishAvg[index].scoreAvg) === 0) ? Math.floor(WishAvg[index].scoreAvg)+'.0' : Math.trunc(WishAvg[index].scoreAvg * 10) / 10}
                                                     </span>
                                                     <span className='scoreCount'>{(WishAvg[index].reviewCount).toLocaleString()}명 평가</span>
                                                 </div>

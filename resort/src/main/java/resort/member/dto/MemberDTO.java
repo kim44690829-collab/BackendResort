@@ -15,10 +15,10 @@ public class MemberDTO {
 	private int m_gender;  //성별
 	private String m_nickName;  //닉네임
 	private int m_coupon;  //쿠폰
-	private Date m_regDate;  //가입일
+	private String m_regDate;  //가입일
 	private int currentCoupon;//쿠폰만료일
 	private String pw_before; //이전 비밀번호
 	private int m_is_deleted; // 탈퇴여부
-	private Date deleted_at; // 탈퇴일
+	private String deleted_at; // 탈퇴일
 
 }

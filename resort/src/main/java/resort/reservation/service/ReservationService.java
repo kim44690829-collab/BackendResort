@@ -53,4 +53,47 @@ public interface ReservationService {
 	
 	// 리뷰 작성후 수정
 	public int reviewMod(int re_code);
+	
+	// 전체 예약정보의 개수를 구하는 매소드
+	public int getAllRescount1();
+		
+	// 전체 예약정보의 시작(startRow), 몇개의 행 (pageSize)만큼 보는 메소드
+	public List<ReservationMergeDTO> getResPagelist1(@Param("startRow")int startRow,@Param("pageSize")int pageSize);
+	
+	//검색페이징에 필요한 메서드
+	//searchType, searchKeyword에 해당하는 검색된 개수를 반환하는 메소드
+	public int getSearchResCount1(@Param("searchType") String searchType,
+			@Param("searchKeyword") String searchKeyword);
+	
+	// searchType, searchKeyword, startRow, pageSize
+	// => limit startRow부터, pageSize개 만큼 한 화면에 보여질 행의 개수
+	public List<ReservationMergeDTO> getSearchResPageList1(
+		@Param("searchType") String searchType,
+		@Param("searchKeyword") String searchKeyword,
+		@Param("startRow") int startRow,
+		@Param("pageSize") int pageSize
+	);
+	
+	// 전체 예약정보의 개수를 구하는 매소드
+		public int getAllRescount2();
+			
+		// 전체 예약정보의 시작(startRow), 몇개의 행 (pageSize)만큼 보는 메소드
+		public List<ReservationMergeDTO> getResPagelist2(@Param("startRow")int startRow,@Param("pageSize")int pageSize);
+		
+		//검색페이징에 필요한 메서드
+		//searchType, searchKeyword에 해당하는 검색된 개수를 반환하는 메소드
+		public int getSearchResCount2(@Param("searchType") String searchType,
+				@Param("searchKeyword") String searchKeyword);
+		
+		// searchType, searchKeyword, startRow, pageSize
+		// => limit startRow부터, pageSize개 만큼 한 화면에 보여질 행의 개수
+		public List<ReservationMergeDTO> getSearchResPageList2(
+			@Param("searchType") String searchType,
+			@Param("searchKeyword") String searchKeyword,
+			@Param("startRow") int startRow,
+			@Param("pageSize") int pageSize
+		);
+		
+	// 리뷰 자동 업데이트
+	public void reviewStatusUpdate();
 }

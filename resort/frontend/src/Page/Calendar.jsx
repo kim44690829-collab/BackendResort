@@ -141,7 +141,7 @@ export default function Calendar(){
 
         if(selectMonth.getFullYear() === thisyears && selectMonth.getMonth() === thismonth+1){
             setSelectMonth(new Date(selectMonth.getFullYear(),selectMonth.getMonth() - 1,thisdate))
-        }else if(selectMonth.getFullYear()>thisyears+1 || selectMonth.getMonth()>=3){
+        }else if(selectMonth.getFullYear()>=thisyears+1 || selectMonth.getMonth()>=3){
             setSelectMonth(new Date(selectMonth.getFullYear(),selectMonth.getMonth() - 1,1))
         }
         

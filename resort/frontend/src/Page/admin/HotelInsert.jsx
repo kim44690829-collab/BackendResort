@@ -36,6 +36,9 @@ export default function HotelInsert(){
     const navigate = useNavigate();
     //상품 들록하는 submit 함수
     const submitHandler=()=>{
+        if(!window.confirm("입력한 호텔 정보를 등록하시겠습니까?")){
+           return;
+        }
         console.log('hotel',hotel)
         // React에서 이미지 업로드시 반드시 formData 객체를 생성한다.
         const formData = new FormData();
@@ -184,11 +187,11 @@ export default function HotelInsert(){
     return(
         <>
             <div className="admin_wrap">
-                <h2 className="admin_title">관리자 페이지</h2>
+                <h2 className="admin_title">호텔 상품 추가</h2>
                 <div className="admin_section">
                     <div className="admin_header">
                         <div className="menu_box">
-                            <span className="admin_menu">조회</span>
+                            <span className="admin_menu">조회 <i class="fa-solid fa-caret-down"></i></span>
                             <ul className="admin_submenu">
                                 <li className="a_menus">
                                     <Link to={`/adminPage` } onClick={() => window.scrollTo(0, 0)}>
@@ -213,7 +216,7 @@ export default function HotelInsert(){
                             </ul>
                         </div>
                         <div className="menu_box">
-                            <span className="admin_menu">등록</span>
+                            <span className="admin_menu">등록  <i class="fa-solid fa-caret-down"></i></span>
                             <ul className="admin_submenu">
                                 <li className="a_menus">
                                     <Link to={`/hotelinsert` } onClick={() => window.scrollTo(0, 0)}>
@@ -233,7 +236,7 @@ export default function HotelInsert(){
                             </ul>
                         </div>
                         <div className="menu_box">
-                            <span className="admin_menu">게시판</span>
+                            <span className="admin_menu">게시판 <i class="fa-solid fa-caret-down"></i></span>
                             <ul className="admin_submenu">
                                 <li className="a_menus">
                                     <Link to={`/adminPage5` } onClick={() => window.scrollTo(0, 0)}>
@@ -254,19 +257,19 @@ export default function HotelInsert(){
                         </div>
                     </div>
                     <div className="admin_body">
-                        <div className="admin_text" style={{textAlign:"left",width:"800px"}}>호텔 상품 추가</div>
+                        {/* <div className="admin_text" style={{textAlign:"left",width:"800px"}}>호텔 상품 추가</div> */}
                         <div className="admin_list">
                             <table className="list_table" style={{width:"800px"}}>
-                                <thead >
+                                <thead className="DB_table">
                                     <tr>
                                         <th width="200px">호텔이름</th>
-                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:"1px solid #ddd"}}>
+                                        <th  >
                                             <input type="text" name="hotelName" onChange={handleChange}  style={{width:"500px",height:"30px"}}/>
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">국가</th>
-                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:"1px solid #ddd"}}>
+                                        <th  >
                                             {/* <input type="text" name="country" onChange={handleChange} style={{width:"500px",height:"30px"}}/> */}
                                             <select className="select" name="country" onChange={(e)=>setHotel({...hotel,[e.target.name]:e.target.value,city:''})} style={{width:'130px'}}>
                                                 <option value="Korea">한국</option>
@@ -280,7 +283,7 @@ export default function HotelInsert(){
                                     </tr>
                                     <tr>
                                         <th width="200px">도시</th>
-                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:"1px solid #ddd"}}>
+                                        <th  >
                                             {/* <input type="text" name="city" onChange={handleChange} style={{width:"500px",height:"30px"}}/> */}
                                             <select className="select" name="city" onChange={(e)=>setHotel({...hotel,[e.target.name]:e.target.value})} value={hotel.city} style={{width:'130px'}}>
                                                 <option value='' hidden>=== 선택 ===</option>
@@ -335,7 +338,7 @@ export default function HotelInsert(){
                                     </tr>
                                     <tr>
                                         <th width="200px">숙소유형</th>
-                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:"1px solid #ddd"}}>
+                                        <th >
                                             {/* <input type="text" name="type" onChange={handleChange} style={{width:"400px",height:"30px"}}/> */}
                                             <select  className="select" name="type" onChange={(e) => setHotel({...hotel,[e.target.name]:e.target.value})} style={{width:'130px'}}>
                                                 <option value="Hotel">호텔</option>
@@ -348,71 +351,71 @@ export default function HotelInsert(){
                                     </tr>
                                     <tr>
                                         <th width="200px">주소지</th>
-                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:"1px solid #ddd"}}>
+                                        <th  >
                                             <input type="text" name="h_address" onChange={handleChange} style={{width:"500px",height:"30px"}}/>
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">할인여부</th>
-                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:"1px solid #ddd"}}>
+                                        <th  >
                                             {/* <input type="text" name="discount" onChange={handleChange} style={{width:"400px",height:"30px"}}/> */}
                                             {/* <select  className="discount" name="discount" onChange={(e) => setSearchType(e.target.value)}> */}
                                             <select  className="select" name="discount" onChange={(e) => setHotel({...hotel,[e.target.name]:e.target.value})} style={{width:'130px'}}>
                                                 {/* setHotel({...hotel,[inputName]:e.target.value}) */}
-                                                <option value="0">할인</option>
-                                                <option value="1">미할인</option>
+                                                <option value="1">할인</option>
+                                                <option value="0">미할인</option>
                                             </select>
                                         </th>
 
                                     </tr>
                                     <tr>
                                         <th width="200px">예약시작일</th>
-                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:"1px solid #ddd"}}>
+                                        <th  >
                                             <input type="text" name="startDate" onChange={handleChange} style={{width:"500px",height:"30px"}}/>
                                             <p style={{fontWeight:'500', fontSize:'12px',color:'#bbb', marginTop:'10px'}}>{`ex) 2000-01-01`}</p>
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">예약종료일</th>
-                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:"1px solid #ddd"}}>
+                                        <th  >
                                             <input type="text" name="endDate" onChange={handleChange} style={{width:"500px",height:"30px"}}/>
                                             <p style={{fontWeight:'500', fontSize:'12px',color:'#bbb', marginTop:'10px'}}>{`ex) 2000-01-01`}</p>
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">메인이미지</th>
-                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:"1px solid #ddd"}}>
+                                        <th  >
                                             <input type="file" name="h_Img" onChange={handleChange} />
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">1번째 서브이미지</th>
-                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:"1px solid #ddd"}}>
+                                        <th  >
                                             <input type="file" name="h_s_Img1" onChange={handleChange} />
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">2번째 서브이미지</th>
-                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:"1px solid #ddd"}}>
+                                        <th  >
                                             <input type="file" name="h_s_Img2" onChange={handleChange} />
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">3번째 서브이미지</th>
-                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:"1px solid #ddd"}}>
+                                        <th  >
                                             <input type="file" name="h_s_Img3" onChange={handleChange} />
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">4번째 서브이미지</th>
-                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:"1px solid #ddd"}}>
+                                        <th  >
                                             <input type="file" name="h_s_Img4" onChange={handleChange} />
                                         </th>
                                     </tr>
                                     
                                     <tr>
                                         <th width="200px">객내시설{`(최대 8개)`}</th>
-                                        <th style={{backgroundColor:"#ffffff53",color:"#333" ,borderBottom:"1px solid #ddd"}} className="cheakboxgr">
+                                        <th  className="cheakboxgr">
                                             {/* <input type="text" name="roomservice" onChange={handleChange} /> */}
                                             <input type="checkbox" name="roomservice" id="roomservice1" onChange={()=>{addroomServiceHandler("무선인터넷")}} 
                                             disabled={!roomservice.includes("무선인터넷") && roomservice.length >= 8}/>
@@ -459,7 +462,7 @@ export default function HotelInsert(){
                                     </tr>
                                     <tr>
                                         <th width="200px">공용시설{`(최대 8개)`}</th>
-                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:"1px solid #ddd"}} className="cheakboxgr">
+                                        <th   className="cheakboxgr">
                                             {/* <input type="text" name="publicservice" onChange={handleChange} /> */}
                                             <input type="checkbox" name="publicservice" id="publicservice1" onChange={()=>{addpublicServiceHandler("피트니스")}}
                                             disabled={!publicservice.includes("피트니스") && publicservice.length >= 8}/>
@@ -506,7 +509,7 @@ export default function HotelInsert(){
                                     </tr>
                                     <tr>
                                         <th width="200px">기타시설{`(최대 3개)`}</th>
-                                        <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:"1px solid #ddd"}} className="cheakboxgr">
+                                        <th   className="cheakboxgr">
                                             {/* <input type="text" name="otherservice" onChange={handleChange} /> */}
                                             <input type="checkbox" name="otherservice" id="otherservice1" onChange={()=>{addotherServiceHandler("스프링클러")}}
                                             disabled={!otherservice.includes("스프링클러") && otherservice.length >= 3}/>
@@ -543,10 +546,10 @@ export default function HotelInsert(){
                             </table>
                                 <Link to={'/adminpage'}>
                                     <button type="button" className="insertBtn">
-                                            취소하기
+                                            취소하기 <i class="fa fa-times"></i>
                                     </button>
                                 </Link>
-                                <button className="insertBtn" type="button" onClick={submitHandler}>추가하기</button>
+                                <button className="insertBtn" type="button" onClick={submitHandler}>추가하기 <i class="bi bi-pencil"></i></button>
                         </div>
                     </div>
                 </div>

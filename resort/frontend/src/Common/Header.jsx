@@ -9,7 +9,7 @@ import { useClickAway } from 'react-use';
 
 export default function Header(){
     const navigate = useNavigate();
-    const {userNickName, setGuestCount, userEmail,setUserEmail,setUserNickName, headerChange, setHeaderChange, setCustomer, setTown} = useContext(ResortDataContext);
+    const {userNickName, setGuestCount, userEmail,setUserEmail,setUserNickName, headerChange, setHeaderChange, setCustomer, setTown, setListType} = useContext(ResortDataContext);
     // const [headerChange, setHeaderChange] = useState(0);
     // 헤더 메뉴바 모달
     // useRef, useClickAway 를 사용하기 전 npm install react-use 를 해야 함.
@@ -110,6 +110,7 @@ export default function Header(){
         }else if(num === 4){
             setMenuModal(false);
             setHeaderChange(0);
+            setListType(1)
             setCustomer('');
             navigate('/helpCenter')
         }else if(num === 5){

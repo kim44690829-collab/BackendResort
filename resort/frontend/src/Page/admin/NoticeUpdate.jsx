@@ -34,6 +34,9 @@ export default function NoticeUpdate(){
     },[])
 
     const submitHandler=()=>{
+        if(!window.confirm("입력한 공지사항을 수정하시겠습니까?")){
+           return;
+        }
         setR(!r)
         axios.put('/api/board/adminupdatenotice',{
             n_code:n_code,
@@ -73,11 +76,11 @@ export default function NoticeUpdate(){
     return(
         <>
             <div className="admin_wrap">
-                <h2 className="admin_title">관리자 페이지</h2>
+                <h2 className="admin_title">{n_code}번 공지사항 수정</h2>
                 <div className="admin_section">
                     <div className="admin_header">
                         <div className="menu_box">
-                            <span className="admin_menu">조회</span>
+                            <span className="admin_menu">조회 <i class="fa-solid fa-caret-down"></i></span>
                             <ul className="admin_submenu">
                                 <li className="a_menus">
                                     <Link to={`/adminPage` } onClick={() => window.scrollTo(0, 0)}>
@@ -102,7 +105,7 @@ export default function NoticeUpdate(){
                             </ul>
                         </div>
                         <div className="menu_box">
-                            <span className="admin_menu">등록</span>
+                            <span className="admin_menu">등록  <i class="fa-solid fa-caret-down"></i></span>
                             <ul className="admin_submenu">
                                 <li className="a_menus">
                                     <Link to={`/hotelinsert` } onClick={() => window.scrollTo(0, 0)}>
@@ -122,7 +125,7 @@ export default function NoticeUpdate(){
                             </ul>
                         </div>
                         <div className="menu_box">
-                            <span className="admin_menu">게시판</span>
+                            <span className="admin_menu">게시판 <i class="fa-solid fa-caret-down"></i></span>
                             <ul className="admin_submenu">
                                 <li className="a_menus">
                                     <Link to={`/adminPage5` } onClick={() => window.scrollTo(0, 0)}>
@@ -143,10 +146,10 @@ export default function NoticeUpdate(){
                         </div>
                     </div>
                     <div className="admin_body">
-                        <div className="admin_text" style={{textAlign:"left",width:"800px"}}>{n_code}번 공지사항 수정</div>
+                        {/* <div className="admin_text" style={{textAlign:"left",width:"800px"}}>{n_code}번 공지사항 수정</div> */}
                         <div className="admin_list">
                             <table className="list_table"  style={{width:"800px"}}>
-                                <thead >
+                                <thead className="DB_table">
                                     <tr>
                                         <th width="200px">제목</th>
                                         <th style={{backgroundColor:"#f6f8fc",color:"#333",borderBottom:"1px solid #ddd"}}>
@@ -167,10 +170,10 @@ export default function NoticeUpdate(){
                             </table>
                                 <Link to={'/adminpage6'}>
                                     <button type="button" className="insertBtn">
-                                        취소하기
+                                        취소하기 <i class="fa fa-times"></i>
                                     </button>
                                 </Link>
-                                <button className="insertBtn" type="button" onClick={submitHandler} >수정하기</button>
+                                <button className="insertBtn" type="button" onClick={submitHandler} >수정하기 <i class="bi bi-pencil"></i></button>
                         </div>
                     </div>
                 </div>

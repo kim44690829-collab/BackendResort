@@ -16,6 +16,10 @@ export default function NoticeInsert(){
     const navigate = useNavigate();
     //상품 들록하는 submit 함수
     const submitHandler=()=>{
+
+        if(!window.confirm("입력한 공지사항을 등록하시겠습니까?")){
+           return;
+        }
         // React에서 이미지 업로드시 반드시 formData 객체를 생성한다.
         const formData = new FormData();
 
@@ -58,11 +62,11 @@ export default function NoticeInsert(){
     return(
         <>
             <div className="admin_wrap">
-                <h2 className="admin_title">관리자 페이지</h2>
+                <h2 className="admin_title">공지사항 작성</h2>
                 <div className="admin_section">
                     <div className="admin_header">
                         <div className="menu_box">
-                            <span className="admin_menu">조회</span>
+                            <span className="admin_menu">조회 <i class="fa-solid fa-caret-down"></i></span>
                             <ul className="admin_submenu">
                                 <li className="a_menus">
                                     <Link to={`/adminPage` } onClick={() => window.scrollTo(0, 0)}>
@@ -87,7 +91,7 @@ export default function NoticeInsert(){
                             </ul>
                         </div>
                         <div className="menu_box">
-                            <span className="admin_menu">등록</span>
+                            <span className="admin_menu">등록  <i class="fa-solid fa-caret-down"></i></span>
                             <ul className="admin_submenu">
                                 <li className="a_menus">
                                     <Link to={`/hotelinsert` } onClick={() => window.scrollTo(0, 0)}>
@@ -107,7 +111,7 @@ export default function NoticeInsert(){
                             </ul>
                         </div>
                         <div className="menu_box">
-                            <span className="admin_menu">게시판</span>
+                            <span className="admin_menu">게시판 <i class="fa-solid fa-caret-down"></i></span>
                             <ul className="admin_submenu">
                                 <li className="a_menus">
                                     <Link to={`/adminPage5` } onClick={() => window.scrollTo(0, 0)}>
@@ -128,19 +132,19 @@ export default function NoticeInsert(){
                         </div>
                     </div>
                     <div className="admin_body">
-                        <div className="admin_text" style={{textAlign:"left",width:"800px"}}>공지사항 작성</div>
+                        {/* <div className="admin_text" style={{textAlign:"left",width:"800px"}}>공지사항 작성</div> */}
                         <div className="admin_list">
                             <table className="list_table"  style={{width:"800px"}}>
-                                <thead >
+                                <thead className="DB_table">
                                     <tr>
                                         <th width="200px">제목</th>
-                                        <th style={{backgroundColor:"#f6f8fc",color:"#333",borderBottom:"1px solid #ddd"}}>
+                                        <th>
                                             <input type="text" name="n_title" onChange={(e)=>setNotice(e.target.value)} style={{width:"500px",height:"40px"}}/>
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">내용</th>
-                                        <th style={{backgroundColor:"#f6f8fc",color:"#333",height:"300px" ,borderBottom:"1px solid #ddd"}}>
+                                        <th>
                                             {/* <input type="" name="roomName" onChange={handleChange} /> */}
                                             <textarea name="n_content" id="n_content" cols="30" style={{height:"250px",width:"500px"}}
                                                 onChange={(e)=>setTextarea(e.target.value)}
@@ -151,10 +155,10 @@ export default function NoticeInsert(){
                             </table>
                                 <Link to={'/adminpage'}>
                                     <button type="button" className="insertBtn">
-                                        취소하기
+                                        취소하기 <i class="fa fa-times"></i>
                                     </button>
                                 </Link>
-                                <button type="button" className="insertBtn" onClick={submitHandler}>추가하기</button>
+                                <button type="button" className="insertBtn" onClick={submitHandler}>추가하기 <i class="bi bi-pencil"></i></button>
                         </div>
                     </div>
                 </div>

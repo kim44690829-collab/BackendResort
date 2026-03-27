@@ -24,6 +24,9 @@ public class MyPageDTO {
   	private String hotelName; // 호텔이름
 	private int discount; // 이벤트 여부
 	private String h_Img; // 메인이미지
+    private String country; // 국가
+    private String city; // 도시
+    private String type; // 호텔유형
 	
 	private String roomName;  //객실이름
 

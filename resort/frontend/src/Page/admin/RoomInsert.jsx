@@ -33,7 +33,9 @@ export default function RoomInsert(){
     },[])
 
     const submitHandler=()=>{
-        
+        if(!window.confirm("입력한 객실 정보를 등록하시겠습니까?")){
+           return;
+        }
         if(hotelData.find((f)=>f.h_code === Number(room.h_code)) === undefined){
             alert("등록된 호텔중 해당하는 호텔이 존재하지 않습니다.");
             return;
@@ -42,7 +44,7 @@ export default function RoomInsert(){
             alert("최대 가격을 다시 확인해주세요.");
             return;
         }
-        if(room.maxOccupancy>4){
+        if(room.maxOccupancy>8){
             alert("최대 등록 가능한 인원 수를 다시 확인해주세요.");
             return;
         }
@@ -110,11 +112,11 @@ export default function RoomInsert(){
     return(
         <>
             <div className="admin_wrap">
-                <h2 className="admin_title">관리자 페이지</h2>
+                <h2 className="admin_title">객실 상품 추가</h2>
                 <div className="admin_section">
                     <div className="admin_header">
                         <div className="menu_box">
-                            <span className="admin_menu">조회</span>
+                            <span className="admin_menu">조회 <i class="fa-solid fa-caret-down"></i></span>
                             <ul className="admin_submenu">
                                 <li className="a_menus">
                                     <Link to={`/adminPage` } onClick={() => window.scrollTo(0, 0)}>
@@ -139,7 +141,7 @@ export default function RoomInsert(){
                             </ul>
                         </div>
                         <div className="menu_box">
-                            <span className="admin_menu">등록</span>
+                            <span className="admin_menu">등록  <i class="fa-solid fa-caret-down"></i></span>
                             <ul className="admin_submenu">
                                 <li className="a_menus">
                                     <Link to={`/hotelinsert` } onClick={() => window.scrollTo(0, 0)}>
@@ -159,7 +161,7 @@ export default function RoomInsert(){
                             </ul>
                         </div>
                         <div className="menu_box">
-                            <span className="admin_menu" style={{textAlign:"left",width:"800px"}}>게시판</span>
+                            <span className="admin_menu">게시판 <i class="fa-solid fa-caret-down"></i></span>
                             <ul className="admin_submenu">
                                 <li className="a_menus">
                                     <Link to={`/adminPage5` } onClick={() => window.scrollTo(0, 0)}>
@@ -180,31 +182,31 @@ export default function RoomInsert(){
                         </div>
                     </div>
                     <div className="admin_body">
-                        <div className="admin_text" style={{textAlign:"left",width:"800px"}}>객실 상품 추가</div>
+                        {/* <div className="admin_text" style={{textAlign:"left",width:"800px"}}>객실 상품 추가</div> */}
                         <div className="admin_list">
                             <table className="list_table" style={{width:"800px"}}>
-                                <thead >
+                                <thead className="DB_table">
                                     <tr>
                                         <th width="200px">호텔코드</th>
-                                        <th style={{backgroundColor:"#f6f8fc",color:"#333",borderBottom:"1px solid #ddd"}}>
+                                        <th>
                                             <input type="text" name="h_code" onChange={handleChange} style={{width:"400px",height:"30px"}}/>
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">객실이름</th>
-                                        <th style={{backgroundColor:"#f6f8fc",color:"#333",borderBottom:"1px solid #ddd"}}>
+                                        <th>
                                             <input type="text" name="roomName" onChange={handleChange} style={{width:"400px",height:"30px"}}/>
                                         </th>
                                     </tr>
                                     <tr>
                                         <th width="200px">{`가격(최대 300,000원)`}</th>
-                                        <th style={{backgroundColor:"#f6f8fc",color:"#333",borderBottom:"1px solid #ddd"}}>
+                                        <th>
                                             <input type="text" name="price" onChange={handleChange} style={{width:"400px",height:"30px"}}/>
                                         </th>
                                     </tr>
                                     <tr>
-                                        <th width="200px">{`최대인원(4명)`}</th>
-                                        <th style={{backgroundColor:"#f6f8fc",color:"#333",borderBottom:"1px solid #ddd"}}>
+                                        <th width="200px">{`최대인원(8명)`}</th>
+                                        <th>
                                             <input type="text" name="maxOccupancy" onChange={handleChange} style={{width:"400px",height:"30px"}}/>
                                         </th>
                                     </tr>
@@ -212,10 +214,10 @@ export default function RoomInsert(){
                             </table>
                                 <Link to={'/adminpage'}>
                                     <button type="button" className="insertBtn">
-                                        취소하기
+                                        취소하기 <i class="fa fa-times"></i>
                                     </button>
                                 </Link>
-                                <button type="button" className="insertBtn" onClick={submitHandler}>추가하기</button>
+                                <button type="button" className="insertBtn" onClick={submitHandler}>추가하기 <i class="bi bi-pencil"></i></button>
                         </div>
                     </div>
                 </div>

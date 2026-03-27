@@ -24,6 +24,9 @@
 	        h.hotelName,
 	        h.discount,
 	        h.h_Img,
+	        h.city,
+	        h.country,
+	        h.type,
 	
 	        r.roomName,
 	

@@ -192,6 +192,7 @@
     )
 
     <if test="searchKeyword != null and searchKeyword != ''">
+    	AND
         <choose>
             <when test="searchType == 'b_title'">
                 AND b_title LIKE CONCAT('%', #{searchKeyword}, '%')
@@ -220,6 +221,7 @@
     )
 
     <if test="searchKeyword != null and searchKeyword != ''">
+    	AND
         <choose>
             <when test="searchType == 'b_title'">
                 AND b_title LIKE CONCAT('%', #{searchKeyword}, '%')
@@ -246,9 +248,11 @@
 
 
 <select id="getAdminSearchCount" resultType="int">
-	SELECT COUNT(*) FROM board WHERE re_step = 1
+	SELECT COUNT(*) FROM board
 		<where>
+		 re_step = 1
 		    <if test="searchKeyword != null and searchKeyword != ''">
+		    	AND
 		        <choose>
 		            <when test="searchType == 'b_title'">
 		                b_title LIKE CONCAT('%', #{searchKeyword}, '%')
@@ -270,9 +274,11 @@
 
 <!-- 검색결과 노출 -->
 <select id="getAdminSearchPageList" resultType="BoardDTO">
-	SELECT * FROM board WHERE re_step = 1
+	SELECT * FROM board
 		<where>
+		re_step = 1 
 		    <if test="searchKeyword != null and searchKeyword != ''">
+		    	AND
 		        <choose>
 		            <when test="searchType == 'b_title'">
 		                b_title LIKE CONCAT('%', #{searchKeyword}, '%')

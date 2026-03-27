@@ -51,7 +51,9 @@ export default function HotelUpdate(){
     },[])
 
     const submitHandler = ()=>{
-        
+        if(!window.confirm("입력한 호텔 정보로 수정하시겠습니까?")){
+           return;
+        }
         axios.put('/api/hotel/adminupdatehotel',{
             h_code: h_code,
             hotelName:hotelName,
@@ -166,11 +168,11 @@ export default function HotelUpdate(){
     return(
         <>
             <div className="admin_wrap">
-                <h2 className="admin_title">관리자 페이지</h2>
+                <h2 className="admin_title">{h_code}번 호텔 수정하기</h2>
                 <div className="admin_section">
                     <div className="admin_header">
                         <div className="menu_box">
-                            <span className="admin_menu">조회</span>
+                            <span className="admin_menu">조회 <i class="fa-solid fa-caret-down"></i></span>
                             <ul className="admin_submenu">
                                 <li className="a_menus">
                                     <Link to={`/adminPage` } onClick={() => window.scrollTo(0, 0)}>
@@ -195,7 +197,7 @@ export default function HotelUpdate(){
                             </ul>
                         </div>
                         <div className="menu_box">
-                            <span className="admin_menu">등록</span>
+                            <span className="admin_menu">등록  <i class="fa-solid fa-caret-down"></i></span>
                             <ul className="admin_submenu">
                                 <li className="a_menus">
                                     <Link to={`/hotelinsert` } onClick={() => window.scrollTo(0, 0)}>
@@ -215,7 +217,7 @@ export default function HotelUpdate(){
                             </ul>
                         </div>
                         <div className="menu_box">
-                            <span className="admin_menu">게시판</span>
+                            <span className="admin_menu">게시판 <i class="fa-solid fa-caret-down"></i></span>
                             <ul className="admin_submenu">
                                 <li className="a_menus">
                                     <Link to={`/adminPage5` } onClick={() => window.scrollTo(0, 0)}>
@@ -236,10 +238,10 @@ export default function HotelUpdate(){
                         </div>
                     </div>
                     <div className="admin_body">
-                        <div className="admin_text" style={{textAlign:"left",width:"800px"}}>{h_code}번 호텔 수정하기</div>
+                        {/* <div className="admin_text" style={{textAlign:"left",width:"800px"}}>{h_code}번 호텔 수정하기</div> */}
                         <div className="admin_list">
                             <table className="list_table" style={{width:"800px"}}>
-                                <thead >
+                                <thead className="DB_table">
                                     <tr>
                                         <th width="200px">호텔이름</th>
                                         <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>
@@ -349,8 +351,8 @@ export default function HotelUpdate(){
                                             value={discount ?? currentHotel?.discount ?? ""} style={{width:"400px",height:"30px"}}/> */}
                                             <select  className="select" name="discount" onChange={(e)=>setDiscount(e.target.value)} style={{width:'130px'}} value={discount ?? currentHotel?.discount ?? ""}>
                                                 {/* setHotel({...hotel,[inputName]:e.target.value}) */}
-                                                <option value="0">할인</option>
-                                                <option value="1">미할인</option>
+                                                <option value="1">할인</option>
+                                                <option value="0">미할인</option>
                                             </select>
                                         </th>
 
@@ -505,10 +507,10 @@ export default function HotelUpdate(){
                             </table>
                                 <Link to={'/adminpage'}>
                                     <button type="button" className="insertBtn">
-                                        취소하기
+                                        취소하기 <i class="fa fa-times"></i>
                                     </button>
                                 </Link>
-                                <button className="insertBtn" type="button" onClick={submitHandler}>수정하기</button>
+                                <button className="insertBtn" type="button" onClick={submitHandler}>수정하기 <i class="bi bi-pencil"></i></button>
                         </div>
                     </div>
                 </div>

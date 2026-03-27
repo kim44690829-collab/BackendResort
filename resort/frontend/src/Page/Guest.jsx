@@ -109,6 +109,18 @@ export default function Guest(){
         }
         
     }
+
+    // 모달이 열리면 화면 전체의 스크롤 제거
+    useEffect(() => {
+        const isAnyModalOpen = !! modalOpen;
+
+        document.body.style.overflow = isAnyModalOpen ? "hidden" : "auto";
+
+        // 컴포넌트 언마운트(페이지 이동) 시 무조건 원복
+        return () => {
+            document.body.style.overflow = "auto";
+        };
+    }, [modalOpen]);
     
     const res_at02 = new Date(guestData?.reserved_at).toLocaleDateString("sv-SE");
     const chkInDate02 = new Date(guestData?.check_in_date)

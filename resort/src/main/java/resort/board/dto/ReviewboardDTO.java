@@ -16,6 +16,8 @@ public class ReviewboardDTO{
 	private int reviewCount; //리뷰수
 	private double scoreAvg;
 	private int minPrice;
-	
+	private String m_nickName; // 리뷰 작성자명
+	private String roomName; //리뷰한 방 이름
+	private String hotelName;// 리뷰한 호텔의 이름
 	
 }

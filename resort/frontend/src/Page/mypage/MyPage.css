@@ -401,6 +401,21 @@
     font-weight: 600;
     font-size: 14px;
 }
+.reservDetail-select .hotelInfo .room-right .room-info p .bold .img5,
+.reserve-select ul li .room-right .room-info p .bold .img5{
+    height: 15px;
+    margin-left: 5px;
+    vertical-align: baseline;
+}
+.reservDetail-select .hotelInfo .room-right .room-info p .starScore3,
+.reserve-select ul li .room-right .room-info p .starScore3{
+    font-size: 14px;
+    font-weight: 600;
+    vertical-align: text-top;
+    margin-left: 7px;
+    color: #6d6d6d;
+    line-height: 1.2;
+}
 .reserve-select ul li .room-right .room-info p .red{
     background-color: #ffedea;
     color: #f94239;

@@ -458,9 +458,6 @@ hr{
 }
 
 /* pay2 ---------------------------------------------------------------------- */
-.paysection2{
-    background-color: #f2f5fa;
-}
 .paysection2 .pay2_info{
     text-align: center;
     margin: 0 auto;
@@ -477,9 +474,6 @@ hr{
     /* margin: 50px 0 10px 0; */
 }
 .payHotelimg{
-    /* position: absolute; */
-    /* left: 250px;
-    top: -90px; */
     width:500px;
     height: 150px;
     object-fit: cover;
@@ -491,29 +485,12 @@ hr {
   border: none;              /* 기본 스타일 제거 */
   border-top: 1px solid rgb(214, 214, 214);  /* 점선 + 색상 */
 }
-/* .line{
-    padding: 5px;
-    border-bottom: 1px solid red;
-} */
 .paysection2 .pay2_coment{
     margin: 20px 0;
     font-size: 20px;
     text-align: center;
     margin-bottom: 40px;
 }
-/* .paysection2 .pay2_info .pay2_table{
-    margin: 0 auto;
-    width: 500px;
-    height: 700px;
-    border-collapse: separate;
-    border-spacing: 0;
-    margin: 0;
-    padding: 0;
-    border-radius: 10px;
-    overflow: hidden;
-    background-color: #fff;
-    box-shadow: 10px 10px 10px #c0c0c0;
-} */
 .paysection2 .pay2_info .pay2_table{
     width: 500px;
     height: 780px;
@@ -526,9 +503,6 @@ hr {
     background-color: #fff;
     box-shadow: 0px 0px 18px #999999;
 }
-/* .trHeight{
-    height: 20px;
-} */
 .paysection2 .pay2_info .pay2_table .pay2_list_title{
     text-align: left;
     width: 150px;

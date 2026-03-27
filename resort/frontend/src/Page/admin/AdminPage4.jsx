@@ -21,28 +21,75 @@ export default function AdminPage4(){
     const [g_phone,setG_phone] = useState(null)
     const [r,setR] = useState(false);
 
+    const [chking,setChking] = useState([{id:1,state:false},{id:2,state:false}])
+
     useEffect(()=>{
-        axios.get('/api/reservation/list',{
-            params: {
-                page: page,
-                pageSize: 10,
-                searchType: searchType,
-                searchKeyword: searchKeyword
-            }
-        })
-        .then((res) => {
-            console.log("reservation 데이터 : ", res.data.list);
-            console.log("회원정보 데이터 : ", res.data.ph);
-            setReservation(res.data.list);
-            setPh(res.data.ph);
-            setSearchType(res.data.searchType);
-            setSearchKeyword(res.data.searchKeyword);
-        })
-        .catch((error) => {
-            console.error("error", error)
-        })
-        console.log(page)
-    },[page,searchType,searchKeyword,r])
+        if(chking[0].state == false && chking[1].state == false){
+            axios.get('/api/reservation/list',{
+                params: {
+                    page: page,
+                    pageSize: 10,
+                    searchType: searchType,
+                    searchKeyword: searchKeyword
+                }
+            })
+            .then((res) => {
+                console.log("reservation 데이터 : ", res.data.list);
+                console.log("회원정보 데이터 : ", res.data.ph);
+                setReservation(res.data.list);
+                setPh(res.data.ph);
+                setSearchType(res.data.searchType);
+                setSearchKeyword(res.data.searchKeyword);
+            })
+            .catch((error) => {
+                console.error("error", error)
+            })
+            console.log(page)
+        }else if(chking[0].state == true && chking[1].state == false){ // 비회원만 보이기
+            axios.get('/api/reservation/list1',{
+                params: {
+                    page: page,
+                    pageSize: 10,
+                    searchType: searchType,
+                    searchKeyword: searchKeyword
+                }
+            })
+            .then((res) => {
+                console.log("reservation 비회원만 데이터 : ", res.data.list);
+                console.log("회원정보 데이터 : ", res.data.ph);
+                setReservation(res.data.list);
+                setPh(res.data.ph);
+                setSearchType(res.data.searchType);
+                setSearchKeyword(res.data.searchKeyword);
+            })
+            .catch((error) => {
+                console.error("error", error)
+            })
+            console.log(page)
+        }
+        else if(chking[0].state == false && chking[1].state == true){ // 회원만 보이기
+            axios.get('/api/reservation/list2',{
+                params: {
+                    page: page,
+                    pageSize: 10,
+                    searchType: searchType,
+                    searchKeyword: searchKeyword
+                }
+            })
+            .then((res) => {
+                console.log("reservation 회원만 데이터 : ", res.data.list);
+                console.log("회원정보 데이터 : ", res.data.ph);
+                setReservation(res.data.list);
+                setPh(res.data.ph);
+                setSearchType(res.data.searchType);
+                setSearchKeyword(res.data.searchKeyword);
+            })
+            .catch((error) => {
+                console.error("error", error)
+            })
+            console.log(page)
+        }
+    },[page,searchType,searchKeyword,r,chking])
 
     const pages = [];
 
@@ -55,6 +102,11 @@ export default function AdminPage4(){
     }
 
     const deleteHandler =(index)=>{
+        if(!window.confirm("정말 예약정보를 삭제하시겠습니까?")){
+           return;
+        }
+
+
         axios.put('/api/reservation/delete', null,{
             params :{
                 re_code: reservation[index].re_code,
@@ -118,14 +170,28 @@ export default function AdminPage4(){
         )
     }
 
+    const chkHandler =(num)=>{
+        const chkingCopy = [...chking]
+        if(num==1){
+            chkingCopy[0].state = !chkingCopy[0].state;
+            chkingCopy[1].state = false;
+            setChking(chkingCopy);
+        }else if(num==2){
+            chkingCopy[1].state = !chkingCopy[1].state;
+            chkingCopy[0].state = false;
+            setChking(chkingCopy);
+        }
+
+    }
+
     return(
         <>
             <div className="admin_wrap">
-                <h2 className="admin_title">관리자 페이지</h2>
+                <h2 className="admin_title">예약 정보 조회</h2>
                 <div className="admin_section">
                     <div className="admin_header">
                         <div className="menu_box">
-                            <span className="admin_menu">조회</span>
+                            <span className="admin_menu">조회 <i class="fa-solid fa-caret-down"></i></span>
                             <ul className="admin_submenu">
                                 <li className="a_menus">
                                     <Link to={`/adminPage` } onClick={() => window.scrollTo(0, 0)}>
@@ -150,7 +216,7 @@ export default function AdminPage4(){
                             </ul>
                         </div>
                         <div className="menu_box">
-                            <span className="admin_menu">등록</span>
+                            <span className="admin_menu">등록  <i class="fa-solid fa-caret-down"></i></span>
                             <ul className="admin_submenu">
                                 <li className="a_menus">
                                     <Link to={`/hotelinsert` } onClick={() => window.scrollTo(0, 0)}>
@@ -170,7 +236,7 @@ export default function AdminPage4(){
                             </ul>
                         </div>
                         <div className="menu_box">
-                            <span className="admin_menu">게시판</span>
+                            <span className="admin_menu">게시판 <i class="fa-solid fa-caret-down"></i></span>
                             <ul className="admin_submenu">
                                 <li className="a_menus">
                                     <Link to={`/adminPage5` } onClick={() => window.scrollTo(0, 0)}>
@@ -191,7 +257,7 @@ export default function AdminPage4(){
                         </div>
                     </div>
                     <div className="admin_body">
-                        <div className="admin_text">예약 정보 조회</div>
+                        {/* <div className="admin_text">예약 정보 조회</div> */}
                         <div id="search_wrap">
                                 <form onSubmit={submitHandler}>
                                     <select className="searchSelect" name="searchType" value={searchType} onChange={(e) => setSearchType(e.target.value)}>
@@ -200,20 +266,32 @@ export default function AdminPage4(){
                                     </select>
                                     
                                     <input className="searchbox" type="text" name="searchKeyword" value={serch} placeholder="검색어를 입력하세요" onChange={(e) => setSerch(e.target.value)}/>
-                                    <input  type="submit" value="검색" className="searchBtn" onClick={()=>submitHandler()}/>
-                                    <input type="button" value="전체보기" className="searchBtn" onClick={()=>{setSearchKeyword(""),setSearchType("booker_name"),setSerch(""),setPage(1)}}/>
+                                    <button type="submit" className="btn searchBtn" onClick={()=>submitHandler()} >
+                                        <i className="fa-solid fa-magnifying-glass" style={{color:'#42799b'}}></i> 검색</button>
+                                    <button type="button" className="btn searchBtn" onClick={()=>{setSearchKeyword(""),setSearchType("booker_name"),setSerch(""),setPage(1),setChking([{id:1,state:false},{id:2,state:false}])}} >
+                                        <i className="fa-solid fa-list" style={{color:'#42799b'}}></i> 전체목록
+                                    </button>
+                                    {/* <input type="submit" value="검색" className="searchBtn" onClick={()=>submitHandler()}/>
+                                    <input type="button" value="전체보기" className="searchBtn" onClick={()=>{setSearchKeyword(""),setSearchType("hotelName"),setSerch(""),setPage(1)}}/> */}
                                 </form>
+                                <div className="member_chk">
+                                    <input type="checkbox" name="chkMember" id="chkMember1" onChange={()=>chkHandler(1)} checked={chking[0].state}/>
+                                    <label htmlFor="chkMember1" className="chkMember" >비회원 보기</label>
+                                    <input type="checkbox" name="chkMember" id="chkMember2" onChange={()=>chkHandler(2)} checked={chking[1].state}/>
+                                    <label htmlFor="chkMember2" className="chkMember" >회원 보기</label>
+                                </div>
+                                
 					        </div>
                         <div className="admin_list">
                             <table className="list_table" >
                                 <thead >
                                     <tr className="table_head">
-                                        <th width="70px">예약번호</th>
-                                        <th width="70px">회원번호</th>
-                                        <th width="110px">비회원번호</th>
+                                        <th width="90px">예약번호</th>
+                                        <th width="90px">회원번호</th>
+                                        <th width="130px">비회원번호</th>
                                         <th width="70px">회원구분</th>
                                         <th width="240px">예약코드</th>
-                                        <th width="65px">방코드</th>
+                                        {/* <th width="65px">방코드</th> */}
                                         <th width="135px">예약자명</th>
                                         <th width="65px">예약상태</th>
                                         <th width="200px">취소시간</th>
@@ -229,6 +307,13 @@ export default function AdminPage4(){
                                         const birth_Date = member_birth.toLocaleDateString('ko-KR')
                                         const member_reg = new Date(item.m_regDate)
                                         const reg_Date = member_reg.toLocaleString('ko-KR')
+                                        const today = new Date()
+                                        today.setHours(0,0,0,0)
+                                        const check_out_date = new Date(item.check_out_date)
+                                        check_out_date.setHours(0,0,0,0)
+                                        console.log(check_out_date)
+                                        console.log(today)
+                                        console.log(today > check_out_date)
                                         return(
                                             <tr key={index} className="table_head">
                                                 <td>{item.re_code}</td>
@@ -236,9 +321,9 @@ export default function AdminPage4(){
                                                 <td>{item.g_code}</td>
                                                 <td>{item.g_code === null? "회원":"비회원"}</td>
                                                 <td>{item.reservation_no}</td>
-                                                <td>{item.r_code}</td>
+                                                {/* <td>{item.r_code}</td> */}
                                                 <td>{item.booker_name}</td>
-                                                <td>{item.cancel === 1 ? "취소" : "예약"}</td>
+                                                <td>{item.cancel === 1 ? "취소" : today > check_out_date? "지난 예약": "예약 중"}</td>
                                                 <td>{item.cancel_date!==null? `${item.cancel_date.slice(0,10)} - ${item.cancel_date.slice(11,16)}`:''}</td>
                                                 <td><button className="table_btn" onClick={()=>{setIsinfo(!isInfo),setNum(index)}}>상세정보</button></td>
                                                 <td>{item.m_code === null && item.cancel === 0 && item.g_check===0?  <button className="table_btn" style={{width:"100px"}} onClick={()=>{setIsinfo2(!isInfo2),setNum(index)}}>비회원수정</button>:""}</td>
@@ -272,7 +357,7 @@ export default function AdminPage4(){
                                                         <p><span>방코드</span> : <span style={{display:"inline-block",width:"300px"}}>{reservation[num].r_code}</span></p>
                                                     </li>
                                                     <li>
-                                                        <p><span>예약자명</span> : <span style={{display:"inline-block",width:"300px"}}>{reservation[num].booker_name}</span><span>예약자 전화번호 :</span> {reservation[num].g_phone!==null?reservation[num].g_phone:reservation[num].m_phone}</p>
+                                                        <p><span>예약자명</span> : <span style={{display:"inline-block",width:"300px"}}>{reservation[num].booker_name}</span><span>예약자 전화번호 :</span> {reservation[num].g_phone!==null?`${reservation[num].g_phone.slice(0,3)}-${reservation[num].g_phone.slice(3,7)}-${reservation[num].g_phone.slice(7,11)}`:`${reservation[num].m_phone.slice(0,3)}-${reservation[num].m_phone.slice(3,7)}-${reservation[num].m_phone.slice(7,11)}`}</p>
                                                     </li>
                                                     <li>
                                                         <p><span>예약날짜</span> : <span style={{display:"inline-block",width:"300px"}}>{reservation[num].reserved_at.slice(0,10)}</span></p>
@@ -312,22 +397,22 @@ export default function AdminPage4(){
                                             
                                             <div className="service_box" >
                                                 
-                                                <table className="guset_table">
-                                                    <tbody>
+                                                <table className="guset_table" >
+                                                    <tbody >
 
-                                                        <tr>
-                                                            <th width="200px">예약자명</th>
-                                                            <th style={{backgroundColor:"#f6f8fc",color:"#333",borderBottom:'1px solid #ddd'}}>
+                                                        <tr >
+                                                            <th width="200px" style={{backgroundColor:"#c7c7c72e",color:"#333",borderBottom:'1px solid #ddd'}}>예약자명</th>
+                                                            <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>
                                                                 <input type="text" name="booker_name" onChange={(e)=>setBooker_name(e.target.value)} 
-                                                                    value={booker_name === null? reservation[num].booker_name:booker_name} style={{width:"300px",height:"40px"}}
+                                                                    value={booker_name === null? reservation[num].booker_name:booker_name} style={{width:"300px",height:"40px",border:'1px solid #ddd'}}
                                                                 />
                                                             </th>
                                                         </tr>
                                                         <tr>
-                                                            <th width="200px">예약자 전화번호</th>
-                                                            <th style={{backgroundColor:"#f6f8fc",color:"#333",borderBottom:'1px solid #ddd'}}>
+                                                            <th width="200px" style={{backgroundColor:"#c7c7c72e",color:"#333",borderBottom:'1px solid #ddd'}}>예약자 전화번호</th>
+                                                            <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>
                                                                 <input type="text" name="maxOccupancy" onChange={(e)=>setG_phone(e.target.value)} 
-                                                                    value={g_phone === null? reservation[num].g_phone:g_phone}style={{width:"300px",height:"40px"}}
+                                                                    value={g_phone === null? reservation[num].g_phone:g_phone}style={{width:"300px",height:"40px", border:'1px solid #ddd'}}
                                                                 />
                                                             </th>
                                                         </tr>
@@ -335,7 +420,7 @@ export default function AdminPage4(){
                                                 </table>
                                                 <div className="guest_submit_box">
 
-                                                    <button className="guest_submit" onClick={guestSubmit}>수정하기</button>
+                                                    <button className="guest_submit" onClick={guestSubmit}>수정하기 <i class="bi bi-pencil"></i></button>
                                                 </div>
                                             </div>
                                         </div>

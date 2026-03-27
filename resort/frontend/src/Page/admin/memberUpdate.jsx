@@ -41,6 +41,9 @@ export default function MemberUdate(){
 
 
     const handleChange = ()=>{
+        if(!window.confirm("입력한 회원 정보로 수정하시겠습니까?")){
+           return;
+        }
         axios.put('/api/member/adminupdatemember',{
             m_code: m_code,
             m_phone:newph===null?oneData?.m_phone:newph,
@@ -79,11 +82,11 @@ export default function MemberUdate(){
     return(
         <>
             <div className="admin_wrap">
-                <h2 className="admin_title">관리자 페이지</h2>
+                <h2 className="admin_title">회원 정보 수정</h2>
                 <div className="admin_section">
                     <div className="admin_header">
                         <div className="menu_box">
-                            <span className="admin_menu">조회</span>
+                            <span className="admin_menu">조회 <i class="fa-solid fa-caret-down"></i></span>
                             <ul className="admin_submenu">
                                 <li className="a_menus">
                                     <Link to={`/adminPage` } onClick={() => window.scrollTo(0, 0)}>
@@ -108,7 +111,7 @@ export default function MemberUdate(){
                             </ul>
                         </div>
                         <div className="menu_box">
-                            <span className="admin_menu">등록</span>
+                            <span className="admin_menu">등록  <i class="fa-solid fa-caret-down"></i></span>
                             <ul className="admin_submenu">
                                 <li className="a_menus">
                                     <Link to={`/hotelinsert` } onClick={() => window.scrollTo(0, 0)}>
@@ -128,7 +131,7 @@ export default function MemberUdate(){
                             </ul>
                         </div>
                         <div className="menu_box">
-                            <span className="admin_menu">게시판</span>
+                            <span className="admin_menu">게시판 <i class="fa-solid fa-caret-down"></i></span>
                             <ul className="admin_submenu">
                                 <li className="a_menus">
                                     <Link to={`/adminPage5` } onClick={() => window.scrollTo(0, 0)}>
@@ -149,10 +152,10 @@ export default function MemberUdate(){
                         </div>
                     </div>
                     <div className="admin_body">
-                        <div className="admin_text" style={{textAlign:"left",width:"600px"}}>회원 정보 수정</div>
+                        {/* <div className="admin_text" style={{textAlign:"left",width:"600px"}}>회원 정보 수정</div> */}
                         <div className="admin_list">
                             <table className="list_table" style={{width:"600px"}}>
-                                <thead >
+                                <thead className="DB_table">
                                     <tr>
                                         <th width="200px">Num</th>
                                         <th style={{backgroundColor:"#ffffff53",color:"#333",borderBottom:'1px solid #ddd'}}>{oneData?.m_code}</th>
@@ -200,10 +203,10 @@ export default function MemberUdate(){
                             </table>
                                 <Link to={'/adminpage'}>
                                     <button className="insertBtn" type="button">
-                                        취소하기
+                                        취소하기 <i class="fa fa-times"></i>
                                     </button>
                                 </Link>
-                                <button className="insertBtn" type="button" onClick={handleChange}>수정하기</button>
+                                <button className="insertBtn" type="button" onClick={handleChange}>수정하기 <i class="bi bi-pencil"></i></button>
                         </div>
                     </div>
                 </div>

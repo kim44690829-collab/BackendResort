@@ -60,4 +60,5 @@ public interface ReviewboardMapper {
 		
 	// 객실별 평점
 	public List<RatingDTO> roomReview(@Param("h_code") int h_code);
+	
 }

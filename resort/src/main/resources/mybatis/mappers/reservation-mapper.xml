@@ -93,13 +93,131 @@
 					</otherwise>
 				</choose>
 			</where>
+			ORDER BY r.re_code DESC
+			LIMIT #{startRow}, #{pageSize}
+		</select>
+		
+	<!-- // 비회원만 보이기 -->
+	<select id="getAllRescount1" resultType="int">
+		SELECT COUNT(*) FROM reservation WHERE g_code &gt; 0
+	</select>
+	
+	<!-- 예약정보 리스트 -->
+	<select id="getResPagelist1" resultType="ReservationMergeDTO">
+		SELECT * FROM reservation r LEFT JOIN member m 
+			on r.m_code = m.m_code 
+			LEFT JOIN guest g 
+			on r.g_code = g.g_code
+            LEFT JOIN room rm
+            on rm.r_code = r.r_code
+            LEFT JOIN hotel h
+            on rm.h_code = h.h_code WHERE r.g_code &gt; 0 ORDER BY r.re_code DESC
+		LIMIT #{startRow}, #{pageSize}
+	</select>
+	
+	
+	
+	<select id="getSearchResCount1" resultType="int">
+			SELECT COUNT(*) FROM reservation 
+			<where>
+				WHERE g_code &gt; 0 AND
+				<choose>
+					<when test="searchType == 'booker_name'">
+						booker_name LIKE CONCAT("%",#{searchKeyword},"%")
+					</when>
+					<otherwise>
+						reservation_no LIKE CONCAT("%",#{searchKeyword},"%")				
+					</otherwise>
+				</choose>
+			</where>
+		</select>
+	
+		<select id="getSearchResPageList1" resultType="ReservationMergeDTO">
+			SELECT * FROM reservation r LEFT JOIN member m 
+			on r.m_code = m.m_code 
+			LEFT JOIN guest g 
+			on r.g_code = g.g_code
+            LEFT JOIN room rm
+            on rm.r_code = r.r_code
+            LEFT JOIN hotel h
+            on rm.h_code = h.h_code
+			<where>
+				WHERE r.g_code &gt; 0 AND
+				<choose>
+					<when test="searchType == 'booker_name'">
+						booker_name LIKE CONCAT("%",#{searchKeyword},"%")
+					</when>
+					<otherwise>
+						reservation_no LIKE CONCAT("%",#{searchKeyword},"%")				
+					</otherwise>
+				</choose>
+			</where>
 			ORDER BY re_code DESC
 			LIMIT #{startRow}, #{pageSize}
 		</select>
 		
+	<!-- // 회원만 보이기 -->
+	<select id="getAllRescount2" resultType="int">
+		SELECT COUNT(*) FROM reservation WHERE m_code &gt; 0
+	</select>
+	
+	<!-- 예약정보 리스트 -->
+	<select id="getResPagelist2" resultType="ReservationMergeDTO">
+		SELECT * FROM reservation r LEFT JOIN member m 
+			on r.m_code = m.m_code 
+			LEFT JOIN guest g 
+			on r.g_code = g.g_code
+            LEFT JOIN room rm
+            on rm.r_code = r.r_code
+            LEFT JOIN hotel h
+            on rm.h_code = h.h_code WHERE r.m_code &gt; 0 ORDER BY r.re_code DESC
+		LIMIT #{startRow}, #{pageSize}
+	</select>
+	
+	
+	
+	<select id="getSearchResCount2" resultType="int">
+		SELECT COUNT(*) FROM reservation 
+		<where>
+			WHERE m_code &gt; 0 AND
+			<choose>
+				<when test="searchType == 'booker_name'">
+					booker_name LIKE CONCAT("%",#{searchKeyword},"%")
+				</when>
+				<otherwise>
+					reservation_no LIKE CONCAT("%",#{searchKeyword},"%")				
+				</otherwise>
+			</choose>
+		</where>
+	</select>
+	
+	<select id="getSearchResPageList2" resultType="ReservationMergeDTO">
+		SELECT * FROM reservation r LEFT JOIN member m 
+		on r.m_code = m.m_code 
+		LEFT JOIN guest g 
+		on r.g_code = g.g_code
+           LEFT JOIN room rm
+           on rm.r_code = r.r_code
+           LEFT JOIN hotel h
+           on rm.h_code = h.h_code
+		<where>
+			WHERE r.m_code &gt; 0 AND
+			<choose>
+				<when test="searchType == 'booker_name'">
+					booker_name LIKE CONCAT("%",#{searchKeyword},"%")
+				</when>
+				<otherwise>
+					reservation_no LIKE CONCAT("%",#{searchKeyword},"%")				
+				</otherwise>
+			</choose>
+		</where>
+		ORDER BY re_code DESC
+		LIMIT #{startRow}, #{pageSize}
+	</select>
+		
 		<!-- // 리뷰 상태 업데이트 함수 public int reviewStatusMod(@Param("m_email") String m_email);  -->
 		<update id="reviewStatusMod">
-			UPDATE reservation SET review_status = 2 WHERE DATE_ADD(check_out_date, INTERVAL 2 DAY) &lt; CURDATE() AND review_status = 0
+			UPDATE reservation SET review_status = 2 WHERE DATE_ADD(check_out_date, INTERVAL 7 DAY) &lt; CURDATE() AND review_status = 0
 		</update>
 		
 		<!-- public int updateResercation(ReservationDTO redto); -->
@@ -121,6 +239,11 @@
 		<!-- public int reviewMod(@Param("re_code") int re_code); -->
 		<update id="reviewMod">
 			UPDATE reservation SET review_status = 1 WHERE re_code = #{re_code}
+		</update>
+		
+		<!-- // 리뷰 자동 업데이트 public void reviewUpdate(); -->
+		<update id="reviewStatusUpdate">
+			UPDATE reservation SET review_status = 2 WHERE DATE_ADD(check_out_date, INTERVAL 7 DAY) &lt; CURDATE() AND review_status = 0
 		</update>
 	
 </mapper>

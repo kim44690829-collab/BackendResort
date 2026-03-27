@@ -59,4 +59,5 @@ public interface ReviewboardService {
 	
 	// 객실별 평점
 	public List<RatingDTO> roomReview(int h_code);
+	
 }

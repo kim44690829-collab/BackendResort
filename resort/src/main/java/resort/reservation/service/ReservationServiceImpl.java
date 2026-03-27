@@ -3,6 +3,7 @@ package resort.reservation.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -90,6 +91,61 @@ public class ReservationServiceImpl implements ReservationService {
 		return reservationmapper.reviewMod(re_code);
 	}
 
+	@Override
+	public int getAllRescount1() {
+		System.out.println("ReservationServiceImpl : getAllRescount1(O*O) 메서드 확인");
+		return reservationmapper.getAllRescount1();
+	}
+
+	@Override
+	public List<ReservationMergeDTO> getResPagelist1(int startRow, int pageSize) {
+		System.out.println("ReservationServiceImpl : getResPagelist1(O*O) 메서드 확인");
+		return reservationmapper.getResPagelist1(startRow, pageSize);
+	}
+
+	@Override
+	public int getSearchResCount1(String searchType, String searchKeyword) {
+		System.out.println("ReservationServiceImpl : getSearchResCount1(O*O) 메서드 확인");
+		return reservationmapper.getSearchResCount1(searchType, searchKeyword);
+	}
+
+	@Override
+	public List<ReservationMergeDTO> getSearchResPageList1(String searchType, String searchKeyword, int startRow,
+			int pageSize) {
+		System.out.println("ReservationServiceImpl : getSearchResPageList1(O*O) 메서드 확인");
+		return reservationmapper.getSearchResPageList1(searchType, searchKeyword, startRow, pageSize);
+	}
+
+	@Override
+	public int getAllRescount2() {
+		System.out.println("ReservationServiceImpl : getAllRescount2(O*O) 메서드 확인");
+		return reservationmapper.getAllRescount2();
+	}
+
+	@Override
+	public List<ReservationMergeDTO> getResPagelist2(int startRow, int pageSize) {
+		System.out.println("ReservationServiceImpl : getResPagelist2(O*O) 메서드 확인");
+		return reservationmapper.getResPagelist2(startRow, pageSize);
+	}
+
+	@Override
+	public int getSearchResCount2(String searchType, String searchKeyword) {
+		System.out.println("ReservationServiceImpl : getSearchResCount2(O*O) 메서드 확인");
+		return reservationmapper.getSearchResCount2(searchType, searchKeyword);
+	}
+
+	@Override
+	public List<ReservationMergeDTO> getSearchResPageList2(String searchType, String searchKeyword, int startRow,
+			int pageSize) {
+		System.out.println("ReservationServiceImpl : getSearchResPageList2(O*O) 메서드 확인");
+		return reservationmapper.getSearchResPageList2(searchType, searchKeyword, startRow, pageSize);
+	}
+
 	
 	
+	@Scheduled(cron = "0 0 0 * * *", zone = "Asia/Seoul")
+	public void reviewStatusUpdate() {
+		System.out.println("ReservationServiceImpl : reviewStatusUpdate() 메서드 확인");
+		reservationmapper.reviewStatusUpdate();
+	}
 }

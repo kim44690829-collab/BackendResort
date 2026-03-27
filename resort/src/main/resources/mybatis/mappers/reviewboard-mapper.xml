@@ -52,52 +52,72 @@
 	</insert>
 	
 
-	<!-- 회원정보 개수  -->
+	<!-- 리뷰정보 개수  -->
 	<select id="getAllReviewcount" resultType="int">
-		SELECT COUNT(*) FROM reviewboard
+		SELECT COUNT(*) FROM reviewboard re INNER JOIN room r
+		on re.r_code = r.r_code
+		INNER JOIN member m 
+		on re.m_code = m.m_code
+		INNER JOIN hotel h
+		ON r.h_code = h.h_code
 	</select>
 	
-	<!-- 회원정보 보이는 개수 -->
+	<!-- 리뷰정보 보이는 개수 -->
 	<select id="getPageReviewlist" resultType="ReviewboardDTO">
-		SELECT *FROM reviewboard ORDER BY rb_code DESC
+		SELECT *FROM reviewboard re INNER JOIN room r
+		on re.r_code = r.r_code
+		INNER JOIN member m 
+		on re.m_code = m.m_code
+		INNER JOIN hotel h
+		ON r.h_code = h.h_code ORDER BY re.rb_code DESC
 		LIMIT #{startRow}, #{pageSize}
 	</select>
 	
 	
 	
 	<select id="getReviewSearchCount" resultType="int">
-		SELECT COUNT(*) FROM reviewboard
+		SELECT COUNT(*) FROM reviewboard re INNER JOIN room r
+		on re.r_code = r.r_code
+		INNER JOIN member m 
+		on re.m_code = m.m_code
+		INNER JOIN hotel h
+		ON r.h_code = h.h_code
 		<where>
 			<choose>
-				<when test="searchType == 'm_code'">
-					m_code LIKE CONCAT("%",#{searchKeyword},"%")
+				<when test="searchType == 're.m_code'">
+					re.m_code LIKE CONCAT("%",#{searchKeyword},"%")
 				</when>
-				<when test="searchType == 'r_code'">
-					r_code LIKE CONCAT("%",#{searchKeyword},"%")
+				<when test="searchType == 're.r_code'">
+					re.r_code LIKE CONCAT("%",#{searchKeyword},"%")
 				</when>
 				<otherwise>
-					rb_score LIKE CONCAT("%",#{searchKeyword},"%")				
+					re.rb_score LIKE CONCAT("%",#{searchKeyword},"%")				
 				</otherwise>
 			</choose>
 		</where>
 	</select>
 
 	<select id="getSearchPageReviewList" resultType="ReviewboardDTO">
-		SELECT * FROM reviewboard 
+		SELECT * FROM reviewboard re INNER JOIN room r
+		ON re.r_code = r.r_code
+		INNER JOIN member m 
+		ON re.m_code = m.m_code
+		INNER JOIN hotel h
+		ON r.h_code = h.h_code
 		<where>
 			<choose>
-				<when test="searchType == 'm_code'">
-					m_code LIKE CONCAT("%",#{searchKeyword},"%")
+				<when test="searchType == 'roomName'">
+					r.roomName LIKE CONCAT("%",#{searchKeyword},"%")
 				</when>
-				<when test="searchType == 'r_code'">
-					r_code LIKE CONCAT("%",#{searchKeyword},"%")
+				<when test="searchType == 'm_nickName'">
+					m.m_nickName LIKE CONCAT("%",#{searchKeyword},"%")
 				</when>
 				<otherwise>
-					rb_score LIKE CONCAT("%",#{searchKeyword},"%")				
+					re.rb_score LIKE CONCAT("%",#{searchKeyword},"%")				
 				</otherwise>
 			</choose>
 		</where>
-		ORDER BY rb_code DESC
+		ORDER BY re.rb_code DESC
 		LIMIT #{startRow}, #{pageSize}
 	</select>
 	
@@ -149,4 +169,5 @@
 		SELECT r.h_code, r.r_code, rb.rb_score, r.roomName FROM reviewboard rb
 		RIGHT JOIN room r ON r.r_code = rb.r_code WHERE r.h_code = #{h_code}
 	</select>
+	
 </mapper>

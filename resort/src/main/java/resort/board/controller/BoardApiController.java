@@ -31,53 +31,53 @@ public class BoardApiController {
 	BoardService boardservice;
 
 	// 게시글 작성 
-	@PostMapping("/board/write")
-	public boolean boardWrite(HttpServletRequest request,
-			BoardDTO bdto,
-			@RequestParam(value="upload", required=false) MultipartFile upload,
-			HttpSession session
-			) throws IllegalStateException, IOException {
-		System.out.println("BoardApiController boardWrite() 메소드호출");
-		
-		MemberDTO loginedMember = (MemberDTO)session.getAttribute("loginUser");
-		
-		System.out.println(loginedMember);
+		@PostMapping("/board/write")
+		public boolean boardWrite(HttpServletRequest request,
+				BoardDTO bdto,
+				@RequestParam(value="upload", required=false) MultipartFile upload,
+				HttpSession session
+				) throws IllegalStateException, IOException {
+			System.out.println("BoardApiController boardWrite() 메소드호출");
 			
-		//1. 파일을 저장할 실제 하드디스크 위치를 지정한다.
-		//WebConfig에서 설정한 "file:///c:/upload/' 이 경로와 반드시 일치하여야 한다.
-		String rootPath = System.getProperty("user.dir");
-        String savePath = rootPath + File.separator + "uploads" + File.separator + "img" + File.separator + "boardImg" + File.separator;
+			MemberDTO loginedMember = (MemberDTO)session.getAttribute("loginUser");
+			
+			System.out.println(loginedMember);
+				
+			//1. 파일을 저장할 실제 하드디스크 위치를 지정한다.
+			//WebConfig에서 설정한 "file:///c:/upload/' 이 경로와 반드시 일치하여야 한다.
+			String rootPath = System.getProperty("user.dir");
+	        String savePath = rootPath + File.separator + "uploads" + File.separator + "img" + File.separator + "boardImg" + File.separator;
 
-		//2. 안전장치 : 만약 c:/upload/ 폴더가 존재하지않으면,
-		//프로그램을 통해 자동으로 생성되도록 작성한다.
-		File saveDir = new File(savePath);
-		if(!saveDir.exists()) {
-			saveDir.mkdirs(); //mkdirs() 메소드는 폴더가 없어도 한꺼번에 만들어주는 메소드이다.
+			//2. 안전장치 : 만약 c:/upload/ 폴더가 존재하지않으면,
+			//프로그램을 통해 자동으로 생성되도록 작성한다.
+			File saveDir = new File(savePath);
+			if(!saveDir.exists()) {
+				saveDir.mkdirs(); //mkdirs() 메소드는 폴더가 없어도 한꺼번에 만들어주는 메소드이다.
+			}
+			//3. 첫번째 이미지 업로드 처리
+			//예외처리: 이미지가 비어있으면 추가되면 안됨		
+			if(upload != null && !upload.isEmpty()) { //사용자가 실제 파일을 선택해서 보냈는지 확인
+				//사용자가 올린 원래 파일명(예: 20.jpg)을 가져온다.
+				String originalName = upload.getOriginalFilename();
+				String saveName = UUID.randomUUID().toString().subSequence(0, 6) + "_" + originalName;//파일명에 랜덤 문자 섞고 싶으면 pdf 16강 - 13페이지(random.UUID) 추가하면됨.
+				
+				// c:/upload/20.jpg
+				File file = new File(savePath + saveName);
+				
+				
+				System.out.println("저장경로확인 : " + file.getAbsolutePath());
+				//transferTo() : 이 명령어가 실행된 순간 서버 메모리에서 존재하던 파일이 실제 하드디스크
+				//               c:/upload로 복사된다.
+				upload.transferTo(file); // add throw~ 클릭하여 윗부분에 추가
+				
+				//DB에 저장할 파일명 DTO에 세팅
+				bdto.setB_upload(saveName);
+			}		
+			//DB저장결과
+			boolean result = boardservice.insertBoard(bdto,loginedMember);
+			
+			return result;	 			
 		}
-		//3. 첫번째 이미지 업로드 처리
-		//예외처리: 이미지가 비어있으면 추가되면 안됨		
-		if(upload != null && !upload.isEmpty()) { //사용자가 실제 파일을 선택해서 보냈는지 확인
-			//사용자가 올린 원래 파일명(예: 20.jpg)을 가져온다.
-			String originalName = upload.getOriginalFilename();
-			String saveName = UUID.randomUUID().toString().subSequence(0, 6) + "_" + originalName;//파일명에 랜덤 문자 섞고 싶으면 pdf 16강 - 13페이지(random.UUID) 추가하면됨.
-			
-			// c:/upload/20.jpg
-			File file = new File(savePath + saveName);
-			
-			
-			System.out.println("저장경로확인 : " + file.getAbsolutePath());
-			//transferTo() : 이 명령어가 실행된 순간 서버 메모리에서 존재하던 파일이 실제 하드디스크
-			//               c:/upload로 복사된다.
-			upload.transferTo(file); // add throw~ 클릭하여 윗부분에 추가
-			
-			//DB에 저장할 파일명 DTO에 세팅
-			bdto.setB_upload(saveName);
-		}		
-		//DB저장결과
-		boolean result = boardservice.insertBoard(bdto,loginedMember);
-		
-		return result;	 			
-	}
 	
 	// DB에서 전체 게시글 목록 select로 검색하여 추출
 	@GetMapping("/board/list")
@@ -160,92 +160,92 @@ public class BoardApiController {
 		System.out.println("BoardApiController boardInfo() 메소드호출");
 		
 		MemberDTO loginedMember = (MemberDTO)session.getAttribute("loginUser");	
-			
+		System.out.println(loginedMember);
 		BoardDTO result = boardservice.getOneBoard(bdto,loginedMember);
 
 		return result;		
 	}	
 	
 	// 게시글의 수정
-	@PutMapping("/board/update")
-	public boolean boardUpdate(HttpServletRequest request,
-			BoardDTO bdto,
-	        @RequestParam(value="upload", required=false) MultipartFile upload,
-	        HttpSession session
-	        ) throws IllegalStateException, IOException {
+		@PutMapping("/board/update")
+		public boolean boardUpdate(HttpServletRequest request,
+				BoardDTO bdto,
+		        @RequestParam(value="upload", required=false) MultipartFile upload,
+		        HttpSession session
+		        ) throws IllegalStateException, IOException {
 
-	    System.out.println("BoardApiController boardUpdate() 메소드호출");    
+		    System.out.println("BoardApiController boardUpdate() 메소드호출");    
 
-	    String rootPath = System.getProperty("user.dir");
-        String savePath = rootPath + File.separator + "uploads" + File.separator + "img" + File.separator + "boardImg" + File.separator;
+		    String rootPath = System.getProperty("user.dir");
+	        String savePath = rootPath + File.separator + "uploads" + File.separator + "img" + File.separator + "boardImg" + File.separator;
 
 
-	    File saveDir = new File(savePath);
-	    if(!saveDir.exists()) {
-	        saveDir.mkdirs(); 
-	    }
+		    File saveDir = new File(savePath);
+		    if(!saveDir.exists()) {
+		        saveDir.mkdirs(); 
+		    }
 
-	    MemberDTO loginedMember = (MemberDTO)session.getAttribute("loginUser");
-	    if(loginedMember == null) return false;
+		    MemberDTO loginedMember = (MemberDTO)session.getAttribute("loginUser");
+		    if(loginedMember == null) return false;
 
-	    boolean isAdmin = "admin@resort.com".equals(loginedMember.getM_email());
+		    boolean isAdmin = "admin@resort.com".equals(loginedMember.getM_email());
 
-	    BoardDTO original;
+		    BoardDTO original;
 
-	    if(isAdmin) {
-	        // 관리자는 m_code 조건 없이 조회
-	        original = boardservice.getBoardByBcode(bdto);
-	    } else {
-	        // 일반회원은 본인글만 조회
-	        bdto.setM_code(loginedMember.getM_code());
-	        original = boardservice.getOneBoard(bdto, loginedMember);
-	    }
+		    if(isAdmin) {
+		        // 관리자는 m_code 조건 없이 조회
+		        original = boardservice.getBoardByBcode(bdto);
+		    } else {
+		        // 일반회원은 본인글만 조회
+		        bdto.setM_code(loginedMember.getM_code());
+		        original = boardservice.getOneBoard(bdto, loginedMember);
+		    }
 
-	    if(original == null) {
-	        System.out.println("수정실패");
-	        return false;
-	    }
+		    if(original == null) {
+		        System.out.println("수정실패");
+		        return false;
+		    }
 
-	    //  일반회원만 비밀번호 체크
-	    if(!isAdmin) {
-	        if(!original.getB_pw().equals(bdto.getB_pw())) {
-	            System.out.println("비밀번호가 맞지 않습니다");
-	            return false;
-	        }
-	    }
+		    //  일반회원만 비밀번호 체크
+		    if(!isAdmin) {
+		        if(!original.getB_pw().equals(bdto.getB_pw())) {
+		            System.out.println("비밀번호가 맞지 않습니다");
+		            return false;
+		        }
+		    }
 
-	    String oldFileName = original.getB_upload();
+		    String oldFileName = original.getB_upload();
 
-	    // 새 파일 선택한 경우
-	    if(upload != null && !upload.isEmpty()) {
+		    // 새 파일 선택한 경우
+		    if(upload != null && !upload.isEmpty()) {
 
-	        if(oldFileName != null) {
-	            File oldFile = new File(savePath + oldFileName);
-	            if(oldFile.exists()) {
-	                oldFile.delete();
-	            }
-	        }
+		        if(oldFileName != null) {
+		            File oldFile = new File(savePath + oldFileName);
+		            if(oldFile.exists()) {
+		                oldFile.delete();
+		            }
+		        }
 
-	        String originalName = upload.getOriginalFilename();
-	        String saveName = UUID.randomUUID().toString().substring(0, 6) + "_" + originalName;
+		        String originalName = upload.getOriginalFilename();
+		        String saveName = UUID.randomUUID().toString().substring(0, 6) + "_" + originalName;
 
-	        File newFile  = new File(savePath + saveName);
-	        upload.transferTo(newFile);
+		        File newFile  = new File(savePath + saveName);
+		        upload.transferTo(newFile);
 
-	        bdto.setB_upload(saveName);
+		        bdto.setB_upload(saveName);
 
-	    } else {
-	        bdto.setB_upload(oldFileName);
-	    }
+		    } else {
+		        bdto.setB_upload(oldFileName);
+		    }
 
-	    // 관리자는 m_code 조건 없이 수정
-	    if(isAdmin) {
-	        return boardservice.adminUpdateBoard(bdto);
-	    } else {
-	        bdto.setM_code(loginedMember.getM_code());
-	        return boardservice.updateBoard(bdto,loginedMember);
-	    }
-	}
+		    // 관리자는 m_code 조건 없이 수정
+		    if(isAdmin) {
+		        return boardservice.adminUpdateBoard(bdto);
+		    } else {
+		        bdto.setM_code(loginedMember.getM_code());
+		        return boardservice.updateBoard(bdto,loginedMember);
+		    }
+		}
 
 	// 하나의 게시글을 삭제하는 컨트롤러
 	@DeleteMapping("/board/delete")
@@ -328,43 +328,43 @@ public class BoardApiController {
 	
 	
 	//답글 작성을 처리하는 컨트롤러
-	@PostMapping("/board/reply")
-	public boolean reWrite(
-			HttpServletRequest request,
-			BoardDTO bdto,
-			@RequestParam(value="upload", required=false) MultipartFile upload,
-			HttpSession session
-			) throws IllegalStateException, IOException {
-		System.out.println("BoardApiController reWrite()호출");		
+		@PostMapping("/board/reply")
+		public boolean reWrite(
+				HttpServletRequest request,
+				BoardDTO bdto,
+				@RequestParam(value="upload", required=false) MultipartFile upload,
+				HttpSession session
+				) throws IllegalStateException, IOException {
+			System.out.println("BoardApiController reWrite()호출");		
+			
+			MemberDTO loginedMember = (MemberDTO)session.getAttribute("loginUser");
+			
+			//회원코드 저장
+			bdto.setM_code(loginedMember.getM_code());
+			
+			String rootPath = System.getProperty("user.dir"); 
+	        String savePath = rootPath + File.separator + "uploads" + File.separator + "img" + File.separator + "boardImg" + File.separator;
 		
-		MemberDTO loginedMember = (MemberDTO)session.getAttribute("loginUser");
+			File saveDir = new File(savePath);
+			
+			if(!saveDir.exists()) {
+				saveDir.mkdirs(); //mkdirs() 메소드는 폴더가 없어도 한꺼번에 만들어주는 메소드이다.
+			}
+			
+			if(upload != null && !upload.isEmpty()) { 
+				String originalName = upload.getOriginalFilename();
+				String saveName = UUID.randomUUID().toString().subSequence(0, 6) + "_" + originalName;
 		
-		//회원코드 저장
-		bdto.setM_code(loginedMember.getM_code());
-		
-		String rootPath = System.getProperty("user.dir"); 
-        String savePath = rootPath + File.separator + "uploads" + File.separator + "img" + File.separator + "boardImg" + File.separator;
-	
-		File saveDir = new File(savePath);
-		
-		if(!saveDir.exists()) {
-			saveDir.mkdirs(); //mkdirs() 메소드는 폴더가 없어도 한꺼번에 만들어주는 메소드이다.
+				File file = new File(savePath + saveName);
+				
+				upload.transferTo(file);
+				
+				//DB에 저장할 파일명 DTO에 세팅
+				bdto.setB_upload(saveName);
+			}		
+			boolean isSuccess = boardservice.replyProcess(bdto);
+			
+			return isSuccess;	 
 		}
-		
-		if(upload != null && !upload.isEmpty()) { 
-			String originalName = upload.getOriginalFilename();
-			String saveName = UUID.randomUUID().toString().subSequence(0, 6) + "_" + originalName;
-	
-			File file = new File(savePath + saveName);
-			
-			upload.transferTo(file);
-			
-			//DB에 저장할 파일명 DTO에 세팅
-			bdto.setB_upload(saveName);
-		}		
-		boolean isSuccess = boardservice.replyProcess(bdto);
-		
-		return isSuccess;	 
-	}
 	
 }

@@ -38,7 +38,7 @@
 	
 	<!-- 호텔 정보 총합(가격+ 별점) public List<HotelMergeDTO> getHotelMerge(); -->
 	<select id="getHotelMerge" resultType="HotelMergeDTO">
-		SELECT h.*,MIN(r.price) as hotelPrice,IFNULL(avg(rb.rb_score),0.0) as hotelAvgScore, MAX(maxOccupancy) as hotelMaxOccupancy, IFNULL(COUNT(rb.rb_score),0) as hotelReviewCount FROM hotel h
+		SELECT h.*,MIN(r.price) as hotelPrice,IFNULL(avg(rb.rb_score),0.0) as hotelAvgScore, MAX(maxOccupancy) as hotelMaxOccupancy, MIN(maxOccupancy) as hotelMinOccupancy, IFNULL(COUNT(rb.rb_score),0) as hotelReviewCount FROM hotel h
 		INNER JOIN room r
 		on h.h_code = r.h_code
 		LEFT JOIN reviewboard rb

@@ -85,11 +85,11 @@ export default function AdminPage2(){
     return(
         <>
             <div className="admin_wrap">
-                <h2 className="admin_title">관리자 페이지</h2>
+                <h2 className="admin_title">호텔 정보 조회</h2>
                 <div className="admin_section">
                     <div className="admin_header">
                         <div className="menu_box">
-                            <span className="admin_menu">조회</span>
+                            <span className="admin_menu">조회 <i class="fa-solid fa-caret-down"></i></span>
                             <ul className="admin_submenu">
                                 <li className="a_menus">
                                     <Link to={`/adminPage` } onClick={() => window.scrollTo(0, 0)}>
@@ -114,7 +114,7 @@ export default function AdminPage2(){
                             </ul>
                         </div>
                         <div className="menu_box">
-                            <span className="admin_menu">등록</span>
+                            <span className="admin_menu">등록  <i class="fa-solid fa-caret-down"></i></span>
                             <ul className="admin_submenu">
                                 <li className="a_menus">
                                     <Link to={`/hotelinsert` } onClick={() => window.scrollTo(0, 0)}>
@@ -134,7 +134,7 @@ export default function AdminPage2(){
                             </ul>
                         </div>
                         <div className="menu_box">
-                            <span className="admin_menu">게시판</span>
+                            <span className="admin_menu">게시판 <i class="fa-solid fa-caret-down"></i></span>
                             <ul className="admin_submenu">
                                 <li className="a_menus">
                                     <Link to={`/adminPage5` } onClick={() => window.scrollTo(0, 0)}>
@@ -155,7 +155,7 @@ export default function AdminPage2(){
                         </div>
                     </div>
                     <div className="admin_body">
-                        <div className="admin_text">호텔 정보 조회</div>
+                        {/* <div className="admin_text">호텔 정보 조회</div> */}
                         <div id="search_wrap">
                                 <form  onSubmit={submitHandler}>
                                     <select  className="searchSelect" name="searchType" value={searchType} onChange={(e) => setSearchType(e.target.value)}>
@@ -166,8 +166,13 @@ export default function AdminPage2(){
                                     </select>
                                     
                                     <input className="searchbox" type="text" name="searchKeyword" value={serch} placeholder="검색어를 입력하세요" onChange={(e) => setSerch(e.target.value)}/>
-                                    <input type="submit" value="검색" className="searchBtn" onClick={()=>submitHandler()}/>
-                                    <input type="button" value="전체보기" className="searchBtn" onClick={()=>{setSearchKeyword(""),setSearchType("hotelName"),setSerch(""),setPage(1)}}/>
+                                    <button type="submit" className="btn searchBtn" onClick={()=>submitHandler()} >
+                                        <i className="fa-solid fa-magnifying-glass" style={{color:'#42799b'}}></i> 검색</button>
+                                    <button type="button" className="btn searchBtn" onClick={()=>{setSearchKeyword(""),setSearchType("hotelName"),setSerch(""),setPage(1)}} >
+                                        <i className="fa-solid fa-list" style={{color:'#42799b'}}></i> 전체목록
+                                    </button>
+                                    {/* <input type="submit" value="검색" className="searchBtn" onClick={()=>submitHandler()}/>
+                                    <input type="button" value="전체보기" className="searchBtn" onClick={()=>{setSearchKeyword(""),setSearchType("hotelName"),setSerch(""),setPage(1)}}/> */}
                                 </form>
 					        </div>
                         <div className="admin_list">
@@ -243,18 +248,18 @@ export default function AdminPage2(){
                                                         <p>종료일 : {hotel[num].endDate}</p>
                                                     </li>
                                                     <li>
-                                                        <p>기타시설 : {hotel[num].otherservice}</p>
+                                                        <p>기타시설 : {hotel[num].otherservice.replace(/[\[\]"]/g, " ")}</p>
                                                     </li>
                                                     <li>
-                                                        <p>공용시설 : {hotel[num].publicservice}</p>
+                                                        <p>공용시설 : {hotel[num].publicservice.replace(/[\[\]"]/g, " ")}</p>
                                                     </li>
                                                     <li>
-                                                        <p>객내시설 : {hotel[num].roomservice}</p>
+                                                        <p>객내시설 : {hotel[num].roomservice.replace(/[\[\]"]/g, " ")}</p>
                                                     </li>
                                                 </ul>
                                             </div>
                                             <Link to={`/hotelUpdate/${hotel[num].h_code}`}>
-                                                <button className="updateBtn" style={{color:"#0155ff",marginTop:"20px"}}>
+                                                <button className="updateBtn" style={{color:"#42799b",marginTop:"20px",border: "2px solid #42799b"}}>
                                                     내용 수정하기
                                                 </button>
                                             </Link>

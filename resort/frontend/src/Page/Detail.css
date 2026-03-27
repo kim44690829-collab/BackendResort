@@ -823,6 +823,7 @@ button{
     /* display: flex;
     align-items: center; */
 }
+.modalWrap .room-div .hotel-img-wrap2 .hotel-img,
 .bottom-right .review-wrap .room-div .hotel-img-wrap .hotel-img{
     position: absolute;
     left: 50%;
@@ -914,7 +915,7 @@ button{
     overflow: hidden;
     position: relative;
     border-radius: 5px;
-    margin-right: 15px;
+    margin-right: 25px;
 }
 .room-div .hotel-img-wrap .hotel-img{
     position: absolute;
@@ -922,6 +923,29 @@ button{
     top: 50%;
     transform: translate(-50%, -50%);
     height: 100%;
+}
+.room-div .hotel-img-wrap2{
+    width: 230px !important;
+    height: 230px !important;
+    overflow: hidden;
+    position: relative;
+    border-radius: 5px;
+    margin-right: 25px !important;
+}
+.room-div .review-txt-wrap2{
+    overflow-y: auto;
+    height: 230px;
+    scrollbar-width: thin;
+    scrollbar-color: rgb(125 125 125 / 30%) transparent;
+}
+.room-div .review-txt-wrap2 p{
+    width: 320px;
+}
+.room-div .review-txt-wrap2 .img5{
+    margin-right: 0;
+    height: 13px;
+    width: auto;
+    vertical-align: text-top;
 }
 .room-div .review-txt-wrap p{
     margin-bottom: 4px;

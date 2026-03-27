@@ -12,7 +12,7 @@ export default function AdminPage7(){
     const [reviewlist,setReviewlist] = useState([]);
     const [ph,setPh] = useState({});
     const [page, setPage] = useState(1);
-    const [searchType, setSearchType] = useState("phone");
+    const [searchType, setSearchType] = useState("rb_score");
     const [searchKeyword, setSearchKeyword] = useState("");
     const [serch,setSerch] = useState("")
     const [g,setG] = useState(false)
@@ -57,6 +57,11 @@ export default function AdminPage7(){
 
     // 삭제를 위한 useEffect
     const delHandler=(rb_code)=>{
+        if(!window.confirm("정말 리뷰정보를 삭제하시겠습니까?")){
+           return;
+        }
+
+
         axios.delete('/api/board/deletereview',{
             params: {
                 rb_code: rb_code
@@ -85,11 +90,11 @@ export default function AdminPage7(){
     return(
         <>
             <div className="admin_wrap">
-                <h2 className="admin_title">관리자 페이지</h2>
+                <h2 className="admin_title">리뷰 정보 조회</h2>
                 <div className="admin_section">
                     <div className="admin_header">
                         <div className="menu_box">
-                            <span className="admin_menu">조회</span>
+                            <span className="admin_menu">조회 <i class="fa-solid fa-caret-down"></i></span>
                             <ul className="admin_submenu">
                                 <li className="a_menus">
                                     <Link to={`/adminPage` } onClick={() => window.scrollTo(0, 0)}>
@@ -114,7 +119,7 @@ export default function AdminPage7(){
                             </ul>
                         </div>
                         <div className="menu_box">
-                            <span className="admin_menu">등록</span>
+                            <span className="admin_menu">등록  <i class="fa-solid fa-caret-down"></i></span>
                             <ul className="admin_submenu">
                                 <li className="a_menus">
                                     <Link to={`/hotelinsert` } onClick={() => window.scrollTo(0, 0)}>
@@ -134,7 +139,7 @@ export default function AdminPage7(){
                             </ul>
                         </div>
                         <div className="menu_box">
-                            <span className="admin_menu">게시판</span>
+                            <span className="admin_menu">게시판 <i class="fa-solid fa-caret-down"></i></span>
                             <ul className="admin_submenu">
                                 <li className="a_menus">
                                     <Link to={`/adminPage5` } onClick={() => window.scrollTo(0, 0)}>
@@ -155,18 +160,23 @@ export default function AdminPage7(){
                         </div>
                     </div>
                     <div className="admin_body">
-                        <div className="admin_text">리뷰 정보 조회</div>
+                        {/* <div className="admin_text">리뷰 정보 조회</div> */}
                         <div id="search_wrap">
                                 <form onSubmit={submitHandler}>
                                     <select name="searchType" className="searchSelect" value={searchType} onChange={(e) => setSearchType(e.target.value)}>
                                         <option value="rb_score">별점</option>
-                                        <option value="r_code">객실코드</option>
-                                        <option value="m_code">작성자코드</option>
+                                        <option value="roomName">객실이름</option>
+                                        <option value="m_nickName">작성자닉네임</option>
                                     </select>
                                     
                                     <input className="searchbox" type="text" name="searchKeyword" value={serch} placeholder="검색어를 입력하세요" onChange={(e) => setSerch(e.target.value)}/>
-                                    <input type="submit" value="검색" className="searchBtn" onClick={()=>submitHandler()}/>
-                                    <input type="button" value="전체보기" className="searchBtn" onClick={()=>{setSearchKeyword(""),setSearchType("rb_score"),setSerch(""),setPage(1)}}/>
+                                    <button type="submit" className="btn searchBtn" onClick={()=>submitHandler()} >
+                                        <i className="fa-solid fa-magnifying-glass" style={{color:'#42799b'}}></i> 검색</button>
+                                    <button type="button" className="btn searchBtn" onClick={()=>{setSearchKeyword(""),setSearchType("rb_score"),setSerch(""),setPage(1)}} >
+                                        <i className="fa-solid fa-list" style={{color:'#42799b'}}></i> 전체목록
+                                    </button>
+                                    {/* <input type="submit" value="검색" className="searchBtn" onClick={()=>submitHandler()}/>
+                                    <input type="button" value="전체보기" className="searchBtn" onClick={()=>{setSearchKeyword(""),setSearchType("hotelName"),setSerch(""),setPage(1)}}/> */}
                                 </form>
 					        </div>
                         <div className="admin_list">
@@ -176,8 +186,9 @@ export default function AdminPage7(){
                                         <th width="50px">No.</th>
                                         <th width="50px">별점</th>
                                         <th width="50px">작성일자</th>
-                                        <th width="50px">작성자 코드</th>
-                                        <th width="50px">객실 코드</th>
+                                        <th width="50px">작성자 명</th>
+                                        <th width="120px">호텔 이름</th>
+                                        <th width="120px">객실 이름</th>
                                         <th width="50px">리뷰 삭제 버튼</th>
                                     </tr>
                                 </thead>
@@ -190,10 +201,22 @@ export default function AdminPage7(){
                                         return(
                                             <tr key={index} className="table_head">
                                                 <td>{item.rb_code}</td>
-                                                <td>{item.rb_score}</td>
+                                                <td>
+                                                    {
+                                                        (item.rb_score >= 0 && item.rb_score < 0.5) ? <img className='Mainstar1' src='/img/size13-0-0.png' alt="score" /> :
+                                                        (item.rb_score >= 1 && item.rb_score < 1.5) ? <img className='Mainstar1' src='/img/size13-1-0.png' alt="score" /> :
+                                                        (item.rb_score >= 2 && item.rb_score < 2.5) ? <img className='Mainstar1' src='/img/size13-2-0.png' alt="score" /> :
+                                                        (item.rb_score >= 3 && item.rb_score < 3.5) ? <img className='Mainstar1' src='/img/size13-3-0.png' alt="score" /> :
+                                                        (item.rb_score >= 4 && item.rb_score < 4.5) ? <img className='Mainstar1' src='/img/size13-4-0.png' alt="score" /> :
+                                                        <img className='Mainstar1' src='/img/size13-5-0.png' alt="score" />
+                                                    }
+                                                    {` / ${item.rb_score}점`}
+                                                
+                                                </td>
                                                 <td>{item.rb_date.slice(0,10)}</td>
-                                                <td>{item.m_code}</td>
-                                                <td>{item.r_code}</td>
+                                                <td>{item.m_nickName}</td>
+                                                <td>{item.hotelName}</td>
+                                                <td>{item.roomName}</td>
                                                 <td><button type="button" className="table_btn" onClick={()=>delHandler(item.rb_code)}>리뷰삭제</button></td>
                                             </tr>
                                         )

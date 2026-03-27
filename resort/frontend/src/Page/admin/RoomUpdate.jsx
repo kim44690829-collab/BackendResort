@@ -37,6 +37,9 @@ export default function RoomUpdate(){
     
     //상품 들록하는 submit 함수
     const submitHandler=()=>{
+        if(!window.confirm("입력한 객실 정보로 수정하시겠습니까?")){
+           return;
+        }
         console.log(hotelData)
         console.log(h_code)
         if(hotelData.find((f)=>f.h_code === Number(h_code)) === undefined){
@@ -47,7 +50,7 @@ export default function RoomUpdate(){
             alert("최대 가격을 다시 확인해주세요.");
             return;
         }
-        if(maxOccupancy>4){
+        if(maxOccupancy>8){
             alert("최대 등록 가능한 인원 수를 다시 확인해주세요.");
             return;
         }
@@ -121,11 +124,11 @@ export default function RoomUpdate(){
     return(
         <>
             <div className="admin_wrap">
-                <h2 className="admin_title">관리자 페이지</h2>
+                <h2 className="admin_title">{r_code}번 객실 상품 수정</h2>
                 <div className="admin_section">
                     <div className="admin_header">
                         <div className="menu_box">
-                            <span className="admin_menu">조회</span>
+                            <span className="admin_menu">조회 <i class="fa-solid fa-caret-down"></i></span>
                             <ul className="admin_submenu">
                                 <li className="a_menus">
                                     <Link to={`/adminPage` } onClick={() => window.scrollTo(0, 0)}>
@@ -150,7 +153,7 @@ export default function RoomUpdate(){
                             </ul>
                         </div>
                         <div className="menu_box">
-                            <span className="admin_menu">등록</span>
+                            <span className="admin_menu">등록  <i class="fa-solid fa-caret-down"></i></span>
                             <ul className="admin_submenu">
                                 <li className="a_menus">
                                     <Link to={`/hotelinsert` } onClick={() => window.scrollTo(0, 0)}>
@@ -170,7 +173,7 @@ export default function RoomUpdate(){
                             </ul>
                         </div>
                         <div className="menu_box">
-                            <span className="admin_menu">게시판</span>
+                            <span className="admin_menu">게시판 <i class="fa-solid fa-caret-down"></i></span>
                             <ul className="admin_submenu">
                                 <li className="a_menus">
                                     <Link to={`/adminPage5` } onClick={() => window.scrollTo(0, 0)}>
@@ -191,10 +194,10 @@ export default function RoomUpdate(){
                         </div>
                     </div>
                     <div className="admin_body">
-                        <div className="admin_text" style={{textAlign:"left",width:"800px"}}>{r_code}번 객실 상품 수정</div>
+                        {/* <div className="admin_text" style={{textAlign:"left",width:"800px"}}>{r_code}번 객실 상품 수정</div> */}
                         <div className="admin_list">
                             <table className="list_table"  style={{width:"800px"}}>
-                                <thead >
+                                <thead className="DB_table">
                                     <tr>
                                         <th width="200px">호텔코드</th>
                                         <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>
@@ -220,7 +223,7 @@ export default function RoomUpdate(){
                                         </th>
                                     </tr>
                                     <tr>
-                                        <th width="200px">{`최대인원(4명)`}</th>
+                                        <th width="200px">{`최대인원(8명)`}</th>
                                         <th style={{backgroundColor:"#fff",color:"#333",borderBottom:'1px solid #ddd'}}>
                                             <input type="text" name="maxOccupancy" onChange={(e)=>setMaxOccupancy(e.target.value)} 
                                                 value={maxOccupancy === null? oneData?.maxOccupancy:maxOccupancy} style={{width:"400px",height:"30px"}}
@@ -231,10 +234,10 @@ export default function RoomUpdate(){
                             </table>
                                 <Link to={'/adminpage'}>
                                     <button type="button" className="insertBtn">
-                                        취소하기
+                                        취소하기 <i class="fa fa-times"></i>
                                     </button>
                                 </Link>
-                                <button className="insertBtn" type="button" onClick={submitHandler}>수정하기</button>
+                                <button className="insertBtn" type="button" onClick={submitHandler}>수정하기 <i class="bi bi-pencil"></i></button>
                         </div>
                     </div>
                 </div>

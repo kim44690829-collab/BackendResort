@@ -79,8 +79,8 @@ console.log(WishAvg);
     ////플러스 버튼 클릭
     const plusClick = () =>{
         let copyHead = head;
-        if(copyHead === 30){
-            copyHead = 30;
+        if(copyHead === 8){
+            copyHead = 8;
         }else{
             copyHead++;
         }
@@ -207,7 +207,7 @@ console.log(WishAvg);
                                     <p className='x-icon'>
                                         <i className="fa-solid fa-xmark"></i>
                                     </p>
-                                    <p className='empty-tit'>설정한 날짜에 부합하는 객실이 없습니다.</p>
+                                    <p className='empty-tit'>설정한 인원/날짜에 부합하는 객실이 없습니다.</p>
                                     <p className='empty-txt'>조회날짜를 다시 설정해주세요.</p>
                                     <p className='empty-bottom'>아래 객실들은 설정한 날짜 외 다른 날짜에 투숙 가능한 객실입니다.</p>
                                 </div>
@@ -217,7 +217,7 @@ console.log(WishAvg);
                                     <p className='x-icon'>
                                         <i className="fa-solid fa-xmark"></i>
                                     </p>
-                                    <p className='empty-tit'>설정한 인원에 부합하는 호텔이 없습니다.</p>
+                                    <p className='empty-tit'>설정한 인원/날짜에 부합하는 호텔이 없습니다.</p>
                                     <p className='empty-txt'>호텔별 투숙 가능 인원을 다시 확인해주세요.</p>
                                     <p className='empty-bottom'>아래 호텔들은 설정한 인원보다 투숙 가능한 인원이 적은 객실입니다.</p>
                                 </div>
@@ -242,7 +242,7 @@ console.log(WishAvg);
                                                         <span className='starScore' style={{color:'#000'}}>
                                                             {/* {(WishAvg[filterIndex[index]]?.scoreAvg - Math.floor(WishAvg[filterIndex[index]]?.scoreAvg) === 0) ? WishAvg[filterIndex[index]]?.scoreAvg+'.0' : Math.trunc(WishAvg[filterIndex[index]]?.scoreAvg * 10) / 10} */}
                                                             {WishAvg[filterIndex[index]]?.scoreAvg != null && (
-                                                                ((WishAvg[filterIndex[index]].scoreAvg - Math.floor(WishAvg[filterIndex[index]].scoreAvg)) < 0.5)
+                                                                ((WishAvg[filterIndex[index]].scoreAvg - Math.floor(WishAvg[filterIndex[index]].scoreAvg)) === 0)
                                                                     ? Math.floor(WishAvg[filterIndex[index]].scoreAvg) + '.0'
                                                                     : Math.trunc(WishAvg[filterIndex[index]].scoreAvg * 10) / 10
                                                             )}
@@ -312,10 +312,15 @@ console.log(WishAvg);
                             </div>
                         }
                         <div className="hotel-day" style={{marginTop:'37px'}}>
-                            <p className='day-wrap day-wrap2'>
+                            <p className='day-wrap day-wrap2' style={{cursor:'pointer'}} onClick={ (e)=>{
+                                setCal((Cal === true) ? false : true);
+                                setDayClick(true);
+                                setSelectday([]);
+                                e.stopPropagation();
+                            }}>
                                 {dayClick === true ?
                                 <span className='day-txt'><i style={{color:'#6f6f6f'}} className="fa-solid fa-calendar"></i> 
-                                    {DayData.length < 2 ? `${year}-${month+1}-${date}` : `${DayData[0]}`} ~ {DayData.length < 2 ? `${year}-${month+1}-${date+1}` : `${DayData[1]}`}
+                                    {DayData.length < 2 ? ` 조회할 기간을 설정해주세요.` : `${DayData[0]} ~ ${DayData[1]}`}
                                 </span>
                                 : <span className='day-txt'><i style={{color:'#6f6f6f'}} className="fa-solid fa-calendar"></i> 조회할 기간을 설정해주세요.</span>}
                             </p>
@@ -334,10 +339,10 @@ console.log(WishAvg);
                                 <div className="btns">
                                     <button type='button' onClick={minusClick} className={head === 1 ? 'die' : null} ><i className="fa-solid fa-minus"></i></button>
                                     <span>{head}</span>
-                                    <button type='button' onClick={plusClick} className={head === 30 ? 'die' : null}><i className="fa-solid fa-plus"></i></button>
+                                    <button type='button' onClick={plusClick} className={head === 8 ? 'die' : null}><i className="fa-solid fa-plus"></i></button>
                                 </div>
                             </div>
-                            <button type='button' className='search' onClick={()=>{searchClick();setCal(false);}}>조회하기</button>
+                            <button type='button' className='search' onClick={()=>{searchClick();setCal(false);setDayClick(true);}}>조회하기</button>
                         </div>
                         <div className="hotel-select">
                             <p className='select-tit'>조회 전 참고사항</p>
