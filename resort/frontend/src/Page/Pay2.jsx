@@ -146,7 +146,7 @@ export default function Pay2(){
                     </table>
                     <div className="pay2_btns">
                         <Link to={'/'}>
-                            <button className="pay2_btn move_main" type="button">홈으로 이동</button>
+                            <button className="pay2_btn move_main" type="button" onClick={()=>window.scrollTo(0,0)}>홈으로 이동</button>
                         </Link>
                     </div>
                 </div>

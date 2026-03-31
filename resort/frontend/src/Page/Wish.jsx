@@ -44,7 +44,7 @@ console.log(wishArray);
 console.log(wishStar);
 console.log(WishAvg);
 //console.log(wishMinMax);
-//console.log(wishRoom);
+///console.log(wishRoom);
 
 
 
@@ -104,6 +104,8 @@ console.log(WishAvg);
         setDayClick(false);
         setSearch(false);
         setCal(false);
+        window.scrollTo(0,0);
+        window.location.reload();
     }
 
 
@@ -171,6 +173,14 @@ console.log(WishAvg);
     console.log(wishArray);
 
     const [dayClick, setDayClick] = useState(false);
+    
+    //필터링 후 삭제시 새로고침
+    useEffect(() => {
+        if (search) {
+            searchClick();
+        }
+    }, [wishArray]);
+    
 
 
     return(
@@ -207,7 +217,7 @@ console.log(WishAvg);
                                     <p className='x-icon'>
                                         <i className="fa-solid fa-xmark"></i>
                                     </p>
-                                    <p className='empty-tit'>설정한 인원/날짜에 부합하는 객실이 없습니다.</p>
+                                    <p className='empty-tit'>설정한 날짜에 부합하는 객실이 없습니다.</p>
                                     <p className='empty-txt'>조회날짜를 다시 설정해주세요.</p>
                                     <p className='empty-bottom'>아래 객실들은 설정한 날짜 외 다른 날짜에 투숙 가능한 객실입니다.</p>
                                 </div>
@@ -217,7 +227,7 @@ console.log(WishAvg);
                                     <p className='x-icon'>
                                         <i className="fa-solid fa-xmark"></i>
                                     </p>
-                                    <p className='empty-tit'>설정한 인원/날짜에 부합하는 호텔이 없습니다.</p>
+                                    <p className='empty-tit'>설정한 인원에 부합하는 호텔이 없습니다.</p>
                                     <p className='empty-txt'>호텔별 투숙 가능 인원을 다시 확인해주세요.</p>
                                     <p className='empty-bottom'>아래 호텔들은 설정한 인원보다 투숙 가능한 인원이 적은 객실입니다.</p>
                                 </div>
@@ -251,7 +261,7 @@ console.log(WishAvg);
                                                         <span className='scoreCount'>{(WishAvg[filterIndex[index]]?.reviewCount)?.toLocaleString()}명 평가</span>
                                                     </div>
                                                     <div className="intro-right">
-                                                        <button type='button' className='pay' onClick={()=>wishHandler(item.h_code)}>
+                                                        <button type='button' className='pay' onClick={()=>{wishHandler(item.h_code)}}>
                                                             찜 삭제하기<i className="fa-solid fa-angle-right"></i>
                                                         </button>
                                                     </div>
@@ -330,7 +340,7 @@ console.log(WishAvg);
                                 setSelectday([]);
                                 e.stopPropagation();
                             }}>조회기간 설정</button>
-                            <button type='button' style={{width:'37%',marginLeft:'6px'}} className='btn2' onClick={resetHead}><i className="fa-solid fa-arrow-rotate-right"></i> 초기화</button>
+                            <button type='button' style={{width:'37%',marginLeft:'6px'}} className='btn2' onClick={()=>{resetHead();}}><i className="fa-solid fa-arrow-rotate-right"></i> 초기화</button>
                         </div>
                         <div className="hotel-headcount">
                             <p className='head-tit'>투숙인원 설정</p>
@@ -342,7 +352,7 @@ console.log(WishAvg);
                                     <button type='button' onClick={plusClick} className={head === 8 ? 'die' : null}><i className="fa-solid fa-plus"></i></button>
                                 </div>
                             </div>
-                            <button type='button' className='search' onClick={()=>{searchClick();setCal(false);setDayClick(true);}}>조회하기</button>
+                            <button type='button' className='search' onClick={()=>{searchClick();setCal(false);setDayClick(true);window.scrollTo(0,0);}}>조회하기</button>
                         </div>
                         <div className="hotel-select">
                             <p className='select-tit'>조회 전 참고사항</p>

@@ -236,6 +236,11 @@ export default function HotelUpdate(){
                                 </li>
                             </ul>
                         </div>
+                        <div className="menu_box">
+                            <Link to={`/dashboard`} onClick={() => window.scrollTo(0, 0)}>
+                            <span className="admin_menu">통계</span>
+                            </Link>
+                        </div>
                     </div>
                     <div className="admin_body">
                         {/* <div className="admin_text" style={{textAlign:"left",width:"800px"}}>{h_code}번 호텔 수정하기</div> */}
@@ -505,7 +510,7 @@ export default function HotelUpdate(){
                                     </tr>
                                 </thead>
                             </table>
-                                <Link to={'/adminpage'}>
+                                <Link to={'/adminpage2'} onClick={() => window.scrollTo(0, 0)}>
                                     <button type="button" className="insertBtn">
                                         취소하기 <i class="fa fa-times"></i>
                                     </button>

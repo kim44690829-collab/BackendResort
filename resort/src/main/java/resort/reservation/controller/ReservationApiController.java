@@ -224,15 +224,22 @@ public class ReservationApiController {
 	// 리뷰 상태 업데이트
 	@PutMapping("/reservation/reviewStatusMod")
 	public int reviewStatusMod() {
-		System.out.println("MemberApiController : reviewStatusMod!!!!!!!!!! 메서드 확인");
+		System.out.println("reservationApiController : reviewStatusMod!!!!!!!!!! 메서드 확인");
 		return reservationservice.reviewStatusMod();
 	}
 	
 	// 리뷰 작성후 업데이트
 	@PutMapping("/reservation/resMod")
 	public int reviewMod(@RequestParam("re_code") int re_code) {
-		System.out.println("MemberApiController : reviewMod!!!!!!!!!! 메서드 확인");
+		System.out.println("reservationApiController : reviewMod!!!!!!!!!! 메서드 확인");
 		return reservationservice.reviewMod(re_code);
+	}
+	
+	// 예약하나를 찾는 컨트롤러 - 중복 예약 방지
+	@GetMapping("/reservationChk")
+	public int reservationChk(@RequestParam("r_code") int r_code, @RequestParam("check_in_date") String check_in_date, @RequestParam("check_out_date") String check_out_date) {
+		System.out.println("reservationApiController : reservationChk!!!!!!!!!! 메서드 확인");
+		return reservationservice.reservationChk(r_code, check_in_date, check_out_date);
 	}
 	
 }

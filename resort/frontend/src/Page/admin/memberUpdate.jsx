@@ -150,6 +150,11 @@ export default function MemberUdate(){
                                 </li>
                             </ul>
                         </div>
+                        <div className="menu_box">
+                            <Link to={`/dashboard`} onClick={() => window.scrollTo(0, 0)}>
+                            <span className="admin_menu">통계</span>
+                            </Link>
+                        </div>
                     </div>
                     <div className="admin_body">
                         {/* <div className="admin_text" style={{textAlign:"left",width:"600px"}}>회원 정보 수정</div> */}
@@ -201,7 +206,7 @@ export default function MemberUdate(){
                                     </tr>
                                 </thead>
                             </table>
-                                <Link to={'/adminpage'}>
+                                <Link to={'/adminpage'} onClick={() => window.scrollTo(0, 0)}>
                                     <button className="insertBtn" type="button">
                                         취소하기 <i class="fa fa-times"></i>
                                     </button>

@@ -148,4 +148,10 @@ public class ReservationServiceImpl implements ReservationService {
 		System.out.println("ReservationServiceImpl : reviewStatusUpdate() 메서드 확인");
 		reservationmapper.reviewStatusUpdate();
 	}
+
+	@Override
+	public int reservationChk(int r_code, String check_in_date, String check_out_date) {
+		System.out.println("ReservationServiceImpl : reservationChk() 메서드 확인");
+		return reservationmapper.reservationChk(r_code, check_in_date, check_out_date);
+	}
 }

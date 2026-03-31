@@ -38,6 +38,7 @@ import NoticeUpdate from './Page/admin/NoticeUpdate'
 import MyPage from './Page/mypage/MyPage'
 import ForgotPassword from './Page/ForgotPassword'
 import ResetPassword from './Page/ResetPassword'
+import Dashboard from './Page/admin/Dashboard'
 
 
 function App() {
@@ -73,6 +74,7 @@ function App() {
             <Route path='/hotelinsert' element={<HotelInsert />} />
             <Route path='/roominsert' element={<RoomInsert />} />
             <Route path='/noticeinsert' element={<NoticeInsert />} />
+            <Route path='/dashboard' element={<Dashboard />} />
             <Route path='/roomUpdate/:r_code' element={<RoomUpdate />} />
             <Route path='/hotelUpdate/:h_code' element={<HotelUpdate />} />
             <Route path='/memberUpdate/:m_code' element={<MemberUdate />} />

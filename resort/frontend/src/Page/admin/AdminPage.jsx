@@ -5,7 +5,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 
 export default function AdminPage(){
-    // 주석 03-16
+    /// 주석 03-16
     const {userEmail} = useContext(ResortDataContext)
 
     const [members,setMembers] = useState([]);
@@ -167,6 +167,11 @@ export default function AdminPage(){
                                     </li>
                                 </ul>
                             </span>
+                        </div>
+                        <div className="menu_box">
+                            <Link to={`/dashboard`} onClick={() => window.scrollTo(0, 0)}>
+                            <span className="admin_menu">통계</span>
+                            </Link>
                         </div>
                     </div>
                     <div className="admin_body">

@@ -96,4 +96,7 @@ public interface ReservationService {
 		
 	// 리뷰 자동 업데이트
 	public void reviewStatusUpdate();
+	
+	// 예약하나를 찾는 컨트롤러 - 중복 예약 방지
+	public int reservationChk(int r_code, String check_in_date, String check_out_date);
 }

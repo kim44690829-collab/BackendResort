@@ -166,6 +166,11 @@ export default function AdminPage5(){
                                 </li>
                             </ul>
                         </div>
+                        <div className="menu_box">
+                            <Link to={`/dashboard`} onClick={() => window.scrollTo(0, 0)}>
+                            <span className="admin_menu">통계</span>
+                            </Link>
+                        </div>
                     </div>
                     <div className="admin_body">
                         {/* <div className="admin_text">1대1 문의 게시판 조회</div> */}

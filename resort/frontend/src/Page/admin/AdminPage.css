@@ -88,6 +88,122 @@
     padding: 100px 0;
     min-height: 650px;
 }
+
+
+.admin_wrap .admin_body .g_g{
+    width: 1400px;
+    margin: 0 auto;
+}
+.admin_wrap .admin_body .g_g .graph{
+    width: fit-content;
+    margin: 0 auto;
+}
+.admin_wrap .admin_body .g_g .graph.row{
+    width: 1230px;
+    margin: 50px auto;
+}
+.admin_wrap .admin_body .g_g .graph.row .row_wrap::after,
+.admin_wrap .admin_body .g_g .graph::after{
+    content: '';
+    display: block;
+    clear: both;
+}
+
+.admin_wrap .admin_body .g_g .graph.row .row_wrap img,
+.admin_wrap .admin_body .g_g .graph.row .row_wrap .graybox{
+    float: left;
+    margin: 25px;
+}
+.admin_wrap .admin_body .g_g .graph.row .row_wrap img{
+    width: 55%;
+    margin-right: 0;
+}
+.admin_wrap .admin_body .g_g .graph.row .row_wrap .graybox{
+    width: 39%;
+    position: absolute;
+    bottom: 15px;
+    right: 8px;
+}
+
+
+.admin_wrap .admin_body .g_g .graph .tit{
+    margin-bottom: -55px;
+    text-align: left;
+    margin-left: 40px;
+    padding-top: 44px;
+}
+.admin_wrap .admin_body .g_g .graph.row .row_wrap{
+    margin-top: 60px;
+    position: relative;
+}
+
+.admin_wrap .admin_body .g_g .graph .tit img{
+    vertical-align: bottom;
+    padding-right: 10px;
+}
+.admin_wrap .admin_body .g_g .graph .tit span{
+    font-size: 23px;
+    font-weight: 600;
+    color: #555555;
+}
+
+.admin_wrap .admin_body .g_g .graph .graybox{
+    background-color: #f5f7fa;
+    margin: 25px;
+    border-radius: 15px;
+    min-height: 140px;
+    margin-top: -49px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+}
+.admin_wrap .admin_body .g_g .graph .graybox .desc{
+    line-height: 24px;
+    font-size: 22px;
+    font-weight: 500;
+}
+.admin_wrap .admin_body .g_g .graph .graybox .whitebox .txt .graphTd1{
+    width: 100px;
+    font-weight: bold;
+    text-align: center;
+    padding: 30px;
+}
+.admin_wrap .admin_body .g_g .graph .graybox .whitebox .txt .graphTd2{
+    width: 100px;
+    font-weight: bold;
+    padding-bottom: 15px;
+    padding-top: 15px;
+}
+.admin_wrap .admin_body .g_g .graph .graybox .whitebox .txt .graphTd1-1{
+    line-height: 25px;
+}
+.admin_wrap .admin_body .g_g .graph .graybox .whitebox .txt .graphTd2-1{
+    line-height: 25px;
+}
+.admin_wrap .admin_body .g_g .graph .whitebox{
+    background-color: #fff;
+    margin: 17px;
+    border-radius: 15px;
+    min-height: 105px;
+    padding: 15px 25px;
+}
+.admin_wrap .admin_body .g_g .graph .whitebox .txt{
+    line-height: 25px;
+    text-align: left;
+}
+.admin_wrap .admin_body .g_g .graph1{
+    margin-right: 30px;
+}
+.admin_wrap .admin_body .g_g .graph1,
+.admin_wrap .admin_body .g_g .graph2
+{
+    float: left;
+    border: 1px solid #ddd;
+    border-radius: 36px;
+    width: 600px;
+}
+.admin_wrap .admin_body .g_g .graph.row .graph1{
+    width: 100%;
+}
 .admin_wrap .admin_body .admin_text{
     width: 1400px;
     margin: 0 auto;

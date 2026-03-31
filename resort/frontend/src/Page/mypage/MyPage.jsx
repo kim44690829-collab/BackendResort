@@ -111,27 +111,59 @@ export default function MyPage(){
     }
 
     // 예약취소
-    const reserveCancel = (code) => {
+    // const reserveCancel = (code) => {
+    //     if(!window.confirm("정말 취소하시겠습니까?")){
+    //        return;
+    //     }
+    //     axios.put('/api/reservation/cancel',null,{params:{re_code:code}})
+    //     .then((res) => {
+    //         // console.log("-----------------------------------------");
+    //         // console.log(res.data);
+    //         if(res.data === true){
+    //             alert("예약이 취소 되었습니다");
+    //             fetchMyPage();
+    //             setListType(1);
+    //             setListView(true);
+    //             setDetailView(0);
+    //         }else{
+    //             alert("예약취소 실패");
+    //         }
+    //     })
+    //     .catch((error) => {
+    //         console.error("error", error)
+    //     })
+    // }
+
+    //예약취소
+    const reserveCancel = async (code) => {
         if(!window.confirm("정말 취소하시겠습니까?")){
-           return;
+            return;
         }
-        axios.put('/api/reservation/cancel',null,{params:{re_code:code}})
-        .then((res) => {
-            // console.log("-----------------------------------------");
-            // console.log(res.data);
+
+        try{
+            const res = await axios.put('/api/reservation/cancel', null, {
+                params: { re_code: code }
+            });
+
             if(res.data === true){
                 alert("예약이 취소 되었습니다");
-                fetchMyPage();
+
+                await fetchMyPage(); // 데이터 최신화
+
+                // if(search){
+                //     searchClick(); // 필터 다시 적용
+                // }
+
                 setListType(1);
                 setListView(true);
                 setDetailView(0);
+
             }else{
                 alert("예약취소 실패");
             }
-        })
-        .catch((error) => {
-            console.error("error", error)
-        })
+        }catch(error){
+            console.error("error", error);
+        }
     }
     
     // 왼쪽 리스트 클릭시 컨텐츠 전환
@@ -454,70 +486,156 @@ export default function MyPage(){
         // console.log('userNickName',userNickName)
         const memberNum = MemberAllData.find(m => m.m_nickName === userNickName)?.m_code;
         // console.log('memberNum', memberNum)
-    
-        const reviewSend = async () => {
 
+        
+        // const reviewSend = async () => {
+
+        //     try{
+        //         const res = await axios.post('/api/board/reviewSend', {rb_score: rating, m_code : memberNum, r_code: roomCode, re_code : reviewIndex})
+        //         if(res.data === 1){
+        //             // console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',res.data)
+        //             setModalContent(<p style={{fontSize:'18px',fontWeight:'700'}}>리뷰를 작성해주셔서 감사합니다.</p>)
+        //             toggle();
+        //             const res02 = await axios.put('/api/reservation/resMod', null,{
+        //                 params:{
+        //                     re_code : reviewIndex
+        //                 }
+        //             })
+        //             // console.log(res02.data)
+        //             setReviewCom(prev => prev + 1);
+        //             setStar1(false);
+        //             setStar2(false);
+        //             setStar3(false);
+        //             setStar4(false);
+        //             setStar5(false);
+        //             setRating(0)
+        //             setIsOpen(false);
+        //         }else{
+        //             setModalContent(<p style={{fontSize:'18px',fontWeight:'700'}}>리뷰 작성에 실패하였습니다.</p>)
+        //             toggle();
+        //         }
+
+        //     }catch(err){
+        //         console.error(err)
+        //     }
+
+        // }
+
+        //리뷰작성
+        const reviewSend = async () => {
             try{
-                const res = await axios.post('/api/board/reviewSend', {rb_score: rating, m_code : memberNum, r_code: roomCode, re_code : reviewIndex})
+                const res = await axios.post('/api/board/reviewSend', {
+                    rb_score: rating,
+                    m_code : memberNum,
+                    r_code: roomCode,
+                    re_code : reviewIndex
+                });
+
                 if(res.data === 1){
-                    // console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',res.data)
-                    setModalContent(<p style={{fontSize:'18px',fontWeight:'700'}}>리뷰를 작성해주셔서 감사합니다.</p>)
+                    setModalContent(<p style={{fontSize:'18px',fontWeight:'700'}}>리뷰를 작성해주셔서 감사합니다.</p>);
                     toggle();
-                    const res02 = await axios.put('/api/reservation/resMod', null,{
-                        params:{
-                            re_code : reviewIndex
-                        }
-                    })
-                    // console.log(res02.data)
+
+                    await axios.put('/api/reservation/resMod', null, {
+                        params:{ re_code : reviewIndex }
+                    });
+
+                    await fetchMyPage(); //  추가
+
+                    // if(search){
+                    //     searchClick(); //  추가
+                    // }
+
                     setReviewCom(prev => prev + 1);
+
                     setStar1(false);
                     setStar2(false);
                     setStar3(false);
                     setStar4(false);
                     setStar5(false);
-                    setRating(0)
+                    setRating(0);
                     setIsOpen(false);
+
                 }else{
-                    setModalContent(<p style={{fontSize:'18px',fontWeight:'700'}}>리뷰 작성에 실패하였습니다.</p>)
+                    setModalContent(<p style={{fontSize:'18px',fontWeight:'700'}}>리뷰 작성에 실패하였습니다.</p>);
                     toggle();
                 }
 
             }catch(err){
-                console.error(err)
+                console.error(err);
             }
-
         }
 
 
         
-        const reviewMod = () => {
+        // const reviewMod = () => {
 
-            axios.put('/api/board/reviewMod', null,{
-                params: {
-                    re_code: reviewIndex, 
-                    rb_score: rating
-                }
-            })
-            .then((res) => {
+        //     axios.put('/api/board/reviewMod', null,{
+        //         params: {
+        //             re_code: reviewIndex, 
+        //             rb_score: rating
+        //         }
+        //     })
+        //     .then((res) => {
+        //         if(res.data === 1){
+        //             setModalContent(<p style={{fontSize:'18px',fontWeight:'700'}}>리뷰를 수정하셨습니다.</p>)
+        //             toggle();
+        //         }else{
+        //             setModalContent(<p style={{fontSize:'18px',fontWeight:'700'}}>리뷰 수정에 실패하였습니다.</p>)
+        //             toggle();
+        //         }
+        //         // console.log('리뷰?????????',res.data)
+        //         setReviewCom(prev => prev + 1);
+        //         setStar1(false);
+        //         setStar2(false);
+        //         setStar3(false);
+        //         setStar4(false);
+        //         setStar5(false);
+        //         setRating(0)
+        //         setIsOpen(false)
+                
+        //     })
+        // }
+        //리뷰수정
+        const reviewMod = async () => {
+            try{
+                const res = await axios.put('/api/board/reviewMod', null, {
+                    params: {
+                        re_code: reviewIndex,
+                        rb_score: rating
+                    }
+                });
+
                 if(res.data === 1){
-                    setModalContent(<p style={{fontSize:'18px',fontWeight:'700'}}>리뷰를 수정하셨습니다.</p>)
+                    setModalContent(<p style={{fontSize:'18px',fontWeight:'700'}}>리뷰를 수정하셨습니다.</p>);
                     toggle();
+
+                    await fetchMyPage(); //  추가
+
+                    // if(search){
+                    //     searchClick(); //  추가
+                    // }
+
                 }else{
-                    setModalContent(<p style={{fontSize:'18px',fontWeight:'700'}}>리뷰 수정에 실패하였습니다.</p>)
+                    setModalContent(<p style={{fontSize:'18px',fontWeight:'700'}}>리뷰 수정에 실패하였습니다.</p>);
                     toggle();
                 }
-                // console.log('리뷰?????????',res.data)
+
                 setReviewCom(prev => prev + 1);
+
                 setStar1(false);
                 setStar2(false);
                 setStar3(false);
                 setStar4(false);
                 setStar5(false);
-                setRating(0)
-                setIsOpen(false)
-                
-            })
+                setRating(0);
+                setIsOpen(false);
+
+            }catch(error){
+                console.error("error", error);
+            }
         }
+
+
         const [status, setStatus] = useState(null);
         const reviewModalOpen = (item) => {
             setRoomCode(item.r_code);
@@ -558,6 +676,12 @@ export default function MyPage(){
         Venice: '베네치아',
         Paris: '파리'
     };
+
+    useEffect(() => {
+        if (search) {
+            searchClick();
+        }
+    }, [myPage]);
 
     return(
         <div className="reserVation_container">
@@ -620,7 +744,7 @@ export default function MyPage(){
                                                         <Fragment key={item.re_code}>
                                                             <li style={{padding: '0',background: 'transparent',marginBottom: '10px'}}>
                                                                 <p className='room-title wish'>{item.reserved_at?.slice(0, 10)}({['일','월','화','수','목','금','토'][new Date(item.reserved_at?.slice(0,10)).getDay()]}) 예약건
-                                                                    <span className='del detail' onClick={()=>contentHandeler(item.re_code)}>상세보기 <i className="fa-solid fa-angle-right"></i></span>
+                                                                    <span className='del detail' onClick={()=>{contentHandeler(item.re_code);window.scrollTo(0, 0);}}>상세보기 <i className="fa-solid fa-angle-right"></i></span>
                                                                     {item.check_in_date.slice(0,10) > today && ( 
                                                                         <span className='del' onClick={()=>{reserveCancel(item.re_code)}}><i className="fa-solid fa-ban" style={{color:'#f94239'}}></i> 취소하기</span>
                                                                     )}
@@ -716,7 +840,7 @@ export default function MyPage(){
                                                         <Fragment key={item.re_code}>
                                                         <li style={{padding: '0',background: 'transparent',marginBottom: '10px'}}>
                                                             <p className='room-title wish'>{item.reserved_at?.slice(0, 10)}({['일','월','화','수','목','금','토'][new Date(item.reserved_at?.slice(0,10)).getDay()]}) 예약건
-                                                                <span className='del detail' onClick={()=>contentHandeler(item.re_code)}>상세보기 <i className="fa-solid fa-angle-right"></i></span>
+                                                                <span className='del detail' onClick={()=>{contentHandeler(item.re_code);window.scrollTo(0, 0);}}>상세보기 <i className="fa-solid fa-angle-right"></i></span>
                                                                 {item.check_in_date.slice(0,10) > today && ( 
                                                                     <span className='del' onClick={()=>{reserveCancel(item.re_code)}}><i className="fa-solid fa-ban" style={{color:'#f94239'}}></i> 취소하기</span>
                                                                 )}
@@ -830,10 +954,10 @@ export default function MyPage(){
                                             setSelectday([]);
                                             e.stopPropagation();
                                         }}>조회기간 설정</button>
-                                        <button type='button' style={{width:'37%',marginLeft:'6px'}} className='search' onClick={()=>{setDayClick(false);setListType(1);setListView(true);setDetailView(0);setSearch(false);setCal(false);}}><i className="fa-solid fa-arrow-rotate-right"></i> 초기화</button>
+                                        <button type='button' style={{width:'37%',marginLeft:'6px'}} className='search' onClick={()=>{setDayClick(false);setListType(1);setListView(true);setDetailView(0);setSearch(false);setCal(false);window.scrollTo(0,0);}}><i className="fa-solid fa-arrow-rotate-right"></i> 초기화</button>
                                     </div>
                                     <div className="hotel-headcount">
-                                        <button type='button' className='search' onClick={()=>{searchClick();setCal(false);}}>조회하기</button>
+                                        <button type='button' className='search' onClick={()=>{searchClick();setCal(false);setDayClick(true);window.scrollTo(0,0);}}>조회하기</button>
                                     </div>
                                     <div className="reserve-select">
                                         <p className='select-tit'>조회 전 참고사항</p>
@@ -875,7 +999,7 @@ export default function MyPage(){
                                                         <div className="room-right">
                                                             <h2><Link to={`/detail/${item.h_code}`} onClick={() => window.scrollTo(0,0)}>{item.hotelName}</Link></h2>
                                                             <div className="intro-right">
-                                                                <button type='button' className='pay' onClick={()=>navigate(`/detail/${item.h_code}`)}>
+                                                                <button type='button' className='pay' onClick={()=>{navigate(`/detail/${item.h_code}`);window.scrollTo(0, 0);}}>
                                                                     상세보기<i className="fa-solid fa-angle-right"></i>
                                                                 </button>
                                                             </div>
@@ -1002,7 +1126,7 @@ export default function MyPage(){
                                                                 color: '#495057'
                                                             }}> 리뷰기간만료</span>
                                                         )}                                                           
-                                                        <span className='del detail' onClick={()=>{setListType(1);setListView(true);setDetailView(0);}}>전체목록<i className="fa-solid fa-angle-right"></i></span>
+                                                        <span className='del detail' onClick={()=>{setListType(1);setListView(true);setDetailView(0);window.scrollTo(0, 0);}}>전체목록<i className="fa-solid fa-angle-right"></i></span>
                                                     </div>
                                                 </div>
                                                 </Fragment>
@@ -1043,7 +1167,7 @@ export default function MyPage(){
                                                     <Fragment key={item.re_code}>
                                                         <li style={{padding: '0',background: 'transparent',marginBottom: '10px'}}>
                                                             <p className='room-title wish'>{item.cancel_date?.slice(0, 10)}({['일','월','화','수','목','금','토'][new Date(item.cancel_date?.slice(0,10)).getDay()]}) 취소건
-                                                                <span className='del detail' onClick={()=>contentHandeler(item.re_code)}>상세보기 <i className="fa-solid fa-angle-right"></i></span>                                                           
+                                                                <span className='del detail' onClick={()=>{contentHandeler(item.re_code);window.scrollTo(0, 0);}}>상세보기 <i className="fa-solid fa-angle-right"></i></span>                                                           
                                                             </p>
                                                         </li>
                                                         <li>
@@ -1094,7 +1218,7 @@ export default function MyPage(){
                                                     <Fragment key={item.re_code}>
                                                     <li style={{padding: '0',background: 'transparent',marginBottom: '10px'}}>
                                                         <p className='room-title wish'>{item.cancel_date?.slice(0, 10)}({['일','월','화','수','목','금','토'][new Date(item.cancel_date?.slice(0,10)).getDay()]}) 취소건
-                                                            <span className='del detail' onClick={()=>contentHandeler(item.re_code)}>상세보기 <i className="fa-solid fa-angle-right"></i></span>
+                                                            <span className='del detail' onClick={()=>{contentHandeler(item.re_code);window.scrollTo(0, 0);}}>상세보기 <i className="fa-solid fa-angle-right"></i></span>
                                                         </p>
                                                     </li>
                                                     <li>
@@ -1169,10 +1293,10 @@ export default function MyPage(){
                                             setSelectday([]);
                                             e.stopPropagation();
                                         }}>조회기간 설정</button>
-                                        <button type='button' style={{width:'37%',marginLeft:'6px'}} className='search' onClick={()=>{setDayClick(false);setListType(2);setListView(true);setDetailView(0);setSearch(false);setCal(false);}}><i className="fa-solid fa-arrow-rotate-right"></i> 초기화</button>
+                                        <button type='button' style={{width:'37%',marginLeft:'6px'}} className='search' onClick={()=>{setDayClick(false);setListType(2);setListView(true);setDetailView(0);setSearch(false);setCal(false);window.scrollTo(0,0);}}><i className="fa-solid fa-arrow-rotate-right"></i> 초기화</button>
                                     </div>
                                     <div className="hotel-headcount">                                        
-                                        <button type='button' className='search' onClick={()=>{searchClick2();setCal(false);}}>조회하기</button>
+                                        <button type='button' className='search' onClick={()=>{searchClick2();setCal(false);setDayClick(true);window.scrollTo(0,0);}}>조회하기</button>
                                     </div>
                                     <div className="reserve-select">
                                         <p className='select-tit'>조회 전 참고사항</p>
@@ -1210,7 +1334,7 @@ export default function MyPage(){
                                                     <div className="room-right">
                                                         <h2><Link to={`/detail/${item.h_code}`} onClick={() => window.scrollTo(0,0)}>{item.hotelName}</Link></h2>
                                                         <div className="intro-right">
-                                                            <button type='button' className='pay' onClick={()=>navigate(`/detail/${item.h_code}`)}>
+                                                            <button type='button' className='pay' onClick={()=>{navigate(`/detail/${item.h_code}`);window.scrollTo(0, 0);}}>
                                                                 상세보기<i className="fa-solid fa-angle-right"></i>
                                                             </button>
                                                         </div>
@@ -1319,7 +1443,7 @@ export default function MyPage(){
                                                 </table>
                                                                                                
                                                 <div className="buttons">                                                        
-                                                    <span className='del detail' onClick={()=>{setListType(2);setListView(true);setDetailView(0);}}>전체목록<i className="fa-solid fa-angle-right"></i></span>
+                                                    <span className='del detail' onClick={()=>{setListType(2);setListView(true);setDetailView(0);window.scrollTo(0, 0);}}>전체목록<i className="fa-solid fa-angle-right"></i></span>
                                                 </div>
                                             </div>
                                             </Fragment>

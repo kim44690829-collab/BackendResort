@@ -458,13 +458,24 @@ export default function Detail(){
         //searchFilterHandler();
     }
 
-        
-
-    const roomsToShow = (
-    search
-        ? (resultRooms.length > 0 ? resultRooms : Room)
+    
+    const roomsToShow = search
+    ? (
+        // 정상적으로 검색 결과가 있을 때만 필터된 결과 사용
+        resultRooms.length > 0
+            ? resultRooms
+            // 결과 없으면 전체 객실 보여주기 (필터X)
             : Room
-    ).filter(room => Number(room.maxOccupancy) >= Number(guestCount));
+      )
+    : Room;
+
+    // const roomsToShow = (
+    // search
+    //     ? (resultRooms.length > 0 ? resultRooms : Room)
+    //         : Room
+    // ).filter(room => Number(room.maxOccupancy) >= Number(guestCount));
+
+
     // console.log('roomsToShow', roomsToShow)
     // console.log('search', search)
     // console.log('resultRooms', resultRooms)
@@ -515,7 +526,7 @@ export default function Detail(){
             <section className="detail-wrap">
                 {slider &&
                     <div className='hotel-modal-Overlay' onClick={()=>setSlider(false)}>
-                        <div className="hotel-img-slider">
+                        <div className="hotel-img-slider" onClick={(e) => e.stopPropagation()}>
                             <button className='closeBtn' onClick={()=>setSlider(false)}>
                                 <i className="fa-solid fa-xmark"></i>
                             </button>
@@ -781,13 +792,33 @@ export default function Detail(){
                                                         </>
                                                     }
                                                     <button type="button" className="pay"
-                                                    disabled={search && !availableSet.has(item.r_code)}
-                                                    style={{ cursor: (search && !availableSet.has(item.r_code)) ? 'not-allowed' : 'pointer' }}
+                                                    // disabled={search && !availableSet.has(item.r_code)}
+                                                    // style={{ cursor: (search && !availableSet.has(item.r_code)) ? 'not-allowed' : 'pointer' }}
+
+                                                    disabled={
+                                                        (search && !availableSet.has(item.r_code)) ||
+                                                        item.maxOccupancy < guestCount
+                                                    }
+                                                    style={{
+                                                        cursor:
+                                                            (search && !availableSet.has(item.r_code)) ||
+                                                            item.maxOccupancy < guestCount
+                                                                ? 'not-allowed'
+                                                                : 'pointer'
+                                                    }}
+
                                                     onClick={() => {
                                                         payClick(guestCount, item.r_code);
                                                         window.scrollTo(0, 0);
                                                     }}>
-                                                    {(search && !availableSet.has(item.r_code)) || (DayData.length < 2) ? "예약불가" : "예약하기"}
+                                                    {/* {(search && !availableSet.has(item.r_code)) || (DayData.length < 2) ? "예약불가" : "예약하기"} */}
+                                                    {
+                                                        (search && !availableSet.has(item.r_code)) ||
+                                                        item.maxOccupancy < guestCount ||
+                                                        (DayData.length < 2)
+                                                            ? "예약불가"
+                                                            : "예약하기"
+                                                    }
                                                     </button>
                                                 </div>
                                             </div>

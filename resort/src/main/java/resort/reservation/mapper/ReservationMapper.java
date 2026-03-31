@@ -102,4 +102,7 @@ public interface ReservationMapper {
 	
 	// 리뷰 자동 업데이트
 	public void reviewStatusUpdate();
+	
+	// 예약하나를 찾는 컨트롤러 - 중복 예약 방지
+	public int reservationChk(@Param("r_code") int r_code, @Param("check_in_date") String check_in_date, @Param("check_out_date") String check_out_date);
 }

@@ -245,5 +245,14 @@
 		<update id="reviewStatusUpdate">
 			UPDATE reservation SET review_status = 2 WHERE DATE_ADD(check_out_date, INTERVAL 7 DAY) &lt; CURDATE() AND review_status = 0
 		</update>
+		
+		<!-- // 예약하나를 찾는 컨트롤러 - 중복 예약 방지 public int reservationChk(@Param("r_code") int r_code, @Param("check_in_date") String check_in_date, @Param("check_out_date") String check_out_date);  -->
+		<select id="reservationChk" resultType="int">
+			SELECT COUNT(*)
+		    FROM reservation
+		    WHERE r_code = #{r_code}
+		      AND check_in_date &lt; #{check_out_date}
+			  AND check_out_date &gt; #{check_in_date}
+		</select>
 	
 </mapper>
