@@ -10,14 +10,26 @@ export default function Main(){
     /// 2026-03-27 오후 2번째 병합
     // 호텔, 객실데이터 useContext로 가져오는 훅
     const {setSelectMonth, 
-        hotelMerge, HotelData, hotelRatingAvgData, setListType, setRender,render, selectday,setSelectday,
+        hotelMerge, HotelData, hotelRatingAvgData, setListType, setRender,render, selectday,setSelectday,selectMonth,
         DayData, setDayData,town,setTown,serchHandler, wish, wishHandler,cityEn,countryEn,dateFilter,setDateFilter,townfilter, guestCount, setGuestCount} = useContext(ResortDataContext);
 
+    // 달력
+    const [openC, setOpenC] = useState(false)
     useEffect(() => {
-        setDayData([])
-        setSelectMonth([])
-        setSelectday([])
-    },[])
+        const thisyear = new Date().getFullYear()
+        const thisMonth = new Date().getMonth()
+        const thisDate = new Date().getDate()
+        const formatted = thisyear + "-" + String(thisMonth + 1).padStart(2, "0") + "-" + String(thisDate).padStart(2, "0");
+        const formatted2 = thisyear + "-" + String(thisMonth + 1).padStart(2, "0") + "-" + String(thisDate+1).padStart(2, "0");
+        if(selectday.length !== 2 || (selectMonth.getMonth() < thisMonth && selectday.length === 2) || selectMonth.getFullYear() < thisyear){
+            setDayData([`${formatted}`,`${formatted2}`])
+            setSelectMonth(new Date())
+            setSelectday([`${formatted}`,`${formatted2}`])
+        }else if(selectday.length === 2){
+            setSelectMonth(new Date(`${selectday[0].slice(0,7)}-01`))
+        }
+        
+    },[openC])
 
     const navigate = useNavigate();
     // 호텔 input 아래 모달 상태변수
@@ -38,8 +50,7 @@ export default function Main(){
     // 중간 배너 슬라이드
     const [slideMove3, setSlideMove3] = useState(0)
 
-    // 달력
-    const [openC, setOpenC] = useState(false)
+    
 
     // 호텔 타입별 분류 / 마스크
     const [hotelTypeMask, setHotelTypeMask] = useState(null);
@@ -66,9 +77,9 @@ export default function Main(){
     },[])
     
 
-    useEffect(()=>{
+    /* useEffect(()=>{
         setSelectMonth(new Date('2026-03-01'))
-    },[])
+    },[]) */
 
     // const discountHotel = hotelMerge.filter(item => item.)
     // 호텔 해외 필터

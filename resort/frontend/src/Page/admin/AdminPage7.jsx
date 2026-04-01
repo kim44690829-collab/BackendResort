@@ -194,7 +194,7 @@ export default function AdminPage7(){
                                         <th width="50px">작성자 명</th>
                                         <th width="120px">호텔 이름</th>
                                         <th width="120px">객실 이름</th>
-                                        <th width="50px">리뷰 삭제 버튼</th>
+                                        <th width="50px">리뷰 삭제</th>
                                     </tr>
                                 </thead>
                                 <tbody>

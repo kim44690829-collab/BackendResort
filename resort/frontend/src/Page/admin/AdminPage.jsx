@@ -215,7 +215,7 @@ export default function AdminPage(){
                                         <th width="120px">회원정보수정</th>
                                         <th width="120px">회원탈퇴여부</th>
                                         <th width="230px">회원탈퇴시간</th>
-                                        {/* <th width="120px">탈퇴처리</th> */}
+                                        {/* <th width="120px">탈퇴처리</th>// */}
                                     </tr>
                                 </thead>
                                 <tbody>

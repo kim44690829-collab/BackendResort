@@ -21,16 +21,23 @@ export default function Calendar(){
 
     
     useEffect(()=>{
-        const thisyears = new Date().getFullYear() // 오늘의 연도
-        const thismonth = new Date().getMonth() //오늘의 월
-        const thisdate = new Date().getDate() //오늘의 날짜
+        const thisyear = new Date().getFullYear()
+        const thisMonth = new Date().getMonth()
+        const thisDate = new Date().getDate()
+        const formatted = thisyear + "-" + String(thisMonth + 1).padStart(2, "0") + "-" + String(thisDate).padStart(2, "0");
+        const formatted2 = thisyear + "-" + String(thisMonth + 1).padStart(2, "0") + "-" + String(thisDate+1).padStart(2, "0");
+        
+        /* if(selectDate.length < 2 || (selectMonth.getMonth() === thisMonth && selectDate.length === 2)){
+            setSelectday([`${formatted}`,`${formatted2}`])
+            setSelectMonth(new Date(thisyear,thisMonth,thisDate))
+        } */
 
-        console.log(thisyears)
-        console.log(thisdate)
-        console.log(thismonth)
-        setSelectday([])
-        if(selectDate.length < 2 || (selectMonth.getMonth() === thismonth && selectDate.length === 2)){
-            setSelectMonth(new Date(thisyears,thismonth,thisdate))
+        if(selectday.length !== 2 || (selectMonth.getMonth() < thisMonth && selectday.length === 2)){
+            setDayData([`${formatted}`,`${formatted2}`])
+            setSelectMonth(new Date())
+            setSelectday([`${formatted}`,`${formatted2}`])
+        }else if(selectday.length === 2){
+            setSelectMonth(new Date(`${selectday[0].slice(0,7)}-01`))
         }
     },[])
 
@@ -141,8 +148,10 @@ export default function Calendar(){
 
         if(selectMonth.getFullYear() === thisyears && selectMonth.getMonth() === thismonth+1){
             setSelectMonth(new Date(selectMonth.getFullYear(),selectMonth.getMonth() - 1,thisdate))
-        }else if(selectMonth.getFullYear()>=thisyears+1 || selectMonth.getMonth()>=3){
+            console.log('dd')
+        }else if(selectMonth.getFullYear()>=thisyears+1 || selectMonth.getMonth()>=thismonth+1){
             setSelectMonth(new Date(selectMonth.getFullYear(),selectMonth.getMonth() - 1,1))
+            console.log('cc')
         }
         
     }

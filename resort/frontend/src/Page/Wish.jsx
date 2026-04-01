@@ -2,14 +2,14 @@ import './Wish.css';
 import { useEffect,useContext, useState,useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ResortDataContext } from '../Api/ResortData';
-import Calendar from './Calendar';
+import Calendar2 from './Calendar2';
 import cookie from 'js-cookie';
 import { Link } from 'react-router-dom';
 
 export default function Wish(){
     const navigate = useNavigate();
 
-    const {userEmail, RoomData, HotelData,DayData,wish,wishList,wishStar,WishAvg,wishArray,wishHandler,setWish,setPayHead,setPayRoom,selectday,setSelectday} = useContext(ResortDataContext);
+    const {userEmail, RoomData,setDayData,setSelectDate, HotelData,DayData,wish,wishList,wishStar,WishAvg,wishArray,wishHandler,setWish,setPayHead,setPayRoom,selectday,setSelectday} = useContext(ResortDataContext);
 
     //호텔의 객실별 투숙객 인원 불러오기
     //위시리스트의 객실 리스트 필터링
@@ -104,6 +104,9 @@ console.log(WishAvg);
         setDayClick(false);
         setSearch(false);
         setCal(false);
+        setSelectday([])
+        setDayData([])
+        setSelectDate([])
         window.scrollTo(0,0);
         window.location.reload();
     }
@@ -318,7 +321,7 @@ console.log(WishAvg);
                                 setCal((Cal === true) ? true : false);
                                 e.stopPropagation();
                             }}>
-                                <Calendar/>
+                                <Calendar2/>
                             </div>
                         }
                         <div className="hotel-day" style={{marginTop:'37px'}}>

@@ -122,7 +122,7 @@ export default function Header(){
             setMenuModal(false);
             setHeaderChange(0);
             setCustomer('');
-            navigate('/myPage')
+            navigate('/myPageRes')
         }
 
         window.scrollTo(0,0)
