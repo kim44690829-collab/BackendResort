@@ -506,6 +506,7 @@ export default function ResortData({children}){
     if(HotelData.length > 0 && RoomData.length > 0) {
         return(
             <ResortDataContext.Provider value={{
+                setListType, listType,
                 setRender,render,
                 guestCount, setGuestCount,
                 setUserEmail,setUserNickName,townfilter2,
