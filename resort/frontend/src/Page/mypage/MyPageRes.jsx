@@ -8,7 +8,7 @@ import axios from "axios";
 
 export default function MyPageRes(){
     // 03-18 -> 39번째줄, 332번째줄
-    const {DayData,setSelectday,userEmail,loginSave,logout,setHeaderChange, MemberAllData, userNickName} = useContext(ResortDataContext);
+    const {DayData,setSelectday,userEmail,loginSave,logout,setHeaderChange, MemberAllData, userNickName,setDayData} = useContext(ResortDataContext);
     const {toggle,setModalContent} = useContext(ModalContext);
     // 2026-03-11
     //회원의 예약정보 가져오기
@@ -660,7 +660,7 @@ export default function MyPageRes(){
                                             setSelectday([]);
                                             e.stopPropagation();
                                         }}>조회기간 설정</button>
-                                        <button type='button' style={{width:'37%',marginLeft:'6px'}} className='search' onClick={()=>{setDayClick(false);setListType(1);setListView(true);setDetailView(0);setSearch(false);setCal(false);window.scrollTo(0,0);}}><i className="fa-solid fa-arrow-rotate-right"></i> 초기화</button>
+                                        <button type='button' style={{width:'37%',marginLeft:'6px'}} className='search' onClick={()=>{setDayData([]),setSelectday([]),setDayClick(false);setListType(1);setListView(true);setDetailView(0);setSearch(false);setCal(false);window.scrollTo(0,0);}}><i className="fa-solid fa-arrow-rotate-right"></i> 초기화</button>
                                     </div>
                                     <div className="hotel-headcount">
                                         <button type='button' className='search' onClick={()=>{searchClick();setCal(false);setDayClick(true);window.scrollTo(0,0);}}>조회하기</button>
