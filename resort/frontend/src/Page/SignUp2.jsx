@@ -20,6 +20,11 @@ export default function SignUp2(){
     const [mouseCursor1, setMouseCursor1] = useState(false);
     const [mouseCursor2, setMouseCursor2] = useState(false);
 
+    useEffect(() => {
+        setUserNumFront('')
+        setUserNumBack('')
+    },[])
+
     // 버튼을 활성화 하기 위한 조건
     useEffect(() => {
         if(userNumFront.length === 4 && userNumBack.length === 4){

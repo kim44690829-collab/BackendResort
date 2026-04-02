@@ -2,13 +2,13 @@
 .signup2_container{
     width: 1200px;
     margin: 10px auto;
-    margin-bottom: 200px;
+    margin-bottom: 500px;
     margin-top: 200px;
 }
 .signup2_container .signup2_title{
     text-align: center;
     font-size: 30px;
-    margin: 50px 0 50px 0;
+    margin: 300px 0 50px 0;
 }
 /* 휴대폰 번호 form */
 .signup2_container .tel_form{

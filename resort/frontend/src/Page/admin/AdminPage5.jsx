@@ -229,7 +229,10 @@ export default function AdminPage5(){
                                                             <button type="button" className="table_btn"  onClick={()=>{setIsInfo(!isInfo),setNum(chk)}}>상세보기</button>
                                                         </td>
                                                         <td>
-                                                            {chk.length<2?"답글 미작성":"답글 작성 완료"}
+                                                            {chk.length<2?
+                                                            <span style={{backgroundColor:"#dddddd10",border:'1px solid #acacacff',color:'#acacacff',padding:'5px 25px',borderRadius:'10px',fontWeight:500}}>답글 미작성</span>
+                                                            :
+                                                            <span style={{backgroundColor:"#358f5810",border:'1px solid #358f57ff',color:'#358f57ff',padding:'5px 15px',borderRadius:'10px',fontWeight:500}}>답글 작성 완료</span>}
                                                         </td>
                                                     </>
                                                     :
@@ -290,7 +293,9 @@ export default function AdminPage5(){
                                                                     <span>{num[1].b_content}</span>
                                                                 </td>
                                                                 :
-                                                                ''
+                                                                <td style={{width:"85%" ,height:"180px",backgroundColor:"#e1eaf371",paddingLeft:"15px"}}>
+                                                                    <span></span>
+                                                                </td>
                                                             }
                                                         </tr>
                                                     </tbody>

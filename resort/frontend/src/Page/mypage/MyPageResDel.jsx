@@ -8,7 +8,7 @@ import axios from "axios";
 
 export default function MyPageResDel(){
     // 03-18 -> 39번째줄, 332번째줄
-    const {DayData,setSelectday,userEmail,loginSave,logout,setHeaderChange, MemberAllData, userNickName, setDayData} = useContext(ResortDataContext);
+    const {DayData,setSelectday,userEmail,loginSave,logout,setHeaderChange, MemberAllData, userNickName,setDayData} = useContext(ResortDataContext);
     const {toggle,setModalContent} = useContext(ModalContext);
     // 2026-03-11
     //회원의 예약정보 가져오기

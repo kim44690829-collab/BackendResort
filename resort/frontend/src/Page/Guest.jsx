@@ -27,6 +27,9 @@ export default function Guest(){
     const [guestData , setGuestData] = useState(null);
     const [guestUpdateResult, setGuestUpdateResult] = useState(null);
 
+    // 로딩중
+    const [loading, setLoading] = useState(false);
+
     // 이메일, 비밀번호 onchange
     const reservationHandeler = (e) => {
         const reservationValue = e.target.value
@@ -54,7 +57,7 @@ export default function Guest(){
     },[reservationNum, guestNumFront, guestNumBack])
 
     const guestRes = async () => {
-        
+        setLoading(true);
         try{
             const res = await axios.put("/api/guestResUpdate", null, {
                 params : {
@@ -106,6 +109,8 @@ export default function Guest(){
             console.error(err)
             setGuestData(null);
             alert("조회 실패")
+        }finally{
+            setLoading(false);
         }
         
     }
@@ -170,11 +175,16 @@ export default function Guest(){
             (
             <div className="Guest_modal_overlay">
                 <div className="Guest_modal">
+                    {!loading && guestData && (
                     <table className="pay2_table">
                         <tbody>
                             <tr>
                                 <td colSpan='2' style={{height:'150px'}}>
-                                    <img src={`/img/${guestData.h_Img}`} alt={`${guestData.h_Img}이미지`} className="payHotelimg"/>
+                                    <img 
+                                        src={`/img/${guestData.h_Img}`} 
+                                        alt={`${guestData.h_Img}이미지`} 
+                                        className="payHotelimg"
+                                    />
                                 </td>
                             </tr>
                             <tr>
@@ -261,6 +271,7 @@ export default function Guest(){
                             </td>
                         </tr>
                     </table>
+                    )}
                 </div>
             </div>
             ) 
@@ -268,7 +279,7 @@ export default function Guest(){
             {/* 회원이라면 로그인 */}
             <div className='LoginGo' onClick={loginGo}>
                 <p>회원 예약은 로그인 후 조회할 수 있어요</p>
-                <button type="button" className='userLogin'>로그인하기</button>
+                <button type="button" className='userLogin' onClick={() => window.scrollTo(0,0)}>로그인하기</button>
             </div>
         </div>
     )

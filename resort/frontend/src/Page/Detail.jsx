@@ -791,9 +791,17 @@ export default function Detail(){
                                                                 원<span>/1박</span></span>
                                                         </>
                                                     }
-                                                    <button type="button" className="pay"
+                                                    <button type="button"
                                                     // disabled={search && !availableSet.has(item.r_code)}
                                                     // style={{ cursor: (search && !availableSet.has(item.r_code)) ? 'not-allowed' : 'pointer' }}
+                                                    
+                                                    className={`pay ${
+                                                        ((search && !availableSet.has(item.r_code)) ||
+                                                        (item.maxOccupancy < guestCount) ||
+                                                        (DayData.length < 2))
+                                                            ? "fail"
+                                                            : ""
+                                                    }`}
 
                                                     disabled={
                                                         (search && !availableSet.has(item.r_code)) ||

@@ -1,12 +1,12 @@
 .Login_container{
     width: 1200px;
     margin: 10px auto;
-    margin-bottom: 200px;
+    margin-bottom: 330px;
     margin-top: 200px;
 }
 .Login_container .Login_title{
     text-align: center;
-    margin: 100px 0 30px 0;
+    margin: 250px 0 30px 0;
     font-size: 30px;
 }
 .Login_container .login_form{

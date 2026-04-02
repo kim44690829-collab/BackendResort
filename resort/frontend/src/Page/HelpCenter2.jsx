@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 export default function HelpCenter2(){
     const {userEmail,userNickName,logout, headerChange, setHeaderChange,  setListType} = useContext(ResortDataContext);
 
-    //
+    ///아아아아아아아
     const listType = 2
     // caret 버튼 클릭시 자주 묻는 질문 나타나게 하는 상태변수
         const [isContent1, setIsContent1] = useState(false);

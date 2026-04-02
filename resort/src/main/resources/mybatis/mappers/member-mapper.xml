@@ -153,4 +153,8 @@
 		SELECT * FROM member WHERE m_nickName = #{m_nickName}
 	</select>
 
+	<!-- // 회원가입 쿠폰 1달 지나면 삭제 public void memberCouponMod(); -->
+	<update id="memberCouponMod">
+		UPDATE member SET m_coupon = 0 WHERE DATE_ADD(m_regDate, INTERVAL 1 MONTH) &lt; CURDATE()
+	</update>
 </mapper>

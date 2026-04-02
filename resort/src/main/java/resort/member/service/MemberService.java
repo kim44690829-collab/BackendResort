@@ -65,4 +65,7 @@ public interface MemberService {
 	// 03-16 수정
 	// 닉네임 중복 확인
 	public int nickSel(String m_nickName);
+	
+	// 회원가입 쿠폰 1달 지나면 삭제
+	public void memberCouponMod();
 }

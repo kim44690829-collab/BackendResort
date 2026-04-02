@@ -194,7 +194,7 @@ export default function Header(){
                 <li className="menu_list2" style={{marginRight:'15px'}}>
                     <span className="login_nickName">관리자</span>님</li>
                 <li className="menu_list2">
-                    <button type='button' onClick={logoutHandeler} className="HeaderBtn logoutBtn">로그아웃</button>
+                    <button type='button' onClick={() => {logoutHandeler(); window.scrollTo(0,0);}} className="HeaderBtn logoutBtn">로그아웃</button>
                 </li>
                 <li className="menu_list2 menu_btn">
                     {/* 메뉴 */}
@@ -212,7 +212,7 @@ export default function Header(){
                     <li className="menu_list2" style={{marginRight:'15px'}}>
                         <span className="login_nickName">{userNickName}</span>님</li>
                     <li className="menu_list2">
-                        <button type='button' onClick={logoutHandeler} className="HeaderBtn logoutBtn">로그아웃</button>
+                        <button type='button' onClick={() => {logoutHandeler(); window.scrollTo(0,0);}} className="HeaderBtn logoutBtn">로그아웃</button>
                     </li>
                     <li className="menu_list2 menu_btn">
                         {/* 메뉴 */}

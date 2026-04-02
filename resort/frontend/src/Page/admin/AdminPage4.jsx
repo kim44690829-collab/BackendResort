@@ -295,10 +295,10 @@ export default function AdminPage4(){
                                         <th width="90px">회원번호</th>
                                         <th width="130px">비회원번호</th>
                                         <th width="70px">회원구분</th>
-                                        <th width="240px">예약코드</th>
+                                        <th width="225px">예약코드</th>
                                         {/* <th width="65px">방코드</th> */}
                                         <th width="135px">예약자명</th>
-                                        <th width="65px">예약상태</th>
+                                        <th width="80px">예약상태</th>
                                         <th width="200px">취소시간</th>
                                         <th width="115px">상세보기</th>
                                         <th width="135px">예약수정</th>
@@ -324,11 +324,17 @@ export default function AdminPage4(){
                                                 <td>{item.re_code}</td>
                                                 <td>{item.m_code}</td>
                                                 <td>{item.g_code}</td>
-                                                <td>{item.g_code === null? "회원":"비회원"}</td>
+                                                <td>{item.g_code === null?
+                                                 <span style={{backgroundColor:'#4b94f310',color:'#4b94f3ff',border:'1px solid #4b94f3ff',padding:'5px 19px',borderRadius:'20px',fontWeight:500}}>회원</span>
+                                                 :
+                                                 <span style={{backgroundColor:'#88888810',color:'#888',border:'1px solid #888',padding:'5px 11px',borderRadius:'20px',fontWeight:500}}>비회원</span>}</td>
                                                 <td>{item.reservation_no}</td>
                                                 {/* <td>{item.r_code}</td> */}
                                                 <td>{item.booker_name}</td>
-                                                <td>{item.cancel === 1 ? "취소" : today > check_out_date? "지난 예약": "예약 중"}</td>
+                                                <td>{item.cancel === 1 ?
+                                                    <span style={{backgroundColor:"#cf454510",border:'1px solid #cf4545ff',color:'#ca2c39ff',padding:'5px 24.5px',borderRadius:'10px',fontWeight:500}}>취소</span> : today > check_out_date?
+                                                    <span style={{backgroundColor:"#dddddd10",border:'1px solid #7a7a7aff',color:'#7a7a7aff',padding:'5px 7.5px',borderRadius:'10px',fontWeight:500}}>지난 예약</span>: 
+                                                    <span style={{backgroundColor:"#358f5810",border:'1px solid #358f57ff',color:'#358f57ff',padding:'5px 15px',borderRadius:'10px',fontWeight:500}}>예약 중</span>}</td>
                                                 <td>{item.cancel_date!==null? `${item.cancel_date.slice(0,10)} - ${item.cancel_date.slice(11,16)}`:''}</td>
                                                 <td><button className="table_btn" onClick={()=>{setIsinfo(!isInfo),setNum(index)}}>상세정보</button></td>
                                                 <td>{item.m_code === null && item.cancel === 0 && item.g_check===0?  <button className="table_btn" style={{width:"100px"}} onClick={()=>{setIsinfo2(!isInfo2),setNum(index)}}>비회원수정</button>:""}</td>
@@ -347,43 +353,43 @@ export default function AdminPage4(){
                                                 <ul className="info_list">
                                                     
                                                     <li>
-                                                        <p><span>예약번호</span> : <span style={{display:"inline-block",width:"300px"}}>{reservation[num].re_code}</span></p>
+                                                        <p><span>예약번호</span> : <span style={{display:"inline-block",width:"300px",fontWeight:400,paddingLeft:'15px'}}>{reservation[num].re_code}</span></p>
                                                     </li>
                                                     <li>
-                                                        <p><span>회원번호</span> : <span style={{display:"inline-block",width:"300px"}}>{reservation[num].m_code}</span><span>비회원번호 :</span>  {reservation[num].g_code}</p>
+                                                        <p><span>회원번호</span> : <span style={{display:"inline-block",width:"300px",fontWeight:400,paddingLeft:'15px'}}>{reservation[num].m_code !== null?reservation[num].m_code:"해당없음"}</span><span>비회원번호</span> : <span style={{fontWeight:400,paddingLeft:'15px'}}>{reservation[num].g_code!==null?reservation[num].g_code:"해당없음"}</span></p>
                                                     </li>
                                                     <li>
-                                                        <p><span>예약코드</span> : <span style={{display:"inline-block",width:"300px"}}>{reservation[num].reservation_no}</span></p>
+                                                        <p><span>예약코드</span> : <span style={{display:"inline-block",width:"300px",fontWeight:400,paddingLeft:'15px'}}>{reservation[num].reservation_no}</span></p>
                                                     </li>
                                                     <li>
-                                                        <p><span>호텔이름</span> : <span style={{display:"inline-block",width:"300px"}}>{reservation[num].hotelName}</span><span>객실이름 :</span>  {reservation[num].roomName}</p>
+                                                        <p><span>호텔이름</span> : <span style={{display:"inline-block",width:"300px",fontWeight:400,paddingLeft:'15px'}}>{reservation[num].hotelName}</span><span>객실이름</span> : <span style={{fontWeight:400,paddingLeft:'15px'}}>{reservation[num].roomName}</span></p>
                                                     </li>
                                                     <li>
-                                                        <p><span>방코드</span> : <span style={{display:"inline-block",width:"300px"}}>{reservation[num].r_code}</span></p>
+                                                        <p><span>방코드</span> : <span style={{display:"inline-block",width:"300px",fontWeight:400,paddingLeft:'15px'}}>{reservation[num].r_code}</span></p>
                                                     </li>
                                                     <li>
-                                                        <p><span>예약자명</span> : <span style={{display:"inline-block",width:"300px"}}>{reservation[num].booker_name}</span><span>예약자 전화번호 :</span> {reservation[num].g_phone!==null?`${reservation[num].g_phone.slice(0,3)}-${reservation[num].g_phone.slice(3,7)}-${reservation[num].g_phone.slice(7,11)}`:`${reservation[num].m_phone.slice(0,3)}-${reservation[num].m_phone.slice(3,7)}-${reservation[num].m_phone.slice(7,11)}`}</p>
+                                                        <p><span>예약자명</span> : <span style={{display:"inline-block",width:"300px",fontWeight:400,paddingLeft:'15px'}}>{reservation[num].booker_name}</span><span>예약자 전화번호</span> : <span style={{width:'200px',fontWeight:400,paddingLeft:'15px'}}>{reservation[num].g_phone!==null?`${reservation[num].g_phone.slice(0,3)}-${reservation[num].g_phone.slice(3,7)}-${reservation[num].g_phone.slice(7,11)}`:`${reservation[num].m_phone.slice(0,3)}-${reservation[num].m_phone.slice(3,7)}-${reservation[num].m_phone.slice(7,11)}`}</span></p>
                                                     </li>
                                                     <li>
-                                                        <p><span>예약날짜</span> : <span style={{display:"inline-block",width:"300px"}}>{reservation[num].reserved_at.slice(0,10)}</span></p>
+                                                        <p><span>예약날짜</span> : <span style={{display:"inline-block",width:"300px",fontWeight:400,paddingLeft:'15px'}}>{reservation[num].reserved_at.slice(0,10)}</span></p>
                                                     </li>
                                                     <li>
-                                                        <p><span>체크인 날짜</span> : <span style={{display:"inline-block",width:"300px"}}>{reservation[num].check_in_date}</span><span>체크아웃 날짜 :</span>{reservation[num].check_out_date}</p>
+                                                        <p><span>체크인 날짜</span> : <span style={{display:"inline-block",width:"300px",fontWeight:400,paddingLeft:'15px'}}>{reservation[num].check_in_date}</span><span>체크아웃 날짜</span> : <span style={{fontWeight:400,paddingLeft:'15px'}}>{reservation[num].check_out_date}</span></p>
                                                     </li>
                                                     <li>
-                                                        <p><span>원가격</span> : <span style={{display:"inline-block",width:"300px"}}>{reservation[num].original_price.toLocaleString()}원</span></p>
+                                                        <p><span>원가격</span> : <span style={{display:"inline-block",width:"300px",fontWeight:400,paddingLeft:'15px'}}>{reservation[num].original_price.toLocaleString()}원</span></p>
                                                     </li>
                                                     <li>
-                                                        <p><span>쿠폰사용여부</span> : <span style={{display:"inline-block",width:"300px"}}>{reservation[num].coupon_used===0? "쿠폰 미사용": "쿠폰 사용"}</span></p>
+                                                        <p><span>쿠폰사용여부</span> : <span style={{display:"inline-block",width:"300px",fontWeight:400,paddingLeft:'15px'}}>{reservation[num].coupon_used===0? "쿠폰 미사용": "쿠폰 사용"}</span></p>
                                                     </li>
                                                     <li>
-                                                        <p><span>할인율</span> : <span style={{display:"inline-block",width:"300px"}}>{reservation[num].discount_rate}%</span></p>
+                                                        <p><span>할인율</span> : <span style={{display:"inline-block",width:"300px",fontWeight:400,paddingLeft:'15px'}}>{reservation[num].discount_rate}%</span></p>
                                                     </li>
                                                     <li>
-                                                        <p><span>최종가격</span> : <span style={{display:"inline-block",width:"300px"}}>{reservation[num].final_price.toLocaleString()}원</span></p>
+                                                        <p><span>최종가격</span> : <span style={{display:"inline-block",width:"300px",fontWeight:400,paddingLeft:'15px'}}>{reservation[num].final_price.toLocaleString()}원</span></p>
                                                     </li>
                                                     <li>
-                                                        <p><span>예약상태</span> : <span style={{display:"inline-block",width:"300px"}}>{reservation[num].cancel ===0? "예약": "취소"}</span><span>취소시간 :</span>  {reservation[num].cancel_date!==null?`${reservation[num].cancel_date.slice(0,10)} - ${reservation[num].cancel_date.slice(11,16)}`:""}</p>
+                                                        <p><span>예약상태</span> : <span style={{display:"inline-block",width:"300px",fontWeight:400,paddingLeft:'15px'}}>{reservation[num].cancel ===0? "예약": "취소"}</span><span>취소시간</span> :<span style={{width:'200px',fontWeight:400,paddingLeft:'15px'}}> {reservation[num].cancel_date!==null?`${reservation[num].cancel_date.slice(0,10)} - ${reservation[num].cancel_date.slice(11,16)}`:"해당사항없음"}</span></p>
                                                     </li>
                                                     
                                                 </ul>

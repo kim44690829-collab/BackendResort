@@ -118,13 +118,14 @@
     border-radius: 10px;
     padding: 0 10px;
     background-color: #fff;
-    border: 2px solid #7ED6E4;
-    color: #7ED6E4;
+    border: 3px solid #42799b;
+    background-color: #42799b;
+    color: #fff;
     font-weight: 600;
 }
 .Room_section .serch_box .serch_btn:hover{
     background-color: #fff;
-    border: 2px solid #42799b;
+    border: 3px solid #42799b;
     color: #42799b;
     font-weight: 600;
 }

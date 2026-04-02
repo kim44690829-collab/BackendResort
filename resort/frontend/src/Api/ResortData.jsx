@@ -197,7 +197,7 @@ export default function ResortData({children}){
     },[selectMonth]) 
 
 
-    // 로그인 한 후 닉네임 저장
+    /// 로그인 한 후 닉네임 저장
     const [userNickName, setUserNickName] = useState(null);
     // 로그인 한 후 이메일 저장
     const [userEmail, setUserEmail] = useState(null);
@@ -506,7 +506,7 @@ export default function ResortData({children}){
     if(HotelData.length > 0 && RoomData.length > 0) {
         return(
             <ResortDataContext.Provider value={{
-                setListType, listType,
+                listType, setListType,
                 setRender,render,
                 guestCount, setGuestCount,
                 setUserEmail,setUserNickName,townfilter2,

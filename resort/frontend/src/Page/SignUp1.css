@@ -1,13 +1,13 @@
 .signup_container{
     width: 1200px;
     margin: 10px auto;
-    margin-bottom: 200px;
+    margin-bottom: 345px;
     margin-top: 200px;
 }
 .signup_container .signup_title{
     text-align: center;
     font-size: 20px;
-    margin: 50px 0 50px 0;
+    margin: 300px 0 50px 0;
     line-height: 30px;
 }
 .signup_container .agreeForm{

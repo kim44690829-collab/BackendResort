@@ -18,32 +18,39 @@ export default function Calendar(){
     const [calArr02,setCalArr02] = useState(
         Array.from(Array(6),() => new Array(7).fill(''))
     ) //달력에 들어가는 배열
-
-    
+    const [diff,setDiff] = useState(0)
+    const days = ['일', '월', '화', '수', '목', '금', '토'];
     useEffect(()=>{
         const thisyear = new Date().getFullYear()
         const thisMonth = new Date().getMonth()
         const thisDate = new Date().getDate()
+        const selyear = selectMonth.getFullYear()
+        const selmonth = selectMonth.getMonth()
         const formatted = thisyear + "-" + String(thisMonth + 1).padStart(2, "0") + "-" + String(thisDate).padStart(2, "0");
         const formatted2 = thisyear + "-" + String(thisMonth + 1).padStart(2, "0") + "-" + String(thisDate+1).padStart(2, "0");
-        
-        /* if(selectDate.length < 2 || (selectMonth.getMonth() === thisMonth && selectDate.length === 2)){
-            setSelectday([`${formatted}`,`${formatted2}`])
-            setSelectMonth(new Date(thisyear,thisMonth,thisDate))
-        } */
-
-        if(selectday.length !== 2 || (selectMonth.getMonth() < thisMonth && selectday.length === 2)){
+        if(selectday.length !== 2 || (selmonth < thisMonth && selectday.length === 2) || selyear < thisyear || (selyear === thisyear && selmonth === thisMonth && new Date(selectday[0]).getDate()<thisDate)){
             setDayData([`${formatted}`,`${formatted2}`])
-            setSelectMonth(new Date())
+            setSelectMonth(new Date(thisyear,thisMonth,thisDate))
             setSelectday([`${formatted}`,`${formatted2}`])
-        }else if(selectday.length === 2){
-            setSelectMonth(new Date(`${selectday[0].slice(0,7)}-01`))
+        }else if(selectday.length === 2  && thisMonth===selmonth){
+            setSelectMonth(new Date(thisyear,thisMonth,thisDate))
         }
     },[])
 
     useEffect(()=>{
         setDayData(selectday)
     },[selectday])
+
+    // 선택한 날짜사이가 몇박인지 구하는 
+    useEffect(()=>{
+        if(DayData.length===2){
+            const start = new Date(DayData[0])
+            const end = new Date(DayData[1])
+            
+            setDiff(end-start)
+        }
+            
+    },[DayData])
 
 
     useEffect(()=>{
@@ -345,7 +352,7 @@ export default function Calendar(){
                 <button type="button" onClick={next} className="nextBtn calBtn"><i className="fa-solid fa-angle-right"></i></button>
                 <div className="line"></div>
                 <div className="choose_day">
-                    <p>{DayData.length===2?`${DayData[0]} 부터 - ${DayData[1]} 까지`:'일정을 선택해 주세요'}</p>
+                    <p>{DayData.length===2?`${DayData[0]}(${days[new Date(DayData[0]).getDay()]}) 부터 - ${DayData[1]}(${days[new Date(DayData[1]).getDay()]}) 까지  (${diff / (1000 * 60 * 60 * 24)}박)`:'일정을 선택해 주세요'}</p>
                 </div>
             </div>
             

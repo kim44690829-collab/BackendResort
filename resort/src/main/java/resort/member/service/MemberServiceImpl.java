@@ -3,6 +3,7 @@ package resort.member.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -262,6 +263,14 @@ public class MemberServiceImpl implements MemberService {
 		}else{
 			return 0;
 		}
+	}
+	
+	// 회원가입 쿠폰 1달 지나면 삭제
+	@Override
+	@Scheduled(cron = "0 0 0 * * *", zone = "Asia/Seoul")
+	public void memberCouponMod() {
+		System.out.println("MemberServiceImpl : memberCouponMod() 메서드 확인");
+		membermapper.memberCouponMod();
 	}
 	
 	

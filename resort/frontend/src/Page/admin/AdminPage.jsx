@@ -237,7 +237,9 @@ export default function AdminPage(){
                                                     <td>{item.m_coupon === 0? "미보유":"보유"}</td>
                                                     <td>{`${item.m_regDate.slice(0,10)} - ${item.m_regDate.slice(11,16)}`}</td>
                                                     {item.m_is_deleted===0 ?<td><Link to={`/memberUpdate/${item.m_code}`}><button className="table_btn" onClick>회원수정</button> </Link></td>:<td></td>}
-                                                    <td>{item.m_is_deleted===0?"이용중":"탈퇴"}</td>
+                                                    <td>{item.m_is_deleted===0?<span style={{backgroundColor:'#4b94f310',color:'#4b94f3ff',border:'1px solid #4b94f3ff',padding:'5px 19px',borderRadius:'10px',fontWeight:500}}>이용중</span>
+                                                    :
+                                                    <span style={{backgroundColor:'#cf454510',color:'#cf4545ff',border:'1px solid #cf4545ff',padding:'5px 26px',borderRadius:'10px',fontWeight:500}}>탈퇴</span>}</td>
                                                     <td>{item.m_is_deleted===0?"":`${item.deleted_at.slice(0,10)} - ${item.deleted_at.slice(11,16)} `}</td>
                                                     {/* <td><button type="button" onClick={()=>delHandler(item.m_email)} className="table_btn">회원삭제</button></td> */}
                                                 </tr>

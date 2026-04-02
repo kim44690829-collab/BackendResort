@@ -143,7 +143,7 @@ export default function Login(){
                 {/* 회원가입 폼으로 이동 */}
                 <p>계정이 없으신가요?</p>
                 <Link to='/signup1'>
-                    <button type="button" className='EmailSignUp' onClick={() => setHeaderChange(3)}>이메일로 회원가입</button>
+                    <button type="button" className='EmailSignUp' onClick={() => {window.scrollTo(0,0); setHeaderChange(3);}}>이메일로 회원가입</button>
                 </Link>
             </div>
         </div>

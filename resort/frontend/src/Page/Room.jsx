@@ -35,14 +35,16 @@ export default function Room(){
         const thisyear = new Date().getFullYear()
         const thisMonth = new Date().getMonth()
         const thisDate = new Date().getDate()
+        const selyear = selectMonth.getFullYear()
+        const selmonth = selectMonth.getMonth()
         const formatted = thisyear + "-" + String(thisMonth + 1).padStart(2, "0") + "-" + String(thisDate).padStart(2, "0");
         const formatted2 = thisyear + "-" + String(thisMonth + 1).padStart(2, "0") + "-" + String(thisDate+1).padStart(2, "0");
-        if(selectday.length !== 2|| (selectMonth.getMonth() < thisMonth && selectday.length === 2)|| selectMonth.getFullYear() < thisyear){
+        if(selectday.length !== 2 || (selmonth < thisMonth && selectday.length === 2) || selyear < thisyear || (selyear === thisyear && selmonth === thisMonth && new Date(selectday[0]).getDate()<thisDate)){
             setDayData([`${formatted}`,`${formatted2}`])
-            setSelectMonth(new Date())
+            setSelectMonth(new Date(thisyear,thisMonth,thisDate))
             setSelectday([`${formatted}`,`${formatted2}`])
-        }else if(selectday.length === 2){
-            setSelectMonth(new Date(`${selectday[0].slice(0,7)}-01`))
+        }else if(selectday.length === 2 && thisMonth===selmonth){
+            setSelectMonth(new Date(thisyear,thisMonth,thisDate))
         }
         
     },[openC])
@@ -236,7 +238,7 @@ export default function Room(){
 
     // 이미지 배너
     const [currentImg, setCurrent] = useState(0);
-    const RoomBennerImg = ['/eventbenner/spring.jpg','/eventbenner/summer.jpg','/eventbenner/fall.jpg','/eventbenner/winter.jpg'];
+    const RoomBennerImg = ['/eventbenner/room_bn1.jpg','/eventbenner/room_bn2.jpg','/eventbenner/room_bn3.jpg','/eventbenner/room_bn4.jpg'];
 
     useEffect(() => {
         const current = setInterval(() => {
@@ -248,6 +250,19 @@ export default function Room(){
         }, 3000);
         return(() => {clearInterval(current)});
     },[currentImg])
+
+    // 페이지 상단 축제 배너 선택시 발생 이벤트
+    const fasHander = ()=>{
+        if(currentImg === 0){
+            setTown('도쿄')
+        }else if(currentImg === 1){
+            setTown('여수')
+        }else if(currentImg === 2){
+            setTown('경주')
+        }else if(currentImg === 3){
+            setTown('로스앤젤레스')
+        }
+    }
 
     return(
         <>
@@ -309,7 +324,7 @@ export default function Room(){
                     <div className="calenderWrap">
                         <button type='button' onClick={(e) => {setOpenC(true)}} style={{border:!openC?'2px solid #42799b55':'2px solid #7ED6E4'}} className='calenertBtn'>
                             <i className="fa-solid fa-calendar" style={{color:!openC?'#42799b55':'#7ED6E4'}}></i>
-                            <span style={{marginRight:'5px'}}>{DayData.length < 2 ? '일정을 선택해 주세요': `${DayData[0]} - ${DayData[1]}`}</span>
+                            <span style={{marginRight:'5px',fontWeight:600}}>{DayData.length < 2 ? '일정을 선택해 주세요': `${DayData[0]} - ${DayData[1]}`}</span>
                         </button>
                         <button type="button" className="serch_btn" onClick={()=>{serchHandler(),setOpenC(false)}}>검색하기</button>
                         {openC && 
@@ -384,7 +399,7 @@ export default function Room(){
                     </div>
                     <div className="right_filter">
                         <div className="under_filter">
-                            <div className="map" style={{overflow:'hidden', borderRadius:'15px'}}>
+                            <div className="map" style={{overflow:'hidden', borderRadius:'15px', cursor:'pointer'}} onClick={()=>fasHander()}>
                                 <img src={RoomBennerImg[currentImg]} className='RoomBennerImg'/>    
                             </div>
                         </div>

@@ -19,7 +19,9 @@ export default function Calendar2(){
         Array.from(Array(6),() => new Array(7).fill(''))
     ) //달력에 들어가는 배열
 
-    
+    const [diff,setDiff] = useState(0)
+    const days = ['일', '월', '화', '수', '목', '금', '토'];
+
     /* useEffect(()=>{
         const thisyears = new Date().getFullYear() // 오늘의 연도
         const thismonth = new Date().getMonth() //오늘의 월
@@ -35,6 +37,16 @@ export default function Calendar2(){
         setDayData(selectday)
     },[selectday])
 
+    // 선택한 날짜사이가 몇박인지 구하는 
+    useEffect(()=>{
+        if(DayData.length===2){
+            const start = new Date(DayData[0])
+            const end = new Date(DayData[1])
+            
+            setDiff(end-start)
+        }
+            
+    },[DayData])
 
     useEffect(()=>{
         //console.log(selectMonth)
@@ -333,7 +345,7 @@ export default function Calendar2(){
                 <button type="button" onClick={next} className="nextBtn calBtn"><i className="fa-solid fa-angle-right"></i></button>
                 <div className="line"></div>
                 <div className="choose_day">
-                    <p>{DayData.length===2?`${DayData[0]} 부터 - ${DayData[1]} 까지`:'일정을 선택해 주세요'}</p>
+                    <p>{DayData.length===2?`${DayData[0]}(${days[new Date(DayData[0]).getDay()]}) 부터 - ${DayData[1]}(${days[new Date(DayData[1]).getDay()]}) 까지`:'일정을 선택해 주세요'}</p>
                 </div>
             </div>
             

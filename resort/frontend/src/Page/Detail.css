@@ -546,6 +546,15 @@ button{
     border-color: #31688a;
 }
 
+.room-select ul li .room-right .room-info .room-pay .pay.fail{
+    background-color: #6b6b6b;
+    border-color: #6b6b6b;
+}
+.room-select ul li .room-right .room-info .room-pay .pay.fail:hover{
+    background-color: #6b6b6b;
+    border-color: #6b6b6b;
+}
+
 
 .detail-wrap .detail-content .detail-left .hotel-map{
     margin-top: 30px;
