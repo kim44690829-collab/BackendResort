@@ -325,16 +325,16 @@ export default function AdminPage4(){
                                                 <td>{item.m_code}</td>
                                                 <td>{item.g_code}</td>
                                                 <td>{item.g_code === null?
-                                                 <span style={{backgroundColor:'#4b94f310',color:'#4b94f3ff',border:'1px solid #4b94f3ff',padding:'5px 19px',borderRadius:'20px',fontWeight:500}}>회원</span>
+                                                 <span style={{display:'inline-block',width:"65px",backgroundColor:'#4b94f310',color:'#4b94f3ff',border:'1px solid #4b94f3ff',padding:'9px 0',borderRadius:'20px',fontWeight:500}}>회원</span>
                                                  :
-                                                 <span style={{backgroundColor:'#88888810',color:'#888',border:'1px solid #888',padding:'5px 11px',borderRadius:'20px',fontWeight:500}}>비회원</span>}</td>
+                                                 <span style={{display:'inline-block',width:"65px",backgroundColor:'#88888810',color:'#888',border:'1px solid #888',padding:'9px 0',borderRadius:'20px',fontWeight:500}}>비회원</span>}</td>
                                                 <td>{item.reservation_no}</td>
                                                 {/* <td>{item.r_code}</td> */}
                                                 <td>{item.booker_name}</td>
                                                 <td>{item.cancel === 1 ?
-                                                    <span style={{backgroundColor:"#cf454510",border:'1px solid #cf4545ff',color:'#ca2c39ff',padding:'5px 24.5px',borderRadius:'10px',fontWeight:500}}>취소</span> : today > check_out_date?
-                                                    <span style={{backgroundColor:"#dddddd10",border:'1px solid #7a7a7aff',color:'#7a7a7aff',padding:'5px 7.5px',borderRadius:'10px',fontWeight:500}}>지난 예약</span>: 
-                                                    <span style={{backgroundColor:"#358f5810",border:'1px solid #358f57ff',color:'#358f57ff',padding:'5px 15px',borderRadius:'10px',fontWeight:500}}>예약 중</span>}</td>
+                                                    <span style={{display:'inline-block',width:"80px",backgroundColor:"#cf454510",border:'1px solid #cf4545ff',color:'#ca2c39ff',padding:'9px 0',borderRadius:'10px',fontWeight:500}}>취소</span> : today > check_out_date?
+                                                    <span style={{display:'inline-block',width:"80px",backgroundColor:"#dddddd10",border:'1px solid #7a7a7aff',color:'#7a7a7aff',padding:'9px 0',borderRadius:'10px',fontWeight:500}}>지난 예약</span>: 
+                                                    <span style={{display:'inline-block',width:"80px",backgroundColor:"#358f5810",border:'1px solid #358f57ff',color:'#358f57ff',padding:'9px 0',borderRadius:'10px',fontWeight:500}}>예약 중</span>}</td>
                                                 <td>{item.cancel_date!==null? `${item.cancel_date.slice(0,10)} - ${item.cancel_date.slice(11,16)}`:''}</td>
                                                 <td><button className="table_btn" onClick={()=>{setIsinfo(!isInfo),setNum(index)}}>상세정보</button></td>
                                                 <td>{item.m_code === null && item.cancel === 0 && item.g_check===0?  <button className="table_btn" style={{width:"100px"}} onClick={()=>{setIsinfo2(!isInfo2),setNum(index)}}>비회원수정</button>:""}</td>

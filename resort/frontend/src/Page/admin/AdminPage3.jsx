@@ -235,18 +235,18 @@ export default function AdminPage3(){
                                     </div>
                                     <div className="service_box" >
                                         <ul>
-                                            
+                                            {/* <span style={{width:'70px',display:'inline-block',fontWeight:600}}>호텔명</span> : <span>{hotel[num].hotelName}</span> */}
                                             <li>
-                                                <p>호텔명 : {hotel[room[num].h_code-1]?.hotelName}</p>
+                                                <p><span style={{width:'70px',display:'inline-block',fontWeight:600}}>호텔명</span> : <span>{hotel[room[num].h_code-1]?.hotelName}</span></p>
                                             </li>
                                             <li>
-                                                <p>방이름 : {room[num].roomName}</p>
+                                                <p><span style={{width:'70px',display:'inline-block',fontWeight:600}}>방이름</span> : <span>{room[num].roomName}</span></p>
                                             </li>
                                             <li>
-                                                <p>방가격 : {room[num].price.toLocaleString()}</p>
+                                                <p><span style={{width:'70px',display:'inline-block',fontWeight:600}}>방가격</span> : <span>{room[num].price.toLocaleString()}</span></p>
                                             </li>
                                             <li>
-                                                <p>최대인원 : {room[num].maxOccupancy}</p>
+                                                <p><span style={{width:'70px',display:'inline-block',fontWeight:600}}>최대인원</span> : <span>{room[num].maxOccupancy}</span></p>
                                             </li>
                                         </ul>
                                     </div>

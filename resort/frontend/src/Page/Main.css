@@ -194,6 +194,15 @@
     left: 16px;
     color: #494949;
 }
+.main_container .mainImgBenner .hotelSearch .hotelInput .search_Xbtn{
+    position: absolute;
+    top: 19px;
+    left: 370px;
+    border: none;
+    font-size: 13px;
+    background-color: transparent;
+    cursor: pointer;
+}
 /* 인원 */
 .guests{
     display: inline-block;

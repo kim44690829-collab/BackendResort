@@ -480,6 +480,7 @@ export default function Main(){
                             </>}
                         </div>
                         <i className="fa-solid fa-magnifying-glass searchIcon"></i>
+                        {town !== '' && <i class="fa-solid fa-x search_Xbtn" onClick={() => setTown('')}></i>}
                         <button type='button' onClick={() => {setOpenC(!openC),setSelectDay([])}} className='calenertBtn'>
                             <i className="fa-solid fa-calendar" style={{color:'#42799b'}}></i>
                             <span style={{marginRight:'5px',fontWeight:'600'}}>{DayData.length < 2 ? '일정을 선택해 주세요' : `${DayData[0]} - ${DayData[1]}`}</span>

@@ -232,34 +232,34 @@ export default function AdminPage2(){
                                                 <ul>
                                                     
                                                     <li>
-                                                        <p>호텔명 : {hotel[num].hotelName}</p>
+                                                        <p><span style={{width:'70px',display:'inline-block',fontWeight:600}}>호텔명</span> : <span>{hotel[num].hotelName}</span></p>
                                                     </li>
                                                     <li>
-                                                        <p>국가 : {hotel[num].country}</p>
+                                                        <p><span style={{width:'70px',display:'inline-block',fontWeight:600}}>국가</span> : <span>{hotel[num].country}</span></p>
                                                     </li>
                                                     <li>
-                                                        <p>도시 : {hotel[num].city}</p>
+                                                        <p><span style={{width:'70px',display:'inline-block',fontWeight:600}}>도시</span> : <span>{hotel[num].city}</span></p>
                                                     </li>
                                                     <li>
-                                                        <p>숙소유형 : {hotel[num].type}</p>
+                                                        <p><span style={{width:'70px',display:'inline-block',fontWeight:600}}>숙소유형</span> : <span>{hotel[num].type}</span></p>
                                                     </li>
                                                     <li>
-                                                        <p>주소지 : {hotel[num].h_address}</p>
+                                                        <p><span style={{width:'70px',display:'inline-block',fontWeight:600}}>주소지 </span> : <span>{hotel[num].h_address}</span></p>
                                                     </li>
                                                     <li>
-                                                        <p>시작일 : {hotel[num].startDate}</p>
+                                                        <p><span style={{width:'70px',display:'inline-block',fontWeight:600}}>시작일</span> : <span>{hotel[num].startDate}</span></p>
                                                     </li>
                                                     <li>
-                                                        <p>종료일 : {hotel[num].endDate}</p>
+                                                        <p><span style={{width:'70px',display:'inline-block',fontWeight:600}}>종료일</span> : <span>{hotel[num].endDate}</span></p>
                                                     </li>
                                                     <li>
-                                                        <p>기타시설 : {hotel[num].otherservice.replace(/[\[\]"]/g, " ")}</p>
+                                                        <p><span style={{width:'70px',display:'inline-block',fontWeight:600}}>기타시설</span> : <span>{hotel[num].otherservice.replace(/[\[\]"]/g, " ")}</span></p>
                                                     </li>
                                                     <li>
-                                                        <p>공용시설 : {hotel[num].publicservice.replace(/[\[\]"]/g, " ")}</p>
+                                                        <p><span style={{width:'70px',display:'inline-block',fontWeight:600}}>공용시설</span> : <span>{hotel[num].publicservice.replace(/[\[\]"]/g, " ")}</span></p>
                                                     </li>
                                                     <li>
-                                                        <p>객내시설 : {hotel[num].roomservice.replace(/[\[\]"]/g, " ")}</p>
+                                                        <p><span style={{width:'70px',display:'inline-block',fontWeight:600}}>객내시설 </span> : <span>{hotel[num].roomservice.replace(/[\[\]"]/g, " ")}</span></p>
                                                     </li>
                                                 </ul>
                                             </div>

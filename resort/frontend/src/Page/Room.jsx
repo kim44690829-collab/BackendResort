@@ -273,6 +273,7 @@ export default function Room(){
                 <div className="serch_box">
                     <div className='hotelModal'>
                         <input type="text" placeholder="도시나 나라를 검색해주세요 ex)파리,속초" className="city_name" onClick={() => setIsInput(true)} onChange={(e)=>townHandler(e)} value={town}/>
+                        {town !== '' && <i class="fa-solid fa-x search_Xbtn" onClick={() => setTown('')}></i>}
                         {/* input 클릭시 나오는 순위 */}
                         {isInput &&
                         <>

@@ -135,7 +135,7 @@
 .Room_section .serch_box .city_name{
     width: 260px;
     height: 40px;
-    padding: 0 0 0 20px;
+    padding: 0 0 0 15px;
     border-radius: 10px;
     background-color: #fff;
     border: 2px solid #42799b55;
@@ -151,6 +151,17 @@
     border: 2px solid #7ED6E4;
     box-sizing: border-box;
 }
+.Room_section .serch_box .search_Xbtn{
+    position: absolute;
+    top: 17px;
+    left: 233px;
+    border: none;
+    font-size: 11px;
+    background-color: transparent;
+    cursor: pointer;
+    color: rgb(107, 107, 107);
+}
+
 .Room_section .serch_box .calenertBtn{
     width: 290px;
     height: 40px;
