@@ -84,11 +84,11 @@
 		ON r.h_code = h.h_code
 		<where>
 			<choose>
-				<when test="searchType == 're.m_code'">
-					re.m_code LIKE CONCAT("%",#{searchKeyword},"%")
+				<when test="searchType == 'roomName'">
+					r.roomName LIKE CONCAT("%",#{searchKeyword},"%")
 				</when>
-				<when test="searchType == 're.r_code'">
-					re.r_code LIKE CONCAT("%",#{searchKeyword},"%")
+				<when test="searchType == 'm_nickName'">
+					m.m_nickName LIKE CONCAT("%",#{searchKeyword},"%")
 				</when>
 				<otherwise>
 					re.rb_score LIKE CONCAT("%",#{searchKeyword},"%")				

@@ -92,7 +92,7 @@
 					m_phone LIKE CONCAT("%",#{searchKeyword},"%")
 				</when>
 				<when test="searchType == 'gender'">
-					m_gender LIKE CONCAT("%",#{searchKeyword},"%")
+					m_gender = #{searchKeyword}
 				</when>
 				<when test="searchType == 'nickName'">
 					m_nickName LIKE CONCAT("%",#{searchKeyword},"%")
@@ -112,7 +112,7 @@
 					m_phone LIKE CONCAT("%",#{searchKeyword},"%")
 				</when>
 				<when test="searchType == 'gender'">
-					m_gender LIKE CONCAT("%",#{searchKeyword},"%")
+					m_gender = #{searchKeyword}
 				</when>
 				<when test="searchType == 'nickName'">
 					m_nickName LIKE CONCAT("%",#{searchKeyword},"%")

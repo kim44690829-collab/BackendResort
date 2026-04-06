@@ -154,33 +154,33 @@ export default function ResortData({children}){
     const [userNumBack, setUserNumBack] = useState('');
 
     const [DayData,setDayData] = useState(()=>{
-        const saved = localStorage.getItem('DayData')
+        const saved = sessionStorage.getItem('DayData')
         //저장된 value가 있으면 복원, 없으면 빈 배열
         return saved ? JSON.parse(saved) : []
     })
     useEffect(()=>{
-        localStorage.setItem('DayData',JSON.stringify(DayData))
+        sessionStorage.setItem('DayData',JSON.stringify(DayData))
     },[DayData])
 
     const [selectDate,setSelectDate] = useState(()=>{
-        const saved = localStorage.getItem('selectDate')
+        const saved = sessionStorage.getItem('selectDate')
         //저장된 value가 있으면 복원, 없으면 빈 배열
         return saved ? JSON.parse(saved) : []
     })
 
     useEffect(()=>{
-        localStorage.setItem('selectDate',JSON.stringify(selectDate))
+        sessionStorage.setItem('selectDate',JSON.stringify(selectDate))
     },[DayData])
 
     const [selectday,setSelectday] = useState(()=>{
-        const saved = localStorage.getItem('selectday')
+        const saved = sessionStorage.getItem('selectday')
         //저장된 value가 있으면 복원, 없으면 빈 배열
         return saved ? JSON.parse(saved) : []
     })
     //
 
     useEffect(()=>{
-        localStorage.setItem('selectday',JSON.stringify(selectday))
+        sessionStorage.setItem('selectday',JSON.stringify(selectday))
         // console.log(selectDate,selectday,'12-19확인ㅇㅅ')
     },[selectday])
 
