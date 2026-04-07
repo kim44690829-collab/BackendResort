@@ -28,7 +28,7 @@ export default function Calendar(){
         const selmonth = selectMonth.getMonth()
         const formatted = thisyear + "-" + String(thisMonth + 1).padStart(2, "0") + "-" + String(thisDate).padStart(2, "0");
         const formatted2 = thisyear + "-" + String(thisMonth + 1).padStart(2, "0") + "-" + String(thisDate+1).padStart(2, "0");
-        if(selectday.length !== 2 || (selmonth < thisMonth && selectday.length === 2) || selyear < thisyear || (selyear === thisyear && selmonth === thisMonth && new Date(selectday[0]).getDate()<thisDate)){
+        if(selectday.length !== 2 || (selmonth < thisMonth && selectday.length === 2) || selyear < thisyear || (selyear === thisyear && new Date(selectday[0]).getMonth() === thisMonth && new Date(selectday[0]).getDate()<thisDate)){
             setDayData([`${formatted}`,`${formatted2}`])
             setSelectMonth(new Date(thisyear,thisMonth,thisDate))
             setSelectday([`${formatted}`,`${formatted2}`])

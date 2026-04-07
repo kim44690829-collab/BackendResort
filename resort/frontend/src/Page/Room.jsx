@@ -31,7 +31,7 @@ export default function Room(){
 
     //달력을 여닫기 위한 변수
     const [openC,setOpenC]=useState(false)
-    useEffect(() => {
+    useEffect(()=>{
         const thisyear = new Date().getFullYear()
         const thisMonth = new Date().getMonth()
         const thisDate = new Date().getDate()
@@ -39,14 +39,13 @@ export default function Room(){
         const selmonth = selectMonth.getMonth()
         const formatted = thisyear + "-" + String(thisMonth + 1).padStart(2, "0") + "-" + String(thisDate).padStart(2, "0");
         const formatted2 = thisyear + "-" + String(thisMonth + 1).padStart(2, "0") + "-" + String(thisDate+1).padStart(2, "0");
-        if(selectday.length !== 2 || (selmonth < thisMonth && selectday.length === 2) || selyear < thisyear || (selyear === thisyear && selmonth === thisMonth && new Date(selectday[0]).getDate()<thisDate)){
+        if(selectday.length !== 2 || (selmonth < thisMonth && selectday.length === 2) || selyear < thisyear || (selyear === thisyear && new Date(selectday[0]).getMonth() === thisMonth && new Date(selectday[0]).getDate()<thisDate)){
             setDayData([`${formatted}`,`${formatted2}`])
             setSelectMonth(new Date(thisyear,thisMonth,thisDate))
             setSelectday([`${formatted}`,`${formatted2}`])
-        }else if(selectday.length === 2 && thisMonth===selmonth){
+        }else if(selectday.length === 2  && thisMonth===selmonth){
             setSelectMonth(new Date(thisyear,thisMonth,thisDate))
         }
-        
     },[openC])
 
     const [test,setTest] = useState('ㅋㅋ')
