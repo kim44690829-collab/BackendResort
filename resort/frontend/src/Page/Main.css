@@ -799,6 +799,7 @@
 }
 .EcoMemberHotelAll-2{
     width: 350px;
+    height: 230px;
     background-color: #fff;
     box-sizing: border-box;
     padding: 20px 0 20px 30px;
@@ -828,7 +829,7 @@
 }
 .bennerPrice1{
     display: inline-block;
-    margin-top: 30px;
+    margin-top: 10px;
     font-size: 25px;
     font-weight: 500;
 }
