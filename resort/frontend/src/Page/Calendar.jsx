@@ -21,13 +21,26 @@ export default function Calendar(){
     const [diff,setDiff] = useState(0)
     const days = ['일', '월', '화', '수', '목', '금', '토'];
     useEffect(()=>{
+        const today = new Date();
+        const tomorrow = new Date();
+        tomorrow.setDate(today.getDate() + 1);
         const thisyear = new Date().getFullYear()
         const thisMonth = new Date().getMonth()
         const thisDate = new Date().getDate()
         const selyear = selectMonth.getFullYear()
         const selmonth = selectMonth.getMonth()
-        const formatted = thisyear + "-" + String(thisMonth + 1).padStart(2, "0") + "-" + String(thisDate).padStart(2, "0");
-        const formatted2 = thisyear + "-" + String(thisMonth + 1).padStart(2, "0") + "-" + String(thisDate+1).padStart(2, "0");
+        // const formatted = thisyear + "-" + String(thisMonth + 1).padStart(2, "0") + "-" + String(thisDate).padStart(2, "0");
+        // const formatted2 = thisyear + "-" + String(thisMonth + 1).padStart(2, "0") + "-" + String(thisDate+1).padStart(2, "0");
+        const formatted =
+            today.getFullYear() + "-" +
+            String(today.getMonth() + 1).padStart(2, "0") + "-" +
+            String(today.getDate()).padStart(2, "0");
+
+        const formatted2 =
+            tomorrow.getFullYear() + "-" +
+            String(tomorrow.getMonth() + 1).padStart(2, "0") + "-" +
+            String(tomorrow.getDate()).padStart(2, "0");
+            
         if(selectday.length !== 2 || (selmonth < thisMonth && selectday.length === 2) || selyear < thisyear || (selyear === thisyear && new Date(selectday[0]).getMonth() === thisMonth && new Date(selectday[0]).getDate()<thisDate)){
             setDayData([`${formatted}`,`${formatted2}`])
             setSelectMonth(new Date(thisyear,thisMonth,thisDate))

@@ -47,6 +47,28 @@ export default function Header(){
 
             sessionStorage.clear();
 
+            const today = new Date();
+            const tomorrow = new Date();
+            tomorrow.setDate(today.getDate() + 1);
+
+            const formatted =
+            today.getFullYear() + "-" +
+            String(today.getMonth() + 1).padStart(2, "0") + "-" +
+            String(today.getDate()).padStart(2, "0");
+
+            const formatted2 =
+                tomorrow.getFullYear() + "-" +
+                String(tomorrow.getMonth() + 1).padStart(2, "0") + "-" +
+                String(tomorrow.getDate()).padStart(2, "0");
+
+            const defaultDayData = [formatted, formatted2];
+
+            sessionStorage.setItem("DayData", JSON.stringify(defaultDayData));
+
+            setDayData(defaultDayData);
+            setSelectday(defaultDayData);
+            setSelectMonth(today);
+
             setUserNickName(null);
             setUserEmail(null);
             setCustomer('');
