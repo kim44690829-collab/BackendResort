@@ -241,7 +241,7 @@ export default function Pay(){
     
 
     // localStorage의 데이터를 json형식으로 변환
-    const DayDataResult = JSON.parse(localStorage.getItem("DayData"));
+    const DayDataResult = JSON.parse(sessionStorage.getItem("DayData"));
 
     const submitReservation = async() => {
         // 세션스토리지에서 가져온 user정보 user : user, 를 axios에 담아서 감
