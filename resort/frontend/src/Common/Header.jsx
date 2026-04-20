@@ -9,7 +9,7 @@ import { useClickAway } from 'react-use';
 
 export default function Header(){
     const navigate = useNavigate();
-    const {userNickName, setGuestCount, userEmail,setUserEmail,setUserNickName, headerChange, setHeaderChange, setCustomer, setTown, setListType} = useContext(ResortDataContext);
+    const {userNickName, setGuestCount, userEmail,setUserEmail,setUserNickName, headerChange, setHeaderChange, setCustomer, setTown, setListType, setSelectMonth, setSelectday, setDayData} = useContext(ResortDataContext);
     // const [headerChange, setHeaderChange] = useState(0);
     // 헤더 메뉴바 모달
     // useRef, useClickAway 를 사용하기 전 npm install react-use 를 해야 함.
