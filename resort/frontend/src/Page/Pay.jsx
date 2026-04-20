@@ -253,7 +253,7 @@ export default function Pay(){
             
             if (!DayDataResult || DayDataResult.length < 2) {
                 alert("예약 날짜 정보가 없습니다. 다시 선택해주세요.");
-                navigate("/detail/" + hotelNum);
+                navigate(`/detail/${HotelData[myRoom[0].h_code-1].h_code}`)
                 return;
             }
 
