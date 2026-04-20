@@ -330,6 +330,11 @@ export default function Pay(){
             }
             
         }catch(err){
+            console.log("DayDataResult", DayDataResult);
+            console.log("myRoom", myRoom);
+            console.log("HotelData", HotelData);
+            console.log("memberSel", memberSel);
+            console.log("hotelNum", hotelNum);
             console.error(err)
             alert("결제 실패")
         }
